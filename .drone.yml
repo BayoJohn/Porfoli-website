@@ -2,8 +2,11 @@ kind: pipeline
 type: docker
 name: deploy
 
+clone:
+  disable: true
+
 steps:
-  - name: clone
+  - name: clone-code
     image: alpine/git
     commands:
       - git clone http://172.17.0.1:3001/Bayo/Porfolio-website.git .
@@ -20,21 +23,21 @@ steps:
       username: admin
       password:
         from_secret: harbor_password
-      insecure: true # Necessary since Harbor is likely on HTTP inside the VPN
+      dockerfile: Dockerfile
+      insecure: true
 
   - name: deploy-to-oracle
     image: appleboy/drone-ssh
     settings:
-      host: 10.0.0.1 # This is your Oracle VPN IP we used for Portainer
+      host: 10.0.0.1
       username: ubuntu
       key:
-        from_secret: oracle_ssh_key # Your id_rsa content
+        from_secret: oracle_ssh_key
+      port: 22
       script:
         - echo "Logging into Harbor via VPN..."
         - docker login -u admin -p Harbor12345 10.0.0.1:8888
-        - echo "Pulling Portfolio Image..."
         - docker pull 10.0.0.1:8888/library/portfolio:latest
         - docker stop portfolio || true
         - docker rm portfolio || true
-        - echo "Starting Portfolio on Oracle..."
         - docker run -d --name portfolio -p 80:5000 --restart unless-stopped 10.0.0.1:8888/library/portfolio:latest
