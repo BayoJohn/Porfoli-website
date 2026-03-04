@@ -2,7 +2,16 @@ kind: pipeline
 type: docker
 name: deploy
 
+clone:
+  disable: true
+
 steps:
+  - name: clone
+    image: alpine/git
+    commands:
+      - git clone http://172.17.0.1:3001/Bayo/Porfolio-website.git .
+      - git checkout $DRONE_COMMIT
+
   - name: build-and-push
     image: plugins/docker
     settings:
