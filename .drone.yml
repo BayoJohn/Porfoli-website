@@ -10,13 +10,13 @@ steps:
     image: alpine/git
     commands:
       - git clone http://172.17.0.1:3001/Bayo/Porfolio-website.git .
-      - git checkout $DRONE_COMMIT
+      - git checkout ${DRONE_COMMIT}
 
   - name: build-and-push
     image: plugins/docker
     settings:
-      registry: 172.16.18.128:8888
-      repo: 172.16.18.128:8888/library/portfolio
+      registry: 10.0.0.2
+      repo: 10.0.0.2/library/portfolio
       tags:
         - latest
         - build-${DRONE_BUILD_NUMBER}
@@ -29,38 +29,22 @@ steps:
   - name: deploy-to-oracle
     image: appleboy/drone-ssh
     settings:
-      host:
-        from_secret: oracle_ip
+      host: 10.0.0.1
       username: ubuntu
       key:
         from_secret: oracle_ssh_key
       port: 22
       script:
-        - docker login -u admin -p Harbor12345 10.0.0.1:8888
-        - docker pull 10.0.0.1:8888/library/portfolio:latest
-        - docker stop portfolio 2>/dev/null || true
-        - docker rm portfolio 2>/dev/null || true
-        - docker run -d --name portfolio -p 80:5000 --restart unless-stopped 10.0.0.1:8888/library/portfolio:latest
+        - echo "Logging into Harbor..."
+        - docker login -u admin -p Harbor12345 10.0.0.2
+        - echo "Pulling Portfolio Image..."
+        - docker pull 10.0.0.2/library/portfolio:latest
+        - echo "Cleaning up old container..."
+        - docker stop portfolio || true
+        - docker rm portfolio || true
+        - echo "Starting new Portfolio container..."
+        - docker run -d --name portfolio -p 80:5000 --restart unless-stopped 10.0.0.2/library/portfolio:latest
+        - echo "Verifying deployment..."
         - sleep 5
         - docker logs portfolio --tail 20
-
----
-kind: secret
-name: oracle_ip
-get:
-  path: kv/data/oracle
-  name: ip
-
----
-kind: secret
-name: oracle_ssh_key
-get:
-  path: kv/data/oracle
-  name: ssh_key
-
----
-kind: secret
-name: harbor_password
-get:
-  path: kv/data/harbor-creds
-  name: password
+        - docker ps | grep portfolio
