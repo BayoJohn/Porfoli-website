@@ -12,5 +12,5 @@ COPY . .
 # Expose the internal port
 EXPOSE 5000
 
-# Ensure there are no dashes before the brackets
+# Start Gunicorn (App variable inside app.py)
 CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
