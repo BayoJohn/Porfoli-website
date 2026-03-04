@@ -42,7 +42,6 @@ steps:
         - echo "Cleaning up old container..."
         - docker rm -f portfolio || true
         - echo "Starting new Portfolio container..."
-        - docker run -d --name portfolio -p 80:5000 --restart unless-stopped 10.0.0.2/library/portfolio:latest
-        - echo "Verifying deployment..."
+        - docker run -d --name portfolio -p 80:5000 --restart unless-stopped 10.0.0.2/library/portfolio:latest        - echo "Verifying deployment..."
         - sleep 5
         - docker ps | grep portfolio
