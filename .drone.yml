@@ -2,9 +2,6 @@ kind: pipeline
 type: docker
 name: deploy
 
-clone:
-  disable: true
-
 steps:
   - name: clone
     image: alpine/git
@@ -15,55 +12,29 @@ steps:
   - name: build-and-push
     image: plugins/docker
     settings:
-      registry: 172.16.18.128:8888
-      repo: 172.16.18.128:8888/library/portfolio
+      registry: 10.0.0.1:8888
+      repo: 10.0.0.1:8888/library/portfolio
       tags: 
         - latest
         - build-${DRONE_BUILD_NUMBER}
       username: admin
       password:
         from_secret: harbor_password
-      dockerfile: Dockerfile
-      insecure: true
+      insecure: true # Necessary since Harbor is likely on HTTP inside the VPN
 
-  - name: deploy
+  - name: deploy-to-oracle
     image: appleboy/drone-ssh
     settings:
-      host:
-        from_secret: oracle_ip
+      host: 10.0.0.1 # This is your Oracle VPN IP we used for Portainer
       username: ubuntu
       key:
-        from_secret: oracle_ssh_key
-      port: 22
+        from_secret: oracle_ssh_key # Your id_rsa content
       script:
-        - echo "Pulling latest image from Harbor..."
+        - echo "Logging into Harbor via VPN..."
         - docker login -u admin -p Harbor12345 10.0.0.1:8888
+        - echo "Pulling Portfolio Image..."
         - docker pull 10.0.0.1:8888/library/portfolio:latest
-        - echo "Stopping old container..."
         - docker stop portfolio || true
         - docker rm portfolio || true
-        - echo "Starting new container..."
-        - docker run -d --name portfolio -p 5000:5000 --restart unless-stopped --env-file /opt/portfolio/.env 10.0.0.1:8888/library/portfolio:latest
-        - echo "Deployment complete!"
-        - docker ps | grep portfolio
-
----
-kind: secret
-name: oracle_ip
-get:
-  path: kv/data/oracle
-  name: ip
-
----
-kind: secret
-name: oracle_ssh_key
-get:
-  path: kv/data/oracle
-  name: ssh_key
-
----
-kind: secret
-name: harbor_password
-get:
-  path: kv/data/harbor-creds
-  name: password
+        - echo "Starting Portfolio on Oracle..."
+        - docker run -d --name portfolio -p 80:5000 --restart unless-stopped 10.0.0.1:8888/library/portfolio:latest
