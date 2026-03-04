@@ -15,8 +15,8 @@ steps:
   - name: build-and-push
     image: plugins/docker
     settings:
-      registry: 10.0.0.1
-      repo: 10.0.0.1/library/portfolio
+      registry: 10.0.0.2
+      repo: 10.0.0.2/library/portfolio
       tags: 
         - latest
         - build-${DRONE_BUILD_NUMBER}
@@ -35,14 +35,14 @@ steps:
         from_secret: oracle_ssh_key
       port: 22
       script:
-        - echo "Logging into Harbor via VPN..."
-        - docker login -u admin -p Harbor12345 10.0.0.1
+        - echo "Logging into Harbor on EliteBook..."
+        - docker login -u admin -p Harbor12345 10.0.0.2
         - echo "Pulling Portfolio Image..."
-        - docker pull 10.0.0.1/library/portfolio:latest
+        - docker pull 10.0.0.2/library/portfolio:latest
         - echo "Cleaning up old container..."
         - docker stop portfolio || true
         - docker rm portfolio || true
         - echo "Starting new Portfolio container..."
-        - docker run -d --name portfolio -p 80:5000 --restart unless-stopped 10.0.0.1/library/portfolio:latest
+        - docker run -d --name portfolio -p 80:5000 --restart unless-stopped 10.0.0.2/library/portfolio:latest
         - echo "Deployment successful!"
         - docker ps | grep portfolio
