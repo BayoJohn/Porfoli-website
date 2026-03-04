@@ -1,0 +1,60 @@
+kind: pipeline
+type: docker
+name: deploy
+
+steps:
+  - name: build-and-push
+    image: plugins/docker
+    settings:
+      registry: 172.16.18.128:8888
+      repo: 172.16.18.128:8888/library/portfolio
+      tags: 
+        - latest
+        - build-${DRONE_BUILD_NUMBER}
+      username: admin
+      password:
+        from_secret: harbor_password
+      dockerfile: Dockerfile
+      insecure: true
+
+  - name: deploy
+    image: appleboy/drone-ssh
+    settings:
+      host:
+        from_secret: oracle_ip
+      username: ubuntu
+      key:
+        from_secret: oracle_ssh_key
+      port: 22
+      script:
+        - echo "Pulling latest image from Harbor..."
+        - docker login -u admin -p Harbor12345 10.0.0.1:8888
+        - docker pull 10.0.0.1:8888/library/portfolio:latest
+        - echo "Stopping old container..."
+        - docker stop portfolio || true
+        - docker rm portfolio || true
+        - echo "Starting new container..."
+        - docker run -d --name portfolio -p 5000:5000 --restart unless-stopped --env-file /opt/portfolio/.env 10.0.0.1:8888/library/portfolio:latest
+        - echo "Deployment complete!"
+        - docker ps | grep portfolio
+
+---
+kind: secret
+name: oracle_ip
+get:
+  path: kv/data/oracle
+  name: ip
+
+---
+kind: secret
+name: oracle_ssh_key
+get:
+  path: kv/data/oracle
+  name: ssh_key
+
+---
+kind: secret
+name: harbor_password
+get:
+  path: kv/data/harbor-creds
+  name: password

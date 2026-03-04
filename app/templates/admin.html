@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Admin{% endblock %}
+
+{% block content %}
+    <div class="flex justify-between items-center mb-8">
+        <h1 class="text-3xl font-bold">Admin Dashboard</h1>
+        <a href="/admin/logout" class="text-sm text-gray-400 hover:text-red-500">Logout</a>
+    </div>
+
+    <!-- Posts -->
+    <div class="flex justify-between items-center mb-4">
+        <h2 class="text-xl font-semibold">Posts</h2>
+        <a href="/admin/post/new"
+            class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-indigo-700 transition">
+            + New Post
+        </a>
+    </div>
+
+    <div class="grid gap-4 mb-12">
+        {% for post in posts %}
+        <div class="bg-white rounded-xl shadow-sm p-5 flex justify-between items-center">
+            <div>
+                <p class="font-semibold">{{ post.title }}</p>
+                <p class="text-gray-400 text-sm">{{ post.created_at.strftime('%B %d, %Y') }}</p>
+            </div>
+            <div class="flex gap-3">
+                <a href="/admin/post/{{ post.id }}/edit"
+                    class="text-indigo-600 text-sm font-medium hover:underline">Edit</a>
+                <form method="POST" action="/admin/post/{{ post.id }}/delete">
+                    <button type="submit" class="text-red-400 text-sm font-medium hover:underline"
+                        onclick="return confirm('Delete this post?')">
+                        Delete
+                    </button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Projects -->
+    <div class="flex justify-between items-center mb-4">
+        <h2 class="text-xl font-semibold">Projects</h2>
+    </div>
+
+    <div class="grid gap-4">
+        {% for project in projects %}
+        <div class="bg-white rounded-xl shadow-sm p-5 flex justify-between items-center">
+            <p class="font-semibold">{{ project.title }}</p>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}

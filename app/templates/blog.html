@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Blog{% endblock %}
+
+{% block content %}
+    <h1 class="text-3xl font-bold mb-8">Blog</h1>
+
+    <div class="grid gap-6">
+        {% for post in posts %}
+        <div class="bg-white rounded-xl shadow-sm p-6 hover:shadow-md transition">
+            <h2 class="text-xl font-semibold mb-1">
+                <a href="/blog/{{ post.id }}" class="hover:text-indigo-600 transition">
+                    {{ post.title }}
+                </a>
+            </h2>
+            <p class="text-gray-400 text-sm mb-3">{{ post.created_at.strftime('%B %d, %Y') }}</p>
+            <p class="text-gray-500">{{ post.body[:150] }}...</p>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+    <h1>{{ post.title }}</h1>
+    <p style="color: grey;">{{ post.created_at.strftime('%B %d, %Y') }}</p>
+    <p>{{ post.body }}</p>
+    <br>
+    <a href="/blog">← Back to blog</a>
+{% endblock %}
