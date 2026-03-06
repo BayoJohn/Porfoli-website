@@ -1,0 +1,47 @@
+{% extends "admin_base.html" %}
+
+{% block title %}Messages — Admin{% endblock %}
+{% block page_title %}Messages{% endblock %}
+
+{% block content %}
+
+    <div class="bg-gray-900 border border-gray-800 rounded-2xl overflow-hidden">
+        <table class="w-full">
+            <thead>
+                <tr class="border-b border-gray-800">
+                    <th class="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider px-6 py-4">From</th>
+                    <th class="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider px-6 py-4 hidden md:table-cell">Message</th>
+                    <th class="text-right text-xs font-semibold text-gray-500 uppercase tracking-wider px-6 py-4">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-800">
+                {% for msg in messages %}
+                <tr class="hover:bg-gray-800/50 transition">
+                    <td class="px-6 py-4">
+                        <p class="font-medium text-sm">{{ msg.name }}</p>
+                        <p class="text-gray-500 text-xs">{{ msg.email }}</p>
+                    </td>
+                    <td class="px-6 py-4 hidden md:table-cell">
+                        <p class="text-gray-400 text-sm truncate max-w-sm">{{ msg.message }}</p>
+                    </td>
+                    <td class="px-6 py-4">
+                        <div class="flex justify-end gap-3">
+                            <a href="mailto:{{ msg.email }}"
+                                class="text-indigo-400 hover:text-indigo-300 text-sm transition">Reply</a>
+                            <form method="POST" action="/admin/message/{{ msg.id }}/delete" class="inline">
+                                <button type="submit" onclick="return confirm('Delete?')"
+                                    class="text-red-500 hover:text-red-400 text-sm transition">Delete</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="3" class="px-6 py-12 text-center text-gray-600">No messages yet.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

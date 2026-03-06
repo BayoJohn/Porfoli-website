@@ -1,0 +1,72 @@
+{% extends "admin_base.html" %}
+
+{% block title %}Projects — Admin{% endblock %}
+{% block page_title %}Projects{% endblock %}
+
+{% block content %}
+
+    <div class="flex justify-between items-center mb-6">
+        <p class="text-gray-400 text-sm">{{ projects|length }} total projects</p>
+        <a href="/admin/project/new"
+            class="flex items-center gap-2 bg-cyan-600 hover:bg-cyan-500 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+            </svg>
+            New Project
+        </a>
+    </div>
+
+    <div class="bg-gray-900 border border-gray-800 rounded-2xl overflow-hidden">
+        <table class="w-full">
+            <thead>
+                <tr class="border-b border-gray-800">
+                    <th class="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider px-6 py-4">Project</th>
+                    <th class="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider px-6 py-4 hidden md:table-cell">Tech Stack</th>
+                    <th class="text-right text-xs font-semibold text-gray-500 uppercase tracking-wider px-6 py-4">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-800">
+                {% for project in projects %}
+                <tr class="hover:bg-gray-800/50 transition">
+                    <td class="px-6 py-4">
+                        <div class="flex items-center gap-3">
+                            {% if project.image %}
+                            <img src="/static/uploads/{{ project.image }}" class="w-10 h-10 rounded-lg object-cover">
+                            {% else %}
+                            <div class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center text-lg">🚀</div>
+                            {% endif %}
+                            <p class="font-medium text-sm">{{ project.title }}</p>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 hidden md:table-cell">
+                        <div class="flex flex-wrap gap-1">
+                            {% if project.tech_stack %}
+                            {% for tech in project.tech_stack.split(',')[:3] %}
+                            <span class="bg-gray-800 text-gray-400 text-xs px-2 py-0.5 rounded-full">{{ tech.strip() }}</span>
+                            {% endfor %}
+                            {% endif %}
+                        </div>
+                    </td>
+                    <td class="px-6 py-4">
+                        <div class="flex justify-end gap-3">
+                            <a href="/projects/{{ project.id }}" target="_blank"
+                                class="text-gray-500 hover:text-gray-300 text-sm transition">View</a>
+                            <a href="/admin/project/{{ project.id }}/edit"
+                                class="text-indigo-400 hover:text-indigo-300 text-sm transition">Edit</a>
+                            <form method="POST" action="/admin/project/{{ project.id }}/delete" class="inline">
+                                <button type="submit" onclick="return confirm('Delete this project?')"
+                                    class="text-red-500 hover:text-red-400 text-sm transition">Delete</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="3" class="px-6 py-12 text-center text-gray-600">No projects yet.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

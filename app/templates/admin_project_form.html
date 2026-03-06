@@ -1,6 +1,6 @@
 {% extends "admin_base.html" %}
 
-{% block title %}{% if post %}Edit Post{% else %}New Post{% endif %}{% endblock %}
+{% block title %}{% if project %}Edit Project{% else %}New Project{% endif %}{% endblock %}
 
 {% block content %}
 
@@ -10,8 +10,8 @@
         </a>
 
         <h1 class="text-3xl font-extrabold mb-8">
-            {% if post %}Edit <span class="gradient-text">Post</span>
-            {% else %}New <span class="gradient-text">Post</span>{% endif %}
+            {% if project %}Edit <span class="gradient-text">Project</span>
+            {% else %}New <span class="gradient-text">Project</span>{% endif %}
         </h1>
 
         <!-- Quill CSS -->
@@ -35,10 +35,10 @@
                 background: #111827 !important;
                 border: 1px solid #374151 !important;
                 border-radius: 0 0 8px 8px !important;
-                min-height: 300px;
+                min-height: 200px;
                 font-size: 15px !important;
             }
-            .ql-editor { color: #e5e7eb !important; min-height: 300px; }
+            .ql-editor { color: #e5e7eb !important; min-height: 200px; }
             .ql-editor.ql-blank::before { color: #6b7280 !important; }
             .ql-picker-options {
                 background: #1f2937 !important;
@@ -48,21 +48,46 @@
         </style>
 
         <div class="bg-gray-900 border border-gray-800 rounded-2xl p-8">
-            <form method="POST" id="post-form" class="flex flex-col gap-5">
+            <form method="POST" enctype="multipart/form-data" id="project-form" class="flex flex-col gap-5">
 
                 <div>
                     <label class="block text-sm font-medium text-gray-400 mb-2">Title</label>
                     <input type="text" name="title" required
-                        value="{{ post.title if post else '' }}"
+                        value="{{ project.title if project else '' }}"
                         class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-indigo-500 transition">
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium text-gray-400 mb-2">Body</label>
-                    <!-- Quill editor container -->
-                    <div id="quill-editor">{{ post.body|safe if post else '' }}</div>
-                    <!-- Hidden input to store HTML -->
-                    <input type="hidden" name="body" id="body-input">
+                    <label class="block text-sm font-medium text-gray-400 mb-2">Description</label>
+                    <div id="quill-editor">{{ project.description|safe if project else '' }}</div>
+                    <input type="hidden" name="description" id="description-input">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-400 mb-2">
+                        Tech Stack
+                        <span class="text-gray-600 font-normal">(comma separated e.g. Python, Flask, Docker)</span>
+                    </label>
+                    <input type="text" name="tech_stack"
+                        value="{{ project.tech_stack if project else '' }}"
+                        class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-indigo-500 transition">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-400 mb-2">GitHub URL</label>
+                    <input type="url" name="url"
+                        value="{{ project.url if project else '' }}"
+                        class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-indigo-500 transition">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-400 mb-2">Cover Image</label>
+                    {% if project and project.image %}
+                        <img src="/static/uploads/{{ project.image }}"
+                            class="w-full h-40 object-cover rounded-lg mb-3">
+                    {% endif %}
+                    <input type="file" name="image" accept="image/*"
+                        class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-gray-400 focus:outline-none focus:border-indigo-500 transition">
                 </div>
 
                 <div class="flex gap-3 pt-2">
@@ -85,14 +110,13 @@
     <script>
         var quill = new Quill('#quill-editor', {
             theme: 'snow',
-            placeholder: 'Write your post here...',
+            placeholder: 'Describe your project...',
             modules: {
                 toolbar: [
                     [{ 'header': [1, 2, 3, false] }],
                     ['bold', 'italic', 'underline', 'strike'],
                     [{ 'color': [] }, { 'background': [] }],
                     [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-                    [{ 'indent': '-1' }, { 'indent': '+1' }],
                     ['blockquote', 'code-block'],
                     ['link'],
                     ['clean']
@@ -100,9 +124,8 @@
             }
         });
 
-        // On form submit copy Quill HTML into hidden input
-        document.getElementById('post-form').addEventListener('submit', function(e) {
-            document.getElementById('body-input').value = quill.root.innerHTML;
+        document.getElementById('project-form').addEventListener('submit', function(e) {
+            document.getElementById('description-input').value = quill.root.innerHTML;
         });
     </script>
 

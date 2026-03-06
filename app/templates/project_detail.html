@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block title %}{{ project.title }} — YourName{% endblock %}
+
+{% block content %}
+
+    <a href="/projects" class="text-gray-500 hover:text-gray-300 text-sm transition mb-8 inline-block reveal">
+        ← Back to projects
+    </a>
+
+    <!-- Project Header -->
+    <div class="reveal">
+        {% if project.image %}
+        <img src="/static/uploads/{{ project.image }}"
+            class="w-full h-64 object-cover rounded-2xl mb-8">
+        {% endif %}
+        <h1 class="text-4xl font-extrabold mb-4">{{ project.title }}</h1>
+        <div class="text-gray-400 leading-relaxed mb-6 prose prose-invert max-w-none">
+    {{ project.description|safe }}
+</div>
+
+        {% if project.tech_stack %}
+        <div class="flex flex-wrap gap-2 mb-6">
+            {% for tech in project.tech_stack.split(',') %}
+            <span class="bg-gray-800 text-gray-400 text-xs px-3 py-1 rounded-full">
+                {{ tech.strip() }}
+            </span>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if project.url %}
+        <a href="{{ project.url }}" target="_blank"
+            class="inline-block bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-6 py-3 rounded-lg transition">
+            View on GitHub →
+        </a>
+        {% endif %}
+    </div>
+
+    <!-- Comments Section -->
+    <div class="mt-16">
+        <h2 class="text-2xl font-bold mb-8 reveal">
+            Comments <span class="text-gray-600 font-normal text-lg">({{ comments|length }})</span>
+        </h2>
+
+        <!-- Flash -->
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="bg-green-500/10 border border-green-500/20 text-green-400 px-4 py-3 rounded-xl mb-6">
+                    {{ messages[0] }}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <!-- Comment Form -->
+        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6 mb-10 reveal">
+            <h3 class="font-semibold mb-4 text-gray-300">Leave a comment</h3>
+            <form method="POST" class="flex flex-col gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-400 mb-2">Name</label>
+                        <input type="text" name="name" required
+                            class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-indigo-500 transition">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-400 mb-2">Email</label>
+                        <input type="email" name="email" required
+                            class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-indigo-500 transition">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-400 mb-2">Comment</label>
+                    <textarea name="body" rows="4" required
+                        class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-indigo-500 transition"></textarea>
+                </div>
+                <button type="submit"
+                    class="self-start bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-6 py-2.5 rounded-lg transition">
+                    Post comment
+                </button>
+            </form>
+        </div>
+
+        <!-- Comments List -->
+        {% if comments %}
+        <div class="grid gap-4">
+            {% for comment in comments %}
+            <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6 reveal">
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="w-9 h-9 rounded-full bg-gradient-to-br from-indigo-500 to-cyan-500 flex items-center justify-center text-sm font-bold">
+                        {{ comment.name[0].upper() }}
+                    </div>
+                    <div>
+                        <p class="font-semibold text-sm">{{ comment.name }}</p>
+                        <p class="text-gray-600 text-xs">{{ comment.created_at.strftime('%b %d, %Y') }}</p>
+                    </div>
+                </div>
+                <p class="text-gray-400 text-sm leading-relaxed">{{ comment.body }}</p>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-12 text-gray-600 reveal">
+            <p class="text-4xl mb-3">💬</p>
+            <p>No comments yet. Be the first!</p>
+        </div>
+        {% endif %}
+    </div>
+
+{% endblock %}

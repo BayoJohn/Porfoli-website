@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Admin — StackedByBayo{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .gradient-text {
+            background: linear-gradient(135deg, #6366f1, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .gradient-bg { background: linear-gradient(135deg, #6366f1, #06b6d4); }
+        .sidebar { transition: width 0.3s ease; }
+        .sidebar.collapsed { width: 72px; }
+        .sidebar.collapsed .label { display: none; }
+        .sidebar.collapsed .logo-text { display: none; }
+        .nav-item { transition: background 0.2s ease, color 0.2s ease; }
+        .nav-item:hover { background: rgba(99, 102, 241, 0.1); color: white; }
+        .nav-item.active { background: rgba(99, 102, 241, 0.15); color: #818cf8; }
+        .nav-item.active .nav-icon { color: #818cf8; }
+        #main-content { transition: margin-left 0.3s ease; }
+    </style>
+</head>
+<body class="bg-gray-950 text-gray-100 min-h-screen flex">
+
+    <!-- Sidebar -->
+    <aside id="sidebar" class="sidebar fixed top-0 left-0 h-full w-64 bg-gray-900 border-r border-gray-800 z-50 flex flex-col">
+
+        <!-- Logo -->
+        <div class="flex items-center gap-3 px-5 py-5 border-b border-gray-800">
+            <div class="w-8 h-8 rounded-lg gradient-bg flex items-center justify-center text-white font-bold text-sm shrink-0">
+                S
+            </div>
+            <div class="logo-text">
+                <p class="font-bold text-sm">StackedByBayo</p>
+                <p class="text-gray-500 text-xs">Admin Console</p>
+            </div>
+        </div>
+
+        <!-- Nav -->
+        <nav class="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+
+            <p class="label text-gray-600 text-xs font-semibold uppercase tracking-wider px-3 mb-2">Main</p>
+
+            <a href="/admin" class="nav-item {% if request.path == '/admin' %}active{% endif %} flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-400 text-sm font-medium">
+                <svg class="nav-icon w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                </svg>
+                <span class="label">Dashboard</span>
+            </a>
+
+            <p class="label text-gray-600 text-xs font-semibold uppercase tracking-wider px-3 mt-4 mb-2">Content</p>
+
+            <a href="/admin/posts" class="nav-item {% if '/admin/post' in request.path %}active{% endif %} flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-400 text-sm font-medium">
+                <svg class="nav-icon w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+                <span class="label">Posts</span>
+            </a>
+
+            <a href="/admin/projects" class="nav-item {% if '/admin/project' in request.path %}active{% endif %} flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-400 text-sm font-medium">
+                <svg class="nav-icon w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                </svg>
+                <span class="label">Projects</span>
+            </a>
+
+            <p class="label text-gray-600 text-xs font-semibold uppercase tracking-wider px-3 mt-4 mb-2">Engage</p>
+
+            <a href="/admin/comments" class="nav-item {% if '/admin/comment' in request.path %}active{% endif %} flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-400 text-sm font-medium">
+                <svg class="nav-icon w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                </svg>
+                <span class="label">Comments</span>
+                {% if pending_count > 0 %}
+                <span class="label ml-auto bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">{{ pending_count }}</span>
+                {% endif %}
+            </a>
+
+            <a href="/admin/messages" class="nav-item {% if '/admin/message' in request.path %}active{% endif %} flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-400 text-sm font-medium">
+                <svg class="nav-icon w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                </svg>
+                <span class="label">Messages</span>
+                {% if unread_count > 0 %}
+                <span class="label ml-auto bg-indigo-500 text-white text-xs px-2 py-0.5 rounded-full">{{ unread_count }}</span>
+                {% endif %}
+            </a>
+
+            <p class="label text-gray-600 text-xs font-semibold uppercase tracking-wider px-3 mt-4 mb-2">Analytics</p>
+
+            <a href="/admin" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-400 text-sm font-medium">
+                <svg class="nav-icon w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                </svg>
+                <span class="label">Analytics</span>
+            </a>
+
+        </nav>
+
+        <!-- Bottom -->
+        <div class="border-t border-gray-800 p-4">
+            <a href="/" target="_blank" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-400 text-sm font-medium mb-1">
+                <svg class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                </svg>
+                <span class="label">View Site</span>
+            </a>
+            <a href="/admin/logout" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-400 text-sm font-medium hover:text-red-400">
+                <svg class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                </svg>
+                <span class="label">Logout</span>
+            </a>
+        </div>
+
+    </aside>
+
+    <!-- Main content -->
+    <div id="main-content" class="flex-1 ml-64 min-h-screen flex flex-col">
+
+        <!-- Top bar -->
+        <header class="sticky top-0 z-40 bg-gray-950/80 backdrop-blur-md border-b border-gray-800 px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <button id="toggle-sidebar" class="text-gray-400 hover:text-white transition">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+                <h1 class="text-lg font-semibold">{% block page_title %}Dashboard{% endblock %}</h1>
+            </div>
+            <div class="flex items-center gap-4">
+                <a href="/" target="_blank" class="text-gray-400 hover:text-white text-sm transition flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                    </svg>
+                    View site
+                </a>
+                <div class="w-8 h-8 rounded-full gradient-bg flex items-center justify-center text-white text-sm font-bold">
+                    B
+                </div>
+            </div>
+        </header>
+
+        <!-- Flash messages -->
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <div class="mx-6 mt-4">
+                <div class="bg-green-500/10 border border-green-500/20 text-green-400 px-4 py-3 rounded-xl">
+                    {{ messages[0] }}
+                </div>
+            </div>
+            {% endif %}
+        {% endwith %}
+
+        <!-- Page content -->
+        <main class="flex-1 p-6">
+            {% block content %}{% endblock %}
+        </main>
+
+    </div>
+
+    <script>
+        const sidebar = document.getElementById('sidebar');
+        const mainContent = document.getElementById('main-content');
+        const toggleBtn = document.getElementById('toggle-sidebar');
+
+        toggleBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('collapsed');
+            mainContent.style.marginLeft = sidebar.classList.contains('collapsed') ? '72px' : '256px';
+        });
+    </script>
+
+</body>
+</html>

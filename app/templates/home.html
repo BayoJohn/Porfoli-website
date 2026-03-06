@@ -1,13 +1,355 @@
 {% extends "base.html" %}
 
-{% block title %}Home{% endblock %}
+{% block title %}StackedByBayo — DevOps Engineer{% endblock %}
 
 {% block content %}
-    <div class="text-center py-20">
-        <h1 class="text-5xl font-bold text-gray-900 mb-4">Hi, I'm YourName 👋</h1>
-        <p class="text-xl text-gray-500 mb-8">I build things for the web.</p>
-        <a href="/projects" class="bg-indigo-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-indigo-700 transition">
-            See my work
-        </a>
+
+<style>
+    /* Dot grid background */
+    .dot-grid {
+        background-image: radial-gradient(circle, #374151 1px, transparent 1px);
+        background-size: 28px 28px;
+    }
+    /* Glow effect */
+    .hero-glow {
+        position: absolute;
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(circle, rgba(99,102,241,0.15) 0%, transparent 70%);
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+    }
+    /* Typing cursor */
+    .cursor {
+        display: inline-block;
+        width: 3px;
+        height: 1em;
+        background: #6366f1;
+        margin-left: 4px;
+        vertical-align: middle;
+        animation: blink 0.8s infinite;
+    }
+    @keyframes blink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0; }
+    }
+    /* Count up animation */
+    .stat-number {
+        transition: all 0.5s ease;
+    }
+    /* Tools strip scroll */
+    .tools-strip {
+        overflow: hidden;
+        -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    }
+    .tools-track {
+        display: flex;
+        gap: 24px;
+        animation: scroll-left 20s linear infinite;
+        width: max-content;
+    }
+    @keyframes scroll-left {
+        from { transform: translateX(0); }
+        to { transform: translateX(-50%); }
+    }
+</style>
+
+    <!-- Hero -->
+    <div class="relative dot-grid rounded-3xl overflow-hidden mb-20 px-8 py-20 text-center">
+        <div class="hero-glow"></div>
+        <div class="relative z-10">
+            <!-- Badge -->
+            <div class="inline-flex items-center gap-2 bg-gray-900/80 border border-indigo-500/30 text-indigo-400 text-sm font-medium px-4 py-1.5 rounded-full mb-8 backdrop-blur-sm">
+                <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                Available for new opportunities
+            </div>
+
+            <!-- Heading -->
+            <h1 class="text-5xl md:text-7xl font-extrabold mb-6 leading-tight">
+                Hi, I'm <span class="gradient-text">Bayo</span>
+            </h1>
+
+            <!-- Typing animation -->
+            <div class="text-2xl md:text-3xl text-gray-400 font-medium mb-6 h-10 flex items-center justify-center gap-2">
+                <span id="typed-text"></span>
+                <span class="cursor"></span>
+            </div>
+
+            <p class="text-gray-400 text-lg max-w-2xl mx-auto mb-10 leading-relaxed">
+                I design and build the infrastructure that keeps the internet running.
+                From CI/CD pipelines to Kubernetes clusters — I make sure your code
+                ships fast and stays up.
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="/projects"
+                    class="gradient-bg text-white font-semibold px-8 py-3.5 rounded-xl hover:opacity-90 transition">
+                    See my work →
+                </a>
+                <a href="/contact"
+                    class="border border-gray-700 hover:border-indigo-500 hover:text-indigo-400 text-gray-300 font-semibold px-8 py-3.5 rounded-xl transition">
+                    Get in touch
+                </a>
+            </div>
+        </div>
     </div>
+
+    <!-- Stats bar -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-20">
+        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6 text-center reveal">
+            <p class="text-4xl font-extrabold gradient-text mb-1 stat-number" data-target="3">0</p>
+            <p class="text-gray-400 text-sm">Years Experience</p>
+        </div>
+        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6 text-center reveal">
+            <p class="text-4xl font-extrabold gradient-text mb-1 stat-number" data-target="20">0</p>
+            <p class="text-gray-400 text-sm">Projects Shipped</p>
+        </div>
+        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6 text-center reveal">
+            <p class="text-4xl font-extrabold gradient-text mb-1 stat-number" data-target="99">0</p>
+            <p class="text-gray-400 text-sm">% Uptime Delivered</p>
+        </div>
+        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6 text-center reveal">
+            <p class="text-4xl font-extrabold gradient-text mb-1 stat-number" data-target="10">0</p>
+            <p class="text-gray-400 text-sm">Happy Clients</p>
+        </div>
+    </div>
+
+    <!-- Tools strip -->
+    <div class="mb-20 reveal">
+        <p class="text-center text-gray-600 text-sm uppercase tracking-widest font-semibold mb-6">
+            Currently working with
+        </p>
+        <div class="tools-strip py-4">
+            <div class="tools-track">
+                <!-- First set -->
+                <div class="flex items-center gap-3 bg-gray-900 border border-gray-800 rounded-xl px-5 py-3 shrink-0">
+                    <img src="https://cdn.simpleicons.org/kubernetes/326CE5" class="w-5 h-5">
+                    <span class="text-gray-400 text-sm font-medium">Kubernetes</span>
+                </div>
+                <div class="flex items-center gap-3 bg-gray-900 border border-gray-800 rounded-xl px-5 py-3 shrink-0">
+                    <img src="https://cdn.simpleicons.org/terraform/7B42BC" class="w-5 h-5">
+                    <span class="text-gray-400 text-sm font-medium">Terraform</span>
+                </div>
+                <div class="flex items-center gap-3 bg-gray-900 border border-gray-800 rounded-xl px-5 py-3 shrink-0">
+                    <img src="https://cdn.simpleicons.org/docker/2496ED" class="w-5 h-5">
+                    <span class="text-gray-400 text-sm font-medium">Docker</span>
+                </div>
+                <div class="flex items-center gap-3 bg-gray-900 border border-gray-800 rounded-xl px-5 py-3 shrink-0">
+                    <img src="https://cdn.simpleicons.org/amazonaws/FF9900" class="w-5 h-5">
+                    <span class="text-gray-400 text-sm font-medium">AWS</span>
+                </div>
+                <div class="flex items-center gap-3 bg-gray-900 border border-gray-800 rounded-xl px-5 py-3 shrink-0">
+                    <img src="https://cdn.simpleicons.org/ansible/EE0000" class="w-5 h-5">
+                    <span class="text-gray-400 text-sm font-medium">Ansible</span>
+                </div>
+                <div class="flex items-center gap-3 bg-gray-900 border border-gray-800 rounded-xl px-5 py-3 shrink-0">
+                    <img src="https://cdn.simpleicons.org/githubactions/2088FF" class="w-5 h-5">
+                    <span class="text-gray-400 text-sm font-medium">GitHub Actions</span>
+                </div>
+                <div class="flex items-center gap-3 bg-gray-900 border border-gray-800 rounded-xl px-5 py-3 shrink-0">
+                    <img src="https://cdn.simpleicons.org/grafana/F46800" class="w-5 h-5">
+                    <span class="text-gray-400 text-sm font-medium">Grafana</span>
+                </div>
+                <div class="flex items-center gap-3 bg-gray-900 border border-gray-800 rounded-xl px-5 py-3 shrink-0">
+                    <img src="https://cdn.simpleicons.org/prometheus/E6522C" class="w-5 h-5">
+                    <span class="text-gray-400 text-sm font-medium">Prometheus</span>
+                </div>
+                <div class="flex items-center gap-3 bg-gray-900 border border-gray-800 rounded-xl px-5 py-3 shrink-0">
+                    <img src="https://cdn.simpleicons.org/linux/FCC624" class="w-5 h-5">
+                    <span class="text-gray-400 text-sm font-medium">Linux</span>
+                </div>
+                <div class="flex items-center gap-3 bg-gray-900 border border-gray-800 rounded-xl px-5 py-3 shrink-0">
+                    <img src="https://cdn.simpleicons.org/python/3776AB" class="w-5 h-5">
+                    <span class="text-gray-400 text-sm font-medium">Python</span>
+                </div>
+                <!-- Duplicate set for seamless loop -->
+                <div class="flex items-center gap-3 bg-gray-900 border border-gray-800 rounded-xl px-5 py-3 shrink-0">
+                    <img src="https://cdn.simpleicons.org/kubernetes/326CE5" class="w-5 h-5">
+                    <span class="text-gray-400 text-sm font-medium">Kubernetes</span>
+                </div>
+                <div class="flex items-center gap-3 bg-gray-900 border border-gray-800 rounded-xl px-5 py-3 shrink-0">
+                    <img src="https://cdn.simpleicons.org/terraform/7B42BC" class="w-5 h-5">
+                    <span class="text-gray-400 text-sm font-medium">Terraform</span>
+                </div>
+                <div class="flex items-center gap-3 bg-gray-900 border border-gray-800 rounded-xl px-5 py-3 shrink-0">
+                    <img src="https://cdn.simpleicons.org/docker/2496ED" class="w-5 h-5">
+                    <span class="text-gray-400 text-sm font-medium">Docker</span>
+                </div>
+                <div class="flex items-center gap-3 bg-gray-900 border border-gray-800 rounded-xl px-5 py-3 shrink-0">
+                    <img src="https://cdn.simpleicons.org/amazonaws/FF9900" class="w-5 h-5">
+                    <span class="text-gray-400 text-sm font-medium">AWS</span>
+                </div>
+                <div class="flex items-center gap-3 bg-gray-900 border border-gray-800 rounded-xl px-5 py-3 shrink-0">
+                    <img src="https://cdn.simpleicons.org/ansible/EE0000" class="w-5 h-5">
+                    <span class="text-gray-400 text-sm font-medium">Ansible</span>
+                </div>
+                <div class="flex items-center gap-3 bg-gray-900 border border-gray-800 rounded-xl px-5 py-3 shrink-0">
+                    <img src="https://cdn.simpleicons.org/githubactions/2088FF" class="w-5 h-5">
+                    <span class="text-gray-400 text-sm font-medium">GitHub Actions</span>
+                </div>
+                <div class="flex items-center gap-3 bg-gray-900 border border-gray-800 rounded-xl px-5 py-3 shrink-0">
+                    <img src="https://cdn.simpleicons.org/grafana/F46800" class="w-5 h-5">
+                    <span class="text-gray-400 text-sm font-medium">Grafana</span>
+                </div>
+                <div class="flex items-center gap-3 bg-gray-900 border border-gray-800 rounded-xl px-5 py-3 shrink-0">
+                    <img src="https://cdn.simpleicons.org/prometheus/E6522C" class="w-5 h-5">
+                    <span class="text-gray-400 text-sm font-medium">Prometheus</span>
+                </div>
+                <div class="flex items-center gap-3 bg-gray-900 border border-gray-800 rounded-xl px-5 py-3 shrink-0">
+                    <img src="https://cdn.simpleicons.org/linux/FCC624" class="w-5 h-5">
+                    <span class="text-gray-400 text-sm font-medium">Linux</span>
+                </div>
+                <div class="flex items-center gap-3 bg-gray-900 border border-gray-800 rounded-xl px-5 py-3 shrink-0">
+                    <img src="https://cdn.simpleicons.org/python/3776AB" class="w-5 h-5">
+                    <span class="text-gray-400 text-sm font-medium">Python</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Featured Projects -->
+    <div class="mb-20">
+        <div class="flex justify-between items-center mb-8 reveal">
+            <h2 class="text-2xl font-bold">Featured Projects</h2>
+            <a href="/projects" class="text-indigo-400 hover:text-indigo-300 text-sm transition">View all →</a>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {% for project in projects %}
+            <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6 card-hover flex flex-col reveal">
+                {% if project.image %}
+                <img src="/static/uploads/{{ project.image }}" class="w-full h-40 object-cover rounded-xl mb-4">
+                {% else %}
+                <div class="w-10 h-10 bg-indigo-500/20 rounded-lg flex items-center justify-center mb-4">
+                    <span class="text-xl">🚀</span>
+                </div>
+                {% endif %}
+                <h3 class="font-bold text-lg mb-2">{{ project.title }}</h3>
+                <p class="text-gray-400 text-sm leading-relaxed flex-1">{{ project.description|striptags|truncate(120) }}</p>
+                {% if project.tech_stack %}
+                <div class="flex flex-wrap gap-2 mt-4">
+                    {% for tech in project.tech_stack.split(',') %}
+                    <span class="bg-gray-800 text-gray-400 text-xs px-3 py-1 rounded-full">{{ tech.strip() }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                <div class="flex gap-4 mt-4">
+                    <a href="/projects/{{ project.id }}" class="text-indigo-400 hover:text-indigo-300 text-sm font-medium transition">View details →</a>
+                    {% if project.url %}
+                    <a href="{{ project.url }}" target="_blank" class="text-gray-500 hover:text-gray-300 text-sm font-medium transition">GitHub →</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% else %}
+            <p class="text-gray-600 text-sm">No projects yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Latest Posts -->
+    <div class="mb-20">
+        <div class="flex justify-between items-center mb-8 reveal">
+            <h2 class="text-2xl font-bold">Latest Posts</h2>
+            <a href="/blog" class="text-indigo-400 hover:text-indigo-300 text-sm transition">View all →</a>
+        </div>
+        <div class="grid gap-4">
+            {% for post in posts %}
+            <a href="/blog/{{ post.id }}" class="bg-gray-900 border border-gray-800 rounded-2xl p-6 card-hover block reveal">
+                <div class="flex justify-between items-start mb-2">
+                    <h3 class="font-semibold hover:text-indigo-400 transition pr-4">{{ post.title }}</h3>
+                    <span class="text-gray-600 text-xs shrink-0">{{ post.created_at.strftime('%b %d, %Y') }}</span>
+                </div>
+                <p class="text-gray-400 text-sm">{{ post.body|striptags|truncate(120) }}</p>
+            </a>
+            {% else %}
+            <p class="text-gray-600 text-sm">No posts yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- CTA Banner -->
+    <div class="relative dot-grid rounded-3xl overflow-hidden px-8 py-16 text-center reveal">
+        <div class="absolute inset-0 bg-gradient-to-r from-indigo-600/20 to-cyan-600/20"></div>
+        <div class="relative z-10">
+            <h2 class="text-4xl font-extrabold mb-4">Let's build something <span class="gradient-text">great</span></h2>
+            <p class="text-gray-400 text-lg max-w-xl mx-auto mb-8">
+                Whether you need rock-solid infrastructure, a CI/CD pipeline or just want to talk tech — I'm here for it.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="/contact" class="gradient-bg text-white font-semibold px-8 py-3.5 rounded-xl hover:opacity-90 transition">
+                    Start a conversation →
+                </a>
+                <a href="/about" class="border border-gray-700 hover:border-indigo-500 hover:text-indigo-400 text-gray-300 font-semibold px-8 py-3.5 rounded-xl transition">
+                    Learn more about me
+                </a>
+            </div>
+        </div>
+    </div>
+
+<script>
+    // Typing animation
+    const titles = [
+        "DevOps Engineer",
+        "Cloud Architect",
+        "Infrastructure Builder",
+        "CI/CD Specialist",
+        "Kubernetes Wrangler"
+    ];
+    let titleIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    const typedEl = document.getElementById('typed-text');
+
+    function type() {
+        const current = titles[titleIndex];
+        if (isDeleting) {
+            typedEl.textContent = current.substring(0, charIndex - 1);
+            charIndex--;
+        } else {
+            typedEl.textContent = current.substring(0, charIndex + 1);
+            charIndex++;
+        }
+
+        if (!isDeleting && charIndex === current.length) {
+            setTimeout(() => isDeleting = true, 1800);
+        } else if (isDeleting && charIndex === 0) {
+            isDeleting = false;
+            titleIndex = (titleIndex + 1) % titles.length;
+        }
+
+        setTimeout(type, isDeleting ? 60 : 100);
+    }
+    type();
+
+    // Count up animation
+    function countUp(el) {
+        const target = parseInt(el.getAttribute('data-target'));
+        const duration = 1500;
+        const step = target / (duration / 16);
+        let current = 0;
+        const timer = setInterval(() => {
+            current += step;
+            if (current >= target) {
+                el.textContent = target + (target === 99 ? '%' : '+');
+                clearInterval(timer);
+            } else {
+                el.textContent = Math.floor(current);
+            }
+        }, 16);
+    }
+
+    // Trigger count up when stats come into view
+    const statObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                countUp(entry.target);
+                statObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.5 });
+
+    document.querySelectorAll('.stat-number').forEach(el => statObserver.observe(el));
+</script>
+
 {% endblock %}

@@ -1,0 +1,279 @@
+{% extends "admin_base.html" %}
+
+{% block title %}Dashboard — StackedByBayo{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
+
+{% block content %}
+
+    <!-- Stats cards -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5">
+            <div class="flex items-center justify-between mb-3">
+                <p class="text-gray-400 text-sm font-medium">Posts</p>
+                <div class="w-8 h-8 bg-indigo-500/20 rounded-lg flex items-center justify-center">
+                    <svg class="w-4 h-4 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                    </svg>
+                </div>
+            </div>
+            <p class="text-3xl font-extrabold">{{ stats.posts }}</p>
+            <a href="/admin/posts" class="text-indigo-400 text-xs mt-1 inline-block hover:underline">Manage →</a>
+        </div>
+
+        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5">
+            <div class="flex items-center justify-between mb-3">
+                <p class="text-gray-400 text-sm font-medium">Projects</p>
+                <div class="w-8 h-8 bg-cyan-500/20 rounded-lg flex items-center justify-center">
+                    <svg class="w-4 h-4 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                    </svg>
+                </div>
+            </div>
+            <p class="text-3xl font-extrabold">{{ stats.projects }}</p>
+            <a href="/admin/projects" class="text-cyan-400 text-xs mt-1 inline-block hover:underline">Manage →</a>
+        </div>
+
+        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5">
+            <div class="flex items-center justify-between mb-3">
+                <p class="text-gray-400 text-sm font-medium">Comments</p>
+                <div class="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center">
+                    <svg class="w-4 h-4 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                    </svg>
+                </div>
+            </div>
+            <p class="text-3xl font-extrabold">{{ stats.comments }}</p>
+            <a href="/admin/comments" class="text-green-400 text-xs mt-1 inline-block hover:underline">Manage →</a>
+        </div>
+
+        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5">
+            <div class="flex items-center justify-between mb-3">
+                <p class="text-gray-400 text-sm font-medium">Messages</p>
+                <div class="w-8 h-8 bg-yellow-500/20 rounded-lg flex items-center justify-center">
+                    <svg class="w-4 h-4 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                    </svg>
+                </div>
+            </div>
+            <p class="text-3xl font-extrabold">{{ stats.messages }}</p>
+            <a href="/admin/messages" class="text-yellow-400 text-xs mt-1 inline-block hover:underline">View →</a>
+        </div>
+    </div>
+
+    <!-- Analytics cards -->
+    <div class="grid grid-cols-2 gap-4 mb-8">
+        <div class="bg-gray-900 border border-indigo-500/20 rounded-2xl p-5">
+            <div class="flex items-center justify-between mb-3">
+                <p class="text-gray-400 text-sm font-medium">Total Visits</p>
+                <div class="w-8 h-8 bg-indigo-500/20 rounded-lg flex items-center justify-center">
+                    <svg class="w-4 h-4 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                    </svg>
+                </div>
+            </div>
+            <p class="text-3xl font-extrabold gradient-text">{{ total_visits }}</p>
+            <p class="text-gray-600 text-xs mt-1">All time page views</p>
+        </div>
+
+        <div class="bg-gray-900 border border-cyan-500/20 rounded-2xl p-5">
+            <div class="flex items-center justify-between mb-3">
+                <p class="text-gray-400 text-sm font-medium">Unique Visitors</p>
+                <div class="w-8 h-8 bg-cyan-500/20 rounded-lg flex items-center justify-center">
+                    <svg class="w-4 h-4 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                </div>
+            </div>
+            <p class="text-3xl font-extrabold gradient-text">{{ unique_visitors }}</p>
+            <p class="text-gray-600 text-xs mt-1">Unique IP addresses</p>
+        </div>
+    </div>
+
+    <!-- Quick actions -->
+    <div class="mb-8">
+        <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">Quick Actions</h2>
+        <div class="flex flex-wrap gap-3">
+            <a href="/admin/post/new"
+                class="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                </svg>
+                New Post
+            </a>
+            <a href="/admin/project/new"
+                class="flex items-center gap-2 bg-cyan-600 hover:bg-cyan-500 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                </svg>
+                New Project
+            </a>
+            <a href="/admin/comments"
+                class="flex items-center gap-2 bg-gray-800 hover:bg-gray-700 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition">
+                Moderate Comments
+                {% if pending_count > 0 %}
+                <span class="bg-red-500 text-white text-xs px-1.5 py-0.5 rounded-full">{{ pending_count }}</span>
+                {% endif %}
+            </a>
+            <a href="/admin/messages"
+                class="flex items-center gap-2 bg-gray-800 hover:bg-gray-700 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition">
+                View Messages
+                {% if unread_count > 0 %}
+                <span class="bg-indigo-500 text-white text-xs px-1.5 py-0.5 rounded-full">{{ unread_count }}</span>
+                {% endif %}
+            </a>
+        </div>
+    </div>
+
+    <!-- Charts + top pages -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div class="md:col-span-2 bg-gray-900 border border-gray-800 rounded-2xl p-6">
+            <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">Visits — Last 7 Days</h2>
+            <canvas id="visitsChart" height="120"></canvas>
+        </div>
+        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6">
+            <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">Top Pages</h2>
+            <div class="space-y-3">
+                {% for page in top_pages %}
+                <div class="flex justify-between items-center">
+                    <p class="text-sm text-gray-400 truncate max-w-xs">{{ page.path }}</p>
+                    <span class="text-xs bg-indigo-500/20 text-indigo-400 px-2 py-0.5 rounded-full shrink-0 ml-2">{{ page.count }}</span>
+                </div>
+                {% else %}
+                <p class="text-gray-600 text-sm">No data yet.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Content chart + activity -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6">
+            <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">Content Overview</h2>
+            <canvas id="contentChart" height="200"></canvas>
+        </div>
+
+        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6">
+            <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">Recent Activity</h2>
+            <div class="space-y-4">
+                {% for post in recent_posts %}
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 bg-indigo-500/20 rounded-lg flex items-center justify-center shrink-0">
+                        <svg class="w-4 h-4 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm font-medium truncate">{{ post.title }}</p>
+                        <p class="text-gray-600 text-xs">{{ post.created_at.strftime('%b %d, %Y') }}</p>
+                    </div>
+                    <a href="/admin/post/{{ post.id }}/edit" class="text-indigo-400 text-xs hover:underline shrink-0">Edit</a>
+                </div>
+                {% endfor %}
+                {% for comment in recent_comments %}
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center shrink-0">
+                        <svg class="w-4 h-4 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                        </svg>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm font-medium truncate">{{ comment.name }} commented</p>
+                        <p class="text-gray-600 text-xs">{{ comment.created_at.strftime('%b %d, %Y') }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+                {% for msg in recent_messages %}
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 bg-yellow-500/20 rounded-lg flex items-center justify-center shrink-0">
+                        <svg class="w-4 h-4 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                        </svg>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm font-medium truncate">Message from {{ msg.name }}</p>
+                        <p class="text-gray-600 text-xs">{{ msg.email }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const vCtx = document.getElementById('visitsChart').getContext('2d');
+        new Chart(vCtx, {
+            type: 'line',
+            data: {
+                labels: {{ daily_labels | tojson }},
+                datasets: [{
+                    label: 'Visits',
+                    data: {{ daily_visits | tojson }},
+                    borderColor: '#6366f1',
+                    backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.4,
+                    pointBackgroundColor: '#6366f1',
+                    pointRadius: 4,
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { color: '#6b7280', stepSize: 1 },
+                        grid: { color: 'rgba(75, 85, 99, 0.2)' }
+                    },
+                    x: {
+                        ticks: { color: '#6b7280' },
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+
+        const cCtx = document.getElementById('contentChart').getContext('2d');
+        new Chart(cCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Posts', 'Projects', 'Comments', 'Messages'],
+                datasets: [{
+                    data: [{{ stats.posts }}, {{ stats.projects }}, {{ stats.comments }}, {{ stats.messages }}],
+                    backgroundColor: [
+                        'rgba(99, 102, 241, 0.6)',
+                        'rgba(6, 182, 212, 0.6)',
+                        'rgba(34, 197, 94, 0.6)',
+                        'rgba(234, 179, 8, 0.6)',
+                    ],
+                    borderColor: [
+                        'rgba(99, 102, 241, 1)',
+                        'rgba(6, 182, 212, 1)',
+                        'rgba(34, 197, 94, 1)',
+                        'rgba(234, 179, 8, 1)',
+                    ],
+                    borderWidth: 1,
+                    borderRadius: 6,
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { color: '#6b7280', stepSize: 1 },
+                        grid: { color: 'rgba(75, 85, 99, 0.2)' }
+                    },
+                    x: {
+                        ticks: { color: '#6b7280' },
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+    </script>
+
+{% endblock %}
