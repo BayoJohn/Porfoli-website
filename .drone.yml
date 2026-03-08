@@ -42,8 +42,16 @@ steps:
         - echo "Cleaning up old container..."
         - docker stop portfolio || true
         - docker rm portfolio || true
+        - echo "Creating volume if it doesn't exist..."
+        - docker volume create portfolio_data || true
         - echo "Starting new Portfolio container..."
-        - docker run -d --name portfolio -p 80:5000 --restart unless-stopped 10.0.0.2/library/portfolio:latest
+        - docker run -d
+          --name portfolio
+          -p 80:5000
+          --restart unless-stopped
+          -v portfolio_data:/app/instance
+          -v portfolio_uploads:/app/app/static/uploads
+          10.0.0.2/library/portfolio:latest
         - echo "Verifying deployment..."
         - sleep 5
         - docker logs portfolio --tail 20
