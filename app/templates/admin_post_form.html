@@ -1,109 +1,140 @@
 {% extends "admin_base.html" %}
 
-{% block title %}{% if post %}Edit Post{% else %}New Post{% endif %}{% endblock %}
+{% block title %}{{ 'Edit' if post else 'New' }} Post — StackedByBayo{% endblock %}
+{% block page_title %}{{ 'Edit' if post else 'New' }} Post{% endblock %}
 
 {% block content %}
 
-    <div class="max-w-3xl mx-auto">
-        <a href="/admin" class="text-gray-500 hover:text-gray-300 text-sm transition mb-8 inline-block">
-            ← Back to dashboard
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css">
+<style>
+    .EasyMDEContainer { border-radius: 12px; overflow: hidden; }
+    .EasyMDEContainer .CodeMirror {
+        background: #111827;
+        color: #e5e7eb;
+        border: 1px solid #1f2937;
+        font-family: 'Fira Code', 'Courier New', monospace;
+        font-size: 14px;
+        min-height: 450px;
+        border-radius: 0 0 12px 12px;
+    }
+    .EasyMDEContainer .editor-toolbar {
+        background: #1f2937;
+        border: 1px solid #374151;
+        border-bottom: none;
+        border-radius: 12px 12px 0 0;
+    }
+    .EasyMDEContainer .editor-toolbar button {
+        color: #9ca3af !important;
+    }
+    .EasyMDEContainer .editor-toolbar button:hover,
+    .EasyMDEContainer .editor-toolbar button.active {
+        background: #374151;
+        color: #e5e7eb !important;
+        border-color: #4b5563;
+    }
+    .EasyMDEContainer .editor-toolbar i.separator { border-color: #374151; }
+    .EasyMDEContainer .editor-preview {
+        background: #111827;
+        color: #e5e7eb;
+    }
+    .EasyMDEContainer .editor-preview pre {
+        background: #1f2937;
+        border-radius: 8px;
+        padding: 12px;
+    }
+    .EasyMDEContainer .editor-preview code { color: #a5b4fc; }
+    .editor-preview h1, .editor-preview h2, .editor-preview h3 {
+        color: white;
+        border-bottom: 1px solid #374151;
+        padding-bottom: 8px;
+    }
+    .editor-statusbar { color: #6b7280; border-color: #1f2937; }
+</style>
+
+<div class="max-w-4xl">
+    <div class="flex items-center gap-3 mb-8">
+        <a href="/admin/posts" class="text-gray-500 hover:text-white transition">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+            </svg>
         </a>
-
-        <h1 class="text-3xl font-extrabold mb-8">
-            {% if post %}Edit <span class="gradient-text">Post</span>
-            {% else %}New <span class="gradient-text">Post</span>{% endif %}
-        </h1>
-
-        <!-- Quill CSS -->
-        <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-
-        <style>
-            .ql-toolbar {
-                background: #1f2937 !important;
-                border: 1px solid #374151 !important;
-                border-bottom: none !important;
-                border-radius: 8px 8px 0 0 !important;
-            }
-            .ql-toolbar .ql-stroke { stroke: #9ca3af !important; }
-            .ql-toolbar .ql-fill { fill: #9ca3af !important; }
-            .ql-toolbar .ql-picker { color: #9ca3af !important; }
-            .ql-toolbar button:hover .ql-stroke { stroke: #6366f1 !important; }
-            .ql-toolbar button:hover .ql-fill { fill: #6366f1 !important; }
-            .ql-toolbar .ql-active .ql-stroke { stroke: #6366f1 !important; }
-            .ql-toolbar .ql-active .ql-fill { fill: #6366f1 !important; }
-            .ql-container {
-                background: #111827 !important;
-                border: 1px solid #374151 !important;
-                border-radius: 0 0 8px 8px !important;
-                min-height: 300px;
-                font-size: 15px !important;
-            }
-            .ql-editor { color: #e5e7eb !important; min-height: 300px; }
-            .ql-editor.ql-blank::before { color: #6b7280 !important; }
-            .ql-picker-options {
-                background: #1f2937 !important;
-                border: 1px solid #374151 !important;
-            }
-            .ql-picker-item { color: #9ca3af !important; }
-        </style>
-
-        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-8">
-            <form method="POST" id="post-form" class="flex flex-col gap-5">
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-400 mb-2">Title</label>
-                    <input type="text" name="title" required
-                        value="{{ post.title if post else '' }}"
-                        class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-indigo-500 transition">
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-400 mb-2">Body</label>
-                    <!-- Quill editor container -->
-                    <div id="quill-editor">{{ post.body|safe if post else '' }}</div>
-                    <!-- Hidden input to store HTML -->
-                    <input type="hidden" name="body" id="body-input">
-                </div>
-
-                <div class="flex gap-3 pt-2">
-                    <button type="submit"
-                        class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-6 py-3 rounded-lg transition">
-                        Save
-                    </button>
-                    <a href="/admin"
-                        class="border border-gray-700 hover:border-gray-500 text-gray-400 font-medium px-6 py-3 rounded-lg transition">
-                        Cancel
-                    </a>
-                </div>
-
-            </form>
-        </div>
+        <h2 class="text-lg font-semibold">{{ 'Edit Post' if post else 'New Post' }}</h2>
     </div>
 
-    <!-- Quill JS -->
-    <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
-    <script>
-        var quill = new Quill('#quill-editor', {
-            theme: 'snow',
-            placeholder: 'Write your post here...',
-            modules: {
-                toolbar: [
-                    [{ 'header': [1, 2, 3, false] }],
-                    ['bold', 'italic', 'underline', 'strike'],
-                    [{ 'color': [] }, { 'background': [] }],
-                    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-                    [{ 'indent': '-1' }, { 'indent': '+1' }],
-                    ['blockquote', 'code-block'],
-                    ['link'],
-                    ['clean']
-                ]
-            }
-        });
+    <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6">
+        <form method="POST">
 
-        // On form submit copy Quill HTML into hidden input
-        document.getElementById('post-form').addEventListener('submit', function(e) {
-            document.getElementById('body-input').value = quill.root.innerHTML;
-        });
-    </script>
+            <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-400 mb-2">Post Title</label>
+                <input
+                    type="text"
+                    name="title"
+                    value="{{ post.title if post else '' }}"
+                    placeholder="e.g. Setting up a CI/CD pipeline with Drone CI"
+                    required
+                    class="w-full bg-gray-800 border border-gray-700 focus:border-indigo-500 text-white placeholder-gray-600 rounded-xl px-4 py-3 text-sm outline-none transition"
+                >
+            </div>
+
+            <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-400 mb-2">
+                    Content
+                    <span class="text-gray-600 font-normal ml-2">— Markdown supported</span>
+                </label>
+                <textarea name="body" id="editor">{{ post.body if post else '' }}</textarea>
+            </div>
+
+            <div class="bg-gray-800/50 border border-gray-700 rounded-xl p-4 mb-6 text-xs text-gray-500 grid grid-cols-2 md:grid-cols-4 gap-2">
+                <span><code class="text-indigo-400"># Heading 1</code></span>
+                <span><code class="text-indigo-400">## Heading 2</code></span>
+                <span><code class="text-indigo-400">**bold**</code></span>
+                <span><code class="text-indigo-400">*italic*</code></span>
+                <span><code class="text-indigo-400">`inline code`</code></span>
+                <span><code class="text-indigo-400">```python ... ```</code></span>
+                <span><code class="text-indigo-400">- list item</code></span>
+                <span><code class="text-indigo-400">[link](url)</code></span>
+            </div>
+
+            <div class="flex gap-3">
+                <button type="submit"
+                    class="gradient-bg text-white font-semibold px-6 py-2.5 rounded-xl hover:opacity-90 transition text-sm">
+                    {{ 'Update Post' if post else 'Publish Post' }}
+                </button>
+                <a href="/admin/posts"
+                    class="border border-gray-700 hover:border-gray-500 text-gray-400 font-semibold px-6 py-2.5 rounded-xl transition text-sm">
+                    Cancel
+                </a>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
+<script>
+    const easyMDE = new EasyMDE({
+        element: document.getElementById('editor'),
+        autofocus: true,
+        spellChecker: false,
+        autosave: {
+            enabled: true,
+            uniqueId: "post-{{ post.id if post else 'new' }}",
+            delay: 3000,
+        },
+        toolbar: [
+            'bold', 'italic', 'heading', '|',
+            'code', 'quote', '|',
+            'unordered-list', 'ordered-list', '|',
+            'link', 'table', '|',
+            'preview', 'side-by-side', 'fullscreen', '|',
+            'guide'
+        ],
+        placeholder: "Write your post in Markdown...\n\n# Start with a heading\n\nThen write your content...\n\n```python\n# Code blocks work too\nprint('Hello World')\n```",
+        status: ['autosave', 'lines', 'words'],
+        renderingConfig: {
+            codeSyntaxHighlighting: true,
+        },
+    });
+</script>
 
 {% endblock %}

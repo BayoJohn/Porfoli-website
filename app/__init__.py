@@ -1,4 +1,5 @@
 import os
+import markdown as md
 from datetime import datetime, timedelta
 from flask import Flask, render_template, request, flash, redirect, url_for, session
 from werkzeug.utils import secure_filename
@@ -85,7 +86,8 @@ def create_app():
             db.session.commit()
             flash("Comment posted!")
             return redirect(url_for("post", post_id=post_id))
-        return render_template("post.html", post=post, comments=comments)
+        post_body = md.markdown(post.body, extensions=['fenced_code', 'codehilite', 'tables', 'nl2br'])
+        return render_template("post.html", post=post, comments=comments, post_body=post_body)
 
     @app.route("/contact", methods=["GET", "POST"])
     def contact():
