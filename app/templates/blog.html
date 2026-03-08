@@ -1,36 +1,123 @@
 {% extends "base.html" %}
 
-{% block title %}Blog — YourName{% endblock %}
+{% block title %}Blog — StackedByBayo{% endblock %}
 
 {% block content %}
 
+    <!-- Header -->
     <div class="mb-16 reveal">
+        <div class="inline-flex items-center gap-2 bg-gray-900 border border-indigo-500/30 text-indigo-400 text-sm font-medium px-4 py-1.5 rounded-full mb-6">
+            ✍️ The Blog
+        </div>
         <h1 class="text-5xl font-extrabold mb-4">
-            The <span class="gradient-text">Blog</span>
+            Thoughts on <span class="gradient-text">DevOps</span>
         </h1>
         <p class="text-gray-400 text-lg max-w-xl">
-            Thoughts on code, tech and everything in between.
+            Deep dives into infrastructure, CI/CD, cloud architecture and everything I learn along the way.
         </p>
     </div>
 
-    <div class="grid gap-6">
-        {% for post in posts %}
-        <a href="/blog/{{ post.id }}"
-            class="bg-gray-900 border border-gray-800 rounded-2xl p-6 card-hover block reveal">
-            <div class="flex justify-between items-start mb-3">
-                <h2 class="text-xl font-bold hover:text-indigo-400 transition">
+    {% if posts %}
+
+    <!-- Featured post (first post gets bigger card) -->
+    {% set featured = posts[0] %}
+    <a href="/blog/{{ featured.id }}" class="block mb-8 reveal">
+        <div class="bg-gray-900 border border-gray-800 hover:border-indigo-500/40 rounded-2xl p-8 card-hover transition group">
+            <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+                <div class="flex-1">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="bg-indigo-500/20 text-indigo-400 text-xs font-semibold px-3 py-1 rounded-full">
+                            Featured
+                        </span>
+                        <span class="text-gray-600 text-xs">
+                            {{ featured.created_at.strftime('%B %d, %Y') }}
+                        </span>
+                    </div>
+                    <h2 class="text-2xl font-bold mb-3 group-hover:text-indigo-400 transition">
+                        {{ featured.title }}
+                    </h2>
+                    <p class="text-gray-400 leading-relaxed mb-5">
+                        {{ featured.body | striptags | truncate(200) }}
+                    </p>
+                    <div class="flex items-center gap-4">
+                        <div class="flex items-center gap-2">
+                            <div class="w-7 h-7 rounded-full gradient-bg flex items-center justify-center text-xs font-bold">B</div>
+                            <span class="text-gray-400 text-sm">Omobayonle Ogundele</span>
+                        </div>
+                        <span class="text-gray-700">·</span>
+                        <span class="text-indigo-400 text-sm font-medium group-hover:underline">Read post →</span>
+                    </div>
+                </div>
+                <!-- Icon decoration -->
+                <div class="w-20 h-20 bg-indigo-500/10 rounded-2xl flex items-center justify-center shrink-0 text-4xl">
+                    🚀
+                </div>
+            </div>
+        </div>
+    </a>
+
+    <!-- Rest of posts grid -->
+    {% if posts|length > 1 %}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
+        {% for post in posts[1:] %}
+        <a href="/blog/{{ post.id }}" class="block reveal group">
+            <div class="bg-gray-900 border border-gray-800 hover:border-indigo-500/40 rounded-2xl p-6 card-hover transition h-full flex flex-col">
+
+                <!-- Top -->
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-gray-600 text-xs">
+                        {{ post.created_at.strftime('%B %d, %Y') }}
+                    </span>
+                    <div class="w-8 h-8 bg-gray-800 rounded-lg flex items-center justify-center text-sm">
+                        📄
+                    </div>
+                </div>
+
+                <!-- Title -->
+                <h2 class="font-bold text-lg mb-3 group-hover:text-indigo-400 transition leading-snug">
                     {{ post.title }}
                 </h2>
-                <span class="text-gray-600 text-xs ml-4 shrink-0">
-                    {{ post.created_at.strftime('%b %d, %Y') }}
-                </span>
+
+                <!-- Excerpt -->
+                <p class="text-gray-400 text-sm leading-relaxed flex-1 mb-5">
+                    {{ post.body | striptags | truncate(120) }}
+                </p>
+
+                <!-- Footer -->
+                <div class="flex items-center justify-between pt-4 border-t border-gray-800">
+                    <div class="flex items-center gap-2">
+                        <div class="w-6 h-6 rounded-full gradient-bg flex items-center justify-center text-xs font-bold">B</div>
+                        <span class="text-gray-500 text-xs">Bayo</span>
+                    </div>
+                    <span class="text-indigo-400 text-xs font-medium group-hover:underline">Read more →</span>
+                </div>
+
             </div>
-            <p class="text-gray-400 text-sm leading-relaxed">{{ post.body[:150] }}...</p>
-            <p class="text-indigo-400 text-sm mt-4 font-medium">Read more →</p>
         </a>
-        {% else %}
-            <p class="text-gray-500">No posts yet.</p>
         {% endfor %}
+    </div>
+    {% endif %}
+
+    {% else %}
+
+    <!-- Empty state -->
+    <div class="text-center py-24 reveal">
+        <div class="text-6xl mb-4">✍️</div>
+        <h2 class="text-xl font-bold mb-2">No posts yet</h2>
+        <p class="text-gray-500 text-sm">Check back soon — something is coming.</p>
+    </div>
+
+    {% endif %}
+
+    <!-- CTA -->
+    <div class="bg-gradient-to-r from-indigo-600/20 to-cyan-600/20 border border-indigo-500/20 rounded-2xl p-8 text-center reveal">
+        <h2 class="text-2xl font-bold mb-2">Want to talk tech?</h2>
+        <p class="text-gray-400 text-sm mb-6 max-w-md mx-auto">
+            Have a question about something I wrote or want to collaborate? I'd love to hear from you.
+        </p>
+        <a href="/contact" class="gradient-bg text-white font-semibold px-6 py-2.5 rounded-xl hover:opacity-90 transition text-sm">
+            Get in touch →
+        </a>
     </div>
 
 {% endblock %}
