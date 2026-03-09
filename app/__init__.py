@@ -339,4 +339,20 @@ def create_app():
         flash("Message deleted.")
         return redirect(url_for("admin_messages"))
 
+    # ── Admin settings ────────────────────────────────────────────────────────
+
+    @app.route("/admin/settings", methods=["GET", "POST"])
+    def admin_settings():
+        if not session.get("admin"):
+            return redirect(url_for("admin_login"))
+        if request.method == "POST":
+            if "profile_photo" in request.files:
+                file = request.files["profile_photo"]
+                if file and allowed_file(file.filename):
+                    file.save(os.path.join("app/static/uploads", "profile.jpg"))
+                    flash("Profile photo updated!")
+            return redirect(url_for("admin_settings"))
+        profile_exists = os.path.exists("app/static/uploads/profile.jpg")
+        return render_template("admin_settings.html", profile_exists=profile_exists, **admin_context())
+
     return app
