@@ -32,41 +32,51 @@
         0%, 100% { opacity: 1; }
         50% { opacity: 0; }
     }
-    .tools-strip { overflow: hidden; -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent); }
-    .tools-track { display: flex; gap: 16px; animation: scroll-left 25s linear infinite; width: max-content; }
+    .tools-strip {
+        overflow: hidden;
+        -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    }
+    .tools-track {
+        display: flex;
+        gap: 16px;
+        animation: scroll-left 25s linear infinite;
+        width: max-content;
+    }
     @keyframes scroll-left {
         from { transform: translateX(0); }
         to { transform: translateX(-50%); }
     }
+    .magazine-img {
+        transition: transform 0.5s ease;
+    }
+    .magazine-card:hover .magazine-img {
+        transform: scale(1.05);
+    }
+    .tag-devops { background: rgba(99,102,241,0.15); color: #818cf8; }
+    .tag-cloud  { background: rgba(6,182,212,0.15);  color: #22d3ee; }
+    .tag-linux  { background: rgba(234,179,8,0.15);  color: #fbbf24; }
+    .tag-docker { background: rgba(37,99,235,0.15);  color: #60a5fa; }
 </style>
 
     <!-- Hero -->
     <div class="relative dot-grid rounded-3xl overflow-hidden mb-16 px-8 py-20 text-center">
         <div class="hero-glow"></div>
         <div class="relative z-10">
-
-            <!-- Badge -->
             <div class="inline-flex items-center gap-2 bg-gray-900/80 border border-indigo-500/30 text-indigo-400 text-sm font-medium px-4 py-1.5 rounded-full mb-8 backdrop-blur-sm">
                 <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
                 6 months into my DevOps journey — and loving every bit
             </div>
-
-            <!-- Heading -->
             <h1 class="text-5xl md:text-6xl font-extrabold mb-4 leading-tight">
                 Hi, I'm <span class="gradient-text">Bayo</span>
             </h1>
-
-            <!-- Typing animation -->
             <div class="text-xl md:text-2xl text-gray-400 font-medium mb-6 h-9 flex items-center justify-center gap-2">
                 <span id="typed-text"></span>
                 <span class="cursor"></span>
             </div>
-
             <p class="text-gray-400 text-base max-w-xl mx-auto mb-10 leading-relaxed">
                 I'm a DevOps engineer in training — building real pipelines, breaking things,
                 fixing them and documenting everything. This is where I share my journey.
             </p>
-
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
                 <a href="/projects" class="gradient-bg text-white font-semibold px-7 py-3 rounded-xl hover:opacity-90 transition">
                     See what I've built →
@@ -75,11 +85,10 @@
                     Read my blog
                 </a>
             </div>
-
         </div>
     </div>
 
-    <!-- Journey stats -->
+    <!-- Stats -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16">
         <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5 text-center reveal">
             <p class="text-3xl font-extrabold gradient-text mb-1 stat-number" data-target="6">0</p>
@@ -90,17 +99,17 @@
             <p class="text-gray-500 text-xs">Projects Deployed</p>
         </div>
         <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5 text-center reveal">
-            <p class="text-3xl font-extrabold gradient-text mb-1 stat-number" data-target="5">0</p>
+            <p class="text-3xl font-extrabold gradient-text mb-1 stat-number" data-target="10">0</p>
             <p class="text-gray-500 text-xs">Tools Learned</p>
         </div>
         <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5 text-center reveal">
-            <p class="text-3xl font-extrabold gradient-text mb-1" data-suffix="">∞</p>
+            <p class="text-3xl font-extrabold gradient-text mb-1">∞</p>
             <p class="text-gray-500 text-xs">Things Still to Learn</p>
         </div>
     </div>
 
-    <!-- Currently learning / working with -->
-    <div class="mb-16 reveal">
+    <!-- Tools strip -->
+    <div class="mb-20 reveal">
         <p class="text-center text-gray-600 text-xs uppercase tracking-widest font-semibold mb-5">
             Tools I'm working with right now
         </p>
@@ -136,103 +145,201 @@
         </div>
     </div>
 
-    <!-- What I'm building -->
-    <div class="mb-16">
+    <!-- ── PROJECTS ─────────────────────────────────────────────────── -->
+    <div class="mb-20">
         <div class="flex justify-between items-end mb-8 reveal">
             <div>
                 <p class="text-indigo-400 text-xs font-semibold uppercase tracking-wider mb-1">My Work</p>
-                <h2 class="text-2xl font-bold">Things I've Built</h2>
+                <h2 class="text-3xl font-extrabold">Featured Projects</h2>
             </div>
-            <a href="/projects" class="text-gray-500 hover:text-indigo-400 text-sm transition">View all →</a>
+            <a href="/projects" class="text-gray-500 hover:text-indigo-400 text-sm transition flex items-center gap-1">
+                All projects
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+            </a>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        {% if projects %}
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             {% for project in projects %}
-            <a href="/projects/{{ project.id }}" class="block group reveal">
-                <div class="bg-gray-900 border border-gray-800 hover:border-indigo-500/40 rounded-2xl overflow-hidden card-hover transition h-full flex flex-col">
+            <a href="/projects/{{ project.id }}" class="magazine-card block group reveal">
+                <article class="bg-gray-900 border border-gray-800 group-hover:border-indigo-500/50 rounded-2xl overflow-hidden transition duration-300 h-full flex flex-col">
 
-                    {% if project.image %}
-                    <div class="h-40 overflow-hidden">
-                        <img src="/static/uploads/{{ project.image }}"
-                            class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                    </div>
-                    {% else %}
-                    <div class="h-32 bg-gradient-to-br from-indigo-500/10 to-cyan-500/10 flex items-center justify-center">
-                        <div class="w-12 h-12 gradient-bg rounded-xl flex items-center justify-center text-xl">🚀</div>
-                    </div>
-                    {% endif %}
-
-                    <div class="p-5 flex flex-col flex-1">
-                        <h3 class="font-bold mb-2 group-hover:text-indigo-400 transition">{{ project.title }}</h3>
-                        <p class="text-gray-400 text-sm leading-relaxed flex-1 mb-4">
-                            {{ project.description | striptags | truncate(100) }}
-                        </p>
+                    <!-- Image or gradient cover -->
+                    <div class="relative h-48 overflow-hidden">
+                        {% if project.image %}
+                        <img
+                            src="/static/uploads/{{ project.image }}"
+                            class="magazine-img w-full h-full object-cover"
+                            alt="{{ project.title }}"
+                        >
+                        {% else %}
+                        <div class="w-full h-full bg-gradient-to-br from-indigo-900/60 via-gray-900 to-cyan-900/40 flex items-center justify-center">
+                            <div class="text-center">
+                                <div class="text-5xl mb-2">🚀</div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        <!-- Overlay gradient -->
+                        <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/20 to-transparent"></div>
+                        <!-- Tech tags on image -->
                         {% if project.tech_stack %}
-                        <div class="flex flex-wrap gap-1.5">
-                            {% for tech in project.tech_stack.split(',')[:4] %}
-                            <span class="bg-gray-800 text-gray-500 text-xs px-2.5 py-1 rounded-lg">{{ tech.strip() }}</span>
+                        <div class="absolute bottom-3 left-4 flex flex-wrap gap-1.5">
+                            {% for tech in project.tech_stack.split(',')[:3] %}
+                            <span class="bg-black/60 backdrop-blur-sm text-gray-300 text-xs px-2.5 py-1 rounded-lg border border-gray-700/50">
+                                {{ tech.strip() }}
+                            </span>
                             {% endfor %}
                         </div>
                         {% endif %}
                     </div>
 
-                </div>
+                    <!-- Content -->
+                    <div class="p-5 flex flex-col flex-1">
+                        <h3 class="font-bold text-lg mb-2 group-hover:text-indigo-400 transition leading-snug">
+                            {{ project.title }}
+                        </h3>
+                        <p class="text-gray-400 text-sm leading-relaxed flex-1 mb-4">
+                            {{ project.description | striptags | truncate(110) }}
+                        </p>
+                        <div class="flex items-center justify-between pt-3 border-t border-gray-800">
+                            <div class="flex items-center gap-2">
+                                <div class="w-6 h-6 rounded-full gradient-bg flex items-center justify-center text-xs font-bold shrink-0">B</div>
+                                <span class="text-gray-600 text-xs">Bayo</span>
+                            </div>
+                            <span class="text-indigo-400 text-xs font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
+                                View project
+                                <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
+
+                </article>
             </a>
-            {% else %}
-            <div class="col-span-2 text-center py-12 text-gray-600 text-sm reveal">
-                No projects yet — check back soon!
-            </div>
             {% endfor %}
         </div>
+        {% else %}
+        <div class="text-center py-16 text-gray-600 text-sm bg-gray-900 border border-gray-800 rounded-2xl reveal">
+            No projects yet — check back soon!
+        </div>
+        {% endif %}
     </div>
 
-    <!-- Blog posts -->
-    <div class="mb-16">
+    <!-- ── BLOG ────────────────────────────────────────────────────── -->
+    <div class="mb-20">
         <div class="flex justify-between items-end mb-8 reveal">
             <div>
                 <p class="text-indigo-400 text-xs font-semibold uppercase tracking-wider mb-1">The Blog</p>
-                <h2 class="text-2xl font-bold">What I'm Learning</h2>
+                <h2 class="text-3xl font-extrabold">Latest Writing</h2>
             </div>
-            <a href="/blog" class="text-gray-500 hover:text-indigo-400 text-sm transition">View all →</a>
+            <a href="/blog" class="text-gray-500 hover:text-indigo-400 text-sm transition flex items-center gap-1">
+                All posts
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+            </a>
         </div>
 
-        <div class="space-y-4">
-            {% for post in posts %}
-            <a href="/blog/{{ post.id }}" class="block group reveal">
-                <div class="bg-gray-900 border border-gray-800 hover:border-indigo-500/40 rounded-2xl p-5 card-hover transition flex items-center gap-5">
+        {% if posts %}
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-                    <!-- Icon -->
-                    <div class="w-12 h-12 bg-indigo-500/10 rounded-xl flex items-center justify-center text-xl shrink-0">
-                        📝
+            <!-- First post — big featured card -->
+            {% set featured = posts[0] %}
+            <a href="/blog/{{ featured.id }}" class="magazine-card md:col-span-2 block group reveal">
+                <article class="bg-gray-900 border border-gray-800 group-hover:border-indigo-500/50 rounded-2xl overflow-hidden transition duration-300 h-full flex flex-col">
+
+                    <!-- Cover -->
+                    <div class="relative h-56 overflow-hidden bg-gradient-to-br from-indigo-900/60 via-gray-900 to-cyan-900/40 flex items-center justify-center">
+                        <div class="absolute inset-0 dot-grid opacity-30"></div>
+                        <div class="relative z-10 text-center px-8">
+                            <p class="text-indigo-300 text-sm font-medium mb-2">Latest Post</p>
+                            <p class="text-white font-bold text-xl leading-snug">{{ featured.title }}</p>
+                        </div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent"></div>
                     </div>
 
                     <!-- Content -->
-                    <div class="flex-1 min-w-0">
-                        <h3 class="font-semibold mb-1 group-hover:text-indigo-400 transition truncate">
-                            {{ post.title }}
+                    <div class="p-6 flex flex-col flex-1">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="bg-indigo-500/20 text-indigo-400 text-xs font-semibold px-2.5 py-1 rounded-full">Featured</span>
+                            <span class="text-gray-600 text-xs">{{ featured.created_at.strftime('%B %d, %Y') }}</span>
+                        </div>
+                        <h3 class="font-bold text-xl mb-2 group-hover:text-indigo-400 transition leading-snug">
+                            {{ featured.title }}
                         </h3>
-                        <p class="text-gray-500 text-sm truncate">
-                            {{ post.body | striptags | truncate(100) }}
+                        <p class="text-gray-400 text-sm leading-relaxed flex-1 mb-4">
+                            {{ featured.body | striptags | truncate(160) }}
                         </p>
+                        <div class="flex items-center justify-between pt-3 border-t border-gray-800">
+                            <div class="flex items-center gap-2">
+                                <div class="w-6 h-6 rounded-full gradient-bg flex items-center justify-center text-xs font-bold">B</div>
+                                <span class="text-gray-600 text-xs">Omobayonle Ogundele</span>
+                            </div>
+                            <span class="text-indigo-400 text-xs font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
+                                Read post
+                                <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                </svg>
+                            </span>
+                        </div>
                     </div>
 
-                    <!-- Date + arrow -->
-                    <div class="text-right shrink-0">
-                        <p class="text-gray-600 text-xs mb-1">{{ post.created_at.strftime('%b %d') }}</p>
-                        <span class="text-indigo-400 text-xs group-hover:underline">Read →</span>
-                    </div>
-
-                </div>
+                </article>
             </a>
-            {% else %}
-            <div class="text-center py-12 text-gray-600 text-sm reveal">
-                No posts yet — check back soon!
+
+            <!-- Remaining posts stacked -->
+            <div class="flex flex-col gap-6">
+                {% for post in posts[1:3] %}
+                <a href="/blog/{{ post.id }}" class="magazine-card block group reveal flex-1">
+                    <article class="bg-gray-900 border border-gray-800 group-hover:border-indigo-500/50 rounded-2xl overflow-hidden transition duration-300 h-full flex flex-col">
+
+                        <!-- Mini cover -->
+                        <div class="relative h-24 overflow-hidden bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center px-4">
+                            <p class="text-gray-400 text-xs font-medium text-center leading-snug line-clamp-2">{{ post.title }}</p>
+                            <div class="absolute inset-0 bg-gradient-to-t from-gray-900/80 to-transparent"></div>
+                        </div>
+
+                        <!-- Content -->
+                        <div class="p-4 flex flex-col flex-1">
+                            <span class="text-gray-600 text-xs mb-2">{{ post.created_at.strftime('%b %d, %Y') }}</span>
+                            <h3 class="font-semibold text-sm mb-2 group-hover:text-indigo-400 transition leading-snug flex-1">
+                                {{ post.title }}
+                            </h3>
+                            <span class="text-indigo-400 text-xs font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
+                                Read
+                                <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                </svg>
+                            </span>
+                        </div>
+
+                    </article>
+                </a>
+                {% endfor %}
+
+                {% if posts|length == 1 %}
+                <!-- Placeholder if only 1 post -->
+                <div class="flex-1 bg-gray-900/50 border border-dashed border-gray-800 rounded-2xl flex items-center justify-center p-6 text-center">
+                    <div>
+                        <p class="text-3xl mb-2">✍️</p>
+                        <p class="text-gray-600 text-xs">More posts coming soon</p>
+                    </div>
+                </div>
+                {% endif %}
             </div>
-            {% endfor %}
+
         </div>
+        {% else %}
+        <div class="text-center py-16 text-gray-600 text-sm bg-gray-900 border border-gray-800 rounded-2xl reveal">
+            No posts yet — check back soon!
+        </div>
+        {% endif %}
     </div>
 
-    <!-- Journey CTA -->
+    <!-- CTA -->
     <div class="relative dot-grid rounded-3xl overflow-hidden px-8 py-16 text-center reveal">
         <div class="absolute inset-0 bg-gradient-to-r from-indigo-600/15 to-cyan-600/15"></div>
         <div class="relative z-10">
@@ -257,7 +364,6 @@
     </div>
 
 <script>
-    // Typing animation
     const titles = [
         "Learning DevOps",
         "Building Pipelines",
@@ -266,20 +372,15 @@
         "Shipping Projects",
         "Documenting Everything"
     ];
-    let titleIndex = 0;
-    let charIndex = 0;
-    let isDeleting = false;
+    let titleIndex = 0, charIndex = 0, isDeleting = false;
     const typedEl = document.getElementById('typed-text');
 
     function type() {
         const current = titles[titleIndex];
-        if (isDeleting) {
-            typedEl.textContent = current.substring(0, charIndex - 1);
-            charIndex--;
-        } else {
-            typedEl.textContent = current.substring(0, charIndex + 1);
-            charIndex++;
-        }
+        typedEl.textContent = isDeleting
+            ? current.substring(0, charIndex - 1)
+            : current.substring(0, charIndex + 1);
+        isDeleting ? charIndex-- : charIndex++;
         if (!isDeleting && charIndex === current.length) {
             setTimeout(() => isDeleting = true, 1800);
         } else if (isDeleting && charIndex === 0) {
@@ -290,13 +391,11 @@
     }
     type();
 
-    // Count up
     function countUp(el) {
         const target = parseInt(el.getAttribute('data-target'));
         if (!target) return;
-        const duration = 1200;
-        const step = target / (duration / 16);
         let current = 0;
+        const step = target / (1200 / 16);
         const timer = setInterval(() => {
             current += step;
             if (current >= target) {
