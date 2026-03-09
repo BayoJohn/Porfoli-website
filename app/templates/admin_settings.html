@@ -1,0 +1,132 @@
+{% extends "admin_base.html" %}
+
+{% block title %}Settings — StackedByBayo{% endblock %}
+{% block page_title %}Settings{% endblock %}
+
+{% block content %}
+
+<div class="max-w-2xl space-y-6">
+
+    <!-- Profile Photo -->
+    <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6">
+        <h2 class="font-semibold text-lg mb-1">Profile Photo</h2>
+        <p class="text-gray-500 text-sm mb-6">This appears on your About page and blog posts.</p>
+
+        <!-- Current photo preview -->
+        <div class="flex items-center gap-6 mb-6">
+            <div class="w-24 h-24 rounded-full overflow-hidden border-2 border-indigo-500/30 shrink-0">
+                {% if profile_exists %}
+                <img src="/static/uploads/profile.jpg?{{ range(1000,9999) | random }}"
+                     class="w-full h-full object-cover object-top"
+                     alt="Profile photo">
+                {% else %}
+                <div class="w-full h-full bg-gray-800 flex items-center justify-center text-3xl">🧑‍💻</div>
+                {% endif %}
+            </div>
+            <div>
+                <p class="font-medium mb-1">
+                    {% if profile_exists %}
+                    Profile photo uploaded ✅
+                    {% else %}
+                    No photo uploaded yet
+                    {% endif %}
+                </p>
+                <p class="text-gray-500 text-sm">Recommended: square photo, at least 400×400px</p>
+            </div>
+        </div>
+
+        <!-- Upload form -->
+        <form method="POST" enctype="multipart/form-data">
+            <div class="border-2 border-dashed border-gray-700 hover:border-indigo-500/50 rounded-xl p-6 text-center transition mb-4"
+                 id="drop-zone">
+                <div class="text-3xl mb-2">📷</div>
+                <p class="text-gray-400 text-sm mb-1">Click to upload or drag and drop</p>
+                <p class="text-gray-600 text-xs">PNG, JPG, WEBP up to 5MB</p>
+                <input type="file" name="profile_photo" accept="image/*" id="photo-input"
+                       class="hidden" onchange="previewPhoto(this)">
+            </div>
+
+            <!-- Preview before upload -->
+            <div id="preview-container" class="hidden mb-4">
+                <p class="text-gray-400 text-xs mb-2">Preview:</p>
+                <div class="w-20 h-20 rounded-full overflow-hidden border-2 border-indigo-500/50">
+                    <img id="preview-img" class="w-full h-full object-cover">
+                </div>
+            </div>
+
+            <div class="flex gap-3">
+                <button type="button" onclick="document.getElementById('photo-input').click()"
+                    class="border border-gray-700 hover:border-indigo-500 text-gray-300 font-semibold px-5 py-2.5 rounded-xl transition text-sm">
+                    Choose Photo
+                </button>
+                <button type="submit"
+                    class="gradient-bg text-white font-semibold px-5 py-2.5 rounded-xl hover:opacity-90 transition text-sm">
+                    Upload Photo
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Site Info (future use) -->
+    <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6">
+        <h2 class="font-semibold text-lg mb-1">Site Info</h2>
+        <p class="text-gray-500 text-sm mb-4">Quick links to manage your site.</p>
+        <div class="grid grid-cols-2 gap-3">
+            <a href="/" target="_blank"
+               class="flex items-center gap-3 bg-gray-800 hover:bg-gray-700 rounded-xl px-4 py-3 transition">
+                <span class="text-lg">🌐</span>
+                <div>
+                    <p class="text-sm font-medium">View Site</p>
+                    <p class="text-gray-500 text-xs">Open in new tab</p>
+                </div>
+            </a>
+            <a href="/admin/post/new"
+               class="flex items-center gap-3 bg-gray-800 hover:bg-gray-700 rounded-xl px-4 py-3 transition">
+                <span class="text-lg">✍️</span>
+                <div>
+                    <p class="text-sm font-medium">New Post</p>
+                    <p class="text-gray-500 text-xs">Write something</p>
+                </div>
+            </a>
+            <a href="/admin/project/new"
+               class="flex items-center gap-3 bg-gray-800 hover:bg-gray-700 rounded-xl px-4 py-3 transition">
+                <span class="text-lg">🚀</span>
+                <div>
+                    <p class="text-sm font-medium">New Project</p>
+                    <p class="text-gray-500 text-xs">Add a project</p>
+                </div>
+            </a>
+            <a href="/admin/messages"
+               class="flex items-center gap-3 bg-gray-800 hover:bg-gray-700 rounded-xl px-4 py-3 transition">
+                <span class="text-lg">✉️</span>
+                <div>
+                    <p class="text-sm font-medium">Messages</p>
+                    <p class="text-gray-500 text-xs">
+                        {% if unread_count > 0 %}{{ unread_count }} unread{% else %}No unread{% endif %}
+                    </p>
+                </div>
+            </a>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    function previewPhoto(input) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = e => {
+                document.getElementById('preview-img').src = e.target.result;
+                document.getElementById('preview-container').classList.remove('hidden');
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    // Click anywhere on drop zone to trigger file input
+    document.getElementById('drop-zone').addEventListener('click', () => {
+        document.getElementById('photo-input').click();
+    });
+</script>
+
+{% endblock %}
