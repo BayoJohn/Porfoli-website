@@ -357,7 +357,6 @@ def create_app():
                     file.save(uploads_path("profile.jpg"))
                     flash("Profile photo updated!")
             return redirect(url_for("admin_settings"))
-        profile_exists = os.path.exists(uploads_path("profile.jpg"))
-        return render_template("admin_settings.html", profile_exists=profile_exists, **admin_context())
+        return render_template("admin_settings.html", **admin_context())
 
     return app
