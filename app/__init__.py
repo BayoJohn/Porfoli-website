@@ -18,6 +18,9 @@ def create_app():
 
     db.init_app(app)
 
+    def uploads_path(*args):
+        return os.path.join(app.root_path, "static/uploads", *args)
+
     @app.before_request
     def track_visit():
         if request.path.startswith('/admin') or request.path.startswith('/static'):
@@ -40,7 +43,8 @@ def create_app():
 
     @app.route("/about")
     def about():
-        return render_template("about.html")
+        profile_exists = os.path.exists(uploads_path("profile.jpg"))
+        return render_template("about.html", profile_exists=profile_exists)
 
     @app.route("/projects")
     def projects():
@@ -109,6 +113,7 @@ def create_app():
         return dict(
             pending_count=Comment.query.filter_by(approved=False).count(),
             unread_count=Message.query.filter_by(read=False).count(),
+            profile_exists=os.path.exists(uploads_path("profile.jpg")),
         )
 
     # ── Admin auth ────────────────────────────────────────────────────────────
@@ -241,7 +246,7 @@ def create_app():
                 file = request.files["image"]
                 if file and allowed_file(file.filename):
                     filename = secure_filename(file.filename)
-                    file.save(os.path.join("app/static/uploads", filename))
+                    file.save(uploads_path(filename))
                     image_filename = filename
             project = Project(
                 title=request.form["title"],
@@ -270,7 +275,7 @@ def create_app():
                 file = request.files["image"]
                 if file and allowed_file(file.filename):
                     filename = secure_filename(file.filename)
-                    file.save(os.path.join("app/static/uploads", filename))
+                    file.save(uploads_path(filename))
                     project.image = filename
             db.session.commit()
             flash("Project updated!")
@@ -349,10 +354,10 @@ def create_app():
             if "profile_photo" in request.files:
                 file = request.files["profile_photo"]
                 if file and allowed_file(file.filename):
-                    file.save(os.path.join("app/static/uploads", "profile.jpg"))
+                    file.save(uploads_path("profile.jpg"))
                     flash("Profile photo updated!")
             return redirect(url_for("admin_settings"))
-        profile_exists = os.path.exists("app/static/uploads/profile.jpg")
+        profile_exists = os.path.exists(uploads_path("profile.jpg"))
         return render_template("admin_settings.html", profile_exists=profile_exists, **admin_context())
 
     return app
