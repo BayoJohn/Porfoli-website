@@ -1,56 +1,98 @@
 {% extends "base.html" %}
 
-{% block title %}Projects — YourName{% endblock %}
+{% block title %}Projects — StackedByBayo{% endblock %}
 
 {% block content %}
 
+    <!-- Header -->
     <div class="mb-16 reveal">
+        <div class="inline-flex items-center gap-2 bg-gray-900 border border-indigo-500/30 text-indigo-400 text-sm font-medium px-4 py-1.5 rounded-full mb-6">
+            🚀 My Work
+        </div>
         <h1 class="text-5xl font-extrabold mb-4">
-            My <span class="gradient-text">Projects</span>
+            Things I've <span class="gradient-text">Built</span>
         </h1>
         <p class="text-gray-400 text-lg max-w-xl">
-            Things I've built, experiments I've run and problems I've solved.
+            Real projects I've built and deployed — pipelines, infrastructure, apps and everything in between.
         </p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    {% if projects %}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
         {% for project in projects %}
-        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6 card-hover flex flex-col reveal">
-            {% if project.image %}
-            <img src="/static/uploads/{{ project.image }}"
-                class="w-full h-40 object-cover rounded-xl mb-4">
-            {% else %}
-            <div class="w-10 h-10 bg-indigo-500/20 rounded-lg flex items-center justify-center mb-4">
-                <span class="text-xl">🚀</span>
-            </div>
-            {% endif %}
-            <h2 class="text-xl font-bold mb-2">{{ project.title }}</h2>
-            <p class="text-gray-400 text-sm leading-relaxed flex-1">{{ project.description }}</p>
-            {% if project.tech_stack %}
-            <div class="flex flex-wrap gap-2 mt-4">
-                {% for tech in project.tech_stack.split(',') %}
-                <span class="bg-gray-800 text-gray-400 text-xs px-3 py-1 rounded-full">
-                    {{ tech.strip() }}
-                </span>
-                {% endfor %}
-            </div>
-            {% endif %}
-            <div class="flex gap-4 mt-4">
-                <a href="/projects/{{ project.id }}"
-                    class="text-indigo-400 hover:text-indigo-300 text-sm font-medium transition">
-                    View details →
-                </a>
-                {% if project.url %}
-                <a href="{{ project.url }}" target="_blank"
-                    class="text-gray-500 hover:text-gray-300 text-sm font-medium transition">
-                    GitHub →
-                </a>
-                {% endif %}
-            </div>
-        </div>
-        {% else %}
-            <p class="text-gray-500">No projects yet.</p>
+        <a href="/projects/{{ project.id }}" class="block group reveal">
+            <article class="bg-gray-900 border border-gray-800 group-hover:border-indigo-500/50 rounded-2xl overflow-hidden transition duration-300 h-full flex flex-col">
+
+                <!-- Image or gradient cover -->
+                <div class="relative h-52 overflow-hidden">
+                    {% if project.image %}
+                    <img
+                        src="/static/uploads/{{ project.image }}"
+                        class="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                        alt="{{ project.title }}"
+                    >
+                    {% else %}
+                    <div class="w-full h-full bg-gradient-to-br from-indigo-900/60 via-gray-900 to-cyan-900/40 flex items-center justify-center">
+                        <div class="text-6xl">🚀</div>
+                    </div>
+                    {% endif %}
+                    <!-- Overlay -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/20 to-transparent"></div>
+                    <!-- Tech tags on image -->
+                    {% if project.tech_stack %}
+                    <div class="absolute bottom-3 left-4 flex flex-wrap gap-1.5">
+                        {% for tech in project.tech_stack.split(',')[:3] %}
+                        <span class="bg-black/60 backdrop-blur-sm text-gray-300 text-xs px-2.5 py-1 rounded-lg border border-gray-700/50">
+                            {{ tech.strip() }}
+                        </span>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Content -->
+                <div class="p-6 flex flex-col flex-1">
+                    <h3 class="font-bold text-xl mb-2 group-hover:text-indigo-400 transition">
+                        {{ project.title }}
+                    </h3>
+                    <p class="text-gray-400 text-sm leading-relaxed flex-1 mb-5">
+                        {{ project.description | striptags | truncate(130) }}
+                    </p>
+                    <div class="flex items-center justify-between pt-4 border-t border-gray-800">
+                        <div class="flex items-center gap-2">
+                            <div class="w-6 h-6 rounded-full gradient-bg flex items-center justify-center text-xs font-bold shrink-0">B</div>
+                            <span class="text-gray-600 text-xs">Bayo</span>
+                        </div>
+                        <span class="text-indigo-400 text-xs font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
+                            View project
+                            <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+
+            </article>
+        </a>
         {% endfor %}
+    </div>
+    {% else %}
+    <div class="text-center py-24 bg-gray-900 border border-dashed border-gray-800 rounded-2xl reveal">
+        <div class="text-6xl mb-4">🚀</div>
+        <h2 class="text-xl font-bold mb-2">No projects yet</h2>
+        <p class="text-gray-500 text-sm">Check back soon — something is coming.</p>
+    </div>
+    {% endif %}
+
+    <!-- CTA -->
+    <div class="bg-gradient-to-r from-indigo-600/20 to-cyan-600/20 border border-indigo-500/20 rounded-2xl p-8 text-center reveal">
+        <h2 class="text-2xl font-bold mb-2">Want to collaborate?</h2>
+        <p class="text-gray-400 text-sm mb-6 max-w-md mx-auto">
+            I'm always open to interesting projects and new challenges.
+        </p>
+        <a href="/contact" class="gradient-bg text-white font-semibold px-6 py-2.5 rounded-xl hover:opacity-90 transition text-sm">
+            Get in touch →
+        </a>
     </div>
 
 {% endblock %}

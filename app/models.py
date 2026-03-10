@@ -17,6 +17,7 @@ class Post(db.Model):
     title = db.Column(db.String(200), nullable=False)
     body = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    views = db.Column(db.Integer, default=0)
     comments = db.relationship('Comment', backref='post', lazy=True)
 
 class Message(db.Model):

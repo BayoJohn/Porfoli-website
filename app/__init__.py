@@ -90,6 +90,8 @@ def create_app():
             db.session.commit()
             flash("Comment posted!")
             return redirect(url_for("post", post_id=post_id))
+        post.views = (post.views or 0) + 1
+        db.session.commit()
         post_body = md.markdown(post.body, extensions=['fenced_code', 'codehilite', 'tables', 'nl2br'])
         return render_template("post.html", post=post, comments=comments, post_body=post_body)
 
@@ -169,6 +171,7 @@ def create_app():
         recent_posts = Post.query.order_by(Post.created_at.desc()).limit(5).all()
         recent_comments = Comment.query.order_by(Comment.created_at.desc()).limit(5).all()
         recent_messages = Message.query.order_by(Message.id.desc()).limit(5).all()
+        most_viewed = Post.query.order_by(Post.views.desc()).limit(5).all()
 
         return render_template("admin_dashboard.html",
             stats=stats,
@@ -180,6 +183,7 @@ def create_app():
             recent_posts=recent_posts,
             recent_comments=recent_comments,
             recent_messages=recent_messages,
+            most_viewed=most_viewed,
             **admin_context()
         )
 

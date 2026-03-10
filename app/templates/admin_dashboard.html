@@ -125,23 +125,48 @@
         </div>
     </div>
 
-    <!-- Charts + top pages -->
+    <!-- Charts + top pages + most viewed -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <div class="md:col-span-2 bg-gray-900 border border-gray-800 rounded-2xl p-6">
             <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">Visits — Last 7 Days</h2>
             <canvas id="visitsChart" height="120"></canvas>
         </div>
-        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6">
-            <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">Top Pages</h2>
-            <div class="space-y-3">
-                {% for page in top_pages %}
-                <div class="flex justify-between items-center">
-                    <p class="text-sm text-gray-400 truncate max-w-xs">{{ page.path }}</p>
-                    <span class="text-xs bg-indigo-500/20 text-indigo-400 px-2 py-0.5 rounded-full shrink-0 ml-2">{{ page.count }}</span>
+
+        <div class="flex flex-col gap-6">
+            <!-- Top pages -->
+            <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6">
+                <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">Top Pages</h2>
+                <div class="space-y-3">
+                    {% for page in top_pages %}
+                    <div class="flex justify-between items-center">
+                        <p class="text-sm text-gray-400 truncate max-w-xs">{{ page.path }}</p>
+                        <span class="text-xs bg-indigo-500/20 text-indigo-400 px-2 py-0.5 rounded-full shrink-0 ml-2">{{ page.count }}</span>
+                    </div>
+                    {% else %}
+                    <p class="text-gray-600 text-sm">No data yet.</p>
+                    {% endfor %}
                 </div>
-                {% else %}
-                <p class="text-gray-600 text-sm">No data yet.</p>
-                {% endfor %}
+            </div>
+
+            <!-- Most viewed posts -->
+            <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6">
+                <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">Most Viewed Posts</h2>
+                <div class="space-y-3">
+                    {% for post in most_viewed %}
+                    <div class="flex justify-between items-center">
+                        <p class="text-sm text-gray-400 truncate max-w-xs">{{ post.title }}</p>
+                        <span class="flex items-center gap-1 text-xs bg-indigo-500/20 text-indigo-400 px-2 py-0.5 rounded-full shrink-0 ml-2">
+                            <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                            </svg>
+                            {{ post.views or 0 }}
+                        </span>
+                    </div>
+                    {% else %}
+                    <p class="text-gray-600 text-sm">No posts yet.</p>
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </div>
