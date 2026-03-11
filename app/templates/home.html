@@ -11,9 +11,9 @@
     }
     .hero-glow {
         position: absolute;
-        width: 600px;
-        height: 600px;
-        background: radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%);
+        width: 700px;
+        height: 700px;
+        background: radial-gradient(circle, rgba(99,102,241,0.15) 0%, transparent 70%);
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
@@ -52,39 +52,171 @@
     .magazine-card:hover .magazine-img {
         transform: scale(1.05);
     }
-    .tag-devops { background: rgba(99,102,241,0.15); color: #818cf8; }
-    .tag-cloud  { background: rgba(6,182,212,0.15);  color: #22d3ee; }
-    .tag-linux  { background: rgba(234,179,8,0.15);  color: #fbbf24; }
-    .tag-docker { background: rgba(37,99,235,0.15);  color: #60a5fa; }
+
+    /* Terminal */
+    .terminal {
+        background: #0d1117;
+        border: 1px solid #30363d;
+        border-radius: 12px;
+        font-family: 'Fira Code', 'Courier New', monospace;
+        font-size: 13px;
+        overflow: hidden;
+    }
+    .terminal-header {
+        background: #161b22;
+        padding: 10px 16px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        border-bottom: 1px solid #30363d;
+    }
+    .terminal-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+    }
+    .terminal-body {
+        padding: 16px;
+        min-height: 180px;
+    }
+    .terminal-line {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        margin-bottom: 6px;
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+    .terminal-line.visible { opacity: 1; }
+    .terminal-prompt { color: #58a6ff; }
+    .terminal-cmd { color: #e6edf3; }
+    .terminal-output { color: #3fb950; padding-left: 20px; }
+    .terminal-cursor {
+        display: inline-block;
+        width: 8px;
+        height: 14px;
+        background: #58a6ff;
+        animation: blink 0.8s infinite;
+        vertical-align: middle;
+    }
+
+    /* Bento grid */
+    .bento-card {
+        background: #111827;
+        border: 1px solid #1f2937;
+        border-radius: 20px;
+        padding: 24px;
+        transition: border-color 0.3s;
+        overflow: hidden;
+    }
+    .bento-card:hover { border-color: rgba(99,102,241,0.4); }
+
+    /* Pipeline */
+    .pipeline-node {
+        background: #1f2937;
+        border: 1px solid #374151;
+        border-radius: 12px;
+        padding: 10px 16px;
+        font-size: 12px;
+        font-weight: 600;
+        white-space: nowrap;
+        position: relative;
+    }
+    .pipeline-node.active {
+        border-color: #6366f1;
+        background: rgba(99,102,241,0.1);
+        color: #a5b4fc;
+    }
+    .pipeline-arrow {
+        color: #374151;
+        font-size: 18px;
+        line-height: 1;
+    }
+    .pipeline-flow {
+        animation: pipeline-pulse 3s ease-in-out infinite;
+    }
+    @keyframes pipeline-pulse {
+        0%, 100% { opacity: 0.4; }
+        50% { opacity: 1; }
+    }
 </style>
 
     <!-- Hero -->
-    <div class="relative dot-grid rounded-3xl overflow-hidden mb-16 px-8 py-20 text-center">
+    <div class="relative dot-grid rounded-3xl overflow-hidden mb-16 px-8 py-20">
         <div class="hero-glow"></div>
-        <div class="relative z-10">
-            <div class="inline-flex items-center gap-2 bg-gray-900/80 border border-indigo-500/30 text-indigo-400 text-sm font-medium px-4 py-1.5 rounded-full mb-8 backdrop-blur-sm">
-                <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                6 months into my DevOps journey — and loving every bit
+        <div class="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-12 items-center max-w-5xl mx-auto">
+
+            <!-- Left: Text -->
+            <div>
+                <div class="inline-flex items-center gap-2 bg-gray-900/80 border border-indigo-500/30 text-indigo-400 text-sm font-medium px-4 py-1.5 rounded-full mb-6 backdrop-blur-sm">
+                    <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                    Available for opportunities
+                </div>
+                <h1 class="text-5xl md:text-6xl font-extrabold mb-4 leading-tight">
+                    Hi, I'm <span class="gradient-text">Bayo</span>
+                </h1>
+                <div class="text-xl text-gray-400 font-medium mb-6 h-9 flex items-center gap-2">
+                    <span id="typed-text"></span>
+                    <span class="cursor"></span>
+                </div>
+                <p class="text-gray-400 text-base mb-8 leading-relaxed">
+                    DevOps engineer in training — building real pipelines, breaking things,
+                    fixing them and documenting everything. Based in Lagos, Nigeria.
+                </p>
+                <div class="flex flex-wrap gap-3">
+                    <a href="/projects" class="gradient-bg text-white font-semibold px-6 py-3 rounded-xl hover:opacity-90 transition">
+                        See what I've built →
+                    </a>
+                    <a href="/blog" class="border border-gray-700 hover:border-indigo-500 hover:text-indigo-400 text-gray-300 font-semibold px-6 py-3 rounded-xl transition">
+                        Read my blog
+                    </a>
+                </div>
             </div>
-            <h1 class="text-5xl md:text-6xl font-extrabold mb-4 leading-tight">
-                Hi, I'm <span class="gradient-text">Bayo</span>
-            </h1>
-            <div class="text-xl md:text-2xl text-gray-400 font-medium mb-6 h-9 flex items-center justify-center gap-2">
-                <span id="typed-text"></span>
-                <span class="cursor"></span>
+
+            <!-- Right: Terminal -->
+            <div class="terminal">
+                <div class="terminal-header">
+                    <div class="terminal-dot" style="background:#ff5f57"></div>
+                    <div class="terminal-dot" style="background:#febc2e"></div>
+                    <div class="terminal-dot" style="background:#28c840"></div>
+                    <span class="text-gray-500 text-xs ml-2">bayo@homelab ~ </span>
+                </div>
+                <div class="terminal-body" id="terminal-body">
+                    <div class="terminal-line" id="tl-1">
+                        <span class="terminal-prompt">$</span>
+                        <span class="terminal-cmd">git push origin main</span>
+                    </div>
+                    <div class="terminal-line terminal-output" id="tl-2">
+                        <span>✓ Triggered Drone CI pipeline</span>
+                    </div>
+                    <div class="terminal-line" id="tl-3">
+                        <span class="terminal-prompt">$</span>
+                        <span class="terminal-cmd">docker build -t portfolio:latest .</span>
+                    </div>
+                    <div class="terminal-line terminal-output" id="tl-4">
+                        <span>✓ Image built successfully</span>
+                    </div>
+                    <div class="terminal-line" id="tl-5">
+                        <span class="terminal-prompt">$</span>
+                        <span class="terminal-cmd">docker push harbor/portfolio:latest</span>
+                    </div>
+                    <div class="terminal-line terminal-output" id="tl-6">
+                        <span>✓ Pushed to Harbor registry</span>
+                    </div>
+                    <div class="terminal-line" id="tl-7">
+                        <span class="terminal-prompt">$</span>
+                        <span class="terminal-cmd">ssh ubuntu@oracle — deploy</span>
+                    </div>
+                    <div class="terminal-line terminal-output" id="tl-8">
+                        <span style="color:#58a6ff">🚀 Deployed to production!</span>
+                    </div>
+                    <div class="terminal-line" id="tl-9">
+                        <span class="terminal-prompt">$</span>
+                        <span class="terminal-cursor"></span>
+                    </div>
+                </div>
             </div>
-            <p class="text-gray-400 text-base max-w-xl mx-auto mb-10 leading-relaxed">
-                I'm a DevOps engineer in training — building real pipelines, breaking things,
-                fixing them and documenting everything. This is where I share my journey.
-            </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="/projects" class="gradient-bg text-white font-semibold px-7 py-3 rounded-xl hover:opacity-90 transition">
-                    See what I've built →
-                </a>
-                <a href="/blog" class="border border-gray-700 hover:border-indigo-500 hover:text-indigo-400 text-gray-300 font-semibold px-7 py-3 rounded-xl transition">
-                    Read my blog
-                </a>
-            </div>
+
         </div>
     </div>
 
@@ -105,6 +237,108 @@
         <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5 text-center reveal">
             <p class="text-3xl font-extrabold gradient-text mb-1">∞</p>
             <p class="text-gray-500 text-xs">Things Still to Learn</p>
+        </div>
+    </div>
+
+    <!-- Bento Grid -->
+    <div class="mb-20 reveal">
+        <div class="mb-8">
+            <p class="text-indigo-400 text-xs font-semibold uppercase tracking-wider mb-1">About Me</p>
+            <h2 class="text-3xl font-extrabold">Who I Am</h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+            <!-- Big card - Bio -->
+            <div class="bento-card md:col-span-2">
+                <div class="text-3xl mb-4">👨‍💻</div>
+                <h3 class="font-bold text-lg mb-2">DevOps Engineer in Training</h3>
+                <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                    6 months ago I decided to stop watching tutorials and start building real things.
+                    Since then I've deployed a full CI/CD pipeline, set up a private Docker registry,
+                    configured WireGuard VPN tunnels and built this site from scratch.
+                </p>
+                <p class="text-gray-400 text-sm leading-relaxed">
+                    I learn by breaking things in production and writing about it. Every bug is a blog post.
+                    Every failure is a lesson. Based in Lagos, Nigeria 🇳🇬
+                </p>
+            </div>
+
+            <!-- Small card - Location -->
+            <div class="bento-card flex flex-col justify-between">
+                <div>
+                    <div class="text-3xl mb-3">📍</div>
+                    <h3 class="font-bold mb-1">Lagos, Nigeria</h3>
+                    <p class="text-gray-500 text-sm">West Africa timezone (WAT)</p>
+                </div>
+                <div class="mt-6 bg-gray-800 rounded-xl p-3">
+                    <div class="flex items-center gap-2 mb-2">
+                        <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                        <span class="text-green-400 text-xs font-medium">Available for work</span>
+                    </div>
+                    <p class="text-gray-500 text-xs">Open to remote opportunities worldwide</p>
+                </div>
+            </div>
+
+            <!-- Small card - Currently learning -->
+            <div class="bento-card">
+                <div class="text-2xl mb-3">🎯</div>
+                <h3 class="font-bold text-sm mb-3">Currently Learning</h3>
+                <div class="space-y-2">
+                    <div class="flex items-center gap-2">
+                        <div class="w-1.5 h-1.5 bg-indigo-400 rounded-full"></div>
+                        <span class="text-gray-400 text-xs">Kubernetes & Helm</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-1.5 h-1.5 bg-cyan-400 rounded-full"></div>
+                        <span class="text-gray-400 text-xs">Terraform on AWS</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-1.5 h-1.5 bg-green-400 rounded-full"></div>
+                        <span class="text-gray-400 text-xs">ArgoCD & GitOps</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-1.5 h-1.5 bg-yellow-400 rounded-full"></div>
+                        <span class="text-gray-400 text-xs">Prometheus & Grafana</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Small card - Pipeline -->
+            <div class="bento-card md:col-span-2">
+                <div class="text-2xl mb-3">⚙️</div>
+                <h3 class="font-bold text-sm mb-4">My CI/CD Pipeline</h3>
+                <div class="flex items-center gap-2 flex-wrap">
+                    <div class="pipeline-node active pipeline-flow">
+                        <div class="flex items-center gap-1.5">
+                            <img src="https://cdn.simpleicons.org/gitea/609926" class="w-3.5 h-3.5">
+                            Gitea
+                        </div>
+                    </div>
+                    <span class="pipeline-arrow">→</span>
+                    <div class="pipeline-node active pipeline-flow" style="animation-delay:0.5s">
+                        <div class="flex items-center gap-1.5">
+                            <img src="https://cdn.simpleicons.org/drone/212121" class="w-3.5 h-3.5" style="filter:invert(1)">
+                            Drone CI
+                        </div>
+                    </div>
+                    <span class="pipeline-arrow">→</span>
+                    <div class="pipeline-node active pipeline-flow" style="animation-delay:1s">
+                        <div class="flex items-center gap-1.5">
+                            <img src="https://cdn.simpleicons.org/docker/2496ED" class="w-3.5 h-3.5">
+                            Harbor
+                        </div>
+                    </div>
+                    <span class="pipeline-arrow">→</span>
+                    <div class="pipeline-node active pipeline-flow" style="animation-delay:1.5s">
+                        <div class="flex items-center gap-1.5">
+                            <img src="https://cdn.simpleicons.org/oracle/F80000" class="w-3.5 h-3.5">
+                            Oracle Cloud
+                        </div>
+                    </div>
+                </div>
+                <p class="text-gray-600 text-xs mt-4">This site is deployed via this exact pipeline on every git push 🚀</p>
+            </div>
+
         </div>
     </div>
 
@@ -145,7 +379,7 @@
         </div>
     </div>
 
-    <!-- ── PROJECTS ─────────────────────────────────────────────────── -->
+    <!-- Projects -->
     <div class="mb-20">
         <div class="flex justify-between items-end mb-8 reveal">
             <div>
@@ -165,25 +399,17 @@
             {% for project in projects %}
             <a href="/projects/{{ project.id }}" class="magazine-card block group reveal">
                 <article class="bg-gray-900 border border-gray-800 group-hover:border-indigo-500/50 rounded-2xl overflow-hidden transition duration-300 h-full flex flex-col">
-
-                    <!-- Image or gradient cover -->
                     <div class="relative h-48 overflow-hidden">
                         {% if project.image %}
-                        <img
-                            src="/static/uploads/{{ project.image }}"
+                        <img src="/static/uploads/{{ project.image }}"
                             class="magazine-img w-full h-full object-cover"
-                            alt="{{ project.title }}"
-                        >
+                            alt="{{ project.title }}">
                         {% else %}
                         <div class="w-full h-full bg-gradient-to-br from-indigo-900/60 via-gray-900 to-cyan-900/40 flex items-center justify-center">
-                            <div class="text-center">
-                                <div class="text-5xl mb-2">🚀</div>
-                            </div>
+                            <div class="text-5xl">🚀</div>
                         </div>
                         {% endif %}
-                        <!-- Overlay gradient -->
                         <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/20 to-transparent"></div>
-                        <!-- Tech tags on image -->
                         {% if project.tech_stack %}
                         <div class="absolute bottom-3 left-4 flex flex-wrap gap-1.5">
                             {% for tech in project.tech_stack.split(',')[:3] %}
@@ -194,8 +420,6 @@
                         </div>
                         {% endif %}
                     </div>
-
-                    <!-- Content -->
                     <div class="p-5 flex flex-col flex-1">
                         <h3 class="font-bold text-lg mb-2 group-hover:text-indigo-400 transition leading-snug">
                             {{ project.title }}
@@ -216,7 +440,6 @@
                             </span>
                         </div>
                     </div>
-
                 </article>
             </a>
             {% endfor %}
@@ -228,7 +451,7 @@
         {% endif %}
     </div>
 
-    <!-- ── BLOG ────────────────────────────────────────────────────── -->
+    <!-- Blog -->
     <div class="mb-20">
         <div class="flex justify-between items-end mb-8 reveal">
             <div>
@@ -245,13 +468,9 @@
 
         {% if posts %}
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-            <!-- First post — big featured card -->
             {% set featured = posts[0] %}
             <a href="/blog/{{ featured.id }}" class="magazine-card md:col-span-2 block group reveal">
                 <article class="bg-gray-900 border border-gray-800 group-hover:border-indigo-500/50 rounded-2xl overflow-hidden transition duration-300 h-full flex flex-col">
-
-                    <!-- Cover -->
                     <div class="relative h-56 overflow-hidden bg-gradient-to-br from-indigo-900/60 via-gray-900 to-cyan-900/40 flex items-center justify-center">
                         <div class="absolute inset-0 dot-grid opacity-30"></div>
                         <div class="relative z-10 text-center px-8">
@@ -260,12 +479,12 @@
                         </div>
                         <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent"></div>
                     </div>
-
-                    <!-- Content -->
                     <div class="p-6 flex flex-col flex-1">
                         <div class="flex items-center gap-2 mb-3">
                             <span class="bg-indigo-500/20 text-indigo-400 text-xs font-semibold px-2.5 py-1 rounded-full">Featured</span>
                             <span class="text-gray-600 text-xs">{{ featured.created_at.strftime('%B %d, %Y') }}</span>
+                            <span class="text-gray-700">·</span>
+                            <span class="text-gray-600 text-xs">{{ (featured.body | striptags | wordcount / 200) | int + 1 }} min read</span>
                         </div>
                         <h3 class="font-bold text-xl mb-2 group-hover:text-indigo-400 transition leading-snug">
                             {{ featured.title }}
@@ -286,25 +505,23 @@
                             </span>
                         </div>
                     </div>
-
                 </article>
             </a>
 
-            <!-- Remaining posts stacked -->
             <div class="flex flex-col gap-6">
                 {% for post in posts[1:3] %}
                 <a href="/blog/{{ post.id }}" class="magazine-card block group reveal flex-1">
                     <article class="bg-gray-900 border border-gray-800 group-hover:border-indigo-500/50 rounded-2xl overflow-hidden transition duration-300 h-full flex flex-col">
-
-                        <!-- Mini cover -->
                         <div class="relative h-24 overflow-hidden bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center px-4">
-                            <p class="text-gray-400 text-xs font-medium text-center leading-snug line-clamp-2">{{ post.title }}</p>
+                            <p class="text-gray-400 text-xs font-medium text-center leading-snug line-clamp-2 relative z-10">{{ post.title }}</p>
                             <div class="absolute inset-0 bg-gradient-to-t from-gray-900/80 to-transparent"></div>
                         </div>
-
-                        <!-- Content -->
                         <div class="p-4 flex flex-col flex-1">
-                            <span class="text-gray-600 text-xs mb-2">{{ post.created_at.strftime('%b %d, %Y') }}</span>
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="text-gray-600 text-xs">{{ post.created_at.strftime('%b %d, %Y') }}</span>
+                                <span class="text-gray-700">·</span>
+                                <span class="text-gray-600 text-xs">{{ (post.body | striptags | wordcount / 200) | int + 1 }} min read</span>
+                            </div>
                             <h3 class="font-semibold text-sm mb-2 group-hover:text-indigo-400 transition leading-snug flex-1">
                                 {{ post.title }}
                             </h3>
@@ -315,13 +532,10 @@
                                 </svg>
                             </span>
                         </div>
-
                     </article>
                 </a>
                 {% endfor %}
-
                 {% if posts|length == 1 %}
-                <!-- Placeholder if only 1 post -->
                 <div class="flex-1 bg-gray-900/50 border border-dashed border-gray-800 rounded-2xl flex items-center justify-center p-6 text-center">
                     <div>
                         <p class="text-3xl mb-2">✍️</p>
@@ -330,7 +544,6 @@
                 </div>
                 {% endif %}
             </div>
-
         </div>
         {% else %}
         <div class="text-center py-16 text-gray-600 text-sm bg-gray-900 border border-gray-800 rounded-2xl reveal">
@@ -364,6 +577,7 @@
     </div>
 
 <script>
+    // Typing animation
     const titles = [
         "Learning DevOps",
         "Building Pipelines",
@@ -374,7 +588,6 @@
     ];
     let titleIndex = 0, charIndex = 0, isDeleting = false;
     const typedEl = document.getElementById('typed-text');
-
     function type() {
         const current = titles[titleIndex];
         typedEl.textContent = isDeleting
@@ -391,6 +604,19 @@
     }
     type();
 
+    // Terminal animation
+    const lines = [
+        'tl-1', 'tl-2', 'tl-3', 'tl-4',
+        'tl-5', 'tl-6', 'tl-7', 'tl-8', 'tl-9'
+    ];
+    lines.forEach((id, i) => {
+        setTimeout(() => {
+            const el = document.getElementById(id);
+            if (el) el.classList.add('visible');
+        }, i * 600);
+    });
+
+    // Stats count up
     function countUp(el) {
         const target = parseInt(el.getAttribute('data-target'));
         if (!target) return;
@@ -406,7 +632,6 @@
             }
         }, 16);
     }
-
     const statObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -415,7 +640,6 @@
             }
         });
     }, { threshold: 0.5 });
-
     document.querySelectorAll('.stat-number').forEach(el => statObserver.observe(el));
 </script>
 
