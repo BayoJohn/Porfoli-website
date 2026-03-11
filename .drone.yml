@@ -15,8 +15,8 @@ steps:
   - name: build-and-push
     image: plugins/docker
     settings:
-      registry: 172.16.18.128
-      repo: 172.16.18.128/library/portfolio
+      registry: 10.0.0.2
+      repo: 10.0.0.2/library/portfolio
       tags:
         - latest
         - build-${DRONE_BUILD_NUMBER}
@@ -36,9 +36,9 @@ steps:
       port: 22
       script:
         - echo "Logging into Harbor..."
-        - docker login -u admin -p Harbor12345 172.16.18.128
+        - docker login -u admin -p Harbor12345 10.0.0.2
         - echo "Pulling Portfolio Image..."
-        - docker pull 172.16.18.128/library/portfolio:latest
+        - docker pull 10.0.0.2/library/portfolio:latest
         - echo "Cleaning up old container..."
         - docker stop portfolio || true
         - docker rm portfolio || true
@@ -46,7 +46,7 @@ steps:
         - docker volume create portfolio_data || true
         - docker volume create portfolio_uploads || true
         - echo "Starting new Portfolio container..."
-        - docker run -d --name portfolio -p 80:5000 --restart unless-stopped -v portfolio_data:/app/instance -v portfolio_uploads:/app/app/static/uploads 172.16.18.128/library/portfolio:latest
+        - docker run -d --name portfolio -p 80:5000 --restart unless-stopped -v portfolio_data:/app/instance -v portfolio_uploads:/app/app/static/uploads 10.0.0.2/library/portfolio:latest
         - echo "Verifying deployment..."
         - sleep 5
         - docker logs portfolio --tail 20
