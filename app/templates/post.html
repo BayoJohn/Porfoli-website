@@ -5,6 +5,11 @@
 {% block content %}
 
 <style>
+    /* Force prose content visible regardless of reveal animation */
+    .prose-content {
+        opacity: 1 !important;
+        transform: none !important;
+    }
     .prose-content h1, .prose-content h2, .prose-content h3 {
         font-weight: 700;
         color: white;
@@ -84,6 +89,13 @@
         border-color: #1f2937;
         margin: 2rem 0;
     }
+    .prose-content strong {
+        color: white;
+        font-weight: 600;
+    }
+    .prose-content em {
+        color: #d1d5db;
+    }
 </style>
 
 <div class="max-w-3xl mx-auto">
@@ -125,7 +137,7 @@
     <div class="border-t border-gray-800 mb-10"></div>
 
     <!-- Content -->
-    <div class="prose-content mb-16 reveal">
+    <div class="prose-content mb-16">
         {{ post_body | safe }}
     </div>
 
