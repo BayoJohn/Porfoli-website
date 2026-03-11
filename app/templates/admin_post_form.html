@@ -62,7 +62,7 @@
     </div>
 
     <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6">
-        <form method="POST">
+        <form method="POST" id="post-form">
 
             <div class="mb-6">
                 <label class="block text-sm font-medium text-gray-400 mb-2">Post Title</label>
@@ -134,6 +134,11 @@
         renderingConfig: {
             codeSyntaxHighlighting: true,
         },
+    });
+
+    // Force sync EasyMDE content to textarea before submit
+    document.getElementById('post-form').addEventListener('submit', function() {
+        easyMDE.codemirror.save();
     });
 </script>
 
