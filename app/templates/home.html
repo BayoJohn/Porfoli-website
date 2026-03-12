@@ -52,8 +52,6 @@
     .magazine-card:hover .magazine-img {
         transform: scale(1.05);
     }
-
-    /* Terminal */
     .terminal {
         background: #0d1117;
         border: 1px solid #30363d;
@@ -70,15 +68,8 @@
         gap: 8px;
         border-bottom: 1px solid #30363d;
     }
-    .terminal-dot {
-        width: 12px;
-        height: 12px;
-        border-radius: 50%;
-    }
-    .terminal-body {
-        padding: 16px;
-        min-height: 180px;
-    }
+    .terminal-dot { width: 12px; height: 12px; border-radius: 50%; }
+    .terminal-body { padding: 16px; min-height: 220px; }
     .terminal-line {
         display: flex;
         align-items: flex-start;
@@ -91,6 +82,7 @@
     .terminal-prompt { color: #58a6ff; }
     .terminal-cmd { color: #e6edf3; }
     .terminal-output { color: #3fb950; padding-left: 20px; }
+    .terminal-warn { color: #f0a500; padding-left: 20px; }
     .terminal-cursor {
         display: inline-block;
         width: 8px;
@@ -99,8 +91,6 @@
         animation: blink 0.8s infinite;
         vertical-align: middle;
     }
-
-    /* Bento grid */
     .bento-card {
         background: #111827;
         border: 1px solid #1f2937;
@@ -110,34 +100,35 @@
         overflow: hidden;
     }
     .bento-card:hover { border-color: rgba(99,102,241,0.4); }
-
-    /* Pipeline */
     .pipeline-node {
         background: #1f2937;
         border: 1px solid #374151;
         border-radius: 12px;
-        padding: 10px 16px;
-        font-size: 12px;
+        padding: 8px 12px;
+        font-size: 11px;
         font-weight: 600;
         white-space: nowrap;
-        position: relative;
     }
     .pipeline-node.active {
         border-color: #6366f1;
         background: rgba(99,102,241,0.1);
         color: #a5b4fc;
     }
-    .pipeline-arrow {
-        color: #374151;
-        font-size: 18px;
-        line-height: 1;
+    .pipeline-node.security {
+        border-color: #10b981;
+        background: rgba(16,185,129,0.1);
+        color: #6ee7b7;
     }
-    .pipeline-flow {
-        animation: pipeline-pulse 3s ease-in-out infinite;
-    }
+    .pipeline-arrow { color: #374151; font-size: 16px; line-height: 1; }
+    .pipeline-flow { animation: pipeline-pulse 3s ease-in-out infinite; }
+    .pipeline-security-flow { animation: security-pulse 3s ease-in-out infinite; }
     @keyframes pipeline-pulse {
         0%, 100% { opacity: 0.4; }
         50% { opacity: 1; }
+    }
+    @keyframes security-pulse {
+        0%, 100% { opacity: 0.5; box-shadow: none; }
+        50% { opacity: 1; box-shadow: 0 0 12px rgba(16,185,129,0.3); }
     }
 </style>
 
@@ -145,8 +136,6 @@
     <div class="relative dot-grid rounded-3xl overflow-hidden mb-16 px-8 py-20">
         <div class="hero-glow"></div>
         <div class="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-12 items-center max-w-5xl mx-auto">
-
-            <!-- Left: Text -->
             <div>
                 <div class="inline-flex items-center gap-2 bg-gray-900/80 border border-indigo-500/30 text-indigo-400 text-sm font-medium px-4 py-1.5 rounded-full mb-6 backdrop-blur-sm">
                     <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
@@ -173,7 +162,7 @@
                 </div>
             </div>
 
-            <!-- Right: Terminal -->
+            <!-- Terminal -->
             <div class="terminal">
                 <div class="terminal-header">
                     <div class="terminal-dot" style="background:#ff5f57"></div>
@@ -182,41 +171,19 @@
                     <span class="text-gray-500 text-xs ml-2">bayo@homelab ~ </span>
                 </div>
                 <div class="terminal-body" id="terminal-body">
-                    <div class="terminal-line" id="tl-1">
-                        <span class="terminal-prompt">$</span>
-                        <span class="terminal-cmd">git push origin main</span>
-                    </div>
-                    <div class="terminal-line terminal-output" id="tl-2">
-                        <span>✓ Triggered Drone CI pipeline</span>
-                    </div>
-                    <div class="terminal-line" id="tl-3">
-                        <span class="terminal-prompt">$</span>
-                        <span class="terminal-cmd">docker build -t portfolio:latest .</span>
-                    </div>
-                    <div class="terminal-line terminal-output" id="tl-4">
-                        <span>✓ Image built successfully</span>
-                    </div>
-                    <div class="terminal-line" id="tl-5">
-                        <span class="terminal-prompt">$</span>
-                        <span class="terminal-cmd">docker push harbor/portfolio:latest</span>
-                    </div>
-                    <div class="terminal-line terminal-output" id="tl-6">
-                        <span>✓ Pushed to Harbor registry</span>
-                    </div>
-                    <div class="terminal-line" id="tl-7">
-                        <span class="terminal-prompt">$</span>
-                        <span class="terminal-cmd">ssh ubuntu@oracle — deploy</span>
-                    </div>
-                    <div class="terminal-line terminal-output" id="tl-8">
-                        <span style="color:#58a6ff">🚀 Deployed to production!</span>
-                    </div>
-                    <div class="terminal-line" id="tl-9">
-                        <span class="terminal-prompt">$</span>
-                        <span class="terminal-cursor"></span>
-                    </div>
+                    <div class="terminal-line" id="tl-1"><span class="terminal-prompt">$</span><span class="terminal-cmd">git push origin main</span></div>
+                    <div class="terminal-line terminal-output" id="tl-2"><span>✓ Triggered Drone CI pipeline</span></div>
+                    <div class="terminal-line" id="tl-3"><span class="terminal-prompt">$</span><span class="terminal-cmd">docker build -t portfolio:latest .</span></div>
+                    <div class="terminal-line terminal-output" id="tl-4"><span>✓ Image built successfully</span></div>
+                    <div class="terminal-line" id="tl-5"><span class="terminal-prompt">$</span><span class="terminal-cmd">docker push harbor/portfolio:latest</span></div>
+                    <div class="terminal-line terminal-output" id="tl-6"><span>✓ Pushed to Harbor registry</span></div>
+                    <div class="terminal-line" id="tl-7"><span class="terminal-prompt">$</span><span class="terminal-cmd">trivy image harbor/portfolio:latest</span></div>
+                    <div class="terminal-line terminal-warn" id="tl-8"><span>🛡 0 Critical · 2 Low — scan passed</span></div>
+                    <div class="terminal-line" id="tl-9"><span class="terminal-prompt">$</span><span class="terminal-cmd">ssh ubuntu@oracle -- deploy</span></div>
+                    <div class="terminal-line terminal-output" id="tl-10"><span style="color:#58a6ff">🚀 Deployed to production!</span></div>
+                    <div class="terminal-line" id="tl-11"><span class="terminal-prompt">$</span><span class="terminal-cursor"></span></div>
                 </div>
             </div>
-
         </div>
     </div>
 
@@ -227,12 +194,12 @@
             <p class="text-gray-500 text-xs">Months Learning</p>
         </div>
         <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5 text-center reveal">
-            <p class="text-3xl font-extrabold gradient-text mb-1 stat-number" data-target="3">0</p>
+            <p class="text-3xl font-extrabold gradient-text mb-1 stat-number" data-target="5">0</p>
             <p class="text-gray-500 text-xs">Projects Deployed</p>
         </div>
         <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5 text-center reveal">
-            <p class="text-3xl font-extrabold gradient-text mb-1 stat-number" data-target="10">0</p>
-            <p class="text-gray-500 text-xs">Tools Learned</p>
+            <p class="text-3xl font-extrabold gradient-text mb-1 stat-number" data-target="15">0</p>
+            <p class="text-gray-500 text-xs">Tools in Stack</p>
         </div>
         <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5 text-center reveal">
             <p class="text-3xl font-extrabold gradient-text mb-1">∞</p>
@@ -247,8 +214,6 @@
             <h2 class="text-3xl font-extrabold">Who I Am</h2>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-
-            <!-- Big card - Bio -->
             <div class="bento-card md:col-span-2">
                 <div class="text-3xl mb-4">👨‍💻</div>
                 <h3 class="font-bold text-lg mb-2">DevOps Engineer in Training</h3>
@@ -263,7 +228,6 @@
                 </p>
             </div>
 
-            <!-- Small card - Location -->
             <div class="bento-card flex flex-col justify-between">
                 <div>
                     <div class="text-3xl mb-3">📍</div>
@@ -279,7 +243,6 @@
                 </div>
             </div>
 
-            <!-- Small card - Currently learning -->
             <div class="bento-card">
                 <div class="text-2xl mb-3">🎯</div>
                 <h3 class="font-bold text-sm mb-3">Currently Learning</h3>
@@ -300,14 +263,18 @@
                         <div class="w-1.5 h-1.5 bg-yellow-400 rounded-full"></div>
                         <span class="text-gray-400 text-xs">Prometheus & Grafana</span>
                     </div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-1.5 h-1.5 bg-emerald-400 rounded-full"></div>
+                        <span class="text-gray-400 text-xs">Container Security (Trivy)</span>
+                    </div>
                 </div>
             </div>
 
-            <!-- Small card - Pipeline -->
+            <!-- Pipeline card with Trivy -->
             <div class="bento-card md:col-span-2">
                 <div class="text-2xl mb-3">⚙️</div>
                 <h3 class="font-bold text-sm mb-4">My CI/CD Pipeline</h3>
-                <div class="flex items-center gap-2 flex-wrap">
+                <div class="flex items-center gap-1.5 flex-wrap">
                     <div class="pipeline-node active pipeline-flow">
                         <div class="flex items-center gap-1.5">
                             <img src="https://cdn.simpleicons.org/gitea/609926" class="w-3.5 h-3.5">
@@ -329,16 +296,21 @@
                         </div>
                     </div>
                     <span class="pipeline-arrow">→</span>
-                    <div class="pipeline-node active pipeline-flow" style="animation-delay:1.5s">
+                    <div class="pipeline-node security pipeline-security-flow" style="animation-delay:1.5s">
+                        <div class="flex items-center gap-1.5">
+                            🛡️ Trivy Scan
+                        </div>
+                    </div>
+                    <span class="pipeline-arrow">→</span>
+                    <div class="pipeline-node active pipeline-flow" style="animation-delay:2s">
                         <div class="flex items-center gap-1.5">
                             <img src="https://cdn.simpleicons.org/oracle/F80000" class="w-3.5 h-3.5">
                             Oracle Cloud
                         </div>
                     </div>
                 </div>
-                <p class="text-gray-600 text-xs mt-4">This site is deployed via this exact pipeline on every git push 🚀</p>
+                <p class="text-gray-600 text-xs mt-4">Every image is security scanned before deployment 🛡️</p>
             </div>
-
         </div>
     </div>
 
@@ -361,17 +333,26 @@
                     ('linux', 'FCC624', 'Linux'),
                     ('python', '3776AB', 'Python'),
                     ('nginx', '009639', 'Nginx'),
-                    ('gitea', '609926', 'Gitea')
+                    ('gitea', '609926', 'Gitea'),
+                    ('aquasecurity', '1904DA', 'Trivy')
                 ] %}
                 {% for slug, color, name in tools %}
                 <div class="flex items-center gap-2 bg-gray-900 border border-gray-800 rounded-xl px-4 py-2.5 shrink-0">
+                    {% if slug == 'aquasecurity' %}
+                    <span class="text-sm">🛡️</span>
+                    {% else %}
                     <img src="https://cdn.simpleicons.org/{{ slug }}/{{ color }}" class="w-4 h-4">
+                    {% endif %}
                     <span class="text-gray-400 text-sm font-medium">{{ name }}</span>
                 </div>
                 {% endfor %}
                 {% for slug, color, name in tools %}
                 <div class="flex items-center gap-2 bg-gray-900 border border-gray-800 rounded-xl px-4 py-2.5 shrink-0">
+                    {% if slug == 'aquasecurity' %}
+                    <span class="text-sm">🛡️</span>
+                    {% else %}
                     <img src="https://cdn.simpleicons.org/{{ slug }}/{{ color }}" class="w-4 h-4">
+                    {% endif %}
                     <span class="text-gray-400 text-sm font-medium">{{ name }}</span>
                 </div>
                 {% endfor %}
@@ -393,7 +374,6 @@
                 </svg>
             </a>
         </div>
-
         {% if projects %}
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             {% for project in projects %}
@@ -401,9 +381,7 @@
                 <article class="bg-gray-900 border border-gray-800 group-hover:border-indigo-500/50 rounded-2xl overflow-hidden transition duration-300 h-full flex flex-col">
                     <div class="relative h-48 overflow-hidden">
                         {% if project.image %}
-                        <img src="/static/uploads/{{ project.image }}"
-                            class="magazine-img w-full h-full object-cover"
-                            alt="{{ project.title }}">
+                        <img src="/static/uploads/{{ project.image }}" class="magazine-img w-full h-full object-cover" alt="{{ project.title }}">
                         {% else %}
                         <div class="w-full h-full bg-gradient-to-br from-indigo-900/60 via-gray-900 to-cyan-900/40 flex items-center justify-center">
                             <div class="text-5xl">🚀</div>
@@ -413,20 +391,14 @@
                         {% if project.tech_stack %}
                         <div class="absolute bottom-3 left-4 flex flex-wrap gap-1.5">
                             {% for tech in project.tech_stack.split(',')[:3] %}
-                            <span class="bg-black/60 backdrop-blur-sm text-gray-300 text-xs px-2.5 py-1 rounded-lg border border-gray-700/50">
-                                {{ tech.strip() }}
-                            </span>
+                            <span class="bg-black/60 backdrop-blur-sm text-gray-300 text-xs px-2.5 py-1 rounded-lg border border-gray-700/50">{{ tech.strip() }}</span>
                             {% endfor %}
                         </div>
                         {% endif %}
                     </div>
                     <div class="p-5 flex flex-col flex-1">
-                        <h3 class="font-bold text-lg mb-2 group-hover:text-indigo-400 transition leading-snug">
-                            {{ project.title }}
-                        </h3>
-                        <p class="text-gray-400 text-sm leading-relaxed flex-1 mb-4">
-                            {{ project.description | striptags | truncate(110) }}
-                        </p>
+                        <h3 class="font-bold text-lg mb-2 group-hover:text-indigo-400 transition leading-snug">{{ project.title }}</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed flex-1 mb-4">{{ project.description | striptags | truncate(110) }}</p>
                         <div class="flex items-center justify-between pt-3 border-t border-gray-800">
                             <div class="flex items-center gap-2">
                                 <div class="w-6 h-6 rounded-full gradient-bg flex items-center justify-center text-xs font-bold shrink-0">B</div>
@@ -434,9 +406,7 @@
                             </div>
                             <span class="text-indigo-400 text-xs font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
                                 View project
-                                <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                                </svg>
+                                <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                             </span>
                         </div>
                     </div>
@@ -445,9 +415,7 @@
             {% endfor %}
         </div>
         {% else %}
-        <div class="text-center py-16 text-gray-600 text-sm bg-gray-900 border border-gray-800 rounded-2xl reveal">
-            No projects yet — check back soon!
-        </div>
+        <div class="text-center py-16 text-gray-600 text-sm bg-gray-900 border border-gray-800 rounded-2xl reveal">No projects yet — check back soon!</div>
         {% endif %}
     </div>
 
@@ -460,12 +428,9 @@
             </div>
             <a href="/blog" class="text-gray-500 hover:text-indigo-400 text-sm transition flex items-center gap-1">
                 All posts
-                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                </svg>
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
             </a>
         </div>
-
         {% if posts %}
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             {% set featured = posts[0] %}
@@ -486,12 +451,8 @@
                             <span class="text-gray-700">·</span>
                             <span class="text-gray-600 text-xs">{{ (featured.body | striptags | wordcount / 200) | int + 1 }} min read</span>
                         </div>
-                        <h3 class="font-bold text-xl mb-2 group-hover:text-indigo-400 transition leading-snug">
-                            {{ featured.title }}
-                        </h3>
-                        <p class="text-gray-400 text-sm leading-relaxed flex-1 mb-4">
-                            {{ featured.body | striptags | truncate(160) }}
-                        </p>
+                        <h3 class="font-bold text-xl mb-2 group-hover:text-indigo-400 transition leading-snug">{{ featured.title }}</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed flex-1 mb-4">{{ featured.body | striptags | truncate(160) }}</p>
                         <div class="flex items-center justify-between pt-3 border-t border-gray-800">
                             <div class="flex items-center gap-2">
                                 <div class="w-6 h-6 rounded-full gradient-bg flex items-center justify-center text-xs font-bold">B</div>
@@ -499,15 +460,12 @@
                             </div>
                             <span class="text-indigo-400 text-xs font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
                                 Read post
-                                <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                                </svg>
+                                <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                             </span>
                         </div>
                     </div>
                 </article>
             </a>
-
             <div class="flex flex-col gap-6">
                 {% for post in posts[1:3] %}
                 <a href="/blog/{{ post.id }}" class="magazine-card block group reveal flex-1">
@@ -522,14 +480,10 @@
                                 <span class="text-gray-700">·</span>
                                 <span class="text-gray-600 text-xs">{{ (post.body | striptags | wordcount / 200) | int + 1 }} min read</span>
                             </div>
-                            <h3 class="font-semibold text-sm mb-2 group-hover:text-indigo-400 transition leading-snug flex-1">
-                                {{ post.title }}
-                            </h3>
+                            <h3 class="font-semibold text-sm mb-2 group-hover:text-indigo-400 transition leading-snug flex-1">{{ post.title }}</h3>
                             <span class="text-indigo-400 text-xs font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
                                 Read
-                                <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                                </svg>
+                                <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                             </span>
                         </div>
                     </article>
@@ -546,9 +500,7 @@
             </div>
         </div>
         {% else %}
-        <div class="text-center py-16 text-gray-600 text-sm bg-gray-900 border border-gray-800 rounded-2xl reveal">
-            No posts yet — check back soon!
-        </div>
+        <div class="text-center py-16 text-gray-600 text-sm bg-gray-900 border border-gray-800 rounded-2xl reveal">No posts yet — check back soon!</div>
         {% endif %}
     </div>
 
@@ -557,66 +509,37 @@
         <div class="absolute inset-0 bg-gradient-to-r from-indigo-600/15 to-cyan-600/15"></div>
         <div class="relative z-10">
             <p class="text-indigo-400 text-sm font-semibold uppercase tracking-wider mb-3">The Journey</p>
-            <h2 class="text-3xl md:text-4xl font-extrabold mb-4">
-                Learning in <span class="gradient-text">public</span>
-            </h2>
+            <h2 class="text-3xl md:text-4xl font-extrabold mb-4">Learning in <span class="gradient-text">public</span></h2>
             <p class="text-gray-400 max-w-lg mx-auto mb-8 leading-relaxed">
-                I document everything I build and learn — the wins, the failures and
-                the 2am debugging sessions. Follow along or reach out if you're on
-                a similar path.
+                I document everything I build and learn — the wins, the failures and the 2am debugging sessions.
+                Follow along or reach out if you're on a similar path.
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="/blog" class="gradient-bg text-white font-semibold px-7 py-3 rounded-xl hover:opacity-90 transition">
-                    Follow the journey →
-                </a>
-                <a href="/contact" class="border border-gray-700 hover:border-indigo-500 hover:text-indigo-400 text-gray-300 font-semibold px-7 py-3 rounded-xl transition">
-                    Say hello
-                </a>
+                <a href="/blog" class="gradient-bg text-white font-semibold px-7 py-3 rounded-xl hover:opacity-90 transition">Follow the journey →</a>
+                <a href="/contact" class="border border-gray-700 hover:border-indigo-500 hover:text-indigo-400 text-gray-300 font-semibold px-7 py-3 rounded-xl transition">Say hello</a>
             </div>
         </div>
     </div>
 
 <script>
-    // Typing animation
-    const titles = [
-        "Learning DevOps",
-        "Building Pipelines",
-        "Breaking Things",
-        "Fixing Things",
-        "Shipping Projects",
-        "Documenting Everything"
-    ];
+    const titles = ["Learning DevOps","Building Pipelines","Breaking Things","Fixing Things","Shipping Projects","Documenting Everything"];
     let titleIndex = 0, charIndex = 0, isDeleting = false;
     const typedEl = document.getElementById('typed-text');
     function type() {
         const current = titles[titleIndex];
-        typedEl.textContent = isDeleting
-            ? current.substring(0, charIndex - 1)
-            : current.substring(0, charIndex + 1);
+        typedEl.textContent = isDeleting ? current.substring(0, charIndex - 1) : current.substring(0, charIndex + 1);
         isDeleting ? charIndex-- : charIndex++;
-        if (!isDeleting && charIndex === current.length) {
-            setTimeout(() => isDeleting = true, 1800);
-        } else if (isDeleting && charIndex === 0) {
-            isDeleting = false;
-            titleIndex = (titleIndex + 1) % titles.length;
-        }
+        if (!isDeleting && charIndex === current.length) { setTimeout(() => isDeleting = true, 1800); }
+        else if (isDeleting && charIndex === 0) { isDeleting = false; titleIndex = (titleIndex + 1) % titles.length; }
         setTimeout(type, isDeleting ? 50 : 90);
     }
     type();
 
-    // Terminal animation
-    const lines = [
-        'tl-1', 'tl-2', 'tl-3', 'tl-4',
-        'tl-5', 'tl-6', 'tl-7', 'tl-8', 'tl-9'
-    ];
+    const lines = ['tl-1','tl-2','tl-3','tl-4','tl-5','tl-6','tl-7','tl-8','tl-9','tl-10','tl-11'];
     lines.forEach((id, i) => {
-        setTimeout(() => {
-            const el = document.getElementById(id);
-            if (el) el.classList.add('visible');
-        }, i * 600);
+        setTimeout(() => { const el = document.getElementById(id); if (el) el.classList.add('visible'); }, i * 550);
     });
 
-    // Stats count up
     function countUp(el) {
         const target = parseInt(el.getAttribute('data-target'));
         if (!target) return;
@@ -624,21 +547,12 @@
         const step = target / (1200 / 16);
         const timer = setInterval(() => {
             current += step;
-            if (current >= target) {
-                el.textContent = target + '+';
-                clearInterval(timer);
-            } else {
-                el.textContent = Math.floor(current);
-            }
+            if (current >= target) { el.textContent = target + '+'; clearInterval(timer); }
+            else { el.textContent = Math.floor(current); }
         }, 16);
     }
     const statObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                countUp(entry.target);
-                statObserver.unobserve(entry.target);
-            }
-        });
+        entries.forEach(entry => { if (entry.isIntersecting) { countUp(entry.target); statObserver.unobserve(entry.target); } });
     }, { threshold: 0.5 });
     document.querySelectorAll('.stat-number').forEach(el => statObserver.observe(el));
 </script>
