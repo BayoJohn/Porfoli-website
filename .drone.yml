@@ -26,7 +26,7 @@ steps:
       dockerfile: Dockerfile
       insecure: true
 
-  - name: deploy-to-oracle
+  - name: deploy-to-kubernetes
     image: appleboy/drone-ssh
     settings:
       host: 10.0.0.1
@@ -35,19 +35,9 @@ steps:
         from_secret: oracle_ssh_key
       port: 22
       script:
-        - echo "Logging into Harbor..."
-        - docker login -u admin -p Harbor12345 10.0.0.2
-        - echo "Pulling Portfolio Image..."
-        - docker pull 10.0.0.2/library/portfolio:latest
-        - echo "Cleaning up old container..."
-        - docker stop portfolio || true
-        - docker rm portfolio || true
-        - echo "Creating volumes if they don't exist..."
-        - docker volume create portfolio_data || true
-        - docker volume create portfolio_uploads || true
-        - echo "Starting new Portfolio container..."
-        - docker run -d --name portfolio -p 80:5000 --restart unless-stopped -v portfolio_data:/app/instance -v portfolio_uploads:/app/app/static/uploads 10.0.0.2/library/portfolio:latest
-        - echo "Verifying deployment..."
-        - sleep 5
-        - docker logs portfolio --tail 20
-        - docker ps | grep portfolio
+        - echo "Updating image tag in deployment..."
+        - sudo kubectl set image deployment/portfolio portfolio=10.0.0.2/library/portfolio:latest -n portfolio
+        - echo "Waiting for rollout to complete..."
+        - sudo kubectl rollout status deployment/portfolio -n portfolio --timeout=120s
+        - echo "Verifying pods..."
+        - sudo kubectl get pods -n portfolio
