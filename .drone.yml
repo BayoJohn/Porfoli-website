@@ -26,18 +26,17 @@ steps:
       dockerfile: Dockerfile
       insecure: true
 
-  - name: deploy-to-kubernetes
-    image: appleboy/drone-ssh
-    settings:
-      host: 10.0.0.1
-      username: ubuntu
-      key:
-        from_secret: oracle_ssh_key
-      port: 22
-      script:
-        - echo "Updating image tag in deployment..."
-        - sudo kubectl set image deployment/portfolio portfolio=10.0.0.2/library/portfolio:latest -n portfolio
-        - echo "Waiting for rollout to complete..."
-        - sudo kubectl rollout status deployment/portfolio -n portfolio --timeout=120s
-        - echo "Verifying pods..."
-        - sudo kubectl get pods -n portfolio
+  - name: update-k8s-manifest
+    image: alpine/git
+    environment:
+      GITEA_TOKEN:
+        from_secret: gitea_token
+    commands:
+      - git config --global user.email "drone@ci.local"
+      - git config --global user.name "Drone CI"
+      - git clone http://172.17.0.1:3001/Bayo/Porfolio-website.git /tmp/repo
+      - cd /tmp/repo
+      - sed -i "s|image: 10.0.0.2/library/portfolio:.*|image: 10.0.0.2/library/portfolio:build-${DRONE_BUILD_NUMBER}|g" k8s/deployment.yaml
+      - git add k8s/deployment.yaml
+      - git commit -m "update image to build-${DRONE_BUILD_NUMBER} [skip ci]"
+      - git push http://Bayo:$GITEA_TOKEN@172.17.0.1:3001/Bayo/Porfolio-website.git
