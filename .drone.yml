@@ -35,7 +35,8 @@ steps:
       - git config --global user.email "drone@ci.local"
       - git config --global user.name "Drone CI"
       - git clone http://172.17.0.1:3001/Bayo/Porfolio-website.git /tmp/repo
-      - sed -i "s|image: 10.0.0.2/library/portfolio:.*|image: 10.0.0.2/library/portfolio:build-${DRONE_BUILD_NUMBER}|g" /tmp/repo/k8s/deployment.yaml
+      - IMAGE="10.0.0.2/library/portfolio:build-${DRONE_BUILD_NUMBER}"
+      - sed -i "s|image:.*portfolio:.*|image: $IMAGE|g" /tmp/repo/k8s/deployment.yaml
       - git -C /tmp/repo add k8s/deployment.yaml
-      - git -C /tmp/repo commit -m "update image to build-${DRONE_BUILD_NUMBER} [skip ci]"
+      - git -C /tmp/repo commit -m "ci update image to build-${DRONE_BUILD_NUMBER} [skip ci]"
       - git -C /tmp/repo push http://Bayo:$GITEA_TOKEN@172.17.0.1:3001/Bayo/Porfolio-website.git
