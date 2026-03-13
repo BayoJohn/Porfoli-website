@@ -39,7 +39,7 @@
     .tools-track {
         display: flex;
         gap: 16px;
-        animation: scroll-left 25s linear infinite;
+        animation: scroll-left 30s linear infinite;
         width: max-content;
     }
     @keyframes scroll-left {
@@ -83,6 +83,7 @@
     .terminal-cmd { color: #e6edf3; }
     .terminal-output { color: #3fb950; padding-left: 20px; }
     .terminal-warn { color: #f0a500; padding-left: 20px; }
+    .terminal-info { color: #a5b4fc; padding-left: 20px; }
     .terminal-cursor {
         display: inline-block;
         width: 8px;
@@ -119,9 +120,21 @@
         background: rgba(16,185,129,0.1);
         color: #6ee7b7;
     }
+    .pipeline-node.k8s {
+        border-color: #326ce5;
+        background: rgba(50,108,229,0.1);
+        color: #93c5fd;
+    }
+    .pipeline-node.gitops {
+        border-color: #f97316;
+        background: rgba(249,115,22,0.1);
+        color: #fdba74;
+    }
     .pipeline-arrow { color: #374151; font-size: 16px; line-height: 1; }
     .pipeline-flow { animation: pipeline-pulse 3s ease-in-out infinite; }
     .pipeline-security-flow { animation: security-pulse 3s ease-in-out infinite; }
+    .pipeline-k8s-flow { animation: k8s-pulse 3s ease-in-out infinite; }
+    .pipeline-gitops-flow { animation: gitops-pulse 3s ease-in-out infinite; }
     @keyframes pipeline-pulse {
         0%, 100% { opacity: 0.4; }
         50% { opacity: 1; }
@@ -129,6 +142,14 @@
     @keyframes security-pulse {
         0%, 100% { opacity: 0.5; box-shadow: none; }
         50% { opacity: 1; box-shadow: 0 0 12px rgba(16,185,129,0.3); }
+    }
+    @keyframes k8s-pulse {
+        0%, 100% { opacity: 0.5; box-shadow: none; }
+        50% { opacity: 1; box-shadow: 0 0 12px rgba(50,108,229,0.3); }
+    }
+    @keyframes gitops-pulse {
+        0%, 100% { opacity: 0.5; box-shadow: none; }
+        50% { opacity: 1; box-shadow: 0 0 12px rgba(249,115,22,0.3); }
     }
 </style>
 
@@ -174,14 +195,15 @@
                     <div class="terminal-line" id="tl-1"><span class="terminal-prompt">$</span><span class="terminal-cmd">git push origin main</span></div>
                     <div class="terminal-line terminal-output" id="tl-2"><span>✓ Triggered Drone CI pipeline</span></div>
                     <div class="terminal-line" id="tl-3"><span class="terminal-prompt">$</span><span class="terminal-cmd">docker build -t portfolio:latest .</span></div>
-                    <div class="terminal-line terminal-output" id="tl-4"><span>✓ Image built successfully</span></div>
-                    <div class="terminal-line" id="tl-5"><span class="terminal-prompt">$</span><span class="terminal-cmd">docker push harbor/portfolio:latest</span></div>
-                    <div class="terminal-line terminal-output" id="tl-6"><span>✓ Pushed to Harbor registry</span></div>
-                    <div class="terminal-line" id="tl-7"><span class="terminal-prompt">$</span><span class="terminal-cmd">trivy image harbor/portfolio:latest</span></div>
-                    <div class="terminal-line terminal-warn" id="tl-8"><span>🛡 0 Critical · 2 Low — scan passed</span></div>
-                    <div class="terminal-line" id="tl-9"><span class="terminal-prompt">$</span><span class="terminal-cmd">ssh ubuntu@oracle -- deploy</span></div>
-                    <div class="terminal-line terminal-output" id="tl-10"><span style="color:#58a6ff">🚀 Deployed to production!</span></div>
-                    <div class="terminal-line" id="tl-11"><span class="terminal-prompt">$</span><span class="terminal-cursor"></span></div>
+                    <div class="terminal-line terminal-output" id="tl-4"><span>✓ Image built &amp; pushed to Harbor</span></div>
+                    <div class="terminal-line" id="tl-5"><span class="terminal-prompt">$</span><span class="terminal-cmd">trivy image harbor/portfolio:latest</span></div>
+                    <div class="terminal-line terminal-warn" id="tl-6"><span>🛡 0 Critical · 2 Low — scan passed</span></div>
+                    <div class="terminal-line" id="tl-7"><span class="terminal-prompt">$</span><span class="terminal-cmd">argocd app sync portfolio</span></div>
+                    <div class="terminal-line terminal-info" id="tl-8"><span>↻ ArgoCD detected changes — syncing</span></div>
+                    <div class="terminal-line" id="tl-9"><span class="terminal-prompt">$</span><span class="terminal-cmd">kubectl rollout status deployment/portfolio</span></div>
+                    <div class="terminal-line terminal-output" id="tl-10"><span>✓ 3/3 pods running on Kubernetes</span></div>
+                    <div class="terminal-line terminal-output" id="tl-11"><span style="color:#58a6ff">🚀 Deployed to production — zero downtime!</span></div>
+                    <div class="terminal-line" id="tl-12"><span class="terminal-prompt">$</span><span class="terminal-cursor"></span></div>
                 </div>
             </div>
         </div>
@@ -198,7 +220,7 @@
             <p class="text-gray-500 text-xs">Projects Deployed</p>
         </div>
         <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5 text-center reveal">
-            <p class="text-3xl font-extrabold gradient-text mb-1 stat-number" data-target="15">0</p>
+            <p class="text-3xl font-extrabold gradient-text mb-1 stat-number" data-target="17">0</p>
             <p class="text-gray-500 text-xs">Tools in Stack</p>
         </div>
         <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5 text-center reveal">
@@ -220,7 +242,7 @@
                 <p class="text-gray-400 text-sm leading-relaxed mb-4">
                     6 months ago I decided to stop watching tutorials and start building real things.
                     Since then I've deployed a full CI/CD pipeline, set up a private Docker registry,
-                    configured WireGuard VPN tunnels and built this site from scratch.
+                    configured WireGuard VPN tunnels, run a Kubernetes cluster and built this site from scratch.
                 </p>
                 <p class="text-gray-400 text-sm leading-relaxed">
                     I learn by breaking things in production and writing about it. Every bug is a blog post.
@@ -245,32 +267,32 @@
 
             <div class="bento-card">
                 <div class="text-2xl mb-3">🎯</div>
-                <h3 class="font-bold text-sm mb-3">Currently Learning</h3>
+                <h3 class="font-bold text-sm mb-3">Currently Using</h3>
                 <div class="space-y-2">
                     <div class="flex items-center gap-2">
                         <div class="w-1.5 h-1.5 bg-indigo-400 rounded-full"></div>
-                        <span class="text-gray-400 text-xs">Kubernetes & Helm</span>
+                        <span class="text-gray-400 text-xs">Kubernetes (k3s) ✓</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-1.5 h-1.5 bg-orange-400 rounded-full"></div>
+                        <span class="text-gray-400 text-xs">ArgoCD GitOps ✓</span>
                     </div>
                     <div class="flex items-center gap-2">
                         <div class="w-1.5 h-1.5 bg-cyan-400 rounded-full"></div>
                         <span class="text-gray-400 text-xs">Terraform on AWS</span>
                     </div>
                     <div class="flex items-center gap-2">
-                        <div class="w-1.5 h-1.5 bg-green-400 rounded-full"></div>
-                        <span class="text-gray-400 text-xs">ArgoCD & GitOps</span>
-                    </div>
-                    <div class="flex items-center gap-2">
                         <div class="w-1.5 h-1.5 bg-yellow-400 rounded-full"></div>
-                        <span class="text-gray-400 text-xs">Prometheus & Grafana</span>
+                        <span class="text-gray-400 text-xs">Prometheus & Grafana ✓</span>
                     </div>
                     <div class="flex items-center gap-2">
                         <div class="w-1.5 h-1.5 bg-emerald-400 rounded-full"></div>
-                        <span class="text-gray-400 text-xs">Container Security (Trivy)</span>
+                        <span class="text-gray-400 text-xs">Container Security (Trivy) ✓</span>
                     </div>
                 </div>
             </div>
 
-            <!-- Pipeline card with Trivy -->
+            <!-- Pipeline card with Kubernetes and ArgoCD -->
             <div class="bento-card md:col-span-2">
                 <div class="text-2xl mb-3">⚙️</div>
                 <h3 class="font-bold text-sm mb-4">My CI/CD Pipeline</h3>
@@ -298,18 +320,25 @@
                     <span class="pipeline-arrow">→</span>
                     <div class="pipeline-node security pipeline-security-flow" style="animation-delay:1.5s">
                         <div class="flex items-center gap-1.5">
-                            🛡️ Trivy Scan
+                            🛡️ Trivy
                         </div>
                     </div>
                     <span class="pipeline-arrow">→</span>
-                    <div class="pipeline-node active pipeline-flow" style="animation-delay:2s">
+                    <div class="pipeline-node gitops pipeline-gitops-flow" style="animation-delay:2s">
                         <div class="flex items-center gap-1.5">
-                            <img src="https://cdn.simpleicons.org/oracle/F80000" class="w-3.5 h-3.5">
-                            Oracle Cloud
+                            <img src="https://cdn.simpleicons.org/argo/EF7B4D" class="w-3.5 h-3.5">
+                            ArgoCD
+                        </div>
+                    </div>
+                    <span class="pipeline-arrow">→</span>
+                    <div class="pipeline-node k8s pipeline-k8s-flow" style="animation-delay:2.5s">
+                        <div class="flex items-center gap-1.5">
+                            <img src="https://cdn.simpleicons.org/kubernetes/326CE5" class="w-3.5 h-3.5">
+                            Kubernetes
                         </div>
                     </div>
                 </div>
-                <p class="text-gray-600 text-xs mt-4">Every image is security scanned before deployment 🛡️</p>
+                <p class="text-gray-600 text-xs mt-4">GitOps powered — ArgoCD syncs every change automatically 🚀</p>
             </div>
         </div>
     </div>
@@ -323,6 +352,7 @@
             <div class="tools-track">
                 {% set tools = [
                     ('kubernetes', '326CE5', 'Kubernetes'),
+                    ('argo', 'EF7B4D', 'ArgoCD'),
                     ('terraform', '7B42BC', 'Terraform'),
                     ('docker', '2496ED', 'Docker'),
                     ('amazonaws', 'FF9900', 'AWS'),
@@ -535,7 +565,7 @@
     }
     type();
 
-    const lines = ['tl-1','tl-2','tl-3','tl-4','tl-5','tl-6','tl-7','tl-8','tl-9','tl-10','tl-11'];
+    const lines = ['tl-1','tl-2','tl-3','tl-4','tl-5','tl-6','tl-7','tl-8','tl-9','tl-10','tl-11','tl-12'];
     lines.forEach((id, i) => {
         setTimeout(() => { const el = document.getElementById(id); if (el) el.classList.add('visible'); }, i * 550);
     });
