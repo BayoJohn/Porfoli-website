@@ -32,4 +32,4 @@ steps:
       GITEA_TOKEN:
         from_secret: gitea_token
     commands:
-      - sh update-manifest.sh ${DRONE_BUILD_NUMBER} $GITEA_TOKEN
+      - sh update-manifest.sh ${DRONE_BUILD_NUMBER}
