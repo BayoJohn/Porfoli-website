@@ -23,3 +23,17 @@ spec:
           env:
             - name: FLASK_ENV
               value: production
+          volumeMounts:
+            - name: portfolio-data
+              mountPath: /app/instance
+            - name: portfolio-uploads
+              mountPath: /app/app/static/uploads
+      volumes:
+        - name: portfolio-data
+          hostPath:
+            path: /var/lib/docker/volumes/portfolio_data/_data
+            type: Directory
+        - name: portfolio-uploads
+          hostPath:
+            path: /var/lib/docker/volumes/portfolio_uploads/_data
+            type: Directory
