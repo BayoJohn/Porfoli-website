@@ -27,7 +27,7 @@ def create_app():
             return
         view = PageView(
             path=request.path,
-            ip=request.remote_addr,
+            ip=request.headers.get('X-Forwarded-For', request.remote_addr).split(',')[0].strip(),
             user_agent=request.headers.get('User-Agent', '')[:300]
         )
         db.session.add(view)
