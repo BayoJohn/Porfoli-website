@@ -5,176 +5,162 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}StackedByBayo{% endblock %}</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Cal+Sans&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@700;800&display=swap" rel="stylesheet">
     <style>
-        * { box-sizing: border-box; }
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #f8fafc;
-            color: #0f172a;
-            min-height: 100vh;
-            animation: fadeIn 0.2s ease-out;
-        }
-        @keyframes fadeIn { from { opacity:0; transform:translateY(5px); } to { opacity:1; transform:translateY(0); } }
+        body { font-family: 'Inter', sans-serif; }
 
-        .logo-font { font-family: 'Inter', sans-serif; font-weight: 800; letter-spacing: -0.03em; }
+        .logo-font { font-family: 'Space Grotesk', sans-serif; }
 
         .gradient-text {
-            background: linear-gradient(135deg, #6366f1, #06b6d4);
+            background: linear-gradient(135deg, #818cf8, #22d3ee);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
-        .gradient-bg { background: linear-gradient(135deg, #6366f1, #06b6d4); }
 
-        /* Nav */
+        .gradient-bg {
+            background: linear-gradient(135deg, #6366f1, #06b6d4);
+        }
+
+        .gradient-bg:hover {
+            background: linear-gradient(135deg, #818cf8, #22d3ee);
+        }
+
+        body {
+            animation: fadeIn 0.2s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .card-hover {
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.2);
+            border-color: rgba(129, 140, 248, 0.5);
+        }
+
+        /* Nav link hover */
         .nav-link {
-            font-size: 14px;
-            font-weight: 500;
-            color: #64748b;
-            transition: color 0.15s;
             position: relative;
             padding-bottom: 2px;
         }
-        .nav-link:hover { color: #0f172a; }
         .nav-link::after {
             content: '';
             position: absolute;
-            bottom: -2px; left: 0;
-            width: 0; height: 1.5px;
-            background: linear-gradient(135deg, #6366f1, #06b6d4);
-            transition: width 0.2s;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 1.5px;
+            background: linear-gradient(135deg, #818cf8, #22d3ee);
+            transition: width 0.25s ease;
         }
-        .nav-link:hover::after { width: 100%; }
+        .nav-link:hover::after {
+            width: 100%;
+        }
 
-        /* CTA button */
-        .cta-btn {
-            background: #0f172a;
-            color: #ffffff;
-            font-size: 13.5px;
-            font-weight: 600;
-            padding: 8px 18px;
-            border-radius: 9px;
-            transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            letter-spacing: -0.01em;
+        /* Mobile menu */
+        #mobile-menu {
+            display: none;
         }
-        .cta-btn:hover {
-            background: #1e293b;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(15,23,42,0.15);
+        #mobile-menu.open {
+            display: flex;
         }
 
         /* Scrolled nav */
         .nav-scrolled {
-            box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 20px rgba(0,0,0,0.04);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+            border-bottom-color: rgba(99, 102, 241, 0.2) !important;
         }
 
-        /* Mobile menu */
-        #mobile-menu { display: none; }
-        #mobile-menu.open { display: flex; }
-
-        /* Reveal */
-        .reveal {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.55s cubic-bezier(0.16,1,0.3,1), transform 0.55s cubic-bezier(0.16,1,0.3,1);
+        /* Logo glow */
+        .logo-glow {
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
+            transition: box-shadow 0.3s ease;
         }
-        .reveal.visible { opacity: 1; transform: translateY(0); }
-
-        /* Card hover */
-        .card-hover {
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-        .card-hover:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 40px rgba(99,102,241,0.1);
+        .logo-glow:hover {
+            box-shadow: 0 0 30px rgba(99, 102, 241, 0.8);
         }
 
-        /* Scrollbar */
-        ::-webkit-scrollbar { width: 5px; }
-        ::-webkit-scrollbar-track { background: #f1f5f9; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        /* Bright scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #030712; }
+        ::-webkit-scrollbar-thumb { background: #4f46e5; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #818cf8; }
 
-        /* Selection */
-        ::selection { background: rgba(99,102,241,0.15); color: #4f46e5; }
-
-        /* Footer */
-        .footer-link { color: #94a3b8; font-size: 13px; transition: color 0.15s; }
-        .footer-link:hover { color: #0f172a; }
-
-        .social-btn {
-            width: 34px; height: 34px;
-            border-radius: 8px;
-            border: 1px solid #e2e8f0;
-            background: white;
-            display: flex; align-items: center; justify-content: center;
-            transition: all 0.15s;
-        }
-        .social-btn:hover {
-            border-color: #6366f1;
-            background: #f5f3ff;
-            transform: translateY(-2px);
-        }
-
-        .built-tag {
-            display: inline-flex; align-items: center; gap: 5px;
-            background: white;
-            border: 1px solid #e2e8f0;
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 11px;
-            color: #64748b;
-            transition: all 0.15s;
-        }
-        .built-tag:hover { border-color: #6366f1; color: #4f46e5; }
+        /* Selection color */
+        ::selection { background: rgba(99, 102, 241, 0.3); color: #e0e7ff; }
     </style>
 </head>
-<body>
+<body class="bg-gray-950 text-gray-100 min-h-screen">
 
     <!-- Nav -->
-    <nav id="navbar" class="border-b border-slate-200/80 px-6 py-3.5 sticky top-0 bg-white/90 backdrop-blur-md z-50 transition-all duration-300">
-        <div class="max-w-5xl mx-auto flex items-center justify-between">
+    <nav id="navbar" class="border-b border-gray-800/40 px-6 py-4 sticky top-0 bg-gray-950/90 backdrop-blur-md z-50 transition-all duration-300">
+        <div class="w-full flex items-center justify-between">
 
             <!-- Logo -->
             <a href="/" class="flex items-center gap-2.5 group">
-                <div class="w-7 h-7 rounded-lg gradient-bg flex items-center justify-center text-white font-bold text-xs shrink-0 transition-transform duration-200 group-hover:scale-110">S</div>
-                <span class="logo-font text-[15px]">Stacked<span class="gradient-text">ByBayo</span></span>
+                <div class="w-8 h-8 rounded-lg gradient-bg logo-glow flex items-center justify-center text-white font-bold text-sm shrink-0 group-hover:scale-110 transition-transform">
+                    S
+                </div>
+                <span class="logo-font text-lg font-bold">
+                    Stacked<span class="gradient-text">ByBayo</span>
+                </span>
             </a>
 
             <!-- Desktop nav -->
-            <div class="hidden md:flex items-center gap-7">
-                <a href="/" class="nav-link">Home</a>
-                <a href="/about" class="nav-link">About</a>
-                <a href="/projects" class="nav-link">Projects</a>
-                <a href="/blog" class="nav-link">Blog</a>
+            <div class="hidden md:flex items-center gap-8">
+                <a href="/" class="nav-link text-gray-300 hover:text-white transition text-sm font-medium">Home</a>
+                <a href="/about" class="nav-link text-gray-300 hover:text-white transition text-sm font-medium">About</a>
+                <a href="/projects" class="nav-link text-gray-300 hover:text-white transition text-sm font-medium">Projects</a>
+                <a href="/blog" class="nav-link text-gray-300 hover:text-white transition text-sm font-medium">Blog</a>
             </div>
 
             <!-- CTA + Hamburger -->
-            <div class="flex items-center gap-3">
-                <a href="/contact" class="hidden md:inline-flex cta-btn">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div class="flex items-center gap-4">
+                <a href="/contact"
+                    class="hidden md:inline-flex items-center gap-2 gradient-bg text-white text-sm font-semibold px-4 py-2 rounded-lg hover:opacity-90 transition shadow-lg shadow-indigo-500/20">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                     </svg>
                     Let's talk
                 </a>
-                <button id="menu-btn" class="md:hidden p-1.5 text-slate-500 hover:text-slate-900 transition">
-                    <svg id="icon-open" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
-                    <svg id="icon-close" class="h-5 w-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+
+                <!-- Hamburger -->
+                <button id="menu-btn" class="md:hidden text-gray-300 hover:text-white transition p-1">
+                    <svg id="icon-open" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                    <svg id="icon-close" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
                 </button>
             </div>
         </div>
 
         <!-- Mobile menu -->
-        <div id="mobile-menu" class="flex-col gap-0.5 pt-3 pb-2 md:hidden mt-3 border-t border-slate-100">
-            <a href="/" class="block px-3 py-2.5 rounded-lg text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition">Home</a>
-            <a href="/about" class="block px-3 py-2.5 rounded-lg text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition">About</a>
-            <a href="/projects" class="block px-3 py-2.5 rounded-lg text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition">Projects</a>
-            <a href="/blog" class="block px-3 py-2.5 rounded-lg text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition">Blog</a>
-            <div class="pt-2 px-1"><a href="/contact" class="cta-btn w-full justify-center">Let's talk</a></div>
+        <div id="mobile-menu" class="flex-col gap-1 pt-4 pb-2 md:hidden border-t border-gray-800/60 mt-4">
+            <a href="/" class="text-gray-300 hover:text-white hover:bg-gray-800/80 transition text-sm font-medium block px-4 py-3 rounded-lg">Home</a>
+            <a href="/about" class="text-gray-300 hover:text-white hover:bg-gray-800/80 transition text-sm font-medium block px-4 py-3 rounded-lg">About</a>
+            <a href="/projects" class="text-gray-300 hover:text-white hover:bg-gray-800/80 transition text-sm font-medium block px-4 py-3 rounded-lg">Projects</a>
+            <a href="/blog" class="text-gray-300 hover:text-white hover:bg-gray-800/80 transition text-sm font-medium block px-4 py-3 rounded-lg">Blog</a>
+            <div class="pt-2 px-4">
+                <a href="/contact" class="gradient-bg text-white text-sm font-semibold px-4 py-3 rounded-lg block text-center shadow-lg shadow-indigo-500/20">
+                    Let's talk
+                </a>
+            </div>
         </div>
     </nav>
 
@@ -184,75 +170,122 @@
     </main>
 
     <!-- Footer -->
-    <footer class="border-t border-slate-200 mt-20 bg-white">
-        <div class="max-w-5xl mx-auto px-4 md:px-6 py-12">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+    <footer class="border-t border-gray-800/60 mt-20">
 
-                <!-- Brand -->
-                <div>
-                    <div class="flex items-center gap-2 mb-3">
-                        <div class="w-7 h-7 rounded-lg gradient-bg flex items-center justify-center text-white font-bold text-xs">S</div>
-                        <span class="logo-font text-[15px]">Stacked<span class="gradient-text">ByBayo</span></span>
+        <!-- Top accent line -->
+        <div class="h-px bg-gradient-to-r from-transparent via-indigo-500/50 to-transparent"></div>
+
+        <!-- Main footer -->
+        <div class="max-w-5xl mx-auto px-4 md:px-6 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+
+                <!-- Brand & bio -->
+                <div class="col-span-1">
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="w-8 h-8 rounded-lg gradient-bg logo-glow flex items-center justify-center text-white font-bold text-sm">
+                            S
+                        </div>
+                        <span class="logo-font font-bold">Stacked<span class="gradient-text">ByBayo</span></span>
                     </div>
-                    <p class="text-slate-500 text-sm leading-relaxed mb-5">DevOps Engineer based in Lagos, Nigeria. Building reliable infrastructure and shipping clean code.</p>
-                    <div class="flex gap-2">
-                        <a href="https://github.com/BayoJohn" target="_blank" class="social-btn"><img src="https://cdn.simpleicons.org/github/0f172a" class="w-3.5 h-3.5"></a>
-                        <a href="https://www.linkedin.com/in/bayo123" target="_blank" class="social-btn"><img src="https://cdn.simpleicons.org/linkedin/0A66C2" class="w-3.5 h-3.5"></a>
-                        <a href="https://twitter.com/BayoJohnMoses" target="_blank" class="social-btn"><img src="https://cdn.simpleicons.org/x/0f172a" class="w-3.5 h-3.5"></a>
-                        <a href="https://instagram.com/bayojohnmoses" target="_blank" class="social-btn"><img src="https://cdn.simpleicons.org/instagram/E4405F" class="w-3.5 h-3.5"></a>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6">
+                        DevOps Engineer based in Lagos, Nigeria. Building reliable infrastructure and shipping clean code.
+                    </p>
+                    <!-- Social links -->
+                    <div class="flex gap-3">
+                        <a href="https://github.com/BayoJohn" target="_blank"
+                            class="w-9 h-9 bg-gray-800/80 hover:bg-indigo-500/20 border border-gray-700/50 hover:border-indigo-500/50 rounded-lg flex items-center justify-center transition group">
+                            <img src="https://cdn.simpleicons.org/github/ffffff" class="w-4 h-4" alt="GitHub">
+                        </a>
+                        <a href="https://www.linkedin.com/in/bayo123" target="_blank"
+                            class="w-9 h-9 bg-gray-800/80 hover:bg-indigo-500/20 border border-gray-700/50 hover:border-indigo-500/50 rounded-lg flex items-center justify-center transition">
+                            <img src="https://cdn.simpleicons.org/linkedin/0A66C2" class="w-4 h-4" alt="LinkedIn">
+                        </a>
+                        <a href="https://twitter.com/BayoJohnMoses" target="_blank"
+                            class="w-9 h-9 bg-gray-800/80 hover:bg-indigo-500/20 border border-gray-700/50 hover:border-indigo-500/50 rounded-lg flex items-center justify-center transition">
+                            <img src="https://cdn.simpleicons.org/x/ffffff" class="w-4 h-4" alt="X">
+                        </a>
+                        <a href="https://instagram.com/bayojohnmoses" target="_blank"
+                            class="w-9 h-9 bg-gray-800/80 hover:bg-indigo-500/20 border border-gray-700/50 hover:border-indigo-500/50 rounded-lg flex items-center justify-center transition">
+                            <img src="https://cdn.simpleicons.org/instagram/E4405F" class="w-4 h-4" alt="Instagram">
+                        </a>
                     </div>
                 </div>
 
-                <!-- Links -->
+                <!-- Quick links -->
                 <div>
-                    <p class="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-4">Navigation</p>
-                    <ul class="space-y-2.5">
-                        <li><a href="/" class="footer-link">Home</a></li>
-                        <li><a href="/about" class="footer-link">About</a></li>
-                        <li><a href="/projects" class="footer-link">Projects</a></li>
-                        <li><a href="/blog" class="footer-link">Blog</a></li>
-                        <li><a href="/contact" class="footer-link">Contact</a></li>
+                    <h4 class="text-xs font-bold text-gray-200 mb-5 uppercase tracking-widest">Quick Links</h4>
+                    <ul class="space-y-3">
+                        <li><a href="/" class="text-gray-400 hover:text-indigo-400 text-sm transition flex items-center gap-1.5 group"><span class="w-1 h-1 rounded-full bg-gray-700 group-hover:bg-indigo-400 transition"></span>Home</a></li>
+                        <li><a href="/about" class="text-gray-400 hover:text-indigo-400 text-sm transition flex items-center gap-1.5 group"><span class="w-1 h-1 rounded-full bg-gray-700 group-hover:bg-indigo-400 transition"></span>About</a></li>
+                        <li><a href="/projects" class="text-gray-400 hover:text-indigo-400 text-sm transition flex items-center gap-1.5 group"><span class="w-1 h-1 rounded-full bg-gray-700 group-hover:bg-indigo-400 transition"></span>Projects</a></li>
+                        <li><a href="/blog" class="text-gray-400 hover:text-indigo-400 text-sm transition flex items-center gap-1.5 group"><span class="w-1 h-1 rounded-full bg-gray-700 group-hover:bg-indigo-400 transition"></span>Blog</a></li>
+                        <li><a href="/contact" class="text-gray-400 hover:text-indigo-400 text-sm transition flex items-center gap-1.5 group"><span class="w-1 h-1 rounded-full bg-gray-700 group-hover:bg-indigo-400 transition"></span>Contact</a></li>
                     </ul>
                 </div>
 
-                <!-- Contact + Built with -->
+                <!-- Contact & built with -->
                 <div>
-                    <p class="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-4">Contact</p>
-                    <a href="mailto:ogundelebayo8@gmail.com" class="footer-link flex items-center gap-2 mb-7">
-                        <svg class="h-3.5 w-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                    <h4 class="text-xs font-bold text-gray-200 mb-5 uppercase tracking-widest">Get In Touch</h4>
+                    <a href="mailto:ogundelebayo8@gmail.com"
+                        class="flex items-center gap-2 text-gray-400 hover:text-indigo-400 text-sm transition mb-8 group">
+                        <div class="w-7 h-7 rounded-lg bg-gray-800/80 border border-gray-700/50 group-hover:border-indigo-500/50 flex items-center justify-center shrink-0 transition">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                            </svg>
+                        </div>
                         ogundelebayo8@gmail.com
                     </a>
-                    <p class="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-3">Built With</p>
-                    <div class="flex flex-wrap gap-1.5">
-                        <span class="built-tag"><img src="https://cdn.simpleicons.org/python/3776AB" class="w-3 h-3">Python</span>
-                        <span class="built-tag"><img src="https://cdn.simpleicons.org/flask/0f172a" class="w-3 h-3">Flask</span>
-                        <span class="built-tag"><img src="https://cdn.simpleicons.org/tailwindcss/06B6D4" class="w-3 h-3">Tailwind</span>
-                        <span class="built-tag"><img src="https://cdn.simpleicons.org/docker/2496ED" class="w-3 h-3">Docker</span>
-                        <span class="built-tag"><img src="https://cdn.simpleicons.org/kubernetes/326CE5" class="w-3 h-3">k3s</span>
+
+                    <h4 class="text-xs font-bold text-gray-200 mb-4 uppercase tracking-widest">Built With</h4>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="flex items-center gap-1.5 bg-gray-800/80 border border-gray-700/50 px-3 py-1.5 rounded-lg text-xs text-gray-300">
+                            <img src="https://cdn.simpleicons.org/python/3776AB" class="w-3.5 h-3.5" alt="Python">
+                            Python
+                        </span>
+                        <span class="flex items-center gap-1.5 bg-gray-800/80 border border-gray-700/50 px-3 py-1.5 rounded-lg text-xs text-gray-300">
+                            <img src="https://cdn.simpleicons.org/flask/ffffff" class="w-3.5 h-3.5" alt="Flask">
+                            Flask
+                        </span>
+                        <span class="flex items-center gap-1.5 bg-gray-800/80 border border-gray-700/50 px-3 py-1.5 rounded-lg text-xs text-gray-300">
+                            <img src="https://cdn.simpleicons.org/tailwindcss/06B6D4" class="w-3.5 h-3.5" alt="Tailwind">
+                            Tailwind
+                        </span>
+                        <span class="flex items-center gap-1.5 bg-gray-800/80 border border-gray-700/50 px-3 py-1.5 rounded-lg text-xs text-gray-300">
+                            <img src="https://cdn.simpleicons.org/sqlite/003B57" class="w-3.5 h-3.5" alt="SQLite">
+                            SQLite
+                        </span>
+                        <span class="flex items-center gap-1.5 bg-gray-800/80 border border-gray-700/50 px-3 py-1.5 rounded-lg text-xs text-gray-300">
+                            <img src="https://cdn.simpleicons.org/docker/2496ED" class="w-3.5 h-3.5" alt="Docker">
+                            Docker
+                        </span>
                     </div>
                 </div>
+
             </div>
         </div>
 
         <!-- Bottom bar -->
-        <div class="border-t border-slate-100 py-4">
+        <div class="border-t border-gray-800/60 py-5">
             <div class="max-w-5xl mx-auto px-4 md:px-6 flex flex-col md:flex-row justify-between items-center gap-2">
-                <p class="text-slate-400 text-xs">© 2025 Omobayonle Ogundele. All rights reserved.</p>
-                <p class="text-slate-400 text-xs">Made with ❤️ in Lagos, Nigeria 🇳🇬</p>
+                <p class="text-gray-500 text-xs">© 2025 Omobayonle Ogundele. All rights reserved.</p>
+                <p class="text-gray-500 text-xs">Made with ❤️ in Lagos, Nigeria 🇳🇬</p>
             </div>
         </div>
-    </footer>
 
+    </footer>
     <script>
+        // Hamburger toggle
         const menuBtn = document.getElementById('menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
         const iconOpen = document.getElementById('icon-open');
         const iconClose = document.getElementById('icon-close');
+
         menuBtn.addEventListener('click', () => {
             mobileMenu.classList.toggle('open');
             iconOpen.classList.toggle('hidden');
             iconClose.classList.toggle('hidden');
         });
+
         mobileMenu.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
                 mobileMenu.classList.remove('open');
@@ -260,12 +293,29 @@
                 iconClose.classList.add('hidden');
             });
         });
+
+        // Nav shadow on scroll
         const navbar = document.getElementById('navbar');
-        window.addEventListener('scroll', () => { navbar.classList.toggle('nav-scrolled', window.scrollY > 10); });
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 10) {
+                navbar.classList.add('nav-scrolled');
+            } else {
+                navbar.classList.remove('nav-scrolled');
+            }
+        });
+
+        // Scroll reveal
         const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
-        }, { threshold: 0.08 });
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // Smooth page transitions
         document.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', function(e) {
                 const href = this.getAttribute('href');
@@ -278,5 +328,6 @@
             });
         });
     </script>
+
 </body>
 </html>
