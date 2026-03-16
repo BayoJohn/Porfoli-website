@@ -12,13 +12,17 @@
         .logo-font { font-family: 'Space Grotesk', sans-serif; }
 
         .gradient-text {
-            background: linear-gradient(135deg, #6366f1, #06b6d4);
+            background: linear-gradient(135deg, #818cf8, #22d3ee);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         .gradient-bg {
             background: linear-gradient(135deg, #6366f1, #06b6d4);
+        }
+
+        .gradient-bg:hover {
+            background: linear-gradient(135deg, #818cf8, #22d3ee);
         }
 
         body {
@@ -44,8 +48,8 @@
         }
         .card-hover:hover {
             transform: translateY(-6px);
-            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.15);
-            border-color: rgba(99, 102, 241, 0.4);
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.2);
+            border-color: rgba(129, 140, 248, 0.5);
         }
 
         /* Nav link hover */
@@ -60,7 +64,7 @@
             left: 0;
             width: 0;
             height: 1.5px;
-            background: linear-gradient(135deg, #6366f1, #06b6d4);
+            background: linear-gradient(135deg, #818cf8, #22d3ee);
             transition: width 0.25s ease;
         }
         .nav-link:hover::after {
@@ -77,19 +81,38 @@
 
         /* Scrolled nav */
         .nav-scrolled {
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+            border-bottom-color: rgba(99, 102, 241, 0.2) !important;
         }
+
+        /* Logo glow */
+        .logo-glow {
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
+            transition: box-shadow 0.3s ease;
+        }
+        .logo-glow:hover {
+            box-shadow: 0 0 30px rgba(99, 102, 241, 0.8);
+        }
+
+        /* Bright scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #030712; }
+        ::-webkit-scrollbar-thumb { background: #4f46e5; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #818cf8; }
+
+        /* Selection color */
+        ::selection { background: rgba(99, 102, 241, 0.3); color: #e0e7ff; }
     </style>
 </head>
 <body class="bg-gray-950 text-gray-100 min-h-screen">
 
     <!-- Nav -->
-    <nav id="navbar" class="border-b border-gray-800/60 px-6 py-4 sticky top-0 bg-gray-950/80 backdrop-blur-md z-50 transition-all duration-300">
+    <nav id="navbar" class="border-b border-gray-800/40 px-6 py-4 sticky top-0 bg-gray-950/90 backdrop-blur-md z-50 transition-all duration-300">
         <div class="w-full flex items-center justify-between">
 
             <!-- Logo -->
-            <a href="/" class="flex items-center gap-2 group">
-                <div class="w-8 h-8 rounded-lg gradient-bg flex items-center justify-center text-white font-bold text-sm shrink-0 group-hover:scale-110 transition-transform">
+            <a href="/" class="flex items-center gap-2.5 group">
+                <div class="w-8 h-8 rounded-lg gradient-bg logo-glow flex items-center justify-center text-white font-bold text-sm shrink-0 group-hover:scale-110 transition-transform">
                     S
                 </div>
                 <span class="logo-font text-lg font-bold">
@@ -99,16 +122,16 @@
 
             <!-- Desktop nav -->
             <div class="hidden md:flex items-center gap-8">
-                <a href="/" class="nav-link text-gray-400 hover:text-white transition text-sm font-medium">Home</a>
-                <a href="/about" class="nav-link text-gray-400 hover:text-white transition text-sm font-medium">About</a>
-                <a href="/projects" class="nav-link text-gray-400 hover:text-white transition text-sm font-medium">Projects</a>
-                <a href="/blog" class="nav-link text-gray-400 hover:text-white transition text-sm font-medium">Blog</a>
+                <a href="/" class="nav-link text-gray-300 hover:text-white transition text-sm font-medium">Home</a>
+                <a href="/about" class="nav-link text-gray-300 hover:text-white transition text-sm font-medium">About</a>
+                <a href="/projects" class="nav-link text-gray-300 hover:text-white transition text-sm font-medium">Projects</a>
+                <a href="/blog" class="nav-link text-gray-300 hover:text-white transition text-sm font-medium">Blog</a>
             </div>
 
             <!-- CTA + Hamburger -->
             <div class="flex items-center gap-4">
                 <a href="/contact"
-                    class="hidden md:inline-flex items-center gap-2 gradient-bg text-white text-sm font-semibold px-4 py-2 rounded-lg hover:opacity-90 transition">
+                    class="hidden md:inline-flex items-center gap-2 gradient-bg text-white text-sm font-semibold px-4 py-2 rounded-lg hover:opacity-90 transition shadow-lg shadow-indigo-500/20">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                     </svg>
@@ -116,7 +139,7 @@
                 </a>
 
                 <!-- Hamburger -->
-                <button id="menu-btn" class="md:hidden text-gray-400 hover:text-white transition p-1">
+                <button id="menu-btn" class="md:hidden text-gray-300 hover:text-white transition p-1">
                     <svg id="icon-open" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
                     </svg>
@@ -128,13 +151,13 @@
         </div>
 
         <!-- Mobile menu -->
-        <div id="mobile-menu" class="flex-col gap-1 pt-4 pb-2 md:hidden border-t border-gray-800 mt-4">
-            <a href="/" class="text-gray-400 hover:text-white hover:bg-gray-800 transition text-sm font-medium block px-4 py-3 rounded-lg">Home</a>
-            <a href="/about" class="text-gray-400 hover:text-white hover:bg-gray-800 transition text-sm font-medium block px-4 py-3 rounded-lg">About</a>
-            <a href="/projects" class="text-gray-400 hover:text-white hover:bg-gray-800 transition text-sm font-medium block px-4 py-3 rounded-lg">Projects</a>
-            <a href="/blog" class="text-gray-400 hover:text-white hover:bg-gray-800 transition text-sm font-medium block px-4 py-3 rounded-lg">Blog</a>
+        <div id="mobile-menu" class="flex-col gap-1 pt-4 pb-2 md:hidden border-t border-gray-800/60 mt-4">
+            <a href="/" class="text-gray-300 hover:text-white hover:bg-gray-800/80 transition text-sm font-medium block px-4 py-3 rounded-lg">Home</a>
+            <a href="/about" class="text-gray-300 hover:text-white hover:bg-gray-800/80 transition text-sm font-medium block px-4 py-3 rounded-lg">About</a>
+            <a href="/projects" class="text-gray-300 hover:text-white hover:bg-gray-800/80 transition text-sm font-medium block px-4 py-3 rounded-lg">Projects</a>
+            <a href="/blog" class="text-gray-300 hover:text-white hover:bg-gray-800/80 transition text-sm font-medium block px-4 py-3 rounded-lg">Blog</a>
             <div class="pt-2 px-4">
-                <a href="/contact" class="gradient-bg text-white text-sm font-semibold px-4 py-3 rounded-lg block text-center">
+                <a href="/contact" class="gradient-bg text-white text-sm font-semibold px-4 py-3 rounded-lg block text-center shadow-lg shadow-indigo-500/20">
                     Let's talk
                 </a>
             </div>
@@ -147,7 +170,10 @@
     </main>
 
     <!-- Footer -->
-    <footer class="border-t border-gray-800 mt-20">
+    <footer class="border-t border-gray-800/60 mt-20">
+
+        <!-- Top accent line -->
+        <div class="h-px bg-gradient-to-r from-transparent via-indigo-500/50 to-transparent"></div>
 
         <!-- Main footer -->
         <div class="max-w-5xl mx-auto px-4 md:px-6 py-12">
@@ -156,30 +182,30 @@
                 <!-- Brand & bio -->
                 <div class="col-span-1">
                     <div class="flex items-center gap-2 mb-4">
-                        <div class="w-8 h-8 rounded-lg gradient-bg flex items-center justify-center text-white font-bold text-sm">
+                        <div class="w-8 h-8 rounded-lg gradient-bg logo-glow flex items-center justify-center text-white font-bold text-sm">
                             S
                         </div>
                         <span class="logo-font font-bold">Stacked<span class="gradient-text">ByBayo</span></span>
                     </div>
-                    <p class="text-gray-500 text-sm leading-relaxed mb-6">
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6">
                         DevOps Engineer based in Lagos, Nigeria. Building reliable infrastructure and shipping clean code.
                     </p>
                     <!-- Social links -->
-                    <div class="flex gap-4">
+                    <div class="flex gap-3">
                         <a href="https://github.com/BayoJohn" target="_blank"
-                            class="w-9 h-9 bg-gray-800 hover:bg-gray-700 rounded-lg flex items-center justify-center transition group">
+                            class="w-9 h-9 bg-gray-800/80 hover:bg-indigo-500/20 border border-gray-700/50 hover:border-indigo-500/50 rounded-lg flex items-center justify-center transition group">
                             <img src="https://cdn.simpleicons.org/github/ffffff" class="w-4 h-4" alt="GitHub">
                         </a>
                         <a href="https://www.linkedin.com/in/bayo123" target="_blank"
-                            class="w-9 h-9 bg-gray-800 hover:bg-gray-700 rounded-lg flex items-center justify-center transition">
+                            class="w-9 h-9 bg-gray-800/80 hover:bg-indigo-500/20 border border-gray-700/50 hover:border-indigo-500/50 rounded-lg flex items-center justify-center transition">
                             <img src="https://cdn.simpleicons.org/linkedin/0A66C2" class="w-4 h-4" alt="LinkedIn">
                         </a>
                         <a href="https://twitter.com/BayoJohnMoses" target="_blank"
-                            class="w-9 h-9 bg-gray-800 hover:bg-gray-700 rounded-lg flex items-center justify-center transition">
+                            class="w-9 h-9 bg-gray-800/80 hover:bg-indigo-500/20 border border-gray-700/50 hover:border-indigo-500/50 rounded-lg flex items-center justify-center transition">
                             <img src="https://cdn.simpleicons.org/x/ffffff" class="w-4 h-4" alt="X">
                         </a>
                         <a href="https://instagram.com/bayojohnmoses" target="_blank"
-                            class="w-9 h-9 bg-gray-800 hover:bg-gray-700 rounded-lg flex items-center justify-center transition">
+                            class="w-9 h-9 bg-gray-800/80 hover:bg-indigo-500/20 border border-gray-700/50 hover:border-indigo-500/50 rounded-lg flex items-center justify-center transition">
                             <img src="https://cdn.simpleicons.org/instagram/E4405F" class="w-4 h-4" alt="Instagram">
                         </a>
                     </div>
@@ -187,46 +213,48 @@
 
                 <!-- Quick links -->
                 <div>
-                    <h4 class="text-sm font-semibold text-gray-300 mb-4 uppercase tracking-wider">Quick Links</h4>
+                    <h4 class="text-xs font-bold text-gray-200 mb-5 uppercase tracking-widest">Quick Links</h4>
                     <ul class="space-y-3">
-                        <li><a href="/" class="text-gray-500 hover:text-indigo-400 text-sm transition">Home</a></li>
-                        <li><a href="/about" class="text-gray-500 hover:text-indigo-400 text-sm transition">About</a></li>
-                        <li><a href="/projects" class="text-gray-500 hover:text-indigo-400 text-sm transition">Projects</a></li>
-                        <li><a href="/blog" class="text-gray-500 hover:text-indigo-400 text-sm transition">Blog</a></li>
-                        <li><a href="/contact" class="text-gray-500 hover:text-indigo-400 text-sm transition">Contact</a></li>
+                        <li><a href="/" class="text-gray-400 hover:text-indigo-400 text-sm transition flex items-center gap-1.5 group"><span class="w-1 h-1 rounded-full bg-gray-700 group-hover:bg-indigo-400 transition"></span>Home</a></li>
+                        <li><a href="/about" class="text-gray-400 hover:text-indigo-400 text-sm transition flex items-center gap-1.5 group"><span class="w-1 h-1 rounded-full bg-gray-700 group-hover:bg-indigo-400 transition"></span>About</a></li>
+                        <li><a href="/projects" class="text-gray-400 hover:text-indigo-400 text-sm transition flex items-center gap-1.5 group"><span class="w-1 h-1 rounded-full bg-gray-700 group-hover:bg-indigo-400 transition"></span>Projects</a></li>
+                        <li><a href="/blog" class="text-gray-400 hover:text-indigo-400 text-sm transition flex items-center gap-1.5 group"><span class="w-1 h-1 rounded-full bg-gray-700 group-hover:bg-indigo-400 transition"></span>Blog</a></li>
+                        <li><a href="/contact" class="text-gray-400 hover:text-indigo-400 text-sm transition flex items-center gap-1.5 group"><span class="w-1 h-1 rounded-full bg-gray-700 group-hover:bg-indigo-400 transition"></span>Contact</a></li>
                     </ul>
                 </div>
 
                 <!-- Contact & built with -->
                 <div>
-                    <h4 class="text-sm font-semibold text-gray-300 mb-4 uppercase tracking-wider">Get In Touch</h4>
+                    <h4 class="text-xs font-bold text-gray-200 mb-5 uppercase tracking-widest">Get In Touch</h4>
                     <a href="mailto:ogundelebayo8@gmail.com"
-                        class="flex items-center gap-2 text-gray-500 hover:text-indigo-400 text-sm transition mb-8">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                        </svg>
+                        class="flex items-center gap-2 text-gray-400 hover:text-indigo-400 text-sm transition mb-8 group">
+                        <div class="w-7 h-7 rounded-lg bg-gray-800/80 border border-gray-700/50 group-hover:border-indigo-500/50 flex items-center justify-center shrink-0 transition">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                            </svg>
+                        </div>
                         ogundelebayo8@gmail.com
                     </a>
 
-                    <h4 class="text-sm font-semibold text-gray-300 mb-4 uppercase tracking-wider">Built With</h4>
+                    <h4 class="text-xs font-bold text-gray-200 mb-4 uppercase tracking-widest">Built With</h4>
                     <div class="flex flex-wrap gap-2">
-                        <span class="flex items-center gap-1.5 bg-gray-800 px-3 py-1.5 rounded-lg text-xs text-gray-400">
+                        <span class="flex items-center gap-1.5 bg-gray-800/80 border border-gray-700/50 px-3 py-1.5 rounded-lg text-xs text-gray-300">
                             <img src="https://cdn.simpleicons.org/python/3776AB" class="w-3.5 h-3.5" alt="Python">
                             Python
                         </span>
-                        <span class="flex items-center gap-1.5 bg-gray-800 px-3 py-1.5 rounded-lg text-xs text-gray-400">
+                        <span class="flex items-center gap-1.5 bg-gray-800/80 border border-gray-700/50 px-3 py-1.5 rounded-lg text-xs text-gray-300">
                             <img src="https://cdn.simpleicons.org/flask/ffffff" class="w-3.5 h-3.5" alt="Flask">
                             Flask
                         </span>
-                        <span class="flex items-center gap-1.5 bg-gray-800 px-3 py-1.5 rounded-lg text-xs text-gray-400">
+                        <span class="flex items-center gap-1.5 bg-gray-800/80 border border-gray-700/50 px-3 py-1.5 rounded-lg text-xs text-gray-300">
                             <img src="https://cdn.simpleicons.org/tailwindcss/06B6D4" class="w-3.5 h-3.5" alt="Tailwind">
                             Tailwind
                         </span>
-                        <span class="flex items-center gap-1.5 bg-gray-800 px-3 py-1.5 rounded-lg text-xs text-gray-400">
+                        <span class="flex items-center gap-1.5 bg-gray-800/80 border border-gray-700/50 px-3 py-1.5 rounded-lg text-xs text-gray-300">
                             <img src="https://cdn.simpleicons.org/sqlite/003B57" class="w-3.5 h-3.5" alt="SQLite">
                             SQLite
                         </span>
-                        <span class="flex items-center gap-1.5 bg-gray-800 px-3 py-1.5 rounded-lg text-xs text-gray-400">
+                        <span class="flex items-center gap-1.5 bg-gray-800/80 border border-gray-700/50 px-3 py-1.5 rounded-lg text-xs text-gray-300">
                             <img src="https://cdn.simpleicons.org/docker/2496ED" class="w-3.5 h-3.5" alt="Docker">
                             Docker
                         </span>
@@ -237,10 +265,10 @@
         </div>
 
         <!-- Bottom bar -->
-        <div class="border-t border-gray-800 py-5">
+        <div class="border-t border-gray-800/60 py-5">
             <div class="max-w-5xl mx-auto px-4 md:px-6 flex flex-col md:flex-row justify-between items-center gap-2">
-                <p class="text-gray-600 text-xs">© 2025 Omobayonle Ogundele. All rights reserved.</p>
-                <p class="text-gray-600 text-xs">Made with ❤️ in Lagos, Nigeria 🇳🇬</p>
+                <p class="text-gray-500 text-xs">© 2025 Omobayonle Ogundele. All rights reserved.</p>
+                <p class="text-gray-500 text-xs">Made with ❤️ in Lagos, Nigeria 🇳🇬</p>
             </div>
         </div>
 
