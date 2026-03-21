@@ -2,7 +2,7 @@
 {% block title %}Contact — StackedByBayo{% endblock %}
 {% block content %}
 
-<div style="padding:40px 24px 80px;">
+<div style="padding:40px 16px 80px;">
   <div style="max-width:680px;margin:0 auto;">
 
     <!-- Header -->
@@ -27,7 +27,7 @@
     {% endwith %}
 
     <!-- Form card -->
-    <div class="glass-panel reveal" style="padding:48px;">
+    <div class="glass-panel reveal" style="padding:48px;" id="contact-form-card">
       <form method="POST" style="display:flex;flex-direction:column;gap:24px;">
 
         <div>
@@ -58,7 +58,7 @@
     </div>
 
     <!-- Side info -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px;" class="reveal">
+    <div id="contact-info-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px;" class="reveal">
       <div class="glass-panel" style="padding:24px;">
         <p style="font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:0.12em;color:rgba(255,255,255,0.5);margin-bottom:10px;">Email</p>
         <a href="mailto:ogundelebayo8@gmail.com" style="font-size:0.95rem;color:var(--cyan-light);font-weight:700;text-decoration:none;">ogundelebayo8@gmail.com</a>
@@ -76,7 +76,14 @@
   </div>
 </div>
 <style>
-  @keyframes pulse { 0%,100%{opacity:1;}50%{opacity:0.6;} }
+@media (max-width: 767px) {
+  #contact-form-card {
+    padding: 28px 20px !important;
+  }
+  #contact-info-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
 </style>
 
 {% endblock %}

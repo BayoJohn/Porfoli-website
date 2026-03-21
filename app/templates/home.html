@@ -5,13 +5,13 @@
 <!-- ═══════════════════════════════════════════
      HERO
 ═══════════════════════════════════════════════ -->
-<section style="padding: 32px 24px 0;">
+<section style="padding: 32px 16px 0;">
   <div class="glass-panel" style="
     max-width: 1100px; margin: 0 auto; padding: 64px 56px;
     position: relative; overflow: hidden; min-height: 520px;
     display: flex; align-items: center;
     background: linear-gradient(135deg, rgba(76,29,149,0.2) 0%, rgba(124,58,237,0.1) 100%);
-  ">
+  " id="hero-card">
     <!-- content grid -->
     <div style="display: grid; grid-template-columns: 1fr 420px; gap: 40px; align-items: center; position: relative; z-index: 2; width: 100%;">
       <!-- LEFT: Text -->
@@ -127,7 +127,7 @@
     <p style="text-align:center;font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:0.12em;color:var(--cyan-light);margin-bottom:12px;">THE NUMBERS</p>
     <h2 style="text-align:center;font-size:clamp(2.2rem,4vw,3.2rem);font-weight:900;color:#fff;margin-bottom:60px;letter-spacing:-0.02em;">Results That Speak</h2>
 
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;">
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;" id="stats-grid">
       <div class="stat-card" style="border-top-color:var(--cyan-light);">
         <p class="stat-num" data-target="6" data-suffix="+" style="color:var(--cyan-light);">0</p>
         <p class="stat-label">Months Learning</p>
@@ -297,7 +297,7 @@
     </div>
 
     {% if projects %}
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:28px;">
+    <div class="projects-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:28px;">
       {% for project in projects %}
       <a href="/projects/{{ project.id }}" class="glass-panel reveal" style="
         display:flex;flex-direction:column;overflow:hidden;padding:0;
@@ -359,7 +359,7 @@
     </div>
 
     {% if posts %}
-    <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:40px;">
+    <div class="blog-grid" style="display:grid;grid-template-columns:1.2fr 1fr;gap:40px;">
       
       <!-- Featured Post (Glass Box) -->
       {% set featured = posts[0] %}
@@ -430,7 +430,7 @@
 ═══════════════════════════════════════════════ -->
 <section style="padding:0 24px 100px;">
   <div style="max-width:1100px;margin:0 auto;" class="reveal">
-    <div class="glass-panel" style="
+    <div class="glass-panel cta-panel" style="
       padding:80px 56px;text-align:center;position:relative;overflow:hidden;
       border:1px solid rgba(6,182,212,0.3);
       box-shadow:inset 0 0 40px rgba(124,58,237,0.1), 0 20px 40px rgba(0,0,0,0.3);
@@ -472,5 +472,42 @@
   }
   setTimeout(typeStep,700);
 </script>
+
+<style>
+/* ── Mobile: Home page responsive overrides */
+@media (max-width: 767px) {
+  /* Hero */
+  #hero-card {
+    padding: 32px 24px !important;
+    min-height: auto !important;
+  }
+  #hero-card > div {
+    grid-template-columns: 1fr !important;
+  }
+  #hero-card > div > div:last-child {
+    display: none; /* hide photo column on mobile */
+  }
+
+  /* Stats: 4-col → 2-col */
+  #stats-grid {
+    grid-template-columns: repeat(2,1fr) !important;
+  }
+
+  /* Featured projects: 2-col → 1-col */
+  .projects-grid { grid-template-columns: 1fr !important; }
+
+  /* Blog: 2-col → 1-col */
+  .blog-grid { grid-template-columns: 1fr !important; }
+
+  /* CTA section padding */
+  .cta-panel { padding: 40px 24px !important; }
+
+  /* About bento padding */
+  .about-bento-card { padding: 32px 24px !important; }
+
+  /* General section padding */
+  section { padding-left: 16px !important; padding-right: 16px !important; }
+}
+</style>
 
 {% endblock %}
