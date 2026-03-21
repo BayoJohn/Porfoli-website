@@ -17,7 +17,7 @@ spec:
         - name: harbor-secret
       containers:
         - name: portfolio
-          image: 10.0.0.2/library/portfolio:build-71
+          image: 10.0.0.2/library/portfolio:build-72
           ports:
             - containerPort: 5000
           env:
