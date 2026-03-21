@@ -7,10 +7,12 @@
 <style>
     /* ── Solid reading background — blocks the body background image completely */
     .post-reading-area {
-        background: #080f16;
+        background: rgba(22, 35, 55, 0.45);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
         border-radius: 28px;
-        border: 1px solid rgba(255,255,255,0.07);
-        box-shadow: 0 0 0 1px rgba(6,182,212,0.06), 0 32px 80px rgba(0,0,0,0.5);
+        border: 1px solid rgba(255,255,255,0.15);
+        box-shadow: 0 0 0 1px rgba(6,182,212,0.08), 0 32px 80px rgba(0,0,0,0.5);
     }
 
     /* ── Prose styles */
@@ -114,7 +116,7 @@
 </style>
 
 <div style="padding: 0 24px 60px;">
-  <div class="max-w-3xl mx-auto">
+  <div class="max-w-3xl" style="margin-left: clamp(16px, 10vw, 150px);">
 
     <!-- Back link -->
     <a href="/blog" style="display:inline-flex;align-items:center;gap:8px;color:rgba(255,255,255,0.5);font-size:0.9rem;font-weight:600;margin-bottom:32px;transition:color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.5)'">
