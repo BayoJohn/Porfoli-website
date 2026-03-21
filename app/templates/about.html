@@ -1,271 +1,254 @@
 {% extends "base.html" %}
-
-{% block title %}About — Omobayonle Ogundele{% endblock %}
-
+{% block title %}About — StackedByBayo{% endblock %}
 {% block content %}
 
-    <!-- Profile Hero -->
-    <div class="flex flex-col md:flex-row items-start gap-10 mb-20 reveal">
-        <div class="shrink-0">
-            <div class="w-32 h-32 rounded-full bg-gradient-to-br from-indigo-500 to-cyan-500 p-1">
-                <div class="w-full h-full rounded-full overflow-hidden">
-                    {% if profile_exists %}
-                    <img src="/static/uploads/profile.jpg"
-                         class="w-full h-full object-cover object-top"
-                         alt="Omobayonle Ogundele">
-                    {% else %}
-                    <div class="w-full h-full rounded-full bg-gray-900 flex items-center justify-center text-5xl">
-                        🧑‍💻
-                    </div>
-                    {% endif %}
-                </div>
+<!-- Ambient Lighting Orbs -->
+<div style="position:fixed;top:-10%;left:-20%;width:70vw;height:70vw;background:radial-gradient(circle, rgba(139,92,246,0.1) 0%, transparent 60%);z-index:0;pointer-events:none;"></div>
+<div style="position:fixed;bottom:-20%;right:-10%;width:50vw;height:50vw;background:radial-gradient(circle, rgba(251,146,60,0.08) 0%, transparent 60%);z-index:0;pointer-events:none;"></div>
+
+<div style="padding:100px 24px 100px; position:relative; z-index:2;">
+  <div style="max-width:1100px;margin:0 auto;display:flex;flex-direction:column;gap:80px;">
+
+    <!-- 1. Massive Hero Block -->
+    <div class="glass-panel reveal" style="padding:64px;border-top:4px solid var(--purple-light);display:flex;flex-direction:column;gap:48px;">
+      
+      <div class="flex-hero">
+        <!-- Avatar Side -->
+        <div style="flex-shrink:0;">
+          <div style="position:relative;width:220px;height:220px;">
+            <!-- Ambient glow behind avatar -->
+            <div style="position:absolute;inset:-15px;background:var(--purple);border-radius:50%;filter:blur(32px);opacity:0.4;"></div>
+            
+            <div style="position:relative;width:100%;height:100%;border-radius:50%;background:rgba(255,255,255,0.1);border:3px solid rgba(255,255,255,0.2);overflow:hidden;z-index:2;">
+              {% if profile_exists %}
+              <img src="/static/uploads/profile.jpg" style="width:100%;height:100%;object-fit:cover;" alt="Bayo">
+              {% else %}
+              <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:5rem;">👨‍💻</div>
+              {% endif %}
             </div>
-            <div class="flex items-center justify-center gap-2 mt-3">
-                <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                <span class="text-green-400 text-xs font-medium">Available for work</span>
-            </div>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:center;gap:8px;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.1);padding:10px 20px;border-radius:100px;margin-top:24px;box-shadow:inset 0 0 20px rgba(0,0,0,0.5);">
+            <span style="width:10px;height:10px;background:#10b981;border-radius:50%;display:inline-block;animation:pulse 2s infinite;box-shadow:0 0 10px #10b981;"></span>
+            <span style="font-size:0.9rem;font-weight:700;color:#fff;">Available for work</span>
+          </div>
         </div>
 
-        <div>
-            <p class="text-indigo-400 font-medium mb-2">Hey there, I'm</p>
-            <h1 class="text-4xl md:text-5xl font-extrabold mb-3">
-                Omobayonle <span class="gradient-text">Ogundele</span>
-            </h1>
-            <p class="text-xl text-gray-400 mb-4">DevOps Engineer</p>
-            <p class="text-gray-400 leading-relaxed max-w-lg mb-6">
-                I design and build reliable, scalable infrastructure that keeps
-                applications running smoothly. Passionate about automation,
-                CI/CD pipelines and cloud architecture. Based in Lagos, Nigeria.
+        <!-- Text Side -->
+        <div style="display:flex;flex-direction:column;justify-content:center;">
+          <p style="font-size:1.1rem;font-weight:700;color:rgba(255,255,255,0.8);margin-bottom:8px;">Hey there, I'm</p>
+          <h1 style="font-size:clamp(3rem,5vw,4.5rem);font-weight:900;color:#fff;line-height:1.1;margin-bottom:12px;letter-spacing:-0.03em;">
+            Omobayonle <span style="background:linear-gradient(90deg, #a78bfa, #fb923c);background-size:200% auto;color:transparent;-webkit-background-clip:text;animation:shine 5s linear infinite;">Ogundele</span>
+          </h1>
+          <p style="font-size:1.4rem;color:rgba(255,255,255,0.6);font-weight:600;margin-bottom:24px;">DevOps Engineer</p>
+          
+          <p style="font-size:1.1rem;color:rgba(255,255,255,0.7);line-height:1.8;max-width:600px;margin-bottom:32px;">
+            I design and build reliable, scalable infrastructure that keeps applications running smoothly. Passionate about automation, CI/CD pipelines, and cloud architecture. Based in Lagos, Nigeria 🇳🇬.
+          </p>
+
+          <!-- Badges -->
+          <div style="display:flex;flex-wrap:wrap;gap:12px;margin-bottom:40px;">
+            {% for icon, label in [('📍','Lagos, Nigeria'),('💼','6 Months In'),('🚀','3+ Projects Deployed'),('☁️','Cloud & DevOps')] %}
+            <span style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);padding:8px 16px;border-radius:8px;font-size:0.9rem;font-weight:600;color:#fff;display:flex;align-items:center;gap:8px;">
+              {{ icon }} <span style="opacity:0.8;">{{ label }}</span>
+            </span>
+            {% endfor %}
+          </div>
+
+          <!-- Actions -->
+          <div style="display:flex;gap:16px;">
+            <a href="/contact" class="g-btn" style="padding:14px 28px;font-size:1rem;">Get in touch</a>
+            <a href="#" class="g-btn" style="background:rgba(255,255,255,0.1);color:#fff;border:1px solid rgba(255,255,255,0.2);box-shadow:none;">Download CV</a>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+
+    <!-- 2. Stats Row -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 reveal">
+      {% for count, label, stat in [('6','Months Learning','continuous growth'),('3+','Projects Deployed','real production'),('10+','Tools Learned','mastery')] %}
+      <div class="glass-panel" style="padding:40px 24px;text-align:center;transition:transform 0.3s;" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform='none'">
+        <div style="font-size:3.5rem;font-weight:900;color:var(--orange-light);line-height:1;margin-bottom:12px;filter:drop-shadow(0 0 15px rgba(251,146,60,0.5));">{{ count }}</div>
+        <p style="font-size:1.1rem;font-weight:700;color:#fff;margin-bottom:4px;">{{ label }}</p>
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- 3. Skills & Tools -->
+    <div class="reveal">
+      <h2 style="font-size:2.5rem;font-weight:900;color:#fff;margin-bottom:40px;letter-spacing:-0.02em;">Skills & Tools</h2>
+      
+      <!-- Developer Skills -->
+      <div style="margin-bottom:48px;">
+        <h3 style="font-size:1.2rem;font-weight:800;color:#fff;margin-bottom:24px;display:flex;align-items:center;gap:16px;">
+          <span style="display:inline-block;width:4px;height:24px;background:var(--purple-light);border-radius:2px;box-shadow:0 0 15px var(--purple-light);"></span>
+          Developer Skills
+        </h3>
+        <div style="display:flex;flex-wrap:wrap;gap:12px;">
+          {% for label, color, slug in [
+            ('Python','#3776AB','python'),('Flask','#000000','flask'),('PostgreSQL','#4169E1','postgresql'),
+            ('Bash','#4EAA25','gnubash'),('REST APIs','#FF6C37','postman'),('HTML & CSS','#E34F26','html5'),
+            ('JavaScript','#F7DF1E','javascript'),('Git','#F05032','git')
+          ] %}
+          <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(255,255,255,0.08);padding:10px 16px;border-radius:100px;display:flex;align-items:center;gap:10px;transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.1)';" onmouseout="this.style.background='rgba(0,0,0,0.4)';">
+            <img src="https://cdn.simpleicons.org/{{ slug }}/{{ color|replace('#', '')|replace('000000','ffffff') }}" style="width:16px;height:16px;">
+            <span style="font-size:0.9rem;font-weight:700;color:#fff;">{{ label }}</span>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Cloud & Infrastructure -->
+      <div>
+        <h3 style="font-size:1.2rem;font-weight:800;color:#fff;margin-bottom:24px;display:flex;align-items:center;gap:16px;">
+          <span style="display:inline-block;width:4px;height:24px;background:var(--orange-light);border-radius:2px;box-shadow:0 0 15px var(--orange-light);"></span>
+          Cloud & Infrastructure
+        </h3>
+        <div style="display:flex;flex-wrap:wrap;gap:12px;">
+          {% for label, color, slug in [
+            ('AWS','#FF9900','amazonaws'),('EKS','#FF9900','amazonaws'),('Docker','#2496ED','docker'),('Kubernetes','#326CE5','kubernetes'),
+            ('ArgoCD','#EF7B4D','argo'),('Terraform','#7B42BC','terraform'),('Ansible','#EE0000','ansible'),
+            ('GitHub Actions','#2088FF','githubactions'),('Drone CI','#212121','drone'),('Grafana','#F46800','grafana'),
+            ('Prometheus','#E6522C','prometheus'),('Linux','#FCC624','linux'),('Gitea','#609926','gitea')
+          ] %}
+          <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(255,255,255,0.08);padding:10px 16px;border-radius:100px;display:flex;align-items:center;gap:10px;transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.1)';" onmouseout="this.style.background='rgba(0,0,0,0.4)';">
+            <img src="https://cdn.simpleicons.org/{{ slug }}/{{ color|replace('#', '')|replace('000000','ffffff') }}" style="width:16px;height:16px;">
+            <span style="font-size:0.9rem;font-weight:700;color:#fff;">{{ label }}</span>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. Experience Timeline -->
+    <div class="reveal">
+      <h2 style="font-size:2.5rem;font-weight:900;color:#fff;margin-bottom:40px;letter-spacing:-0.02em;">Experience</h2>
+      
+      <div style="position:relative;padding-left:64px;">
+        <!-- Wide Glowing Pipe -->
+        <div style="position:absolute;left:16px;top:20px;bottom:0;width:4px;background:linear-gradient(to bottom, var(--purple-light) 0%, rgba(255,255,255,0.05) 100%);border-radius:4px;box-shadow:0 0 20px var(--purple-light);"></div>
+        
+        <!-- Experience Node 1 -->
+        <div style="position:relative;">
+          <!-- Glowing Node Number -->
+          <div style="position:absolute;left:-68px;top:24px;width:40px;height:40px;background:var(--purple);border:4px solid #fff;border-radius:50%;box-shadow:0 0 30px var(--purple-light);z-index:2;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:1.1rem;">1</div>
+          
+          <div class="glass-panel" style="padding:48px;border:1px solid rgba(139,92,246,0.3);">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:16px;margin-bottom:12px;">
+              <h3 style="font-size:1.8rem;font-weight:900;color:#fff;letter-spacing:-0.02em;">DevOps Engineer <span style="color:var(--orange-light);font-size:1.4rem;">(Self-Taught)</span></h3>
+              <span style="font-size:0.9rem;font-weight:800;color:var(--purple-light);background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.2);padding:8px 20px;border-radius:100px;">2024 — Present</span>
+            </div>
+            <p style="font-size:1.1rem;color:var(--orange-light);font-weight:700;margin-bottom:24px;">Personal Projects & Learning</p>
+            
+            <p style="color:rgba(255,255,255,0.7);font-size:1.15rem;line-height:1.8;margin-bottom:32px;max-width:900px;">
+              Building and deploying real infrastructure from scratch — CI/CD pipelines, containerized apps, cloud servers and monitoring stacks. Learning by doing.
             </p>
 
-            <div class="flex flex-wrap gap-3 mb-6">
-                <span class="flex items-center gap-2 bg-gray-800 text-gray-400 text-xs px-3 py-2 rounded-lg">
-                    📍 Lagos, Nigeria
-                </span>
-                <span class="flex items-center gap-2 bg-gray-800 text-gray-400 text-xs px-3 py-2 rounded-lg">
-                    💼 6 Months In
-                </span>
-                <span class="flex items-center gap-2 bg-gray-800 text-gray-400 text-xs px-3 py-2 rounded-lg">
-                    🚀 3+ Projects Deployed
-                </span>
-                <span class="flex items-center gap-2 bg-gray-800 text-gray-400 text-xs px-3 py-2 rounded-lg">
-                    ☁️ Cloud & DevOps
-                </span>
+            <div style="display:flex;flex-wrap:wrap;gap:12px;">
+              {% for tag in ['Kubernetes', 'Docker', 'Drone CI', 'AWS', 'ArgoCD'] %}
+              <span style="background:rgba(255,255,255,0.05);padding:6px 14px;border-radius:6px;font-size:0.85rem;color:rgba(255,255,255,0.6);font-weight:600;border:1px solid rgba(255,255,255,0.05);">{{ tag }}</span>
+              {% endfor %}
             </div>
-
-            <div class="flex flex-wrap gap-4">
-                <a href="/contact"
-                    class="gradient-bg text-white font-semibold px-5 py-2.5 rounded-lg transition text-sm hover:opacity-90">
-                    Get in touch
-                </a>
-                <a href="/static/resume.pdf" target="_blank"
-                    class="border border-gray-700 hover:border-indigo-500 hover:text-indigo-400 text-gray-300 font-semibold px-5 py-2.5 rounded-lg transition text-sm">
-                    Download CV
-                </a>
-            </div>
+          </div>
         </div>
+
+      </div>
     </div>
 
-    <!-- Stats -->
-    <div class="grid grid-cols-3 gap-4 mb-20">
-        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5 text-center reveal">
-            <p class="text-3xl font-extrabold gradient-text mb-1">6</p>
-            <p class="text-gray-500 text-xs">Months Learning</p>
+    <!-- 5. What I Do Bento Cards -->
+    <div class="reveal">
+      <h2 style="font-size:2.5rem;font-weight:900;color:#fff;margin-bottom:40px;letter-spacing:-0.02em;">What I Do</h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <div class="glass-panel" style="padding:40px;transition:background 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.08)'" onmouseout="this.style.background='var(--glass)'">
+          <div style="width:56px;height:56px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin-bottom:24px;box-shadow:0 10px 20px rgba(0,0,0,0.3);">🏗️</div>
+          <h3 style="font-size:1.5rem;font-weight:800;color:#fff;margin-bottom:16px;">Infrastructure as Code</h3>
+          <p style="font-size:1.1rem;color:rgba(255,255,255,0.6);line-height:1.7;">
+            Designing and managing cloud infrastructure using Terraform and Ansible — repeatable, version controlled and reliable.
+          </p>
         </div>
-        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5 text-center reveal">
-            <p class="text-3xl font-extrabold gradient-text mb-1">3+</p>
-            <p class="text-gray-500 text-xs">Projects Deployed</p>
+        
+        <div class="glass-panel" style="padding:40px;transition:background 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.08)'" onmouseout="this.style.background='var(--glass)'">
+          <div style="width:56px;height:56px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin-bottom:24px;box-shadow:0 10px 20px rgba(0,0,0,0.3);">⚡</div>
+          <h3 style="font-size:1.5rem;font-weight:800;color:#fff;margin-bottom:16px;">CI/CD Pipelines</h3>
+          <p style="font-size:1.1rem;color:rgba(255,255,255,0.6);line-height:1.7;">
+            Building automated deployment pipelines using Drone CI, GitHub Actions and ArgoCD that ship code safely and fast.
+          </p>
         </div>
-        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5 text-center reveal">
-            <p class="text-3xl font-extrabold gradient-text mb-1">10+</p>
-            <p class="text-gray-500 text-xs">Tools Learned</p>
+        
+        <div class="glass-panel" style="padding:40px;transition:background 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.08)'" onmouseout="this.style.background='var(--glass)'">
+          <div style="width:56px;height:56px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin-bottom:24px;box-shadow:0 10px 20px rgba(0,0,0,0.3);">📊</div>
+          <h3 style="font-size:1.5rem;font-weight:800;color:#fff;margin-bottom:16px;">Monitoring & Observability</h3>
+          <p style="font-size:1.1rem;color:rgba(255,255,255,0.6);line-height:1.7;">
+            Setting up Prometheus and Grafana dashboards so you always know what's happening in production.
+          </p>
         </div>
+
+      </div>
     </div>
 
-    <!-- Skills -->
-    <div class="mb-20">
-        <h2 class="text-2xl font-bold mb-8 reveal">Skills & Tools</h2>
-
-        <!-- Developer Skills -->
-        <div class="mb-6 reveal">
-            <div class="flex items-center gap-2 mb-4">
-                <div class="w-1 h-5 gradient-bg rounded-full"></div>
-                <h3 class="font-semibold text-gray-300">Developer Skills</h3>
-            </div>
-            <div class="flex flex-wrap gap-2">
-                <span class="flex items-center gap-2 bg-gray-900 border border-gray-800 hover:border-indigo-500/50 text-gray-300 text-sm px-3 py-2 rounded-xl transition cursor-default">
-                    <img src="https://cdn.simpleicons.org/python/3776AB" class="w-4 h-4"> Python
-                </span>
-                <span class="flex items-center gap-2 bg-gray-900 border border-gray-800 hover:border-indigo-500/50 text-gray-300 text-sm px-3 py-2 rounded-xl transition cursor-default">
-                    <img src="https://cdn.simpleicons.org/flask/ffffff" class="w-4 h-4"> Flask
-                </span>
-                <span class="flex items-center gap-2 bg-gray-900 border border-gray-800 hover:border-indigo-500/50 text-gray-300 text-sm px-3 py-2 rounded-xl transition cursor-default">
-                    <img src="https://cdn.simpleicons.org/postgresql/4169E1" class="w-4 h-4"> PostgreSQL
-                </span>
-                <span class="flex items-center gap-2 bg-gray-900 border border-gray-800 hover:border-indigo-500/50 text-gray-300 text-sm px-3 py-2 rounded-xl transition cursor-default">
-                    <img src="https://cdn.simpleicons.org/gnubash/4EAA25" class="w-4 h-4"> Bash
-                </span>
-                <span class="flex items-center gap-2 bg-gray-900 border border-gray-800 hover:border-indigo-500/50 text-gray-300 text-sm px-3 py-2 rounded-xl transition cursor-default">
-                    <img src="https://cdn.simpleicons.org/postman/FF6C37" class="w-4 h-4"> REST APIs
-                </span>
-                <span class="flex items-center gap-2 bg-gray-900 border border-gray-800 hover:border-indigo-500/50 text-gray-300 text-sm px-3 py-2 rounded-xl transition cursor-default">
-                    <img src="https://cdn.simpleicons.org/html5/E34F26" class="w-4 h-4"> HTML & CSS
-                </span>
-                <span class="flex items-center gap-2 bg-gray-900 border border-gray-800 hover:border-indigo-500/50 text-gray-300 text-sm px-3 py-2 rounded-xl transition cursor-default">
-                    <img src="https://cdn.simpleicons.org/javascript/F7DF1E" class="w-4 h-4"> JavaScript
-                </span>
-                <span class="flex items-center gap-2 bg-gray-900 border border-gray-800 hover:border-indigo-500/50 text-gray-300 text-sm px-3 py-2 rounded-xl transition cursor-default">
-                    <img src="https://cdn.simpleicons.org/git/F05032" class="w-4 h-4"> Git
-                </span>
-            </div>
-        </div>
-
-        <!-- Cloud & Infrastructure -->
-        <div class="reveal">
-            <div class="flex items-center gap-2 mb-4">
-                <div class="w-1 h-5 bg-cyan-500 rounded-full"></div>
-                <h3 class="font-semibold text-gray-300">Cloud & Infrastructure</h3>
-            </div>
-            <div class="flex flex-wrap gap-2">
-                <span class="flex items-center gap-2 bg-gray-900 border border-gray-800 hover:border-cyan-500/50 text-gray-300 text-sm px-3 py-2 rounded-xl transition cursor-default">
-                    <img src="https://cdn.simpleicons.org/amazonaws/FF9900" class="w-4 h-4"> AWS
-                </span>
-                <span class="flex items-center gap-2 bg-gray-900 border border-gray-800 hover:border-cyan-500/50 text-gray-300 text-sm px-3 py-2 rounded-xl transition cursor-default">
-                    <img src="https://cdn.simpleicons.org/oracle/F80000" class="w-4 h-4"> Oracle Cloud
-                </span>
-                <span class="flex items-center gap-2 bg-gray-900 border border-gray-800 hover:border-cyan-500/50 text-gray-300 text-sm px-3 py-2 rounded-xl transition cursor-default">
-                    <img src="https://cdn.simpleicons.org/amazonaws/FF9900" class="w-4 h-4"> EKS
-                </span>
-                <span class="flex items-center gap-2 bg-gray-900 border border-gray-800 hover:border-cyan-500/50 text-gray-300 text-sm px-3 py-2 rounded-xl transition cursor-default">
-                    <img src="https://cdn.simpleicons.org/amazonaws/FF9900" class="w-4 h-4"> S3
-                </span>
-                <span class="flex items-center gap-2 bg-gray-900 border border-gray-800 hover:border-cyan-500/50 text-gray-300 text-sm px-3 py-2 rounded-xl transition cursor-default">
-                    <img src="https://cdn.simpleicons.org/amazonaws/FF9900" class="w-4 h-4"> IAM
-                </span>
-                <span class="flex items-center gap-2 bg-gray-900 border border-gray-800 hover:border-cyan-500/50 text-gray-300 text-sm px-3 py-2 rounded-xl transition cursor-default">
-                    <img src="https://cdn.simpleicons.org/amazonaws/FF9900" class="w-4 h-4"> VPC
-                </span>
-                <span class="flex items-center gap-2 bg-gray-900 border border-gray-800 hover:border-cyan-500/50 text-gray-300 text-sm px-3 py-2 rounded-xl transition cursor-default">
-                    <img src="https://cdn.simpleicons.org/amazonaws/FF9900" class="w-4 h-4"> CloudWatch
-                </span>
-                <span class="flex items-center gap-2 bg-gray-900 border border-gray-800 hover:border-cyan-500/50 text-gray-300 text-sm px-3 py-2 rounded-xl transition cursor-default">
-                    <img src="https://cdn.simpleicons.org/docker/2496ED" class="w-4 h-4"> Docker
-                </span>
-                <span class="flex items-center gap-2 bg-gray-900 border border-gray-800 hover:border-cyan-500/50 text-gray-300 text-sm px-3 py-2 rounded-xl transition cursor-default">
-                    <img src="https://cdn.simpleicons.org/kubernetes/326CE5" class="w-4 h-4"> Kubernetes
-                </span>
-                <span class="flex items-center gap-2 bg-gray-900 border border-gray-800 hover:border-cyan-500/50 text-gray-300 text-sm px-3 py-2 rounded-xl transition cursor-default">
-                    <img src="https://cdn.simpleicons.org/helm/0F1689" class="w-4 h-4"> Helm
-                </span>
-                <span class="flex items-center gap-2 bg-gray-900 border border-gray-800 hover:border-cyan-500/50 text-gray-300 text-sm px-3 py-2 rounded-xl transition cursor-default">
-                    <img src="https://cdn.simpleicons.org/argo/EF7B4D" class="w-4 h-4"> ArgoCD
-                </span>
-                <span class="flex items-center gap-2 bg-gray-900 border border-gray-800 hover:border-cyan-500/50 text-gray-300 text-sm px-3 py-2 rounded-xl transition cursor-default">
-                    <img src="https://cdn.simpleicons.org/terraform/7B42BC" class="w-4 h-4"> Terraform
-                </span>
-                <span class="flex items-center gap-2 bg-gray-900 border border-gray-800 hover:border-cyan-500/50 text-gray-300 text-sm px-3 py-2 rounded-xl transition cursor-default">
-                    <img src="https://cdn.simpleicons.org/ansible/EE0000" class="w-4 h-4"> Ansible
-                </span>
-                <span class="flex items-center gap-2 bg-gray-900 border border-gray-800 hover:border-cyan-500/50 text-gray-300 text-sm px-3 py-2 rounded-xl transition cursor-default">
-                    <img src="https://cdn.simpleicons.org/githubactions/2088FF" class="w-4 h-4"> GitHub Actions
-                </span>
-                <span class="flex items-center gap-2 bg-gray-900 border border-gray-800 hover:border-cyan-500/50 text-gray-300 text-sm px-3 py-2 rounded-xl transition cursor-default">
-                    <img src="https://cdn.simpleicons.org/jenkins/D24939" class="w-4 h-4"> Jenkins
-                </span>
-                <span class="flex items-center gap-2 bg-gray-900 border border-gray-800 hover:border-cyan-500/50 text-gray-300 text-sm px-3 py-2 rounded-xl transition cursor-default">
-                    <img src="https://cdn.simpleicons.org/drone/212121" class="w-4 h-4"> Drone CI
-                </span>
-                <span class="flex items-center gap-2 bg-gray-900 border border-gray-800 hover:border-cyan-500/50 text-gray-300 text-sm px-3 py-2 rounded-xl transition cursor-default">
-                    <img src="https://cdn.simpleicons.org/grafana/F46800" class="w-4 h-4"> Grafana
-                </span>
-                <span class="flex items-center gap-2 bg-gray-900 border border-gray-800 hover:border-cyan-500/50 text-gray-300 text-sm px-3 py-2 rounded-xl transition cursor-default">
-                    <img src="https://cdn.simpleicons.org/prometheus/E6522C" class="w-4 h-4"> Prometheus
-                </span>
-                <span class="flex items-center gap-2 bg-gray-900 border border-gray-800 hover:border-cyan-500/50 text-gray-300 text-sm px-3 py-2 rounded-xl transition cursor-default">
-                    <img src="https://cdn.simpleicons.org/nginx/009639" class="w-4 h-4"> Nginx
-                </span>
-                <span class="flex items-center gap-2 bg-gray-900 border border-gray-800 hover:border-cyan-500/50 text-gray-300 text-sm px-3 py-2 rounded-xl transition cursor-default">
-                    <img src="https://cdn.simpleicons.org/linux/FCC624" class="w-4 h-4"> Linux
-                </span>
-                <span class="flex items-center gap-2 bg-gray-900 border border-gray-800 hover:border-cyan-500/50 text-gray-300 text-sm px-3 py-2 rounded-xl transition cursor-default">
-                    <img src="https://cdn.simpleicons.org/gitea/609926" class="w-4 h-4"> Gitea
-                </span>
-            </div>
-        </div>
-    </div>
-
-    <!-- Experience timeline -->
-    <div class="mb-20">
-        <h2 class="text-2xl font-bold mb-8 reveal">Experience</h2>
-        <div class="relative">
-            <div class="absolute left-4 top-0 bottom-0 w-px bg-gray-800"></div>
-            <div class="space-y-8">
-                <div class="relative pl-12 reveal">
-                    <div class="absolute left-0 top-1 w-8 h-8 gradient-bg rounded-full flex items-center justify-center text-xs font-bold">1</div>
-                    <div class="bg-gray-900 border border-gray-800 hover:border-indigo-500/30 rounded-2xl p-6 transition">
-                        <div class="flex flex-col sm:flex-row sm:justify-between mb-2">
-                            <h3 class="font-bold text-lg">DevOps Engineer (Self-taught)</h3>
-                            <span class="text-indigo-400 text-sm font-medium">2024 — Present</span>
-                        </div>
-                        <p class="text-cyan-400 text-sm mb-3">Personal Projects & Learning</p>
-                        <p class="text-gray-400 text-sm leading-relaxed">
-                            Building and deploying real infrastructure from scratch — CI/CD pipelines,
-                            containerized apps, cloud servers and monitoring stacks. Learning by doing.
-                        </p>
-                        <div class="flex flex-wrap gap-2 mt-4">
-                            <span class="bg-gray-800 text-gray-400 text-xs px-2 py-1 rounded-lg">Kubernetes</span>
-                            <span class="bg-gray-800 text-gray-400 text-xs px-2 py-1 rounded-lg">Docker</span>
-                            <span class="bg-gray-800 text-gray-400 text-xs px-2 py-1 rounded-lg">Drone CI</span>
-                            <span class="bg-gray-800 text-gray-400 text-xs px-2 py-1 rounded-lg">Oracle Cloud</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- What I do -->
-    <div class="mb-20">
-        <h2 class="text-2xl font-bold mb-8 reveal">What I Do</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div class="bg-gray-900 border border-gray-800 hover:border-indigo-500/30 rounded-2xl p-6 reveal transition">
-                <div class="text-3xl mb-4">🏗️</div>
-                <h3 class="font-bold mb-2">Infrastructure as Code</h3>
-                <p class="text-gray-400 text-sm leading-relaxed">
-                    Designing and managing cloud infrastructure using Terraform and Ansible — repeatable, version controlled and reliable.
-                </p>
-            </div>
-            <div class="bg-gray-900 border border-gray-800 hover:border-cyan-500/30 rounded-2xl p-6 reveal transition">
-                <div class="text-3xl mb-4">🔄</div>
-                <h3 class="font-bold mb-2">CI/CD Pipelines</h3>
-                <p class="text-gray-400 text-sm leading-relaxed">
-                    Building automated deployment pipelines using Drone CI, GitHub Actions and ArgoCD that ship code safely and fast.
-                </p>
-            </div>
-            <div class="bg-gray-900 border border-gray-800 hover:border-green-500/30 rounded-2xl p-6 reveal transition">
-                <div class="text-3xl mb-4">📊</div>
-                <h3 class="font-bold mb-2">Monitoring & Observability</h3>
-                <p class="text-gray-400 text-sm leading-relaxed">
-                    Setting up Prometheus and Grafana dashboards so you always know what's happening in production.
-                </p>
-            </div>
-        </div>
-    </div>
-
-    <!-- CTA -->
-    <div class="bg-gradient-to-r from-indigo-600/20 to-cyan-600/20 border border-indigo-500/20 rounded-2xl p-8 md:p-12 text-center reveal">
-        <h2 class="text-3xl font-bold mb-3">Want to work together?</h2>
-        <p class="text-gray-400 mb-8 max-w-lg mx-auto">
+    <!-- 6. Bottom CTA Block -->
+    <div class="reveal">
+      <div class="glass-panel" style="padding:80px 40px;text-align:center;border-top-width:4px;border-top-color:var(--orange);position:relative;overflow:hidden;margin-top:20px;">
+        <div style="position:absolute;top:0;left:50%;transform:translateX(-50%);width:300px;height:300px;background:radial-gradient(circle, rgba(251,146,60,0.15) 0%, transparent 60%);z-index:0;pointer-events:none;"></div>
+        
+        <div style="position:relative;z-index:2;">
+          <h2 style="font-size:clamp(2rem,4vw,3.2rem);font-weight:900;color:#fff;margin-bottom:20px;letter-spacing:-0.03em;">Want to work together?</h2>
+          <p style="font-size:1.2rem;color:rgba(255,255,255,0.7);margin-bottom:48px;max-width:600px;margin-left:auto;margin-right:auto;line-height:1.6;">
             I'm always open to new opportunities, interesting projects and good conversations about tech.
-        </p>
-        <div class="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="/contact" class="gradient-bg text-white font-semibold px-8 py-3 rounded-lg hover:opacity-90 transition">
-                Get in touch
-            </a>
-            <a href="/projects" class="border border-gray-700 hover:border-indigo-500 hover:text-indigo-400 text-gray-300 font-semibold px-8 py-3 rounded-lg transition">
-                See my work
-            </a>
+          </p>
+          <div style="display:flex;justify-content:center;gap:16px;">
+            <a href="/contact" class="g-btn" style="padding:16px 36px;font-size:1.1rem;font-weight:800;">Get in touch</a>
+            <a href="/projects" class="g-btn" style="background:rgba(255,255,255,0.1);color:#fff;border:1px solid rgba(255,255,255,0.2);box-shadow:none;padding:16px 36px;font-size:1.1rem;font-weight:800;">See my work</a>
+          </div>
         </div>
+      </div>
     </div>
+
+  </div>
+</div>
+
+<style>
+  @keyframes pulse { 0%,100%{opacity:1;}50%{opacity:0.4;} }
+  
+  .flex-hero {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 60px;
+  }
+  
+  /* Handle mobile hero stack */
+  @media (max-width: 900px) {
+    .flex-hero {
+      flex-direction: column;
+      text-align: center;
+      gap: 40px;
+    }
+    .flex-hero > div:last-child {
+      align-items: center;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          entry.target.style.animation = 'pagein 0.6s ease forwards';
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    
+    document.querySelectorAll('.reveal').forEach((el) => {
+      el.style.opacity = '0';
+      observer.observe(el);
+    });
+  });
+</script>
 
 {% endblock %}

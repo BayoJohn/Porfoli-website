@@ -4,330 +4,341 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}StackedByBayo{% endblock %}</title>
+    <meta name="description" content="DevOps engineer in training — building real pipelines, breaking things and shipping projects from Lagos.">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="image" href="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=50&w=1200&auto=format&fit=crop">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        .logo-font { font-family: 'Space Grotesk', sans-serif; }
-
-        .gradient-text {
-            background: linear-gradient(135deg, #818cf8, #22d3ee);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .gradient-bg {
-            background: linear-gradient(135deg, #6366f1, #06b6d4);
-        }
-
-        .gradient-bg:hover {
-            background: linear-gradient(135deg, #818cf8, #22d3ee);
+        :root {
+            --purple: #8b5cf6;
+            --purple-light: #a78bfa;
+            --orange: #fb923c;
+            --orange-light: #fdba74;
+            --border: rgba(255,255,255,0.1);
+            --glass: rgba(20,20,30,0.45);
+            --glass-hover: rgba(40,40,60,0.6);
         }
 
         body {
-            animation: fadeIn 0.2s ease-in-out;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.5s ease, transform 0.5s ease;
-        }
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
+            font-family: 'Outfit', sans-serif;
+            color: #f1f5f9;
+            min-height: 100vh;
+            overflow-x: hidden;
+            background: linear-gradient(rgba(10,10,15,0.8), rgba(10,10,15,0.85)),
+                        url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=50&w=1200&auto=format&fit=crop') center/cover fixed;
         }
 
-        .card-hover {
-            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-        }
-        .card-hover:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.2);
-            border-color: rgba(129, 140, 248, 0.5);
+        /* ── Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 6px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.4); }
+
+        /* ── Selection */
+        ::selection { background: rgba(139,92,246,0.3); color: #fff; }
+
+        /* ── Glass wrapper */
+        .glass-panel {
+            background: var(--glass);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border);
+            border-radius: 28px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
         }
 
-        /* Nav link hover */
-        .nav-link {
+        /* ── Gradient text */
+        .g-text {
+            background: linear-gradient(135deg, #a78bfa, #fb923c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* ── Gradient btn */
+        .g-btn {
+            background: linear-gradient(135deg, #7c3aed, #8b5cf6);
+            color: #fff;
+            font-weight: 700;
+            border-radius: 100px;
+            padding: 12px 28px;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 14px rgba(124,58,237,0.3);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .g-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(124,58,237,0.45); }
+
+        /* ── Nav Floating Pill */
+        #main-nav { 
+            position: fixed;
+            top: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 48px);
+            max-width: 1200px;
+            background: rgba(20,20,30,0.4); 
+            backdrop-filter: blur(24px); 
+            -webkit-backdrop-filter: blur(24px); 
+            border: 1px solid rgba(255,255,255,0.1); 
+            border-radius: 100px;
+            padding: 12px 24px;
+            z-index: 50;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.1);
+        }
+        #main-nav.scrolled {
+            top: 12px;
+            background: rgba(15,15,20,0.7);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05);
+            padding: 10px 24px;
+        }
+
+        .nav-pill {
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            border-radius: 100px;
+            padding: 8px 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border: 1px solid rgba(255,255,255,0.15);
+            box-shadow: inset 0 0 12px rgba(255,255,255,0.05);
             position: relative;
-            padding-bottom: 2px;
         }
-        .nav-link::after {
+        .nav-pill::after {
             content: '';
             position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 0;
-            height: 1.5px;
-            background: linear-gradient(135deg, #818cf8, #22d3ee);
-            transition: width 0.25s ease;
-        }
-        .nav-link:hover::after {
-            width: 100%;
-        }
-
-        /* Mobile menu */
-        #mobile-menu {
-            display: none;
-        }
-        #mobile-menu.open {
-            display: flex;
+            bottom: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 12px;
+            height: 4px;
+            background: var(--purple-light);
+            border-radius: 4px;
+            box-shadow: 0 0 10px var(--purple);
         }
 
-        /* Scrolled nav */
-        .nav-scrolled {
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
-            border-bottom-color: rgba(99, 102, 241, 0.2) !important;
+        .nav-link {
+            color: rgba(255,255,255,0.6);
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s, transform 0.2s;
+            padding: 8px 16px;
         }
+        .nav-link:hover { color: #fff; transform: translateY(-1px); }
 
-        /* Logo glow */
-        .logo-glow {
-            box-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
-            transition: box-shadow 0.3s ease;
+        /* ── Reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 0.65s ease, transform 0.65s ease;
         }
-        .logo-glow:hover {
-            box-shadow: 0 0 30px rgba(99, 102, 241, 0.8);
+        .reveal.visible { opacity: 1; transform: none; }
+
+        /* ── Mobile menu */
+        #mobile-menu { 
+            display: none; 
+            position: absolute; 
+            top: calc(100% + 16px); 
+            left: 0; 
+            right: 0; 
+            background: rgba(20,20,30,0.85); 
+            backdrop-filter: blur(24px); 
+            border: 1px solid rgba(255,255,255,0.1); 
+            border-radius: 24px; 
+            padding: 16px; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4); 
+            flex-direction: column; 
+            gap: 4px; 
         }
+        #mobile-menu.open { display: flex; animation: slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        @keyframes slideDown { from { opacity:0; transform:translateY(-10px); } to { opacity:1; transform:none; } }
 
-        /* Bright scrollbar */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #030712; }
-        ::-webkit-scrollbar-thumb { background: #4f46e5; border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: #818cf8; }
-
-        /* Selection color */
-        ::selection { background: rgba(99, 102, 241, 0.3); color: #e0e7ff; }
+        /* ── Page transition */
+        main { animation: pagein 0.35s ease both; }
+        @keyframes pagein { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:none; } }
     </style>
 </head>
-<body class="bg-gray-950 text-gray-100 min-h-screen">
+<body>
 
-    <!-- Nav -->
-    <nav id="navbar" class="border-b border-gray-800/40 px-6 py-4 sticky top-0 bg-gray-950/90 backdrop-blur-md z-50 transition-all duration-300">
-        <div class="w-full flex items-center justify-between">
+<!-- ─────────────── NAV ─────────────── -->
+<nav id="main-nav">
+    <div class="w-full flex items-center justify-between">
 
-            <!-- Logo -->
-            <a href="/" class="flex items-center gap-2.5 group">
-                <div class="w-8 h-8 rounded-lg gradient-bg logo-glow flex items-center justify-center text-white font-bold text-sm shrink-0 group-hover:scale-110 transition-transform">
-                    S
-                </div>
-                <span class="logo-font text-lg font-bold">
-                    Stacked<span class="gradient-text">ByBayo</span>
-                </span>
-            </a>
-
-            <!-- Desktop nav -->
-            <div class="hidden md:flex items-center gap-8">
-                <a href="/" class="nav-link text-gray-300 hover:text-white transition text-sm font-medium">Home</a>
-                <a href="/about" class="nav-link text-gray-300 hover:text-white transition text-sm font-medium">About</a>
-                <a href="/projects" class="nav-link text-gray-300 hover:text-white transition text-sm font-medium">Projects</a>
-                <a href="/blog" class="nav-link text-gray-300 hover:text-white transition text-sm font-medium">Blog</a>
+        <!-- Logo -->
+        <a href="/" class="flex items-center gap-3 group" style="text-decoration:none;">
+            <div style="width:38px;height:38px;background:linear-gradient(135deg, var(--purple), var(--orange));border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:900;color:#fff;font-size:1.1rem;box-shadow:0 4px 12px rgba(139,92,246,0.4);transition:transform 0.3s;" onmouseover="this.style.transform='rotate(-10deg) scale(1.05)';" onmouseout="this.style.transform='none';">
+                SB
             </div>
+            <span style="font-family:'JetBrains Mono', monospace;font-weight:900;font-size:1.3rem;color:#fff;letter-spacing:-0.05em;">Stacked<span style="font-family:'Outfit', sans-serif;font-weight:400;color:var(--orange-light);">ByBayo</span><span style="color:var(--purple-light);">.</span></span>
+        </a>
 
-            <!-- CTA + Hamburger -->
-            <div class="flex items-center gap-4">
-                <a href="/contact"
-                    class="hidden md:inline-flex items-center gap-2 gradient-bg text-white text-sm font-semibold px-4 py-2 rounded-lg hover:opacity-90 transition shadow-lg shadow-indigo-500/20">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                    </svg>
-                    Let's talk
-                </a>
-
-                <!-- Hamburger -->
-                <button id="menu-btn" class="md:hidden text-gray-300 hover:text-white transition p-1">
-                    <svg id="icon-open" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-                    </svg>
-                    <svg id="icon-close" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                    </svg>
-                </button>
-            </div>
+        <!-- Desktop links -->
+        <div class="hidden md:flex items-center gap-1 bg-[rgba(0,0,0,0.2)] border border-[rgba(255,255,255,0.05)] rounded-full px-2 py-1.5 shadow-inner">
+            {% set nav_links = [('Home', '/'), ('About', '/about'), ('Projects', '/projects'), ('Blog', '/blog')] %}
+            {% for label, path in nav_links %}
+                {% set active = request.path == path or (request.path.startswith(path) and path != '/') %}
+                {% if active %}
+                <a href="{{ path }}" class="nav-pill">{{ label }}</a>
+                {% else %}
+                <a href="{{ path }}" class="nav-link">{{ label }}</a>
+                {% endif %}
+            {% endfor %}
         </div>
 
-        <!-- Mobile menu -->
-        <div id="mobile-menu" class="flex-col gap-1 pt-4 pb-2 md:hidden border-t border-gray-800/60 mt-4">
-            <a href="/" class="text-gray-300 hover:text-white hover:bg-gray-800/80 transition text-sm font-medium block px-4 py-3 rounded-lg">Home</a>
-            <a href="/about" class="text-gray-300 hover:text-white hover:bg-gray-800/80 transition text-sm font-medium block px-4 py-3 rounded-lg">About</a>
-            <a href="/projects" class="text-gray-300 hover:text-white hover:bg-gray-800/80 transition text-sm font-medium block px-4 py-3 rounded-lg">Projects</a>
-            <a href="/blog" class="text-gray-300 hover:text-white hover:bg-gray-800/80 transition text-sm font-medium block px-4 py-3 rounded-lg">Blog</a>
-            <div class="pt-2 px-4">
-                <a href="/contact" class="gradient-bg text-white text-sm font-semibold px-4 py-3 rounded-lg block text-center shadow-lg shadow-indigo-500/20">
-                    Let's talk
-                </a>
-            </div>
+        <!-- CTA -->
+        <div class="flex items-center gap-3">
+            <a href="/contact" class="hidden md:inline-flex g-btn shadow-lg">Let's Talk ↗</a>
+            <button id="menu-btn" class="md:hidden text-[rgba(255,255,255,0.8)] hover:text-white transition bg-[rgba(0,0,0,0.3)] p-2 rounded-full border border-[rgba(255,255,255,0.1)]">
+                <svg id="icon-open" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                <svg id="icon-close" class="w-5 h-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
         </div>
-    </nav>
+    </div>
 
-    <!-- Content -->
-    <main class="max-w-5xl mx-auto px-4 md:px-6 py-10 md:py-16">
-        {% block content %}{% endblock %}
-    </main>
+    <!-- Mobile menu -->
+    <div id="mobile-menu">
+        {% set nav_links = [('Home', '/'), ('About', '/about'), ('Projects', '/projects'), ('Blog', '/blog')] %}
+        {% for label, path in nav_links %}
+            {% set active = request.path == path or (request.path.startswith(path) and path != '/') %}
+            {% if active %}
+            <a href="{{ path }}" class="block px-4 py-3 rounded-xl text-sm font-semibold text-white bg-[rgba(255,255,255,0.1)] border border-[rgba(255,255,255,0.05)] transition">{{ label }}</a>
+            {% else %}
+            <a href="{{ path }}" class="block px-4 py-3 rounded-xl text-sm font-semibold text-[rgba(255,255,255,0.7)] hover:bg-[rgba(255,255,255,0.05)] hover:text-white transition">{{ label }}</a>
+            {% endif %}
+        {% endfor %}
+        <div class="pt-3 px-1"><a href="/contact" class="g-btn w-full justify-center">Let's Talk ↗</a></div>
+    </div>
+</nav>
 
-    <!-- Footer -->
-    <footer class="border-t border-gray-800/60 mt-20">
+<!-- ─────────────── CONTENT ─────────────── -->
+<main class="relative z-10 pt-32">
+    {% block content %}{% endblock %}
+</main>
 
-        <!-- Top accent line -->
-        <div class="h-px bg-gradient-to-r from-transparent via-indigo-500/50 to-transparent"></div>
+<!-- ─────────────── FOOTER ─────────────── -->
+<footer class="border-t border-[rgba(255,255,255,0.08)] mt-0 relative z-10" style="background:rgba(10,10,15,0.6);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);">
+    <div class="max-w-6xl mx-auto px-6 py-16">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
 
-        <!-- Main footer -->
-        <div class="max-w-5xl mx-auto px-4 md:px-6 py-12">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
-
-                <!-- Brand & bio -->
-                <div class="col-span-1">
-                    <div class="flex items-center gap-2 mb-4">
-                        <div class="w-8 h-8 rounded-lg gradient-bg logo-glow flex items-center justify-center text-white font-bold text-sm">
-                            S
-                        </div>
-                        <span class="logo-font font-bold">Stacked<span class="gradient-text">ByBayo</span></span>
+            <div class="md:col-span-1">
+                <div class="flex items-center gap-3 mb-6">
+                    <div style="width:32px;height:32px;background:linear-gradient(135deg, var(--purple), var(--orange));border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:900;color:#fff;font-size:0.9rem;box-shadow:0 4px 12px rgba(139,92,246,0.4);">
+                        SB
                     </div>
-                    <p class="text-gray-400 text-sm leading-relaxed mb-6">
-                        DevOps Engineer based in Lagos, Nigeria. Building reliable infrastructure and shipping clean code.
-                    </p>
-                    <!-- Social links -->
-                    <div class="flex gap-3">
-                        <a href="https://github.com/BayoJohn" target="_blank"
-                            class="w-9 h-9 bg-gray-800/80 hover:bg-indigo-500/20 border border-gray-700/50 hover:border-indigo-500/50 rounded-lg flex items-center justify-center transition group">
-                            <img src="https://cdn.simpleicons.org/github/ffffff" class="w-4 h-4" alt="GitHub">
-                        </a>
-                        <a href="https://www.linkedin.com/in/bayo123" target="_blank"
-                            class="w-9 h-9 bg-gray-800/80 hover:bg-indigo-500/20 border border-gray-700/50 hover:border-indigo-500/50 rounded-lg flex items-center justify-center transition">
-                            <img src="https://cdn.simpleicons.org/linkedin/0A66C2" class="w-4 h-4" alt="LinkedIn">
-                        </a>
-                        <a href="https://twitter.com/BayoJohnMoses" target="_blank"
-                            class="w-9 h-9 bg-gray-800/80 hover:bg-indigo-500/20 border border-gray-700/50 hover:border-indigo-500/50 rounded-lg flex items-center justify-center transition">
-                            <img src="https://cdn.simpleicons.org/x/ffffff" class="w-4 h-4" alt="X">
-                        </a>
-                        <a href="https://instagram.com/bayojohnmoses" target="_blank"
-                            class="w-9 h-9 bg-gray-800/80 hover:bg-indigo-500/20 border border-gray-700/50 hover:border-indigo-500/50 rounded-lg flex items-center justify-center transition">
-                            <img src="https://cdn.simpleicons.org/instagram/E4405F" class="w-4 h-4" alt="Instagram">
-                        </a>
-                    </div>
+                    <span style="font-family:'JetBrains Mono', monospace;font-weight:900;font-size:1.2rem;color:#fff;letter-spacing:-0.05em;">Stacked<span style="font-family:'Outfit', sans-serif;font-weight:400;color:var(--orange-light);">ByBayo</span><span style="color:var(--purple-light);">.</span></span>
                 </div>
-
-                <!-- Quick links -->
-                <div>
-                    <h4 class="text-xs font-bold text-gray-200 mb-5 uppercase tracking-widest">Quick Links</h4>
-                    <ul class="space-y-3">
-                        <li><a href="/" class="text-gray-400 hover:text-indigo-400 text-sm transition flex items-center gap-1.5 group"><span class="w-1 h-1 rounded-full bg-gray-700 group-hover:bg-indigo-400 transition"></span>Home</a></li>
-                        <li><a href="/about" class="text-gray-400 hover:text-indigo-400 text-sm transition flex items-center gap-1.5 group"><span class="w-1 h-1 rounded-full bg-gray-700 group-hover:bg-indigo-400 transition"></span>About</a></li>
-                        <li><a href="/projects" class="text-gray-400 hover:text-indigo-400 text-sm transition flex items-center gap-1.5 group"><span class="w-1 h-1 rounded-full bg-gray-700 group-hover:bg-indigo-400 transition"></span>Projects</a></li>
-                        <li><a href="/blog" class="text-gray-400 hover:text-indigo-400 text-sm transition flex items-center gap-1.5 group"><span class="w-1 h-1 rounded-full bg-gray-700 group-hover:bg-indigo-400 transition"></span>Blog</a></li>
-                        <li><a href="/contact" class="text-gray-400 hover:text-indigo-400 text-sm transition flex items-center gap-1.5 group"><span class="w-1 h-1 rounded-full bg-gray-700 group-hover:bg-indigo-400 transition"></span>Contact</a></li>
-                    </ul>
-                </div>
-
-                <!-- Contact & built with -->
-                <div>
-                    <h4 class="text-xs font-bold text-gray-200 mb-5 uppercase tracking-widest">Get In Touch</h4>
-                    <a href="mailto:ogundelebayo8@gmail.com"
-                        class="flex items-center gap-2 text-gray-400 hover:text-indigo-400 text-sm transition mb-8 group">
-                        <div class="w-7 h-7 rounded-lg bg-gray-800/80 border border-gray-700/50 group-hover:border-indigo-500/50 flex items-center justify-center shrink-0 transition">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                            </svg>
-                        </div>
-                        ogundelebayo8@gmail.com
+                <p style="color:rgba(255,255,255,0.6);font-size:0.875rem;line-height:1.7;max-width:260px;">
+                    DevOps engineer in training. Building pipelines, breaking things, and shipping real projects — from Lagos 🇳🇬
+                </p>
+                <div class="flex gap-2 mt-5">
+                    {% for href, label in [
+                        ('https://github.com/BayoJohn','GH'),
+                        ('https://www.linkedin.com/in/bayo123','LI'),
+                        ('https://twitter.com/BayoJohnMoses','X'),
+                        ('https://instagram.com/bayojohnmoses','IG')
+                    ] %}
+                    <a href="{{ href }}" target="_blank"
+                       style="width:36px;height:36px;background:var(--glass);border:1px solid rgba(255,255,255,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;color:rgba(255,255,255,0.7);transition:all 0.2s;"
+                       onmouseover="this.style.borderColor='rgba(255,255,255,0.3)';this.style.color='#fff';this.style.background='rgba(255,255,255,0.1)';this.style.transform='translateY(-2px)';"
+                       onmouseout="this.style.borderColor='rgba(255,255,255,0.1)';this.style.color='rgba(255,255,255,0.7)';this.style.background='var(--glass)';this.style.transform='none';">
+                        {{ label }}
                     </a>
-
-                    <h4 class="text-xs font-bold text-gray-200 mb-4 uppercase tracking-widest">Built With</h4>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="flex items-center gap-1.5 bg-gray-800/80 border border-gray-700/50 px-3 py-1.5 rounded-lg text-xs text-gray-300">
-                            <img src="https://cdn.simpleicons.org/python/3776AB" class="w-3.5 h-3.5" alt="Python">
-                            Python
-                        </span>
-                        <span class="flex items-center gap-1.5 bg-gray-800/80 border border-gray-700/50 px-3 py-1.5 rounded-lg text-xs text-gray-300">
-                            <img src="https://cdn.simpleicons.org/flask/ffffff" class="w-3.5 h-3.5" alt="Flask">
-                            Flask
-                        </span>
-                        <span class="flex items-center gap-1.5 bg-gray-800/80 border border-gray-700/50 px-3 py-1.5 rounded-lg text-xs text-gray-300">
-                            <img src="https://cdn.simpleicons.org/tailwindcss/06B6D4" class="w-3.5 h-3.5" alt="Tailwind">
-                            Tailwind
-                        </span>
-                        <span class="flex items-center gap-1.5 bg-gray-800/80 border border-gray-700/50 px-3 py-1.5 rounded-lg text-xs text-gray-300">
-                            <img src="https://cdn.simpleicons.org/sqlite/003B57" class="w-3.5 h-3.5" alt="SQLite">
-                            SQLite
-                        </span>
-                        <span class="flex items-center gap-1.5 bg-gray-800/80 border border-gray-700/50 px-3 py-1.5 rounded-lg text-xs text-gray-300">
-                            <img src="https://cdn.simpleicons.org/docker/2496ED" class="w-3.5 h-3.5" alt="Docker">
-                            Docker
-                        </span>
-                    </div>
+                    {% endfor %}
                 </div>
+            </div>
 
+            <div>
+                <p style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:rgba(255,255,255,0.5);margin-bottom:16px;">Navigate</p>
+                <ul style="display:flex;flex-direction:column;gap:12px;">
+                    {% for label, path in [('Home','/'),('About','/about'),('Projects','/projects'),('Blog','/blog'),('Contact','/contact')] %}
+                    <li><a href="{{ path }}" style="color:rgba(255,255,255,0.65);font-size:0.875rem;font-weight:500;transition:color 0.2s;display:flex;align-items:center;gap:4px;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.65)'">
+                        <span style="color:rgba(255,255,255,0.3);font-size:0.7rem;">→</span> {{ label }}
+                    </a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div>
+                <p style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:rgba(255,255,255,0.5);margin-bottom:16px;">Built With</p>
+                <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;">
+                    {% for label, slug, color in [('Python','python','3776AB'),('Flask','flask','ffffff'),('Tailwind','tailwindcss','06B6D4'),('Docker','docker','2496ED'),('Kubernetes','kubernetes','326CE5')] %}
+                    <span style="display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:100px;padding:5px 12px;font-size:0.75rem;font-weight:600;color:rgba(255,255,255,0.8);">
+                        <img src="https://cdn.simpleicons.org/{{ slug }}/{{ color }}" style="width:12px;height:12px;" alt="{{ label }}">
+                        {{ label }}
+                    </span>
+                    {% endfor %}
+                </div>
+                <a href="mailto:ogundelebayo8@gmail.com" style="color:rgba(255,255,255,0.7);font-weight:500;font-size:0.875rem;transition:color 0.2s;display:flex;align-items:center;gap:8px;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">
+                    <span style="color:var(--purple-light);font-size:1.1rem;">✉</span> ogundelebayo8@gmail.com
+                </a>
             </div>
         </div>
 
-        <!-- Bottom bar -->
-        <div class="border-t border-gray-800/60 py-5">
-            <div class="max-w-5xl mx-auto px-4 md:px-6 flex flex-col md:flex-row justify-between items-center gap-2">
-                <p class="text-gray-500 text-xs">© 2025 Omobayonle Ogundele. All rights reserved.</p>
-                <p class="text-gray-500 text-xs">Made with ❤️ in Lagos, Nigeria 🇳🇬</p>
-            </div>
+        <div style="border-top:1px solid rgba(255,255,255,0.08);padding-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+            <p style="color:rgba(255,255,255,0.5);font-size:0.75rem;font-weight:500;">© 2025 Omobayonle Ogundele. All rights reserved.</p>
+            <p style="color:rgba(255,255,255,0.5);font-size:0.75rem;font-weight:500;">Made with ❤️ in Lagos, Nigeria 🇳🇬</p>
         </div>
+    </div>
+</footer>
 
-    </footer>
-    <script>
-        // Hamburger toggle
-        const menuBtn = document.getElementById('menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-        const iconOpen = document.getElementById('icon-open');
-        const iconClose = document.getElementById('icon-close');
+<!-- Ambient Mouse Spotlight -->
+<div id="mouse-glow" style="position:fixed;top:0;left:0;width:600px;height:600px;background:radial-gradient(circle, rgba(139,92,246,0.12) 0%, transparent 60%);border-radius:50%;pointer-events:none;z-index:0;transform:translate(-50%, -50%);opacity:0;transition:opacity 0.5s ease-out;"></div>
 
-        menuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('open');
-            iconOpen.classList.toggle('hidden');
-            iconClose.classList.toggle('hidden');
-        });
+<script>
+    const glow = document.getElementById('mouse-glow');
+    document.addEventListener('mousemove', e => {
+        glow.style.transform = `translate(${e.clientX - 300}px, ${e.clientY - 300}px)`;
+        glow.style.opacity = '1';
+    });
+    document.addEventListener('mouseleave', () => glow.style.opacity = '0');
+</script>
 
-        mobileMenu.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.remove('open');
-                iconOpen.classList.remove('hidden');
-                iconClose.classList.add('hidden');
+<script>
+    // Hamburger
+    document.getElementById('menu-btn').addEventListener('click', () => {
+        const m = document.getElementById('mobile-menu');
+        const o = document.getElementById('icon-open');
+        const c = document.getElementById('icon-close');
+        m.classList.toggle('open');
+        o.classList.toggle('hidden');
+        c.classList.toggle('hidden');
+    });
+
+    // Nav Scroll Effect
+    window.addEventListener('scroll', () => {
+        const nav = document.getElementById('main-nav');
+        if (window.scrollY > 20) {
+            nav.classList.add('scrolled');
+        } else {
+            nav.classList.remove('scrolled');
+        }
+    });
+
+    // Scroll reveal
+    const ro = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); ro.unobserve(e.target); } });
+    }, { threshold: 0.01, rootMargin: '0px 0px -30px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+
+    // Smooth transition
+    document.querySelectorAll('a[href]').forEach(a => {
+        const h = a.getAttribute('href');
+        if (h && h.startsWith('/') && !h.startsWith('//') && !a.hasAttribute('target')) {
+            a.addEventListener('click', e => {
+                e.preventDefault();
+                document.querySelector('main').style.cssText = 'opacity:0;transition:opacity 0.15s';
+                setTimeout(() => location.href = h, 150);
             });
-        });
-
-        // Nav shadow on scroll
-        const navbar = document.getElementById('navbar');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 10) {
-                navbar.classList.add('nav-scrolled');
-            } else {
-                navbar.classList.remove('nav-scrolled');
-            }
-        });
-
-        // Scroll reveal
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, { threshold: 0.1 });
-
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-        // Smooth page transitions
-        document.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', function(e) {
-                const href = this.getAttribute('href');
-                if (href && href.startsWith('/') && !href.startsWith('//')) {
-                    e.preventDefault();
-                    document.body.style.opacity = '0';
-                    document.body.style.transition = 'opacity 0.1s ease';
-                    setTimeout(() => window.location.href = href, 100);
-                }
-            });
-        });
-    </script>
-
+        }
+    });
+</script>
 </body>
 </html>

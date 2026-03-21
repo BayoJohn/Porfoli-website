@@ -1,590 +1,476 @@
 {% extends "base.html" %}
-
 {% block title %}StackedByBayo — DevOps Engineer{% endblock %}
-
 {% block content %}
 
+<!-- ═══════════════════════════════════════════
+     HERO
+═══════════════════════════════════════════════ -->
+<section style="padding: 32px 24px 0;">
+  <div class="glass-panel" style="
+    max-width: 1100px; margin: 0 auto; padding: 64px 56px;
+    position: relative; overflow: hidden; min-height: 520px;
+    display: flex; align-items: center;
+    background: linear-gradient(135deg, rgba(76,29,149,0.2) 0%, rgba(124,58,237,0.1) 100%);
+  ">
+    <!-- content grid -->
+    <div style="display: grid; grid-template-columns: 1fr 420px; gap: 40px; align-items: center; position: relative; z-index: 2; width: 100%;">
+      <!-- LEFT: Text -->
+      <div>
+        <p style="font-size:1rem;font-weight:600;color:rgba(255,255,255,0.7);margin-bottom:20px;">Hey, I'm a</p>
+
+        <h1 style="font-size:clamp(3.2rem,7vw,5.5rem);font-weight:900;line-height:1.0;margin-bottom:32px;letter-spacing:-0.02em;background:linear-gradient(90deg, #fff, #a78bfa, #fb923c, #fff);background-size:200% auto;color:transparent;-webkit-background-clip:text;animation:shine 5s linear infinite;">
+          DevOps<br>Engineer
+        </h1>
+
+        <!-- Typed subtitle -->
+        <div style="font-size:1.15rem;font-weight:500;color:rgba(255,255,255,0.85);margin-bottom:44px;min-height:1.8rem;display:flex;align-items:center;gap:4px;">
+          <span id="typed-role"></span>
+          <span style="display:inline-block;width:2px;height:1.1em;background:#fb923c;border-radius:2px;vertical-align:text-bottom;animation:blink 0.75s step-end infinite;"></span>
+        </div>
+
+        <!-- Services numbered -->
+        <div style="display:flex;flex-wrap:wrap;gap:32px;border-top:1px solid rgba(255,255,255,0.1);padding-top:28px;">
+          {% for num, label in [('#01','CI/CD Pipelines'), ('#02','Kubernetes'), ('#03','Cloud Infra'), ('#04','GitOps')] %}
+          <div>
+            <p style="font-size:0.75rem;font-weight:800;color:var(--orange-light);letter-spacing:0.05em;margin-bottom:4px;">{{ num }}</p>
+            <p style="font-size:0.875rem;font-weight:600;color:#fff;">{{ label }}</p>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- RIGHT: Photo col -->
+      <div style="position:relative;">
+        <div style="
+          position:absolute;top:-16px;right:-12px;z-index:5;
+          background:var(--orange);color:#fff;
+          font-weight:800;font-size:0.85rem;
+          padding:8px 18px;border-radius:100px;
+          box-shadow:0 8px 20px rgba(234,88,12,0.4);
+        ">Lagos ⚡</div>
+
+        <div style="position:relative;border-radius:28px;overflow:hidden;box-shadow:0 0 60px rgba(139,92,246,0.3);padding:4px;background:linear-gradient(135deg, rgba(139,92,246,0.6), rgba(251,146,60,0.6));">
+          <div style="width:100%;height:100%;border-radius:24px;overflow:hidden;background:#050505;">
+            <img src="https://images.unsplash.com/photo-1607743386760-88ac62b89b8a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=50"
+                 alt="Bayo" style="width:100%;height:380px;object-fit:cover;display:block;">
+          </div>
+        </div>
+
+        <div style="
+          position:absolute;bottom:-20px;left:-20px;z-index:5;
+          width:76px;height:76px;border-radius:20px;overflow:hidden;
+          border:3px solid rgba(255,255,255,0.2);box-shadow:0 12px 30px rgba(0,0,0,0.3);
+        ">
+          <img src="https://images.unsplash.com/photo-1521119989659-a83eee488004?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=50"
+               alt="Avatar" style="width:100%;height:100%;object-fit:cover;">
+        </div>
+
+        <div style="
+          position:absolute;bottom:-12px;right:16px;z-index:5;
+          background:rgba(20,20,30,0.8);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+          border:1px solid rgba(255,255,255,0.1);
+          border-radius:100px;padding:8px 16px;
+          display:flex;align-items:center;gap:8px;
+        ">
+          <span style="width:8px;height:8px;background:#10b981;border-radius:50%;display:inline-block;animation:pulse 2s infinite;"></span>
+          <span style="font-size:0.75rem;font-weight:700;color:#fff;">Available for work</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <style>
-    .dot-grid {
-        background-image: radial-gradient(circle, #374151 1px, transparent 1px);
-        background-size: 28px 28px;
-    }
-    .hero-glow {
-        position: absolute;
-        width: 700px;
-        height: 700px;
-        background: radial-gradient(circle, rgba(99,102,241,0.15) 0%, transparent 70%);
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        pointer-events: none;
-    }
-    .cursor {
-        display: inline-block;
-        width: 3px;
-        height: 1em;
-        background: #6366f1;
-        margin-left: 4px;
-        vertical-align: middle;
-        animation: blink 0.8s infinite;
-    }
-    @keyframes blink {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0; }
-    }
-    .tools-strip {
-        overflow: hidden;
-        -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-    }
-    .tools-track {
-        display: flex;
-        gap: 16px;
-        animation: scroll-left 30s linear infinite;
-        width: max-content;
-    }
-    @keyframes scroll-left {
-        from { transform: translateX(0); }
-        to { transform: translateX(-50%); }
-    }
-    .magazine-img {
-        transition: transform 0.5s ease;
-    }
-    .magazine-card:hover .magazine-img {
-        transform: scale(1.05);
-    }
-    .terminal {
-        background: #0d1117;
-        border: 1px solid #30363d;
-        border-radius: 12px;
-        font-family: 'Fira Code', 'Courier New', monospace;
-        font-size: 13px;
-        overflow: hidden;
-    }
-    .terminal-header {
-        background: #161b22;
-        padding: 10px 16px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        border-bottom: 1px solid #30363d;
-    }
-    .terminal-dot { width: 12px; height: 12px; border-radius: 50%; }
-    .terminal-body { padding: 16px; min-height: 220px; }
-    .terminal-line {
-        display: flex;
-        align-items: flex-start;
-        gap: 8px;
-        margin-bottom: 6px;
-        opacity: 0;
-        transition: opacity 0.3s;
-    }
-    .terminal-line.visible { opacity: 1; }
-    .terminal-prompt { color: #58a6ff; }
-    .terminal-cmd { color: #e6edf3; }
-    .terminal-output { color: #3fb950; padding-left: 20px; }
-    .terminal-warn { color: #f0a500; padding-left: 20px; }
-    .terminal-info { color: #a5b4fc; padding-left: 20px; }
-    .terminal-cursor {
-        display: inline-block;
-        width: 8px;
-        height: 14px;
-        background: #58a6ff;
-        animation: blink 0.8s infinite;
-        vertical-align: middle;
-    }
-    .bento-card {
-        background: #111827;
-        border: 1px solid #1f2937;
-        border-radius: 20px;
-        padding: 24px;
-        transition: border-color 0.3s;
-        overflow: hidden;
-    }
-    .bento-card:hover { border-color: rgba(99,102,241,0.4); }
-    .pipeline-node {
-        background: #1f2937;
-        border: 1px solid #374151;
-        border-radius: 12px;
-        padding: 8px 12px;
-        font-size: 11px;
-        font-weight: 600;
-        white-space: nowrap;
-    }
-    .pipeline-node.active {
-        border-color: #6366f1;
-        background: rgba(99,102,241,0.1);
-        color: #a5b4fc;
-    }
-    .pipeline-node.security {
-        border-color: #10b981;
-        background: rgba(16,185,129,0.1);
-        color: #6ee7b7;
-    }
-    .pipeline-node.k8s {
-        border-color: #326ce5;
-        background: rgba(50,108,229,0.1);
-        color: #93c5fd;
-    }
-    .pipeline-node.gitops {
-        border-color: #f97316;
-        background: rgba(249,115,22,0.1);
-        color: #fdba74;
-    }
-    .pipeline-arrow { color: #374151; font-size: 16px; line-height: 1; }
-    .pipeline-flow { animation: pipeline-pulse 3s ease-in-out infinite; }
-    .pipeline-security-flow { animation: security-pulse 3s ease-in-out infinite; }
-    .pipeline-k8s-flow { animation: k8s-pulse 3s ease-in-out infinite; }
-    .pipeline-gitops-flow { animation: gitops-pulse 3s ease-in-out infinite; }
-    @keyframes pipeline-pulse {
-        0%, 100% { opacity: 0.4; }
-        50% { opacity: 1; }
-    }
-    @keyframes security-pulse {
-        0%, 100% { opacity: 0.5; box-shadow: none; }
-        50% { opacity: 1; box-shadow: 0 0 12px rgba(16,185,129,0.3); }
-    }
-    @keyframes k8s-pulse {
-        0%, 100% { opacity: 0.5; box-shadow: none; }
-        50% { opacity: 1; box-shadow: 0 0 12px rgba(50,108,229,0.3); }
-    }
-    @keyframes gitops-pulse {
-        0%, 100% { opacity: 0.5; box-shadow: none; }
-        50% { opacity: 1; box-shadow: 0 0 12px rgba(249,115,22,0.3); }
-    }
+  @keyframes blink { 50% { opacity:0; } }
+  @keyframes pulse { 0%,100% { opacity:1; transform:scale(1);} 50% { opacity:0.6; transform:scale(1.1);} }
 </style>
 
-    <!-- Hero -->
-    <div class="relative dot-grid rounded-3xl overflow-hidden mb-16 px-8 py-20">
-        <div class="hero-glow"></div>
-        <div class="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-12 items-center max-w-5xl mx-auto">
-            <div>
-                <div class="inline-flex items-center gap-2 bg-gray-900/80 border border-indigo-500/30 text-indigo-400 text-sm font-medium px-4 py-1.5 rounded-full mb-6 backdrop-blur-sm">
-                    <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                    Available for opportunities
-                </div>
-                <h1 class="text-5xl md:text-6xl font-extrabold mb-4 leading-tight">
-                    Hi, I'm <span class="gradient-text">Bayo</span>
-                </h1>
-                <div class="text-xl text-gray-400 font-medium mb-6 h-9 flex items-center gap-2">
-                    <span id="typed-text"></span>
-                    <span class="cursor"></span>
-                </div>
-                <p class="text-gray-400 text-base mb-8 leading-relaxed">
-                    DevOps engineer in training — building real pipelines, breaking things,
-                    fixing them and documenting everything. Based in Lagos, Nigeria.
-                </p>
-                <div class="flex flex-wrap gap-3">
-                    <a href="/projects" class="gradient-bg text-white font-semibold px-6 py-3 rounded-xl hover:opacity-90 transition">
-                        See what I've built →
-                    </a>
-                    <a href="/blog" class="border border-gray-700 hover:border-indigo-500 hover:text-indigo-400 text-gray-300 font-semibold px-6 py-3 rounded-xl transition">
-                        Read my blog
-                    </a>
-                </div>
-            </div>
-
-            <!-- Terminal -->
-            <div class="terminal">
-                <div class="terminal-header">
-                    <div class="terminal-dot" style="background:#ff5f57"></div>
-                    <div class="terminal-dot" style="background:#febc2e"></div>
-                    <div class="terminal-dot" style="background:#28c840"></div>
-                    <span class="text-gray-500 text-xs ml-2">bayo@homelab ~ </span>
-                </div>
-                <div class="terminal-body" id="terminal-body">
-                    <div class="terminal-line" id="tl-1"><span class="terminal-prompt">$</span><span class="terminal-cmd">git push origin main</span></div>
-                    <div class="terminal-line terminal-output" id="tl-2"><span>✓ Triggered Drone CI pipeline</span></div>
-                    <div class="terminal-line" id="tl-3"><span class="terminal-prompt">$</span><span class="terminal-cmd">docker build -t portfolio:latest .</span></div>
-                    <div class="terminal-line terminal-output" id="tl-4"><span>✓ Image built &amp; pushed to Harbor</span></div>
-                    <div class="terminal-line" id="tl-5"><span class="terminal-prompt">$</span><span class="terminal-cmd">trivy image harbor/portfolio:latest</span></div>
-                    <div class="terminal-line terminal-warn" id="tl-6"><span>🛡 0 Critical · 2 Low — scan passed</span></div>
-                    <div class="terminal-line" id="tl-7"><span class="terminal-prompt">$</span><span class="terminal-cmd">argocd app sync portfolio</span></div>
-                    <div class="terminal-line terminal-info" id="tl-8"><span>↻ ArgoCD detected changes — syncing</span></div>
-                    <div class="terminal-line" id="tl-9"><span class="terminal-prompt">$</span><span class="terminal-cmd">kubectl rollout status deployment/portfolio</span></div>
-                    <div class="terminal-line terminal-output" id="tl-10"><span>✓ 3/3 pods running on Kubernetes</span></div>
-                    <div class="terminal-line terminal-output" id="tl-11"><span style="color:#58a6ff">🚀 Deployed to production — zero downtime!</span></div>
-                    <div class="terminal-line" id="tl-12"><span class="terminal-prompt">$</span><span class="terminal-cursor"></span></div>
-                </div>
-            </div>
+<!-- ═══════════════════════════════════════════
+     TICKER
+═══════════════════════════════════════════════ -->
+<section style="padding:48px 24px;">
+  <div style="max-width:1100px;margin:0 auto;">
+    <p style="text-align:center;font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:0.12em;color:rgba(255,255,255,0.5);margin-bottom:24px;">My Current Tool Belt</p>
+    <div style="overflow:hidden;-webkit-mask-image:linear-gradient(to right,transparent,black 10%,black 90%,transparent);mask-image:linear-gradient(to right,transparent,black 10%,black 90%,transparent);">
+      <div id="ticker-track" style="display:flex;gap:12px;width:max-content;animation:ticker 35s linear infinite;">
+        {% set tools = [
+          ('kubernetes','326CE5','Kubernetes'),('argo','EF7B4D','ArgoCD'),('terraform','7B42BC','Terraform'),
+          ('docker','2496ED','Docker'),('amazonaws','FF9900','AWS'),('ansible','EE0000','Ansible'),
+          ('githubactions','2088FF','GitHub Actions'),('grafana','F46800','Grafana'),('prometheus','E6522C','Prometheus'),
+          ('linux','FCC624','Linux'),('python','3776AB','Python'),('nginx','009639','Nginx'),('gitea','609926','Gitea')
+        ] %}
+        {% for slug, color, name in tools %}
+        <div style="display:flex;align-items:center;gap:10px;background:var(--glass);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid var(--border);border-radius:100px;padding:10px 20px;white-space:nowrap;font-size:0.875rem;font-weight:600;color:#fff;">
+          <img src="https://cdn.simpleicons.org/{{ slug }}/{{ color }}" style="width:16px;height:16px;" alt="{{ name }}">
+          {{ name }}
         </div>
+        {% endfor %}
+        {% for slug, color, name in tools %}
+        <div style="display:flex;align-items:center;gap:10px;background:var(--glass);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid var(--border);border-radius:100px;padding:10px 20px;white-space:nowrap;font-size:0.875rem;font-weight:600;color:#fff;">
+          <img src="https://cdn.simpleicons.org/{{ slug }}/{{ color }}" style="width:16px;height:16px;" alt="{{ name }}">
+          {{ name }}
+        </div>
+        {% endfor %}
+      </div>
     </div>
+  </div>
+</section>
+<style>
+  @keyframes ticker { from { transform:translateX(0); } to { transform:translateX(-50%); } }
+</style>
 
-    <!-- Stats -->
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16">
-        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5 text-center reveal">
-            <p class="text-3xl font-extrabold gradient-text mb-1 stat-number" data-target="6">0</p>
-            <p class="text-gray-500 text-xs">Months Learning</p>
-        </div>
-        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5 text-center reveal">
-            <p class="text-3xl font-extrabold gradient-text mb-1 stat-number" data-target="5">0</p>
-            <p class="text-gray-500 text-xs">Projects Deployed</p>
-        </div>
-        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5 text-center reveal">
-            <p class="text-3xl font-extrabold gradient-text mb-1 stat-number" data-target="17">0</p>
-            <p class="text-gray-500 text-xs">Tools in Stack</p>
-        </div>
-        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5 text-center reveal">
-            <p class="text-3xl font-extrabold gradient-text mb-1">∞</p>
-            <p class="text-gray-500 text-xs">Things Still to Learn</p>
-        </div>
+<!-- ═══════════════════════════════════════════
+     STATS
+═══════════════════════════════════════════════ -->
+<section style="padding:0 24px;">
+  <div id="stats-section" class="glass-panel reveal" style="max-width:1100px;margin:0 auto;padding:72px 56px;position:relative;overflow:hidden;">
+    <p style="text-align:center;font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:0.12em;color:var(--purple-light);margin-bottom:12px;">THE NUMBERS</p>
+    <h2 style="text-align:center;font-size:clamp(2.2rem,4vw,3.2rem);font-weight:900;color:#fff;margin-bottom:60px;letter-spacing:-0.02em;">Results That Speak</h2>
+
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;">
+      <div class="stat-card" style="border-top-color:var(--purple-light);">
+        <p class="stat-num" data-target="6" data-suffix="+" style="color:var(--purple-light);">0</p>
+        <p class="stat-label">Months Learning</p>
+      </div>
+      <div class="stat-card" style="border-top-color:var(--orange);">
+        <p class="stat-num" data-target="5" data-suffix="+" style="color:var(--orange);">0</p>
+        <p class="stat-label">Projects Deployed</p>
+      </div>
+      <div class="stat-card" style="border-top-color:var(--orange);">
+        <p class="stat-num" data-target="17" data-suffix="+" style="color:var(--orange);">0</p>
+        <p class="stat-label">Tools in Stack</p>
+      </div>
+      <div class="stat-card" style="border-top-color:var(--purple-light);">
+        <p class="stat-num" data-target="0" data-suffix="∞" style="color:var(--purple-light);">∞</p>
+        <p class="stat-label">Things To Learn</p>
+      </div>
     </div>
+  </div>
+</section>
 
-    <!-- Bento Grid -->
-    <div class="mb-20 reveal">
-        <div class="mb-8">
-            <p class="text-indigo-400 text-xs font-semibold uppercase tracking-wider mb-1">About Me</p>
-            <h2 class="text-3xl font-extrabold">Who I Am</h2>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div class="bento-card md:col-span-2">
-                <div class="text-3xl mb-4">👨‍💻</div>
-                <h3 class="font-bold text-lg mb-2">DevOps Engineer in Training</h3>
-                <p class="text-gray-400 text-sm leading-relaxed mb-4">
-                    6 months ago I decided to stop watching tutorials and start building real things.
-                    Since then I've deployed a full CI/CD pipeline, set up a private Docker registry,
-                    configured WireGuard VPN tunnels, run a Kubernetes cluster and built this site from scratch.
-                </p>
-                <p class="text-gray-400 text-sm leading-relaxed">
-                    I learn by breaking things in production and writing about it. Every bug is a blog post.
-                    Every failure is a lesson. Based in Lagos, Nigeria 🇳🇬
-                </p>
-            </div>
-
-            <div class="bento-card flex flex-col justify-between">
-                <div>
-                    <div class="text-3xl mb-3">📍</div>
-                    <h3 class="font-bold mb-1">Lagos, Nigeria</h3>
-                    <p class="text-gray-500 text-sm">West Africa timezone (WAT)</p>
-                </div>
-                <div class="mt-6 bg-gray-800 rounded-xl p-3">
-                    <div class="flex items-center gap-2 mb-2">
-                        <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                        <span class="text-green-400 text-xs font-medium">Available for work</span>
-                    </div>
-                    <p class="text-gray-500 text-xs">Open to remote opportunities worldwide</p>
-                </div>
-            </div>
-
-            <div class="bento-card">
-                <div class="text-2xl mb-3">🎯</div>
-                <h3 class="font-bold text-sm mb-3">Currently Using</h3>
-                <div class="space-y-2">
-                    <div class="flex items-center gap-2">
-                        <div class="w-1.5 h-1.5 bg-indigo-400 rounded-full"></div>
-                        <span class="text-gray-400 text-xs">Kubernetes (k3s) ✓</span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <div class="w-1.5 h-1.5 bg-orange-400 rounded-full"></div>
-                        <span class="text-gray-400 text-xs">ArgoCD GitOps ✓</span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <div class="w-1.5 h-1.5 bg-cyan-400 rounded-full"></div>
-                        <span class="text-gray-400 text-xs">Terraform on AWS</span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <div class="w-1.5 h-1.5 bg-yellow-400 rounded-full"></div>
-                        <span class="text-gray-400 text-xs">Prometheus & Grafana ✓</span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <div class="w-1.5 h-1.5 bg-emerald-400 rounded-full"></div>
-                        <span class="text-gray-400 text-xs">Container Security (Trivy) ✓</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Pipeline card with Kubernetes and ArgoCD -->
-            <div class="bento-card md:col-span-2">
-                <div class="text-2xl mb-3">⚙️</div>
-                <h3 class="font-bold text-sm mb-4">My CI/CD Pipeline</h3>
-                <div class="flex items-center gap-1.5 flex-wrap">
-                    <div class="pipeline-node active pipeline-flow">
-                        <div class="flex items-center gap-1.5">
-                            <img src="https://cdn.simpleicons.org/gitea/609926" class="w-3.5 h-3.5">
-                            Gitea
-                        </div>
-                    </div>
-                    <span class="pipeline-arrow">→</span>
-                    <div class="pipeline-node active pipeline-flow" style="animation-delay:0.5s">
-                        <div class="flex items-center gap-1.5">
-                            <img src="https://cdn.simpleicons.org/drone/212121" class="w-3.5 h-3.5" style="filter:invert(1)">
-                            Drone CI
-                        </div>
-                    </div>
-                    <span class="pipeline-arrow">→</span>
-                    <div class="pipeline-node active pipeline-flow" style="animation-delay:1s">
-                        <div class="flex items-center gap-1.5">
-                            <img src="https://cdn.simpleicons.org/docker/2496ED" class="w-3.5 h-3.5">
-                            Harbor
-                        </div>
-                    </div>
-                    <span class="pipeline-arrow">→</span>
-                    <div class="pipeline-node security pipeline-security-flow" style="animation-delay:1.5s">
-                        <div class="flex items-center gap-1.5">
-                            🛡️ Trivy
-                        </div>
-                    </div>
-                    <span class="pipeline-arrow">→</span>
-                    <div class="pipeline-node gitops pipeline-gitops-flow" style="animation-delay:2s">
-                        <div class="flex items-center gap-1.5">
-                            <img src="https://cdn.simpleicons.org/argo/EF7B4D" class="w-3.5 h-3.5">
-                            ArgoCD
-                        </div>
-                    </div>
-                    <span class="pipeline-arrow">→</span>
-                    <div class="pipeline-node k8s pipeline-k8s-flow" style="animation-delay:2.5s">
-                        <div class="flex items-center gap-1.5">
-                            <img src="https://cdn.simpleicons.org/kubernetes/326CE5" class="w-3.5 h-3.5">
-                            Kubernetes
-                        </div>
-                    </div>
-                </div>
-                <p class="text-gray-600 text-xs mt-4">GitOps powered — ArgoCD syncs every change automatically 🚀</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Tools strip -->
-    <div class="mb-20 reveal">
-        <p class="text-center text-gray-600 text-xs uppercase tracking-widest font-semibold mb-5">
-            Tools I'm working with right now
-        </p>
-        <div class="tools-strip py-3">
-            <div class="tools-track">
-                {% set tools = [
-                    ('kubernetes', '326CE5', 'Kubernetes'),
-                    ('argo', 'EF7B4D', 'ArgoCD'),
-                    ('terraform', '7B42BC', 'Terraform'),
-                    ('docker', '2496ED', 'Docker'),
-                    ('amazonaws', 'FF9900', 'AWS'),
-                    ('ansible', 'EE0000', 'Ansible'),
-                    ('githubactions', '2088FF', 'GitHub Actions'),
-                    ('grafana', 'F46800', 'Grafana'),
-                    ('prometheus', 'E6522C', 'Prometheus'),
-                    ('linux', 'FCC624', 'Linux'),
-                    ('python', '3776AB', 'Python'),
-                    ('nginx', '009639', 'Nginx'),
-                    ('gitea', '609926', 'Gitea'),
-                    ('aquasecurity', '1904DA', 'Trivy')
-                ] %}
-                {% for slug, color, name in tools %}
-                <div class="flex items-center gap-2 bg-gray-900 border border-gray-800 rounded-xl px-4 py-2.5 shrink-0">
-                    {% if slug == 'aquasecurity' %}
-                    <span class="text-sm">🛡️</span>
-                    {% else %}
-                    <img src="https://cdn.simpleicons.org/{{ slug }}/{{ color }}" class="w-4 h-4">
-                    {% endif %}
-                    <span class="text-gray-400 text-sm font-medium">{{ name }}</span>
-                </div>
-                {% endfor %}
-                {% for slug, color, name in tools %}
-                <div class="flex items-center gap-2 bg-gray-900 border border-gray-800 rounded-xl px-4 py-2.5 shrink-0">
-                    {% if slug == 'aquasecurity' %}
-                    <span class="text-sm">🛡️</span>
-                    {% else %}
-                    <img src="https://cdn.simpleicons.org/{{ slug }}/{{ color }}" class="w-4 h-4">
-                    {% endif %}
-                    <span class="text-gray-400 text-sm font-medium">{{ name }}</span>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-    </div>
-
-    <!-- Projects -->
-    <div class="mb-20">
-        <div class="flex justify-between items-end mb-8 reveal">
-            <div>
-                <p class="text-indigo-400 text-xs font-semibold uppercase tracking-wider mb-1">My Work</p>
-                <h2 class="text-3xl font-extrabold">Featured Projects</h2>
-            </div>
-            <a href="/projects" class="text-gray-500 hover:text-indigo-400 text-sm transition flex items-center gap-1">
-                All projects
-                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                </svg>
-            </a>
-        </div>
-        {% if projects %}
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {% for project in projects %}
-            <a href="/projects/{{ project.id }}" class="magazine-card block group reveal">
-                <article class="bg-gray-900 border border-gray-800 group-hover:border-indigo-500/50 rounded-2xl overflow-hidden transition duration-300 h-full flex flex-col">
-                    <div class="relative h-48 overflow-hidden">
-                        {% if project.image %}
-                        <img src="/static/uploads/{{ project.image }}" class="magazine-img w-full h-full object-cover" alt="{{ project.title }}">
-                        {% else %}
-                        <div class="w-full h-full bg-gradient-to-br from-indigo-900/60 via-gray-900 to-cyan-900/40 flex items-center justify-center">
-                            <div class="text-5xl">🚀</div>
-                        </div>
-                        {% endif %}
-                        <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/20 to-transparent"></div>
-                        {% if project.tech_stack %}
-                        <div class="absolute bottom-3 left-4 flex flex-wrap gap-1.5">
-                            {% for tech in project.tech_stack.split(',')[:3] %}
-                            <span class="bg-black/60 backdrop-blur-sm text-gray-300 text-xs px-2.5 py-1 rounded-lg border border-gray-700/50">{{ tech.strip() }}</span>
-                            {% endfor %}
-                        </div>
-                        {% endif %}
-                    </div>
-                    <div class="p-5 flex flex-col flex-1">
-                        <h3 class="font-bold text-lg mb-2 group-hover:text-indigo-400 transition leading-snug">{{ project.title }}</h3>
-                        <p class="text-gray-400 text-sm leading-relaxed flex-1 mb-4">{{ project.description | striptags | truncate(110) }}</p>
-                        <div class="flex items-center justify-between pt-3 border-t border-gray-800">
-                            <div class="flex items-center gap-2">
-                                <div class="w-6 h-6 rounded-full gradient-bg flex items-center justify-center text-xs font-bold shrink-0">B</div>
-                                <span class="text-gray-600 text-xs">Bayo</span>
-                            </div>
-                            <span class="text-indigo-400 text-xs font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
-                                View project
-                                <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-                            </span>
-                        </div>
-                    </div>
-                </article>
-            </a>
-            {% endfor %}
-        </div>
-        {% else %}
-        <div class="text-center py-16 text-gray-600 text-sm bg-gray-900 border border-gray-800 rounded-2xl reveal">No projects yet — check back soon!</div>
-        {% endif %}
-    </div>
-
-    <!-- Blog -->
-    <div class="mb-20">
-        <div class="flex justify-between items-end mb-8 reveal">
-            <div>
-                <p class="text-indigo-400 text-xs font-semibold uppercase tracking-wider mb-1">The Blog</p>
-                <h2 class="text-3xl font-extrabold">Latest Writing</h2>
-            </div>
-            <a href="/blog" class="text-gray-500 hover:text-indigo-400 text-sm transition flex items-center gap-1">
-                All posts
-                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-            </a>
-        </div>
-        {% if posts %}
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {% set featured = posts[0] %}
-            <a href="/blog/{{ featured.id }}" class="magazine-card md:col-span-2 block group reveal">
-                <article class="bg-gray-900 border border-gray-800 group-hover:border-indigo-500/50 rounded-2xl overflow-hidden transition duration-300 h-full flex flex-col">
-                    <div class="relative h-56 overflow-hidden bg-gradient-to-br from-indigo-900/60 via-gray-900 to-cyan-900/40 flex items-center justify-center">
-                        <div class="absolute inset-0 dot-grid opacity-30"></div>
-                        <div class="relative z-10 text-center px-8">
-                            <p class="text-indigo-300 text-sm font-medium mb-2">Latest Post</p>
-                            <p class="text-white font-bold text-xl leading-snug">{{ featured.title }}</p>
-                        </div>
-                        <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent"></div>
-                    </div>
-                    <div class="p-6 flex flex-col flex-1">
-                        <div class="flex items-center gap-2 mb-3">
-                            <span class="bg-indigo-500/20 text-indigo-400 text-xs font-semibold px-2.5 py-1 rounded-full">Featured</span>
-                            <span class="text-gray-600 text-xs">{{ featured.created_at.strftime('%B %d, %Y') }}</span>
-                            <span class="text-gray-700">·</span>
-                            <span class="text-gray-600 text-xs">{{ (featured.body | striptags | wordcount / 200) | int + 1 }} min read</span>
-                        </div>
-                        <h3 class="font-bold text-xl mb-2 group-hover:text-indigo-400 transition leading-snug">{{ featured.title }}</h3>
-                        <p class="text-gray-400 text-sm leading-relaxed flex-1 mb-4">{{ featured.body | striptags | truncate(160) }}</p>
-                        <div class="flex items-center justify-between pt-3 border-t border-gray-800">
-                            <div class="flex items-center gap-2">
-                                <div class="w-6 h-6 rounded-full gradient-bg flex items-center justify-center text-xs font-bold">B</div>
-                                <span class="text-gray-600 text-xs">Omobayonle Ogundele</span>
-                            </div>
-                            <span class="text-indigo-400 text-xs font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
-                                Read post
-                                <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-                            </span>
-                        </div>
-                    </div>
-                </article>
-            </a>
-            <div class="flex flex-col gap-6">
-                {% for post in posts[1:3] %}
-                <a href="/blog/{{ post.id }}" class="magazine-card block group reveal flex-1">
-                    <article class="bg-gray-900 border border-gray-800 group-hover:border-indigo-500/50 rounded-2xl overflow-hidden transition duration-300 h-full flex flex-col">
-                        <div class="relative h-24 overflow-hidden bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center px-4">
-                            <p class="text-gray-400 text-xs font-medium text-center leading-snug line-clamp-2 relative z-10">{{ post.title }}</p>
-                            <div class="absolute inset-0 bg-gradient-to-t from-gray-900/80 to-transparent"></div>
-                        </div>
-                        <div class="p-4 flex flex-col flex-1">
-                            <div class="flex items-center gap-2 mb-2">
-                                <span class="text-gray-600 text-xs">{{ post.created_at.strftime('%b %d, %Y') }}</span>
-                                <span class="text-gray-700">·</span>
-                                <span class="text-gray-600 text-xs">{{ (post.body | striptags | wordcount / 200) | int + 1 }} min read</span>
-                            </div>
-                            <h3 class="font-semibold text-sm mb-2 group-hover:text-indigo-400 transition leading-snug flex-1">{{ post.title }}</h3>
-                            <span class="text-indigo-400 text-xs font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
-                                Read
-                                <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-                            </span>
-                        </div>
-                    </article>
-                </a>
-                {% endfor %}
-                {% if posts|length == 1 %}
-                <div class="flex-1 bg-gray-900/50 border border-dashed border-gray-800 rounded-2xl flex items-center justify-center p-6 text-center">
-                    <div>
-                        <p class="text-3xl mb-2">✍️</p>
-                        <p class="text-gray-600 text-xs">More posts coming soon</p>
-                    </div>
-                </div>
-                {% endif %}
-            </div>
-        </div>
-        {% else %}
-        <div class="text-center py-16 text-gray-600 text-sm bg-gray-900 border border-gray-800 rounded-2xl reveal">No posts yet — check back soon!</div>
-        {% endif %}
-    </div>
-
-    <!-- CTA -->
-    <div class="relative dot-grid rounded-3xl overflow-hidden px-8 py-16 text-center reveal">
-        <div class="absolute inset-0 bg-gradient-to-r from-indigo-600/15 to-cyan-600/15"></div>
-        <div class="relative z-10">
-            <p class="text-indigo-400 text-sm font-semibold uppercase tracking-wider mb-3">The Journey</p>
-            <h2 class="text-3xl md:text-4xl font-extrabold mb-4">Learning in <span class="gradient-text">public</span></h2>
-            <p class="text-gray-400 max-w-lg mx-auto mb-8 leading-relaxed">
-                I document everything I build and learn — the wins, the failures and the 2am debugging sessions.
-                Follow along or reach out if you're on a similar path.
-            </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="/blog" class="gradient-bg text-white font-semibold px-7 py-3 rounded-xl hover:opacity-90 transition">Follow the journey →</a>
-                <a href="/contact" class="border border-gray-700 hover:border-indigo-500 hover:text-indigo-400 text-gray-300 font-semibold px-7 py-3 rounded-xl transition">Say hello</a>
-            </div>
-        </div>
-    </div>
+<style>
+  .stat-card {
+    background:rgba(255,255,255,0.03);
+    border:1px solid rgba(255,255,255,0.08);
+    border-top-width:4px;
+    border-radius:24px;
+    padding:36px 24px;
+    text-align:center;
+    transition:transform 0.3s, background 0.3s;
+    cursor:default;
+  }
+  .stat-card:hover {
+    transform:translateY(-8px);
+    background:rgba(255,255,255,0.06);
+  }
+  .stat-num {
+    font-size:clamp(2.5rem,4vw,3.5rem);
+    font-weight:900;
+    line-height:1; margin-bottom:12px;
+    transition:transform 0.2s;
+  }
+  .stat-card:hover .stat-num { transform:scale(1.08); }
+  .stat-label { font-size:0.9rem; color:rgba(255,255,255,0.6); font-weight:600; }
+</style>
 
 <script>
-    const titles = ["Learning DevOps","Building Pipelines","Breaking Things","Fixing Things","Shipping Projects","Documenting Everything"];
-    let titleIndex = 0, charIndex = 0, isDeleting = false;
-    const typedEl = document.getElementById('typed-text');
-    function type() {
-        const current = titles[titleIndex];
-        typedEl.textContent = isDeleting ? current.substring(0, charIndex - 1) : current.substring(0, charIndex + 1);
-        isDeleting ? charIndex-- : charIndex++;
-        if (!isDeleting && charIndex === current.length) { setTimeout(() => isDeleting = true, 1800); }
-        else if (isDeleting && charIndex === 0) { isDeleting = false; titleIndex = (titleIndex + 1) % titles.length; }
-        setTimeout(type, isDeleting ? 50 : 90);
-    }
-    type();
-
-    const lines = ['tl-1','tl-2','tl-3','tl-4','tl-5','tl-6','tl-7','tl-8','tl-9','tl-10','tl-11','tl-12'];
-    lines.forEach((id, i) => {
-        setTimeout(() => { const el = document.getElementById(id); if (el) el.classList.add('visible'); }, i * 550);
-    });
-
+  (function() {
+    const section = document.getElementById('stats-section');
+    const nums = section.querySelectorAll('.stat-num');
+    let fired = false;
     function countUp(el) {
-        const target = parseInt(el.getAttribute('data-target'));
-        if (!target) return;
-        let current = 0;
-        const step = target / (1200 / 16);
-        const timer = setInterval(() => {
-            current += step;
-            if (current >= target) { el.textContent = target + '+'; clearInterval(timer); }
-            else { el.textContent = Math.floor(current); }
-        }, 16);
+      const target = parseInt(el.dataset.target);
+      const suffix = el.dataset.suffix;
+      if (!target) return;
+      const duration = 1400, stepTime = 16, steps = duration / stepTime;
+      let current = 0; const inc = target / steps;
+      const timer = setInterval(() => {
+        current = Math.min(current + inc, target);
+        el.textContent = Math.floor(current) + suffix;
+        if (current >= target) clearInterval(timer);
+      }, stepTime);
     }
-    const statObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => { if (entry.isIntersecting) { countUp(entry.target); statObserver.unobserve(entry.target); } });
-    }, { threshold: 0.5 });
-    document.querySelectorAll('.stat-number').forEach(el => statObserver.observe(el));
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting && !fired) {
+          fired = true; nums.forEach(n => countUp(n)); obs.disconnect();
+        }
+      });
+    }, { threshold: 0.3 });
+    obs.observe(section);
+  })();
+</script>
+
+<!-- ═══════════════════════════════════════════
+     ABOUT / WHO I AM
+═══════════════════════════════════════════════ -->
+<section style="padding:100px 24px;">
+  <div style="max-width:1100px;margin:0 auto;">
+    <p style="font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:0.12em;color:var(--purple-light);margin-bottom:12px;" class="reveal">About Me</p>
+    <h2 style="font-size:clamp(2.2rem,4vw,3.2rem);font-weight:900;color:#fff;margin-bottom:56px;letter-spacing:-0.02em;" class="reveal">Who I Am</h2>
+
+    <div class="grid grid-cols-1 lg:grid-cols-[1fr_420px] gap-6">
+
+      <!-- Huge Story Bento Block -->
+      <div class="glass-panel reveal lg:row-span-2" style="padding:56px;display:flex;flex-direction:column;justify-content:center;background:linear-gradient(135deg, rgba(20,20,30,0.6), rgba(30,20,40,0.4));border-top:2px solid rgba(139,92,246,0.5);">
+         <div style="width:64px;height:64px;background:linear-gradient(135deg, var(--purple), var(--orange));border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:1.8rem;box-shadow:0 10px 30px rgba(139,92,246,0.4);margin-bottom:32px;">🌐</div>
+         <h3 style="font-size:clamp(2.2rem, 4vw, 3rem);font-weight:900;color:#fff;margin-bottom:24px;line-height:1.1;letter-spacing:-0.03em;">6 Months.<br><span style="color:var(--orange-light);">Real Infrastructure.</span></h3>
+         <p style="color:rgba(255,255,255,0.7);font-size:1.1rem;line-height:1.8;margin-bottom:24px;max-width:90%;">
+          Six months ago I decided to stop watching tutorials. I set up a Gitea server on bare metal, wired Drone CI into it, built a private Harbor registry, scanned every image with Trivy, and deployed everything to a <strong style="color:#fff;">k3s Kubernetes cluster</strong> via ArgoCD GitOps.
+         </p>
+         <p style="color:rgba(255,255,255,0.7);font-size:1.1rem;line-height:1.8;margin-bottom:48px;">
+          Every mistake becomes a blog post. Every working pipeline is a milestone.
+         </p>
+
+         <!-- CI/CD Flow Graphic -->
+         <p style="font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:0.12em;color:rgba(255,255,255,0.5);margin-bottom:16px;">THE PIPELINE</p>
+         <div style="display:flex;align-items:center;gap:12px;background:rgba(0,0,0,0.3);padding:16px 20px;border-radius:24px;border:1px solid rgba(255,255,255,0.05);width:max-content;max-width:100%;overflow-x:auto;box-shadow:inset 0 0 20px rgba(0,0,0,0.5);">
+            {% set icons = [('gitea','609926'),('drone','212121'),('docker','2496ED'),('argo','EF7B4D'),('kubernetes','326CE5')] %}
+            {% for slug, color in icons %}
+              <div style="width:48px;height:48px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:14px;display:flex;flex-shrink:0;align-items:center;justify-content:center;box-shadow:0 8px 20px rgba(0,0,0,0.3); transition: transform 0.3s; cursor:pointer;" onmouseover="this.style.transform='translateY(-4px)';" onmouseout="this.style.transform='none';">
+                 <img src="https://cdn.simpleicons.org/{{ slug }}/{{ color }}" style="width:24px;height:24px;">
+              </div>
+              {% if not loop.last %}
+              <div style="width:24px;height:2px;background:linear-gradient(90deg, #8b5cf6, #fb923c);border-radius:2px;opacity:0.6;flex-shrink:0;"></div>
+              {% endif %}
+            {% endfor %}
+         </div>
+      </div>
+
+      <!-- Radar Location Bento Block -->
+      <div class="glass-panel reveal" style="padding:0;overflow:hidden;position:relative;display:flex;flex-direction:column;justify-content:flex-end;min-height:280px;border-top:2px solid rgba(2fb923c,0); transition: border 0.3s;" onmouseover="this.style.borderTop='2px solid rgba(251,146,60,0.5)';" onmouseout="this.style.borderTop='1px solid rgba(255,255,255,0.1)';">
+        <img src="https://images.unsplash.com/photo-1545579133-99bb5ab189bd?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=50" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;opacity:0.6;mix-blend-mode:luminosity;" alt="Lagos Map Texture">
+        <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(10,10,15,0.95), transparent);z-index:1;"></div>
+
+        <!-- Radar Pulse -->
+        <div style="position:absolute;top:30%;right:30%;z-index:2;">
+           <span style="position:absolute;width:40px;height:40px;background:var(--purple);border-radius:50%;opacity:0.4;animation:ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;transform:translate(-50%,-50%);"></span>
+           <span style="position:absolute;width:10px;height:10px;background:#fff;border-radius:50%;box-shadow:0 0 20px var(--purple-light);transform:translate(-50%,-50%);"></span>
+        </div>
+
+        <div style="position:relative;z-index:3;padding:32px;">
+          <p style="font-size:1.6rem;font-weight:900;color:#fff;letter-spacing:-0.02em;">Lagos, Nigeria</p>
+          <p style="color:var(--orange-light);font-size:0.9rem;font-weight:600;margin-top:4px;">West Africa · UTC+1</p>
+        </div>
+      </div>
+
+      <!-- Tool Grid Bento Block -->
+      <div class="glass-panel reveal" style="padding:32px;">
+         <p style="font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:0.12em;color:rgba(255,255,255,0.5);margin-bottom:24px;">Primary Arsenal</p>
+         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            {% for label, slug, color in [
+              ('Kubernetes','kubernetes','326CE5'),
+              ('ArgoCD','argo','EF7B4D'),
+              ('Terraform','terraform','7B42BC'),
+              ('Grafana','grafana','F46800'),
+              ('Trivy','trivy','ffffff'),
+              ('AWS','amazonaws','FF9900')
+            ] %}
+            <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.05);border-radius:12px;padding:12px;display:flex;align-items:center;gap:10px;transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.08)';" onmouseout="this.style.background='rgba(255,255,255,0.03)';">
+              <img src="https://cdn.simpleicons.org/{{ slug }}/{{ color }}" style="width:18px;height:18px;">
+              <span style="font-size:0.85rem;color:rgba(255,255,255,0.8);font-weight:600;">{{ label }}</span>
+            </div>
+            {% endfor %}
+         </div>
+      </div>
+
+    </div>
+    <style>
+      @keyframes ping {
+        75%, 100% { transform: translate(-50%, -50%) scale(2); opacity: 0; }
+      }
+    </style>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FEATURED PROJECTS
+═══════════════════════════════════════════════ -->
+<section style="padding:0 24px 100px;">
+  <div style="max-width:1100px;margin:0 auto;">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:48px;" class="reveal">
+      <div>
+        <p style="font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:0.12em;color:var(--purple-light);margin-bottom:12px;">My Work</p>
+        <h2 style="font-size:clamp(2.2rem,4vw,3.2rem);font-weight:900;color:#fff;letter-spacing:-0.02em;">Featured Projects</h2>
+      </div>
+      <a href="/projects" style="font-size:0.95rem;color:rgba(255,255,255,0.6);font-weight:700;transition:color 0.2s;display:flex;align-items:center;gap:6px;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">View all ↗</a>
+    </div>
+
+    {% if projects %}
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:28px;">
+      {% for project in projects %}
+      <a href="/projects/{{ project.id }}" class="glass-panel reveal" style="
+        display:flex;flex-direction:column;overflow:hidden;padding:0;
+        transition:transform 0.3s,border-color 0.3s,background 0.3s;text-decoration:none;
+      "
+      onmouseover="this.style.borderColor='rgba(139,92,246,0.5)';this.style.transform='translateY(-8px)';this.style.background='var(--glass-hover)';"
+      onmouseout="this.style.borderColor='var(--border)';this.style.transform='none';this.style.background='var(--glass)';">
+
+        <div style="height:260px;overflow:hidden;position:relative;">
+          {% if project.image %}
+          <img src="/static/uploads/{{ project.image }}" alt="{{ project.title }}" style="width:100%;height:100%;object-fit:cover;transition:transform 0.6s;">
+          {% else %}
+          <div style="width:100%;height:100%;background:rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:center;font-size:4rem;">🚀</div>
+          {% endif %}
+          <div style="position:absolute;inset:0;background:linear-gradient(to top,var(--glass),transparent);pointer-events:none;"></div>
+          {% if project.tech_stack %}
+          <div style="position:absolute;bottom:16px;left:20px;display:flex;gap:8px;flex-wrap:wrap;">
+            {% for tech in project.tech_stack.split(',')[:3] %}
+            <span style="background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.1);color:#fff;font-size:0.75rem;font-weight:700;padding:4px 12px;border-radius:100px;">{{ tech.strip() }}</span>
+            {% endfor %}
+          </div>
+          {% endif %}
+        </div>
+
+        <div style="padding:32px;flex:1;display:flex;flex-direction:column;">
+          <h3 style="font-size:1.3rem;font-weight:800;color:#fff;margin-bottom:12px;">{{ project.title }}</h3>
+          <p style="font-size:1rem;color:rgba(255,255,255,0.6);line-height:1.7;flex:1;margin-bottom:24px;">{{ project.description | striptags | truncate(110) }}</p>
+          <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(255,255,255,0.08);padding-top:20px;">
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div style="width:30px;height:30px;background:var(--purple);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:900;color:#fff;">B</div>
+              <span style="font-size:0.85rem;font-weight:600;color:rgba(255,255,255,0.6);">Bayo</span>
+            </div>
+            <span style="font-size:0.9rem;font-weight:700;color:var(--purple-light);">View project ↗</span>
+          </div>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="glass-panel reveal" style="padding:80px;text-align:center;">
+      <div style="font-size:3.5rem;margin-bottom:16px;">🚧</div>
+      <p style="color:rgba(255,255,255,0.6);font-size:1.05rem;font-weight:500;">Projects coming soon — building as we speak.</p>
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     BLOG
+═══════════════════════════════════════════════ -->
+<section style="padding:0 24px 100px;">
+  <div style="max-width:1100px;margin:0 auto;">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:48px;" class="reveal">
+      <div>
+        <p style="font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:0.12em;color:var(--purple-light);margin-bottom:12px;">The Blog</p>
+        <h2 style="font-size:clamp(2.2rem,4vw,3.2rem);font-weight:900;color:#fff;letter-spacing:-0.02em;">Latest Writing</h2>
+      </div>
+      <a href="/blog" style="font-size:0.95rem;color:rgba(255,255,255,0.6);font-weight:700;transition:color 0.2s;display:flex;align-items:center;gap:6px;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">All posts ↗</a>
+    </div>
+
+    {% if posts %}
+    <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:40px;">
+      
+      <!-- Featured Post (Glass Box) -->
+      {% set featured = posts[0] %}
+      <a href="/blog/{{ featured.id }}" class="glass-panel reveal" style="
+        display:flex;flex-direction:column;padding:0;overflow:hidden;
+        text-decoration:none;transition:transform 0.3s,border-color 0.3s;
+      "
+      onmouseover="this.style.transform='translateY(-6px)';this.style.borderColor='rgba(139,92,246,0.4)';"
+      onmouseout="this.style.transform='none';this.style.borderColor='var(--border)';">
+        <div style="height:280px;overflow:hidden;position:relative;">
+          <img src="https://images.unsplash.com/photo-1542831371-29b0f74f9713?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=50"
+               style="width:100%;height:100%;object-fit:cover;" alt="Code">
+          <div style="position:absolute;inset:0;background:linear-gradient(to top,var(--glass),transparent);pointer-events:none;"></div>
+          <div style="position:absolute;top:20px;left:20px;">
+            <span style="background:var(--purple);color:#fff;font-size:0.75rem;font-weight:800;padding:6px 14px;border-radius:100px;box-shadow:0 4px 12px rgba(0,0,0,0.2);">Featured</span>
+          </div>
+        </div>
+        <div style="padding:36px;display:flex;flex-direction:column;">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+            <span style="font-size:0.85rem;font-weight:600;color:rgba(255,255,255,0.5);">{{ featured.created_at.strftime('%B %d, %Y') }}</span>
+            <span style="color:rgba(255,255,255,0.2);">&bull;</span>
+            <span style="font-size:0.85rem;font-weight:600;color:rgba(255,255,255,0.5);">{{ (featured.body | striptags | wordcount / 200) | int + 1 }} min read</span>
+          </div>
+          <h3 style="font-size:1.6rem;font-weight:900;color:#fff;margin-bottom:14px;line-height:1.2;">{{ featured.title }}</h3>
+          <p style="font-size:1.05rem;color:rgba(255,255,255,0.7);line-height:1.7;margin-bottom:24px;">{{ featured.body | striptags | truncate(150) }}</p>
+          <span style="font-size:0.95rem;font-weight:800;color:var(--purple-light);">Read post ↗</span>
+        </div>
+      </a>
+
+      <!-- Other posts list (Blended: NO boxes) -->
+      <div style="display:flex;flex-direction:column;">
+        {% for post in posts[1:4] %}
+        <a href="/blog/{{ post.id }}" class="reveal" style="
+          display:flex;flex-direction:column;padding:24px 0;
+          border-bottom:1px solid rgba(255,255,255,0.1);text-decoration:none;
+        "
+        onmouseover="this.querySelector('h3').style.color='var(--purple-light)';this.querySelector('.read-link').style.transform='translateX(4px)';"
+        onmouseout="this.querySelector('h3').style.color='#fff';this.querySelector('.read-link').style.transform='none';">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+            <span style="font-size:0.8rem;font-weight:600;color:rgba(255,255,255,0.5);">{{ post.created_at.strftime('%b %d, %Y') }}</span>
+            <span style="color:rgba(255,255,255,0.2);">&bull;</span>
+            <span style="font-size:0.8rem;font-weight:600;color:rgba(255,255,255,0.5);">{{ (post.body | striptags | wordcount / 200) | int + 1 }} min</span>
+          </div>
+          <h3 style="font-size:1.25rem;font-weight:800;color:#fff;line-height:1.3;margin-bottom:12px;transition:color 0.2s;">{{ post.title }}</h3>
+          <p style="font-size:0.95rem;color:rgba(255,255,255,0.6);line-height:1.6;margin-bottom:16px;">{{ post.body | striptags | truncate(100) }}</p>
+          <span class="read-link" style="font-size:0.85rem;font-weight:800;color:var(--purple-light);display:flex;align-items:center;gap:6px;transition:transform 0.2s;width:max-content;">Read full story <span style="font-size:1.1rem">→</span></span>
+        </a>
+        {% endfor %}
+        
+        {% if posts|length == 1 %}
+        <div style="flex:1;display:flex;align-items:center;justify-content:center;padding:40px;text-align:center;color:rgba(255,255,255,0.5);">
+          <p style="font-size:1rem;font-weight:500;">More writing dropping soon. Stay tuned.</p>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+    {% else %}
+    <div class="glass-panel reveal" style="padding:80px;text-align:center;">
+      <div style="font-size:3.5rem;margin-bottom:16px;">✍️</div>
+      <p style="color:rgba(255,255,255,0.6);font-size:1.05rem;font-weight:500;">First post dropping soon.</p>
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     CTA
+═══════════════════════════════════════════════ -->
+<section style="padding:0 24px 100px;">
+  <div style="max-width:1100px;margin:0 auto;" class="reveal">
+    <div class="glass-panel" style="
+      padding:80px 56px;text-align:center;position:relative;overflow:hidden;
+      border:1px solid rgba(139,92,246,0.3);
+      box-shadow:inset 0 0 40px rgba(124,58,237,0.1), 0 20px 40px rgba(0,0,0,0.3);
+    ">
+      <div style="position:relative;z-index:2;max-width:600px;margin:0 auto;">
+        <p style="font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:0.12em;color:rgba(255,255,255,0.6);margin-bottom:16px;">The Journey</p>
+        <h2 style="font-size:clamp(2.4rem,4vw,3.5rem);font-weight:900;color:#fff;margin-bottom:20px;letter-spacing:-0.02em;">Learning in <span style="color:#fb923c;">public.</span></h2>
+        <p style="color:rgba(255,255,255,0.7);font-size:1.1rem;line-height:1.7;margin-bottom:44px;">
+          I document everything — wins, failures and 2am debugging sessions.
+          Follow along or reach out if you're on a similar path.
+        </p>
+        <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+          <a href="/blog" style="background:#fb923c;color:#fff;font-weight:700;border-radius:100px;padding:16px 36px;font-size:0.95rem;transition:transform 0.2s,box-shadow 0.2s;box-shadow:0 8px 20px rgba(251,146,60,0.4);"
+             onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 12px 24px rgba(251,146,60,0.5)';"
+             onmouseout="this.style.transform='none';this.style.boxShadow='0 8px 20px rgba(251,146,60,0.4)';">
+            Follow the journey ↗
+          </a>
+          <a href="/contact" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.3);color:#fff;font-weight:700;border-radius:100px;padding:15px 36px;font-size:0.95rem;transition:background 0.2s,border-color 0.2s;"
+             onmouseover="this.style.background='rgba(255,255,255,0.2)';this.style.borderColor='rgba(255,255,255,0.5)';"
+             onmouseout="this.style.background='rgba(255,255,255,0.1)';this.style.borderColor='rgba(255,255,255,0.3)';">
+            Say hello
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Typed effect
+  const roles = ['Building CI/CD pipelines.','Breaking production (on purpose).','Shipping projects.','Documenting everything.'];
+  let ri=0,ci=0,del=false;
+  const el=document.getElementById('typed-role');
+  function typeStep(){
+    const r=roles[ri];
+    if(!del){ci++;el.textContent=r.slice(0,ci);if(ci===r.length){del=true;setTimeout(typeStep,2000);return;}}
+    else{ci--;el.textContent=r.slice(0,ci);if(ci===0){del=false;ri=(ri+1)%roles.length;setTimeout(typeStep,400);return;}}
+    setTimeout(typeStep,del?40:75);
+  }
+  setTimeout(typeStep,700);
 </script>
 
 {% endblock %}

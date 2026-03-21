@@ -7,7 +7,7 @@
 
     <!-- Stats cards -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5">
+        <div class="glass-panel p-5">
             <div class="flex items-center justify-between mb-3">
                 <p class="text-gray-400 text-sm font-medium">Posts</p>
                 <div class="w-8 h-8 bg-indigo-500/20 rounded-lg flex items-center justify-center">
@@ -20,7 +20,7 @@
             <a href="/admin/posts" class="text-indigo-400 text-xs mt-1 inline-block hover:underline">Manage →</a>
         </div>
 
-        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5">
+        <div class="glass-panel p-5">
             <div class="flex items-center justify-between mb-3">
                 <p class="text-gray-400 text-sm font-medium">Projects</p>
                 <div class="w-8 h-8 bg-cyan-500/20 rounded-lg flex items-center justify-center">
@@ -33,7 +33,7 @@
             <a href="/admin/projects" class="text-cyan-400 text-xs mt-1 inline-block hover:underline">Manage →</a>
         </div>
 
-        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5">
+        <div class="glass-panel p-5">
             <div class="flex items-center justify-between mb-3">
                 <p class="text-gray-400 text-sm font-medium">Comments</p>
                 <div class="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center">
@@ -46,7 +46,7 @@
             <a href="/admin/comments" class="text-green-400 text-xs mt-1 inline-block hover:underline">Manage →</a>
         </div>
 
-        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5">
+        <div class="glass-panel p-5">
             <div class="flex items-center justify-between mb-3">
                 <p class="text-gray-400 text-sm font-medium">Messages</p>
                 <div class="w-8 h-8 bg-yellow-500/20 rounded-lg flex items-center justify-center">
@@ -62,7 +62,7 @@
 
     <!-- Analytics cards -->
     <div class="grid grid-cols-2 gap-4 mb-8">
-        <div class="bg-gray-900 border border-indigo-500/20 rounded-2xl p-5">
+        <div class="glass-panel p-5" style="border-top:2px solid #8b5cf6;">
             <div class="flex items-center justify-between mb-3">
                 <p class="text-gray-400 text-sm font-medium">Total Visits</p>
                 <div class="w-8 h-8 bg-indigo-500/20 rounded-lg flex items-center justify-center">
@@ -76,7 +76,7 @@
             <p class="text-gray-600 text-xs mt-1">All time page views</p>
         </div>
 
-        <div class="bg-gray-900 border border-cyan-500/20 rounded-2xl p-5">
+        <div class="glass-panel p-5" style="border-top:2px solid #06b6d4;">
             <div class="flex items-center justify-between mb-3">
                 <p class="text-gray-400 text-sm font-medium">Unique Visitors</p>
                 <div class="w-8 h-8 bg-cyan-500/20 rounded-lg flex items-center justify-center">
@@ -127,14 +127,14 @@
 
     <!-- Charts + top pages + most viewed -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div class="md:col-span-2 bg-gray-900 border border-gray-800 rounded-2xl p-6">
+        <div class="md:col-span-2 glass-panel p-6">
             <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">Visits — Last 7 Days</h2>
             <canvas id="visitsChart" height="120"></canvas>
         </div>
 
         <div class="flex flex-col gap-6">
             <!-- Top pages -->
-            <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6">
+            <div class="glass-panel p-6">
                 <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">Top Pages</h2>
                 <div class="space-y-3">
                     {% for page in top_pages %}
@@ -149,7 +149,7 @@
             </div>
 
             <!-- Most viewed posts -->
-            <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6">
+            <div class="glass-panel p-6">
                 <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">Most Viewed Posts</h2>
                 <div class="space-y-3">
                     {% for post in most_viewed %}
@@ -173,12 +173,12 @@
 
     <!-- Content chart + activity -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6">
+        <div class="glass-panel p-6">
             <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">Content Overview</h2>
             <canvas id="contentChart" height="200"></canvas>
         </div>
 
-        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6">
+        <div class="glass-panel p-6">
             <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">Recent Activity</h2>
             <div class="space-y-4">
                 {% for post in recent_posts %}
@@ -234,12 +234,12 @@
                 datasets: [{
                     label: 'Visits',
                     data: {{ daily_visits | tojson }},
-                    borderColor: '#6366f1',
-                    backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                    borderColor: '#8b5cf6',
+                    backgroundColor: 'rgba(139, 92, 246, 0.2)',
                     borderWidth: 2,
                     fill: true,
                     tension: 0.4,
-                    pointBackgroundColor: '#6366f1',
+                    pointBackgroundColor: '#8b5cf6',
                     pointRadius: 4,
                 }]
             },
@@ -268,16 +268,16 @@
                 datasets: [{
                     data: [{{ stats.posts }}, {{ stats.projects }}, {{ stats.comments }}, {{ stats.messages }}],
                     backgroundColor: [
-                        'rgba(99, 102, 241, 0.6)',
+                        'rgba(139, 92, 246, 0.6)',
                         'rgba(6, 182, 212, 0.6)',
                         'rgba(34, 197, 94, 0.6)',
-                        'rgba(234, 179, 8, 0.6)',
+                        'rgba(251, 146, 60, 0.6)',
                     ],
                     borderColor: [
-                        'rgba(99, 102, 241, 1)',
+                        'rgba(139, 92, 246, 1)',
                         'rgba(6, 182, 212, 1)',
                         'rgba(34, 197, 94, 1)',
-                        'rgba(234, 179, 8, 1)',
+                        'rgba(251, 146, 60, 1)',
                     ],
                     borderWidth: 1,
                     borderRadius: 6,
