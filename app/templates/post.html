@@ -5,218 +5,231 @@
 {% block content %}
 
 <style>
-    /* Force prose content visible regardless of reveal animation */
+    /* ── Solid reading background — blocks the body background image completely */
+    .post-reading-area {
+        background: #080f16;
+        border-radius: 28px;
+        border: 1px solid rgba(255,255,255,0.07);
+        box-shadow: 0 0 0 1px rgba(6,182,212,0.06), 0 32px 80px rgba(0,0,0,0.5);
+    }
+
+    /* ── Prose styles */
     .prose-content {
         opacity: 1 !important;
         transform: none !important;
     }
     .prose-content h1, .prose-content h2, .prose-content h3 {
-        font-weight: 700;
-        color: white;
-        margin-top: 2rem;
-        margin-bottom: 1rem;
+        font-weight: 800;
+        color: #f1f5f9;
+        margin-top: 2.2rem;
+        margin-bottom: 0.8rem;
         padding-bottom: 0.5rem;
-        border-bottom: 1px solid #1f2937;
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+        letter-spacing: -0.02em;
     }
     .prose-content h1 { font-size: 1.875rem; }
     .prose-content h2 { font-size: 1.5rem; }
-    .prose-content h3 { font-size: 1.25rem; }
+    .prose-content h3 { font-size: 1.2rem; }
     .prose-content p {
-        color: #9ca3af;
-        line-height: 1.8;
-        margin-bottom: 1.25rem;
+        color: #cbd5e1;
+        line-height: 1.9;
+        margin-bottom: 1.4rem;
+        font-size: 1.05rem;
     }
     .prose-content code {
-        background: #1f2937;
-        color: #a5b4fc;
+        background: rgba(6,182,212,0.1);
+        color: #67e8f9;
         padding: 2px 8px;
         border-radius: 6px;
         font-size: 0.875rem;
-        font-family: 'Fira Code', monospace;
+        font-family: 'JetBrains Mono', monospace;
+        border: 1px solid rgba(6,182,212,0.15);
     }
     .prose-content pre {
-        background: #111827;
-        border: 1px solid #1f2937;
-        border-radius: 12px;
-        padding: 1.25rem;
+        background: #020c14;
+        border: 1px solid rgba(6,182,212,0.15);
+        border-radius: 14px;
+        padding: 1.5rem;
         overflow-x: auto;
-        margin-bottom: 1.5rem;
+        margin-bottom: 1.75rem;
+        box-shadow: inset 0 0 30px rgba(0,0,0,0.5);
     }
     .prose-content pre code {
         background: none;
         padding: 0;
-        color: #e5e7eb;
+        color: #e2e8f0;
         font-size: 0.875rem;
+        border: none;
     }
     .prose-content ul, .prose-content ol {
-        color: #9ca3af;
+        color: #cbd5e1;
         padding-left: 1.5rem;
-        margin-bottom: 1.25rem;
-        line-height: 1.8;
+        margin-bottom: 1.4rem;
+        line-height: 1.9;
+        font-size: 1.05rem;
     }
     .prose-content ul { list-style-type: disc; }
     .prose-content ol { list-style-type: decimal; }
+    .prose-content li { margin-bottom: 0.4rem; }
     .prose-content blockquote {
-        border-left: 3px solid #6366f1;
-        padding-left: 1rem;
-        color: #6b7280;
+        border-left: 3px solid var(--cyan);
+        padding: 0.75rem 1.25rem;
+        color: #94a3b8;
         font-style: italic;
-        margin-bottom: 1.25rem;
+        margin-bottom: 1.4rem;
+        background: rgba(6,182,212,0.05);
+        border-radius: 0 8px 8px 0;
     }
-    .prose-content a { color: #818cf8; text-decoration: underline; }
+    .prose-content a { color: var(--cyan-light); text-decoration: underline; text-underline-offset: 3px; }
+    .prose-content a:hover { color: #fff; }
     .prose-content table {
         width: 100%;
         border-collapse: collapse;
-        margin-bottom: 1.5rem;
+        margin-bottom: 1.75rem;
+        font-size: 0.95rem;
     }
     .prose-content th, .prose-content td {
-        border: 1px solid #1f2937;
+        border: 1px solid rgba(255,255,255,0.08);
         padding: 0.75rem 1rem;
-        color: #9ca3af;
+        color: #cbd5e1;
         text-align: left;
     }
     .prose-content th {
-        background: #1f2937;
-        color: white;
-        font-weight: 600;
+        background: rgba(6,182,212,0.08);
+        color: #f1f5f9;
+        font-weight: 700;
     }
     .prose-content img {
-        border-radius: 12px;
+        border-radius: 14px;
         max-width: 100%;
-        margin: 1.5rem 0;
+        margin: 1.75rem 0;
+        box-shadow: 0 12px 40px rgba(0,0,0,0.5);
     }
     .prose-content hr {
-        border-color: #1f2937;
-        margin: 2rem 0;
+        border-color: rgba(255,255,255,0.08);
+        margin: 2.5rem 0;
     }
-    .prose-content strong {
-        color: white;
-        font-weight: 600;
-    }
-    .prose-content em {
-        color: #d1d5db;
-    }
+    .prose-content strong { color: #f1f5f9; font-weight: 700; }
+    .prose-content em { color: #e2e8f0; }
 </style>
 
-<div class="max-w-3xl mx-auto">
+<div style="padding: 0 24px 60px;">
+  <div class="max-w-3xl mx-auto">
 
-    <!-- Back -->
-    <a href="/blog" class="inline-flex items-center gap-2 text-gray-500 hover:text-white text-sm mb-8 transition reveal">
-        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
-        </svg>
+    <!-- Back link -->
+    <a href="/blog" style="display:inline-flex;align-items:center;gap:8px;color:rgba(255,255,255,0.5);font-size:0.9rem;font-weight:600;margin-bottom:32px;transition:color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.5)'">
+        <svg style="width:16px;height:16px;" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
         Back to Blog
     </a>
 
-    <!-- Header -->
-    <div class="mb-10 reveal">
-        <div class="flex items-center gap-3 mb-3">
-            <p class="text-indigo-400 text-sm font-medium">
-                {{ post.created_at.strftime('%B %d, %Y') }}
-            </p>
-            <span class="text-gray-700">·</span>
-            <span class="flex items-center gap-1 text-gray-500 text-sm">
-                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
-                </svg>
-                {{ post.views or 0 }} views
-            </span>
-        </div>
-        <h1 class="text-4xl font-extrabold mb-4 leading-tight">{{ post.title }}</h1>
-        <div class="flex items-center gap-3">
-            <div class="w-8 h-8 rounded-full gradient-bg flex items-center justify-center text-sm font-bold">B</div>
-            <div>
-                <p class="text-sm font-medium">Omobayonle Ogundele</p>
-                <p class="text-gray-500 text-xs">DevOps Engineer</p>
+    <!-- Post wrapper with solid background for readability -->
+    <div class="post-reading-area">
+
+        <!-- Header section -->
+        <div style="padding: 48px 48px 0;">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap;">
+                <span style="font-size:0.8rem;font-weight:700;color:var(--cyan-light);background:rgba(6,182,212,0.1);border:1px solid rgba(6,182,212,0.2);padding:4px 12px;border-radius:100px;">{{ post.created_at.strftime('%B %d, %Y') }}</span>
+                <span style="color:rgba(255,255,255,0.2);">·</span>
+                <span style="display:flex;align-items:center;gap:6px;font-size:0.85rem;color:rgba(255,255,255,0.5);font-weight:500;">
+                    <svg style="width:14px;height:14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                    {{ post.views or 0 }} views
+                </span>
+            </div>
+
+            <h1 style="font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;color:#fff;line-height:1.15;margin-bottom:28px;letter-spacing:-0.03em;">{{ post.title }}</h1>
+
+            <div style="display:flex;align-items:center;gap:12px;padding-bottom:32px;border-bottom:1px solid rgba(255,255,255,0.08);">
+                <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#0891b2,#06b6d4);display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:900;color:#fff;flex-shrink:0;">B</div>
+                <div>
+                    <p style="font-size:0.95rem;font-weight:700;color:#fff;">Omobayonle Ogundele</p>
+                    <p style="font-size:0.8rem;color:rgba(255,255,255,0.5);">DevOps Engineer</p>
+                </div>
             </div>
         </div>
+
+        <!-- Article body -->
+        <div style="padding: 40px 48px 48px;">
+            <div class="prose-content">
+                {{ post_body | safe }}
+            </div>
+        </div>
+
     </div>
-
-    <!-- Divider -->
-    <div class="border-t border-gray-800 mb-10"></div>
-
-    <!-- Content -->
-    <div class="prose-content mb-16">
-        {{ post_body | safe }}
-    </div>
-
-    <!-- Divider -->
-    <div class="border-t border-gray-800 mb-10"></div>
 
     <!-- Author card -->
-    <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6 mb-16 flex items-center gap-5 reveal">
-        <div class="w-14 h-14 rounded-full gradient-bg flex items-center justify-center text-xl font-bold shrink-0">B</div>
+    <div style="margin-top:32px;background:rgba(6,182,212,0.05);border:1px solid rgba(6,182,212,0.15);border-radius:20px;padding:28px;display:flex;align-items:center;gap:20px;" class="reveal">
+        <div style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#0891b2,#06b6d4);display:flex;align-items:center;justify-content:center;font-size:1.3rem;font-weight:900;color:#fff;flex-shrink:0;">B</div>
         <div>
-            <p class="font-bold mb-1">Omobayonle Ogundele</p>
-            <p class="text-gray-400 text-sm mb-3">DevOps Engineer based in Lagos, Nigeria. Building reliable infrastructure and sharing what I learn along the way.</p>
-            <div class="flex gap-3">
-                <a href="https://twitter.com/BayoJohnMoses" target="_blank" class="text-indigo-400 hover:text-indigo-300 text-xs transition">Twitter</a>
-                <a href="https://github.com/BayoJohn" target="_blank" class="text-indigo-400 hover:text-indigo-300 text-xs transition">GitHub</a>
-                <a href="https://linkedin.com/in/bayo123" target="_blank" class="text-indigo-400 hover:text-indigo-300 text-xs transition">LinkedIn</a>
+            <p style="font-weight:800;color:#fff;margin-bottom:6px;">Omobayonle Ogundele</p>
+            <p style="color:rgba(255,255,255,0.6);font-size:0.9rem;margin-bottom:12px;line-height:1.6;">DevOps Engineer based in Lagos, Nigeria. Building reliable infrastructure and sharing what I learn along the way.</p>
+            <div style="display:flex;gap:16px;">
+                <a href="https://twitter.com/BayoJohnMoses" target="_blank" style="font-size:0.85rem;font-weight:700;color:var(--cyan-light);transition:color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='var(--cyan-light)'">Twitter</a>
+                <a href="https://github.com/BayoJohn" target="_blank" style="font-size:0.85rem;font-weight:700;color:var(--cyan-light);transition:color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='var(--cyan-light)'">GitHub</a>
+                <a href="https://linkedin.com/in/bayo123" target="_blank" style="font-size:0.85rem;font-weight:700;color:var(--cyan-light);transition:color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='var(--cyan-light)'">LinkedIn</a>
             </div>
         </div>
     </div>
 
     <!-- Comments -->
-    <div class="reveal">
-        <h2 class="text-xl font-bold mb-6">Comments ({{ comments|length }})</h2>
+    <div style="margin-top:32px;" class="reveal">
+        <h2 style="font-size:1.3rem;font-weight:800;color:#fff;margin-bottom:24px;">Comments ({{ comments|length }})</h2>
 
         {% if comments %}
-        <div class="space-y-4 mb-10">
+        <div style="display:flex;flex-direction:column;gap:16px;margin-bottom:28px;">
             {% for comment in comments %}
-            <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5">
-                <div class="flex justify-between items-center mb-3">
-                    <div class="flex items-center gap-3">
-                        <div class="w-8 h-8 bg-indigo-500/20 rounded-full flex items-center justify-center text-sm font-bold text-indigo-400">
+            <div style="background:rgba(8,15,22,0.8);border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:20px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                    <div style="display:flex;align-items:center;gap:12px;">
+                        <div style="width:36px;height:36px;background:rgba(6,182,212,0.15);border:1px solid rgba(6,182,212,0.25);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.9rem;font-weight:800;color:var(--cyan-light);">
                             {{ comment.name[0].upper() }}
                         </div>
                         <div>
-                            <p class="text-sm font-medium">{{ comment.name }}</p>
-                            <p class="text-gray-600 text-xs">{{ comment.created_at.strftime('%b %d, %Y') }}</p>
+                            <p style="font-size:0.9rem;font-weight:700;color:#fff;">{{ comment.name }}</p>
+                            <p style="font-size:0.75rem;color:rgba(255,255,255,0.4);">{{ comment.created_at.strftime('%b %d, %Y') }}</p>
                         </div>
                     </div>
                 </div>
-                <p class="text-gray-400 text-sm leading-relaxed">{{ comment.body }}</p>
+                <p style="color:rgba(255,255,255,0.7);font-size:0.95rem;line-height:1.7;">{{ comment.body }}</p>
             </div>
             {% endfor %}
         </div>
         {% else %}
-        <p class="text-gray-600 text-sm mb-10">No comments yet. Be the first!</p>
+        <p style="color:rgba(255,255,255,0.4);font-size:0.9rem;margin-bottom:24px;">No comments yet. Be the first!</p>
         {% endif %}
 
         <!-- Comment form -->
-        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6">
-            <h3 class="font-semibold mb-5">Leave a comment</h3>
-            <form method="POST" class="space-y-4">
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div style="background:rgba(8,15,22,0.8);border:1px solid rgba(255,255,255,0.07);border-radius:20px;padding:32px;">
+            <h3 style="font-size:1.1rem;font-weight:800;color:#fff;margin-bottom:20px;">Leave a comment</h3>
+            <form method="POST" style="display:flex;flex-direction:column;gap:16px;">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
                     <div>
-                        <label class="block text-xs text-gray-500 mb-1.5">Name</label>
+                        <label style="display:block;font-size:0.75rem;font-weight:700;color:rgba(255,255,255,0.5);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.05em;">Name</label>
                         <input type="text" name="name" required
-                            class="w-full bg-gray-800 border border-gray-700 focus:border-indigo-500 text-white placeholder-gray-600 rounded-xl px-4 py-2.5 text-sm outline-none transition"
-                            placeholder="Your name">
+                            style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);color:#fff;placeholder-color:rgba(255,255,255,0.3);border-radius:10px;padding:10px 14px;font-size:0.9rem;outline:none;transition:border-color 0.2s;font-family:'Outfit',sans-serif;"
+                            placeholder="Your name"
+                            onfocus="this.style.borderColor='rgba(6,182,212,0.5)'" onblur="this.style.borderColor='rgba(255,255,255,0.1)'">
                     </div>
                     <div>
-                        <label class="block text-xs text-gray-500 mb-1.5">Email</label>
+                        <label style="display:block;font-size:0.75rem;font-weight:700;color:rgba(255,255,255,0.5);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.05em;">Email</label>
                         <input type="email" name="email" required
-                            class="w-full bg-gray-800 border border-gray-700 focus:border-indigo-500 text-white placeholder-gray-600 rounded-xl px-4 py-2.5 text-sm outline-none transition"
-                            placeholder="your@email.com">
+                            style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);color:#fff;border-radius:10px;padding:10px 14px;font-size:0.9rem;outline:none;transition:border-color 0.2s;font-family:'Outfit',sans-serif;"
+                            placeholder="your@email.com"
+                            onfocus="this.style.borderColor='rgba(6,182,212,0.5)'" onblur="this.style.borderColor='rgba(255,255,255,0.1)'">
                     </div>
                 </div>
                 <div>
-                    <label class="block text-xs text-gray-500 mb-1.5">Comment</label>
+                    <label style="display:block;font-size:0.75rem;font-weight:700;color:rgba(255,255,255,0.5);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.05em;">Comment</label>
                     <textarea name="body" required rows="4"
-                        class="w-full bg-gray-800 border border-gray-700 focus:border-indigo-500 text-white placeholder-gray-600 rounded-xl px-4 py-2.5 text-sm outline-none transition resize-none"
-                        placeholder="Share your thoughts..."></textarea>
+                        style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);color:#fff;border-radius:10px;padding:10px 14px;font-size:0.9rem;outline:none;transition:border-color 0.2s;resize:none;font-family:'Outfit',sans-serif;"
+                        placeholder="Share your thoughts..."
+                        onfocus="this.style.borderColor='rgba(6,182,212,0.5)'" onblur="this.style.borderColor='rgba(255,255,255,0.1)'"></textarea>
                 </div>
-                <button type="submit"
-                    class="gradient-bg text-white font-semibold px-6 py-2.5 rounded-xl hover:opacity-90 transition text-sm">
-                    Post Comment
-                </button>
+                <button type="submit" class="g-btn" style="align-self:flex-start;padding:12px 28px;">Post Comment</button>
             </form>
         </div>
     </div>
 
+  </div>
 </div>
 
 {% endblock %}

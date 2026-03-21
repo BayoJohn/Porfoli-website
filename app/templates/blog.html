@@ -7,7 +7,7 @@
 
     <!-- Header -->
     <div style="margin-bottom:56px;" class="reveal">
-      <p style="font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:0.12em;color:var(--purple-light);margin-bottom:12px;">The Blog</p>
+      <p style="font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:0.12em;color:var(--cyan-light);margin-bottom:12px;">The Blog</p>
       <h1 style="font-size:clamp(2.4rem,5vw,3.8rem);font-weight:900;color:#fff;line-height:1.05;margin-bottom:16px;letter-spacing:-0.02em;">
         Real stories from<br><span class="g-text">the trenches</span>
       </h1>
@@ -31,14 +31,14 @@
           display:block;padding:0;overflow:hidden;margin-bottom:40px;text-decoration:none;
           transition:border-color 0.3s,transform 0.3s,background 0.3s;
         "
-        onmouseover="this.style.borderColor='rgba(139,92,246,0.5)';this.style.transform='translateY(-4px)';this.style.background='var(--glass-hover)';"
+        onmouseover="this.style.borderColor='rgba(6,182,212,0.5)';this.style.transform='translateY(-4px)';this.style.background='var(--glass-hover)';"
         onmouseout="this.style.borderColor='var(--border)';this.style.transform='none';this.style.background='var(--glass)';">
           <div style="height:260px;overflow:hidden;position:relative;">
             <img src="https://images.unsplash.com/photo-1542831371-29b0f74f9713?ixlib=rb-4.0.3&auto=format&fit=crop&w=900&q=80"
                  style="width:100%;height:100%;object-fit:cover;" alt="Code">
             <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.6),transparent 50%);pointer-events:none;"></div>
             <div style="position:absolute;top:20px;left:20px;display:flex;gap:8px;">
-              <span style="background:var(--purple);color:#fff;font-size:0.75rem;font-weight:800;padding:6px 14px;border-radius:100px;box-shadow:0 4px 12px rgba(0,0,0,0.2);">Latest</span>
+              <span style="background:var(--cyan);color:#fff;font-size:0.75rem;font-weight:800;padding:6px 14px;border-radius:100px;box-shadow:0 4px 12px rgba(0,0,0,0.2);">Latest</span>
             </div>
           </div>
           <div style="padding:40px;">
@@ -52,10 +52,10 @@
             <p style="font-size:1.05rem;color:rgba(255,255,255,0.7);line-height:1.7;margin-bottom:28px;">{{ featured.body | striptags | truncate(200) }}</p>
             <div style="display:flex;align-items:center;justify-content:space-between;">
               <div style="display:flex;align-items:center;gap:10px;">
-                <div style="width:32px;height:32px;background:var(--purple);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.85rem;font-weight:900;color:#fff;">B</div>
+                <div style="width:32px;height:32px;background:var(--cyan);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.85rem;font-weight:900;color:#fff;">B</div>
                 <span style="font-size:0.9rem;font-weight:600;color:rgba(255,255,255,0.6);">Bayo</span>
               </div>
-              <span style="font-size:0.95rem;font-weight:800;color:var(--purple-light);">Read post ↗</span>
+              <span style="font-size:0.95rem;font-weight:800;color:var(--cyan-light);">Read post ↗</span>
             </div>
           </div>
         </a>
@@ -73,7 +73,7 @@
             padding:32px 0;border-bottom:1px solid rgba(255,255,255,0.1);
             text-decoration:none;transition:all 0.2s;
           "
-          onmouseover="this.querySelector('.p-title').style.color='var(--purple-light)';this.querySelector('.p-arrow').style.transform='translateX(6px)';this.querySelector('.p-arrow').style.color='var(--purple-light)';"
+          onmouseover="this.querySelector('.p-title').style.color='var(--cyan-light)';this.querySelector('.p-arrow').style.transform='translateX(6px)';this.querySelector('.p-arrow').style.color='var(--cyan-light)';"
           onmouseout="this.querySelector('.p-title').style.color='#fff';this.querySelector('.p-arrow').style.transform='none';this.querySelector('.p-arrow').style.color='rgba(255,255,255,0.5)';">
             <div style="font-size:0.9rem;font-weight:800;color:rgba(255,255,255,0.3);text-align:right;padding-top:4px;">{{ '%02d' % (loop.index + 1) }}</div>
             <div>
@@ -103,7 +103,7 @@
         <div class="glass-panel reveal" style="padding:28px;">
           <p style="font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:0.12em;color:rgba(255,255,255,0.5);margin-bottom:20px;">The Writer</p>
           <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px;">
-            <div style="width:48px;height:48px;background:var(--purple);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1rem;color:#fff;flex-shrink:0;">B</div>
+            <div style="width:48px;height:48px;background:var(--cyan);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1rem;color:#fff;flex-shrink:0;">B</div>
             <div>
               <p style="font-weight:800;font-size:1rem;color:#fff;">Bayo Ogundele</p>
               <p style="font-size:0.85rem;font-weight:500;color:rgba(255,255,255,0.6);">DevOps Engineer</p>
@@ -123,7 +123,7 @@
             ('~' ~ ((posts | map(attribute='body') | map('striptags') | join(' ') | wordcount) / 200) | int ~ ' min', 'Total read time')
           ] %}
           <div style="padding:16px 0;{{ 'border-bottom:1px solid rgba(255,255,255,0.1);' if not loop.last else '' }}">
-            <p style="font-size:1.8rem;font-weight:900;color:var(--purple-light);line-height:1;">{{ stat }}</p>
+            <p style="font-size:1.8rem;font-weight:900;color:var(--cyan-light);line-height:1;">{{ stat }}</p>
             <p style="font-size:0.85rem;font-weight:600;color:rgba(255,255,255,0.6);margin-top:6px;">{{ label }}</p>
           </div>
           {% endfor %}

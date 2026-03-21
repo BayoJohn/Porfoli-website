@@ -8,38 +8,55 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" as="image" href="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=50&w=1200&auto=format&fit=crop">
+    <link rel="preload" as="image" href="https://images.unsplash.com/photo-1462332420958-a05d1e002413?q=60&w=1400&auto=format&fit=crop">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
         :root {
-            --purple: #8b5cf6;
-            --purple-light: #a78bfa;
-            --orange: #fb923c;
-            --orange-light: #fdba74;
-            --border: rgba(255,255,255,0.1);
-            --glass: rgba(20,20,30,0.45);
-            --glass-hover: rgba(40,40,60,0.6);
+            --cyan: #06b6d4;
+            --cyan-light: #22d3ee;
+            --amber: #f59e0b;
+            --amber-light: #fbbf24;
+            --border: rgba(255,255,255,0.08);
+            --glass: rgba(8,18,28,0.55);
+            --glass-hover: rgba(6,24,38,0.7);
+        }
+
+        html {
+            height: 100%;
+            scroll-behavior: smooth;
         }
 
         body {
             font-family: 'Outfit', sans-serif;
             color: #f1f5f9;
-            min-height: 100vh;
             overflow-x: hidden;
-            background: linear-gradient(rgba(10,10,15,0.8), rgba(10,10,15,0.85)),
-                        url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=50&w=1200&auto=format&fit=crop') center/cover fixed;
+            display: grid;
+            grid-template-rows: 1fr auto; /* Creates sticky footer */
+            min-height: 100%; 
+            margin: 0;
+            padding: 0;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: -1;
+            background: linear-gradient(rgba(2,6,16,0.8), rgba(2,6,16,0.92)),
+                        url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1400&auto=format&fit=crop') center/cover no-repeat;
         }
 
         /* ── Scrollbar */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
-        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 6px; }
-        ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.4); }
+        ::-webkit-scrollbar-thumb { background: rgba(6,182,212,0.3); border-radius: 6px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(6,182,212,0.6); }
 
         /* ── Selection */
-        ::selection { background: rgba(139,92,246,0.3); color: #fff; }
+        ::selection { background: rgba(6,182,212,0.25); color: #fff; }
 
         /* ── Glass wrapper */
         .glass-panel {
@@ -48,12 +65,12 @@
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid var(--border);
             border-radius: 28px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
         }
 
         /* ── Gradient text */
         .g-text {
-            background: linear-gradient(135deg, #a78bfa, #fb923c);
+            background: linear-gradient(135deg, #22d3ee, #f59e0b);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -61,7 +78,7 @@
 
         /* ── Gradient btn */
         .g-btn {
-            background: linear-gradient(135deg, #7c3aed, #8b5cf6);
+            background: linear-gradient(135deg, #0891b2, #06b6d4);
             color: #fff;
             font-weight: 700;
             border-radius: 100px;
@@ -71,10 +88,10 @@
             align-items: center;
             gap: 8px;
             transition: transform 0.2s, box-shadow 0.2s;
-            box-shadow: 0 4px 14px rgba(124,58,237,0.3);
-            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 4px 14px rgba(6,182,212,0.3);
+            border: 1px solid rgba(255,255,255,0.15);
         }
-        .g-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(124,58,237,0.45); }
+        .g-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(6,182,212,0.5); }
 
         /* ── Nav Floating Pill */
         #main-nav { 
@@ -120,9 +137,9 @@
             transform: translateX(-50%);
             width: 12px;
             height: 4px;
-            background: var(--purple-light);
+            background: var(--cyan-light);
             border-radius: 4px;
-            box-shadow: 0 0 10px var(--purple);
+            box-shadow: 0 0 10px var(--cyan);
         }
 
         .nav-link {
@@ -164,6 +181,13 @@
         /* ── Page transition */
         main { animation: pagein 0.35s ease both; }
         @keyframes pagein { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:none; } }
+
+        .main-content {
+            min-height: calc(100vh - 120px) !important;
+            flex: 1 0 auto;
+            display: flex;
+            flex-direction: column;
+        }
     </style>
 </head>
 <body>
@@ -219,12 +243,12 @@
 </nav>
 
 <!-- ─────────────── CONTENT ─────────────── -->
-<main class="relative z-10 pt-32">
+<main class="relative z-10 pt-32 main-content">
     {% block content %}{% endblock %}
 </main>
 
 <!-- ─────────────── FOOTER ─────────────── -->
-<footer class="border-t border-[rgba(255,255,255,0.08)] mt-0 relative z-10" style="background:rgba(10,10,15,0.6);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);">
+<footer class="border-t border-[rgba(255,255,255,0.08)] mt-auto relative z-10" style="background:rgba(10,10,15,0.6);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);flex-shrink:0;">
     <div class="max-w-6xl mx-auto px-6 py-16">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
 
@@ -290,7 +314,7 @@
 </footer>
 
 <!-- Ambient Mouse Spotlight -->
-<div id="mouse-glow" style="position:fixed;top:0;left:0;width:600px;height:600px;background:radial-gradient(circle, rgba(139,92,246,0.12) 0%, transparent 60%);border-radius:50%;pointer-events:none;z-index:0;transform:translate(-50%, -50%);opacity:0;transition:opacity 0.5s ease-out;"></div>
+<div id="mouse-glow" style="position:fixed;top:0;left:0;width:600px;height:600px;background:radial-gradient(circle, rgba(6,182,212,0.1) 0%, transparent 60%);border-radius:50%;pointer-events:none;z-index:0;transform:translate(-50%, -50%);opacity:0;transition:opacity 0.5s ease-out;"></div>
 
 <script>
     const glow = document.getElementById('mouse-glow');
@@ -334,7 +358,8 @@
         if (h && h.startsWith('/') && !h.startsWith('//') && !a.hasAttribute('target')) {
             a.addEventListener('click', e => {
                 e.preventDefault();
-                document.querySelector('main').style.cssText = 'opacity:0;transition:opacity 0.15s';
+                document.querySelector('main').style.opacity = '0';
+                document.querySelector('main').style.transition = 'opacity 0.15s';
                 setTimeout(() => location.href = h, 150);
             });
         }
