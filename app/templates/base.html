@@ -220,6 +220,8 @@
                 width: calc(100% - 24px);
                 padding: 10px 16px;
                 border-radius: 20px;
+                backdrop-filter: blur(12px) saturate(160%);
+                -webkit-backdrop-filter: blur(12px) saturate(160%);
             }
             #main-nav.scrolled {
                 top: 8px;
@@ -227,6 +229,9 @@
             }
             main.main-content {
                 padding-top: 88px !important;
+            }
+            #mouse-glow {
+                display: none !important;
             }
         }
     </style>
@@ -367,11 +372,13 @@
 
 <script>
     const glow = document.getElementById('mouse-glow');
-    document.addEventListener('mousemove', e => {
-        glow.style.transform = `translate(${e.clientX - 300}px, ${e.clientY - 300}px)`;
-        glow.style.opacity = '1';
-    });
-    document.addEventListener('mouseleave', () => glow.style.opacity = '0');
+    if (window.matchMedia('(hover: hover)').matches) {
+        document.addEventListener('mousemove', e => {
+            glow.style.transform = `translate(${e.clientX - 300}px, ${e.clientY - 300}px)`;
+            glow.style.opacity = '1';
+        });
+        document.addEventListener('mouseleave', () => glow.style.opacity = '0');
+    }
 </script>
 
 <script>

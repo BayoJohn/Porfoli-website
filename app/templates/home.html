@@ -1,513 +1,564 @@
 {% extends "base.html" %}
 {% block title %}StackedByBayo — DevOps Engineer{% endblock %}
 {% block content %}
+<style>
+  :root {
+  --cyan: #06b6d4;
+  --cyan-light: #22d3ee;
+  --amber: #f59e0b;
+  --amber-light: #fcd34d;
+  --purple: #8b5cf6;
+  --purple-light: #a78bfa;
+  }
 
-<!-- ═══════════════════════════════════════════
-     HERO
-═══════════════════════════════════════════════ -->
-<section style="padding: 32px 16px 0;">
-  <div class="glass-panel" style="
-    max-width: 1100px; margin: 0 auto; padding: 64px 56px;
-    position: relative; overflow: hidden; min-height: 520px;
-    display: flex; align-items: center;
-    background: linear-gradient(135deg, rgba(76,29,149,0.2) 0%, rgba(124,58,237,0.1) 100%);
-  " id="hero-card">
-    <!-- content grid -->
-    <div style="display: grid; grid-template-columns: 1fr 420px; gap: 40px; align-items: center; position: relative; z-index: 2; width: 100%;">
-      <!-- LEFT: Text -->
-      <div>
-        <p style="font-size:1rem;font-weight:600;color:rgba(255,255,255,0.7);margin-bottom:20px;">Hey, I'm a</p>
+  @keyframes blink { 50% { opacity:0; } }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.6;transform:scale(1.1)} }
+  @keyframes ticker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+  @keyframes ping { 75%,100%{transform:translate(-50%,-50%) scale(2);opacity:0} }
+  @keyframes shine { to{background-position:200% center} }
 
-        <h1 style="font-size:clamp(3.2rem,7vw,5.5rem);font-weight:900;line-height:1.0;margin-bottom:32px;letter-spacing:-0.02em;background:linear-gradient(90deg, #fff, #22d3ee, #f59e0b, #fff);background-size:200% auto;color:transparent;-webkit-background-clip:text;animation:shine 5s linear infinite;">
-          DevOps<br>Engineer
-        </h1>
+  .ticker-item {
+  display:flex;align-items:center;gap:10px;
+  background:var(--glass);
+  border:1px solid var(--border);
+  border-radius:100px;
+  padding:10px 20px;
+  white-space:nowrap;
+  font-size:0.875rem;font-weight:600;color:#fff;
+  }
 
-        <!-- Typed subtitle -->
-        <div style="font-size:1.15rem;font-weight:500;color:rgba(255,255,255,0.85);margin-bottom:44px;min-height:1.8rem;display:flex;align-items:center;gap:4px;">
-          <span id="typed-role"></span>
-          <span style="display:inline-block;width:2px;height:1.1em;background:#f59e0b;border-radius:2px;vertical-align:text-bottom;animation:blink 0.75s step-end infinite;"></span>
+  .stat-card {
+  background:rgba(255,255,255,0.03);
+  border:1px solid rgba(255,255,255,0.08);
+  border-top-width:4px;
+  border-radius:24px;
+  padding:36px 24px;
+  text-align:center;
+  transition:transform 0.3s,background 0.3s;
+  cursor:default;
+  }
+  .stat-card:hover { transform:translateY(-8px);background:rgba(255,255,255,0.06); }
+  .stat-num { font-size:clamp(2.5rem,4vw,3.5rem);font-weight:900;line-height:1;margin-bottom:12px;transition:transform
+  0.2s; }
+  .stat-card:hover .stat-num { transform:scale(1.08); }
+  .stat-label { font-size:0.9rem;color:rgba(255,255,255,0.6);font-weight:600; }
+
+  /* ── Mobile overrides ── */
+  @media (max-width: 767px) {
+  html, body { max-width: 100vw; overflow-x: hidden !important; }
+  main.main-content { max-width: 100vw; overflow-x: hidden !important; }
+
+  #hero-card {
+  padding: 32px 20px !important;
+  min-height: auto !important;
+  width: 100% !important;
+  }
+  #hero-grid {
+  grid-template-columns: minmax(0, 100%) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 36px !important;
+  width: 100% !important;
+  }
+  #hero-photo-col {
+  max-width: 300px;
+  width: 100% !important;
+  margin: 0 auto !important;
+  }
+  #hero-photo-col img { height: 280px !important; }
+
+  #stats-section { padding: 36px 16px !important; width: 100% !important; }
+  #stats-grid { 
+  display: flex !important; 
+  flex-direction: column !important; 
+  gap: 12px !important; 
+  width: 100% !important; 
+  }
+  .stat-card { padding: 20px 12px !important; width: 100% !important; box-sizing: border-box; }
+  .stat-num { font-size: clamp(1.8rem,6vw,2.5rem) !important; }
+  .stat-label { font-size: 0.75rem !important; }
+
+  .projects-grid { 
+  display: flex !important; 
+  flex-direction: column !important; 
+  width: 100% !important; 
+  }
+  .blog-grid { 
+  display: flex !important; 
+  flex-direction: column !important; 
+  width: 100% !important; 
+  }
+  .cta-panel { padding: 40px 20px !important; width: 100% !important; box-sizing: border-box; }
+  
+  .story-bento { padding: 28px 20px !important; max-width: 100% !important; width: 100% !important; box-sizing: border-box; overflow: hidden !important; }
+  .tool-bento { padding: 24px 16px !important; max-width: 100% !important; width: 100% !important; box-sizing: border-box; }
+  
+  .glass-panel { max-width: 100% !important; box-sizing: border-box; }
+
+  section { padding-left: 16px !important; padding-right: 16px !important; overflow: hidden !important; max-width: 100vw !important; box-sizing: border-box; }
+
+  .ticker-item {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  }
+
+  /* About bento: stack columns */
+  .about-bento-grid {
+  display: flex !important;
+  flex-direction: column !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  }
+  }
+  </style>
+
+  <!-- ═══════════════════════════════════════ HERO ═══ -->
+  <section style="padding:32px 16px 0;">
+    <div class="glass-panel" id="hero-card" style="
+    max-width:1100px;margin:0 auto;padding:64px 56px;
+    position:relative;overflow:hidden;min-height:520px;
+    display:flex;align-items:center;
+    background:linear-gradient(135deg,rgba(76,29,149,0.2) 0%,rgba(124,58,237,0.1) 100%);
+  ">
+      <div id="hero-grid"
+        style="display:grid;grid-template-columns:1fr 420px;gap:40px;align-items:center;position:relative;z-index:2;width:100%;">
+
+        <!-- LEFT -->
+        <div>
+          <p style="font-size:1rem;font-weight:600;color:rgba(255,255,255,0.7);margin-bottom:20px;">Hey, I'm a</p>
+          <h1
+            style="font-size:clamp(2.5rem,8vw,5.5rem);font-weight:900;line-height:1.0;margin-bottom:32px;letter-spacing:-0.02em;background:linear-gradient(90deg,#fff,#22d3ee,#f59e0b,#fff);background-size:200% auto;color:transparent;-webkit-background-clip:text;animation:shine 5s linear infinite;">
+            DevOps<br>Engineer
+          </h1>
+          <div
+            style="font-size:1.15rem;font-weight:500;color:rgba(255,255,255,0.85);margin-bottom:44px;min-height:1.8rem;display:flex;align-items:center;gap:4px;">
+            <span id="typed-role"></span>
+            <span
+              style="display:inline-block;width:2px;height:1.1em;background:#f59e0b;border-radius:2px;vertical-align:text-bottom;animation:blink 0.75s step-end infinite;"></span>
+          </div>
+          <div
+            style="display:flex;flex-wrap:wrap;gap:24px;border-top:1px solid rgba(255,255,255,0.1);padding-top:28px;">
+            {% for num,label in [('#01','CI/CD Pipelines'),('#02','Kubernetes'),('#03','Cloud Infra'),('#04','GitOps')]
+            %}
+            <div>
+              <p
+                style="font-size:0.75rem;font-weight:800;color:var(--amber-light);letter-spacing:0.05em;margin-bottom:4px;">
+                {{ num }}</p>
+              <p style="font-size:0.875rem;font-weight:600;color:#fff;">{{ label }}</p>
+            </div>
+            {% endfor %}
+          </div>
         </div>
 
-        <!-- Services numbered -->
-        <div style="display:flex;flex-wrap:wrap;gap:32px;border-top:1px solid rgba(255,255,255,0.1);padding-top:28px;">
-          {% for num, label in [('#01','CI/CD Pipelines'), ('#02','Kubernetes'), ('#03','Cloud Infra'), ('#04','GitOps')] %}
-          <div>
-            <p style="font-size:0.75rem;font-weight:800;color:var(--amber-light);letter-spacing:0.05em;margin-bottom:4px;">{{ num }}</p>
-            <p style="font-size:0.875rem;font-weight:600;color:#fff;">{{ label }}</p>
+        <!-- RIGHT: Photo -->
+        <div id="hero-photo-col" style="position:relative;">
+          <div
+            style="position:absolute;top:-16px;right:-12px;z-index:5;background:var(--amber);color:#fff;font-weight:800;font-size:0.85rem;padding:8px 18px;border-radius:100px;box-shadow:0 8px 20px rgba(234,88,12,0.4);">
+            Lagos ⚡</div>
+          <div
+            style="position:relative;border-radius:28px;overflow:hidden;box-shadow:0 0 60px rgba(6,182,212,0.3);padding:4px;background:linear-gradient(135deg,rgba(6,182,212,0.6),rgba(245,158,11,0.6));">
+            <div style="width:100%;height:100%;border-radius:24px;overflow:hidden;background:#050505;">
+              <img
+                src="https://images.unsplash.com/photo-1607743386760-88ac62b89b8a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=50"
+                alt="Bayo" style="width:100%;height:380px;object-fit:cover;display:block;">
+            </div>
           </div>
+          <div
+            style="position:absolute;bottom:-20px;left:-20px;z-index:5;width:76px;height:76px;border-radius:20px;overflow:hidden;border:3px solid rgba(255,255,255,0.2);box-shadow:0 12px 30px rgba(0,0,0,0.3);">
+            <img
+              src="https://images.unsplash.com/photo-1521119989659-a83eee488004?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=50"
+              alt="Avatar" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div
+            style="position:absolute;bottom:-12px;right:16px;z-index:5;background:rgba(20,20,30,0.8);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.1);border-radius:100px;padding:8px 16px;display:flex;align-items:center;gap:8px;">
+            <span
+              style="width:8px;height:8px;background:#10b981;border-radius:50%;display:inline-block;animation:pulse 2s infinite;"></span>
+            <span style="font-size:0.75rem;font-weight:700;color:#fff;">Available for work</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════ TICKER ═══ -->
+  <section style="padding:48px 24px;">
+    <div style="max-width:1100px;margin:0 auto;">
+      <p
+        style="text-align:center;font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:0.12em;color:rgba(255,255,255,0.5);margin-bottom:24px;">
+        My Current Tool Belt</p>
+      <div
+        style="overflow:hidden;-webkit-mask-image:linear-gradient(to right,transparent,black 10%,black 90%,transparent);">
+        <div style="display:flex;gap:12px;width:max-content;animation:ticker 35s linear infinite;">
+          {% set tools =
+          [('kubernetes','326CE5','Kubernetes'),('argo','EF7B4D','ArgoCD'),('terraform','7B42BC','Terraform'),('docker','2496ED','Docker'),('amazonaws','FF9900','AWS'),('ansible','EE0000','Ansible'),('githubactions','2088FF','GitHub
+          Actions'),('grafana','F46800','Grafana'),('prometheus','E6522C','Prometheus'),('linux','FCC624','Linux'),('python','3776AB','Python'),('nginx','009639','Nginx'),('gitea','609926','Gitea')]
+          %}
+          {% for slug,color,name in tools %}
+          <div class="ticker-item"><img src="https://cdn.simpleicons.org/{{ slug }}/{{ color }}"
+              style="width:16px;height:16px;">{{ name }}</div>
+          {% endfor %}
+          {% for slug,color,name in tools %}
+          <div class="ticker-item"><img src="https://cdn.simpleicons.org/{{ slug }}/{{ color }}"
+              style="width:16px;height:16px;">{{ name }}</div>
           {% endfor %}
         </div>
       </div>
+    </div>
+  </section>
 
-      <!-- RIGHT: Photo col -->
-      <div style="position:relative;">
-        <div style="
-          position:absolute;top:-16px;right:-12px;z-index:5;
-          background:var(--amber);color:#fff;
-          font-weight:800;font-size:0.85rem;
-          padding:8px 18px;border-radius:100px;
-          box-shadow:0 8px 20px rgba(234,88,12,0.4);
-        ">Lagos ⚡</div>
+  <!-- ═══════════════════════════════════════ STATS ═══ -->
+  <section style="padding:0 24px;">
+    <div id="stats-section" class="glass-panel reveal"
+      style="max-width:1100px;margin:0 auto;padding:72px 56px;position:relative;overflow:hidden;">
+      <p
+        style="text-align:center;font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:0.12em;color:var(--cyan-light);margin-bottom:12px;">
+        THE NUMBERS</p>
+      <h2
+        style="text-align:center;font-size:clamp(2.2rem,4vw,3.2rem);font-weight:900;color:#fff;margin-bottom:60px;letter-spacing:-0.02em;">
+        Results That Speak</h2>
+      <div id="stats-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;">
+        <div class="stat-card" style="border-top-color:var(--cyan-light);">
+          <p class="stat-num" data-target="6" data-suffix="+" style="color:var(--cyan-light);">0</p>
+          <p class="stat-label">Months Learning</p>
+        </div>
+        <div class="stat-card" style="border-top-color:var(--amber);">
+          <p class="stat-num" data-target="5" data-suffix="+" style="color:var(--amber);">0</p>
+          <p class="stat-label">Projects Deployed</p>
+        </div>
+        <div class="stat-card" style="border-top-color:var(--amber);">
+          <p class="stat-num" data-target="17" data-suffix="+" style="color:var(--amber);">0</p>
+          <p class="stat-label">Tools in Stack</p>
+        </div>
+        <div class="stat-card" style="border-top-color:var(--cyan-light);">
+          <p class="stat-num" data-target="0" data-suffix="∞" style="color:var(--cyan-light);">∞</p>
+          <p class="stat-label">Things To Learn</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-        <div style="position:relative;border-radius:28px;overflow:hidden;box-shadow:0 0 60px rgba(6,182,212,0.3);padding:4px;background:linear-gradient(135deg, rgba(6,182,212,0.6), rgba(245,158,11,0.6));">
-          <div style="width:100%;height:100%;border-radius:24px;overflow:hidden;background:#050505;">
-            <img src="https://images.unsplash.com/photo-1607743386760-88ac62b89b8a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=50"
-                 alt="Bayo" style="width:100%;height:380px;object-fit:cover;display:block;">
+  <script>
+    (function () {
+      const section = document.getElementById('stats-section');
+      const nums = section.querySelectorAll('.stat-num');
+      let fired = false;
+      function countUp(el) {
+        const target = parseInt(el.dataset.target);
+        const suffix = el.dataset.suffix;
+        if (!target) return;
+        const duration = 1400, stepTime = 16, steps = duration / stepTime;
+        let current = 0; const inc = target / steps;
+        const timer = setInterval(() => {
+          current = Math.min(current + inc, target);
+          el.textContent = Math.floor(current) + suffix;
+          if (current >= target) clearInterval(timer);
+        }, stepTime);
+      }
+      new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting && !fired) { fired = true; nums.forEach(n => countUp(n)); } });
+      }, { threshold: 0.3 }).observe(section);
+    })();
+  </script>
+
+  <!-- ═══════════════════════════════════════ ABOUT ═══ -->
+  <section style="padding:100px 24px;">
+    <div style="max-width:1100px;margin:0 auto;">
+      <p style="font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:0.12em;color:var(--cyan-light);margin-bottom:12px;"
+        class="reveal">About Me</p>
+      <h2
+        style="font-size:clamp(2.2rem,4vw,3.2rem);font-weight:900;color:#fff;margin-bottom:56px;letter-spacing:-0.02em;"
+        class="reveal">Who I Am</h2>
+
+      <div class="about-bento-grid" style="display:grid;grid-template-columns:1fr 420px;gap:24px;">
+
+        <!-- Story block -->
+        <div class="glass-panel reveal story-bento"
+          style="padding:56px;display:flex;flex-direction:column;justify-content:center;background:linear-gradient(135deg,rgba(20,20,30,0.6),rgba(30,20,40,0.4));border-top:2px solid rgba(6,182,212,0.5);grid-row:span 2;">
+          <div
+            style="width:64px;height:64px;background:linear-gradient(135deg,var(--cyan),var(--amber));border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:1.8rem;box-shadow:0 10px 30px rgba(6,182,212,0.4);margin-bottom:32px;">
+            🌐</div>
+          <h3
+            style="font-size:clamp(1.8rem,6vw,3rem);font-weight:900;color:#fff;margin-bottom:24px;line-height:1.1;letter-spacing:-0.03em;">
+            6 Months.<br><span style="color:var(--amber-light);">Real Infrastructure.</span></h3>
+          <p style="color:rgba(255,255,255,0.7);font-size:1.1rem;line-height:1.8;margin-bottom:24px;">
+            Six months ago I decided to stop watching tutorials. I set up a Gitea server on bare metal, wired Drone CI
+            into it, built a private Harbor registry, scanned every image with Trivy, and deployed everything to a
+            <strong style="color:#fff;">k3s Kubernetes cluster</strong> via ArgoCD GitOps.
+          </p>
+          <p style="color:rgba(255,255,255,0.7);font-size:1.1rem;line-height:1.8;margin-bottom:48px;">Every mistake
+            becomes a blog post. Every working pipeline is a milestone.</p>
+          <p
+            style="font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:0.12em;color:rgba(255,255,255,0.5);margin-bottom:16px;">
+            THE PIPELINE</p>
+          <div
+            style="display:flex;align-items:center;gap:12px;background:rgba(0,0,0,0.3);padding:16px 20px;border-radius:24px;border:1px solid rgba(255,255,255,0.05);width:100%;overflow-x:auto;">
+            {% set icons =
+            [('gitea','609926'),('drone','212121'),('docker','2496ED'),('argo','EF7B4D'),('kubernetes','326CE5')] %}
+            {% for slug,color in icons %}
+            <div
+              style="width:48px;height:48px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:14px;display:flex;flex-shrink:0;align-items:center;justify-content:center;transition:transform 0.3s;cursor:pointer;"
+              onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform='none'">
+              <img src="https://cdn.simpleicons.org/{{ slug }}/{{ color }}" style="width:24px;height:24px;">
+            </div>
+            {% if not loop.last %}<div
+              style="width:24px;height:2px;background:linear-gradient(90deg,#06b6d4,#f59e0b);border-radius:2px;opacity:0.6;flex-shrink:0;">
+            </div>{% endif %}
+            {% endfor %}
           </div>
         </div>
 
-        <div style="
-          position:absolute;bottom:-20px;left:-20px;z-index:5;
-          width:76px;height:76px;border-radius:20px;overflow:hidden;
-          border:3px solid rgba(255,255,255,0.2);box-shadow:0 12px 30px rgba(0,0,0,0.3);
-        ">
-          <img src="https://images.unsplash.com/photo-1521119989659-a83eee488004?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=50"
-               alt="Avatar" style="width:100%;height:100%;object-fit:cover;">
+        <!-- Lagos map -->
+        <div class="glass-panel reveal"
+          style="padding:0;overflow:hidden;position:relative;display:flex;flex-direction:column;justify-content:flex-end;min-height:240px;">
+          <iframe src="https://www.openstreetmap.org/export/embed.html?bbox=3.30,6.40,3.45,6.55&layer=mapnik"
+            style="position:absolute;inset:0;width:100%;height:100%;border:none;opacity:0.5;filter:invert(90%) hue-rotate(180deg) grayscale(60%) contrast(120%) sepia(30%);pointer-events:none;"></iframe>
+          <div
+            style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,10,15,0.95),transparent);pointer-events:none;">
+          </div>
+          <div style="position:absolute;top:30%;right:30%;">
+            <span
+              style="position:absolute;width:40px;height:40px;background:var(--cyan);border-radius:50%;opacity:0.4;animation:ping 2s cubic-bezier(0,0,0.2,1) infinite;transform:translate(-50%,-50%);"></span>
+            <span
+              style="position:absolute;width:10px;height:10px;background:#fff;border-radius:50%;box-shadow:0 0 20px var(--cyan-light);transform:translate(-50%,-50%);"></span>
+          </div>
+          <div style="position:relative;z-index:3;padding:28px;">
+            <p style="font-size:1.6rem;font-weight:900;color:#fff;letter-spacing:-0.02em;">Lagos, Nigeria</p>
+            <p style="color:var(--amber-light);font-size:0.9rem;font-weight:600;margin-top:4px;">West Africa · UTC+1</p>
+          </div>
         </div>
 
-        <div style="
-          position:absolute;bottom:-12px;right:16px;z-index:5;
-          background:rgba(20,20,30,0.8);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
-          border:1px solid rgba(255,255,255,0.1);
-          border-radius:100px;padding:8px 16px;
-          display:flex;align-items:center;gap:8px;
-        ">
-          <span style="width:8px;height:8px;background:#10b981;border-radius:50%;display:inline-block;animation:pulse 2s infinite;"></span>
-          <span style="font-size:0.75rem;font-weight:700;color:#fff;">Available for work</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<style>
-  @keyframes blink { 50% { opacity:0; } }
-  @keyframes pulse { 0%,100% { opacity:1; transform:scale(1);} 50% { opacity:0.6; transform:scale(1.1);} }
-</style>
-
-<!-- ═══════════════════════════════════════════
-     TICKER
-═══════════════════════════════════════════════ -->
-<section style="padding:48px 24px;">
-  <div style="max-width:1100px;margin:0 auto;">
-    <p style="text-align:center;font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:0.12em;color:rgba(255,255,255,0.5);margin-bottom:24px;">My Current Tool Belt</p>
-    <div style="overflow:hidden;-webkit-mask-image:linear-gradient(to right,transparent,black 10%,black 90%,transparent);mask-image:linear-gradient(to right,transparent,black 10%,black 90%,transparent);">
-      <div id="ticker-track" style="display:flex;gap:12px;width:max-content;animation:ticker 35s linear infinite;">
-        {% set tools = [
-          ('kubernetes','326CE5','Kubernetes'),('argo','EF7B4D','ArgoCD'),('terraform','7B42BC','Terraform'),
-          ('docker','2496ED','Docker'),('amazonaws','FF9900','AWS'),('ansible','EE0000','Ansible'),
-          ('githubactions','2088FF','GitHub Actions'),('grafana','F46800','Grafana'),('prometheus','E6522C','Prometheus'),
-          ('linux','FCC624','Linux'),('python','3776AB','Python'),('nginx','009639','Nginx'),('gitea','609926','Gitea')
-        ] %}
-        {% for slug, color, name in tools %}
-        <div style="display:flex;align-items:center;gap:10px;background:var(--glass);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid var(--border);border-radius:100px;padding:10px 20px;white-space:nowrap;font-size:0.875rem;font-weight:600;color:#fff;">
-          <img src="https://cdn.simpleicons.org/{{ slug }}/{{ color }}" style="width:16px;height:16px;" alt="{{ name }}">
-          {{ name }}
-        </div>
-        {% endfor %}
-        {% for slug, color, name in tools %}
-        <div style="display:flex;align-items:center;gap:10px;background:var(--glass);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid var(--border);border-radius:100px;padding:10px 20px;white-space:nowrap;font-size:0.875rem;font-weight:600;color:#fff;">
-          <img src="https://cdn.simpleicons.org/{{ slug }}/{{ color }}" style="width:16px;height:16px;" alt="{{ name }}">
-          {{ name }}
-        </div>
-        {% endfor %}
-      </div>
-    </div>
-  </div>
-</section>
-<style>
-  @keyframes ticker { from { transform:translateX(0); } to { transform:translateX(-50%); } }
-</style>
-
-<!-- ═══════════════════════════════════════════
-     STATS
-═══════════════════════════════════════════════ -->
-<section style="padding:0 24px;">
-  <div id="stats-section" class="glass-panel reveal" style="max-width:1100px;margin:0 auto;padding:72px 56px;position:relative;overflow:hidden;">
-    <p style="text-align:center;font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:0.12em;color:var(--cyan-light);margin-bottom:12px;">THE NUMBERS</p>
-    <h2 style="text-align:center;font-size:clamp(2.2rem,4vw,3.2rem);font-weight:900;color:#fff;margin-bottom:60px;letter-spacing:-0.02em;">Results That Speak</h2>
-
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;" id="stats-grid">
-      <div class="stat-card" style="border-top-color:var(--cyan-light);">
-        <p class="stat-num" data-target="6" data-suffix="+" style="color:var(--cyan-light);">0</p>
-        <p class="stat-label">Months Learning</p>
-      </div>
-      <div class="stat-card" style="border-top-color:var(--amber);">
-        <p class="stat-num" data-target="5" data-suffix="+" style="color:var(--amber);">0</p>
-        <p class="stat-label">Projects Deployed</p>
-      </div>
-      <div class="stat-card" style="border-top-color:var(--amber);">
-        <p class="stat-num" data-target="17" data-suffix="+" style="color:var(--amber);">0</p>
-        <p class="stat-label">Tools in Stack</p>
-      </div>
-      <div class="stat-card" style="border-top-color:var(--cyan-light);">
-        <p class="stat-num" data-target="0" data-suffix="∞" style="color:var(--cyan-light);">∞</p>
-        <p class="stat-label">Things To Learn</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<style>
-  .stat-card {
-    background:rgba(255,255,255,0.03);
-    border:1px solid rgba(255,255,255,0.08);
-    border-top-width:4px;
-    border-radius:24px;
-    padding:36px 24px;
-    text-align:center;
-    transition:transform 0.3s, background 0.3s;
-    cursor:default;
-  }
-  .stat-card:hover {
-    transform:translateY(-8px);
-    background:rgba(255,255,255,0.06);
-  }
-  .stat-num {
-    font-size:clamp(2.5rem,4vw,3.5rem);
-    font-weight:900;
-    line-height:1; margin-bottom:12px;
-    transition:transform 0.2s;
-  }
-  .stat-card:hover .stat-num { transform:scale(1.08); }
-  .stat-label { font-size:0.9rem; color:rgba(255,255,255,0.6); font-weight:600; }
-</style>
-
-<script>
-  (function() {
-    const section = document.getElementById('stats-section');
-    const nums = section.querySelectorAll('.stat-num');
-    let fired = false;
-    function countUp(el) {
-      const target = parseInt(el.dataset.target);
-      const suffix = el.dataset.suffix;
-      if (!target) return;
-      const duration = 1400, stepTime = 16, steps = duration / stepTime;
-      let current = 0; const inc = target / steps;
-      const timer = setInterval(() => {
-        current = Math.min(current + inc, target);
-        el.textContent = Math.floor(current) + suffix;
-        if (current >= target) clearInterval(timer);
-      }, stepTime);
-    }
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting && !fired) {
-          fired = true; nums.forEach(n => countUp(n)); obs.disconnect();
-        }
-      });
-    }, { threshold: 0.3 });
-    obs.observe(section);
-  })();
-</script>
-
-<!-- ═══════════════════════════════════════════
-     ABOUT / WHO I AM
-═══════════════════════════════════════════════ -->
-<section style="padding:100px 24px;">
-  <div style="max-width:1100px;margin:0 auto;">
-    <p style="font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:0.12em;color:var(--cyan-light);margin-bottom:12px;" class="reveal">About Me</p>
-    <h2 style="font-size:clamp(2.2rem,4vw,3.2rem);font-weight:900;color:#fff;margin-bottom:56px;letter-spacing:-0.02em;" class="reveal">Who I Am</h2>
-
-    <div class="grid grid-cols-1 lg:grid-cols-[1fr_420px] gap-6">
-
-      <!-- Huge Story Bento Block -->
-      <div class="glass-panel reveal lg:row-span-2" style="padding:56px;display:flex;flex-direction:column;justify-content:center;background:linear-gradient(135deg, rgba(20,20,30,0.6), rgba(30,20,40,0.4));border-top:2px solid rgba(6,182,212,0.5);">
-         <div style="width:64px;height:64px;background:linear-gradient(135deg, var(--cyan), var(--amber));border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:1.8rem;box-shadow:0 10px 30px rgba(6,182,212,0.4);margin-bottom:32px;">🌐</div>
-         <h3 style="font-size:clamp(2.2rem, 4vw, 3rem);font-weight:900;color:#fff;margin-bottom:24px;line-height:1.1;letter-spacing:-0.03em;">6 Months.<br><span style="color:var(--amber-light);">Real Infrastructure.</span></h3>
-         <p style="color:rgba(255,255,255,0.7);font-size:1.1rem;line-height:1.8;margin-bottom:24px;max-width:90%;">
-          Six months ago I decided to stop watching tutorials. I set up a Gitea server on bare metal, wired Drone CI into it, built a private Harbor registry, scanned every image with Trivy, and deployed everything to a <strong style="color:#fff;">k3s Kubernetes cluster</strong> via ArgoCD GitOps.
-         </p>
-         <p style="color:rgba(255,255,255,0.7);font-size:1.1rem;line-height:1.8;margin-bottom:48px;">
-          Every mistake becomes a blog post. Every working pipeline is a milestone.
-         </p>
-
-         <!-- CI/CD Flow Graphic -->
-         <p style="font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:0.12em;color:rgba(255,255,255,0.5);margin-bottom:16px;">THE PIPELINE</p>
-         <div style="display:flex;align-items:center;gap:12px;background:rgba(0,0,0,0.3);padding:16px 20px;border-radius:24px;border:1px solid rgba(255,255,255,0.05);width:max-content;max-width:100%;overflow-x:auto;box-shadow:inset 0 0 20px rgba(0,0,0,0.5);">
-            {% set icons = [('gitea','609926'),('drone','212121'),('docker','2496ED'),('argo','EF7B4D'),('kubernetes','326CE5')] %}
-            {% for slug, color in icons %}
-              <div style="width:48px;height:48px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:14px;display:flex;flex-shrink:0;align-items:center;justify-content:center;box-shadow:0 8px 20px rgba(0,0,0,0.3); transition: transform 0.3s; cursor:pointer;" onmouseover="this.style.transform='translateY(-4px)';" onmouseout="this.style.transform='none';">
-                 <img src="https://cdn.simpleicons.org/{{ slug }}/{{ color }}" style="width:24px;height:24px;">
-              </div>
-              {% if not loop.last %}
-              <div style="width:24px;height:2px;background:linear-gradient(90deg, #06b6d4, #f59e0b);border-radius:2px;opacity:0.6;flex-shrink:0;"></div>
-              {% endif %}
-            {% endfor %}
-         </div>
-      </div>
-
-      <!-- Radar Location Bento Block -->
-      <div class="glass-panel reveal" style="padding:0;overflow:hidden;position:relative;display:flex;flex-direction:column;justify-content:flex-end;min-height:280px;border-top:2px solid rgba(2fb923c,0); transition: border 0.3s;" onmouseover="this.style.borderTop='2px solid rgba(245,158,11,0.5)';" onmouseout="this.style.borderTop='1px solid rgba(255,255,255,0.1)';">
-        <iframe src="https://www.openstreetmap.org/export/embed.html?bbox=3.30,6.40,3.45,6.55&layer=mapnik" style="position:absolute;inset:0;width:100%;height:100%;border:none;z-index:0;opacity:0.5;filter:invert(90%) hue-rotate(180deg) grayscale(60%) contrast(120%) sepia(30%);pointer-events:none;" title="Lagos Map"></iframe>
-        <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(10,10,15,0.95), transparent);z-index:1;pointer-events:none;"></div>
-
-        <!-- Radar Pulse -->
-        <div style="position:absolute;top:30%;right:30%;z-index:2;">
-           <span style="position:absolute;width:40px;height:40px;background:var(--cyan);border-radius:50%;opacity:0.4;animation:ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;transform:translate(-50%,-50%);"></span>
-           <span style="position:absolute;width:10px;height:10px;background:#fff;border-radius:50%;box-shadow:0 0 20px var(--cyan-light);transform:translate(-50%,-50%);"></span>
-        </div>
-
-        <div style="position:relative;z-index:3;padding:32px;">
-          <p style="font-size:1.6rem;font-weight:900;color:#fff;letter-spacing:-0.02em;">Lagos, Nigeria</p>
-          <p style="color:var(--amber-light);font-size:0.9rem;font-weight:600;margin-top:4px;">West Africa · UTC+1</p>
-        </div>
-      </div>
-
-      <!-- Tool Grid Bento Block -->
-      <div class="glass-panel reveal" style="padding:32px;">
-         <p style="font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:0.12em;color:rgba(255,255,255,0.5);margin-bottom:24px;">Primary Arsenal</p>
-         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-            {% for label, slug, color in [
-              ('Kubernetes','kubernetes','326CE5'),
-              ('ArgoCD','argo','EF7B4D'),
-              ('Terraform','terraform','7B42BC'),
-              ('Grafana','grafana','F46800'),
-              ('Trivy','trivy','ffffff'),
-              ('AWS','amazonaws','FF9900')
-            ] %}
-            <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.05);border-radius:12px;padding:12px;display:flex;align-items:center;gap:10px;transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.08)';" onmouseout="this.style.background='rgba(255,255,255,0.03)';">
+        <!-- Tools grid -->
+        <div class="glass-panel reveal tool-bento" style="padding:32px;">
+          <p
+            style="font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:0.12em;color:rgba(255,255,255,0.5);margin-bottom:24px;">
+            Primary Arsenal</p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            {% for label,slug,color in
+            [('Kubernetes','kubernetes','326CE5'),('ArgoCD','argo','EF7B4D'),('Terraform','terraform','7B42BC'),('Grafana','grafana','F46800'),('Trivy','trivy','ffffff'),('AWS','amazonaws','FF9900')]
+            %}
+            <div
+              style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.05);border-radius:12px;padding:12px;display:flex;align-items:center;gap:10px;transition:background 0.2s;"
+              onmouseover="this.style.background='rgba(255,255,255,0.08)'"
+              onmouseout="this.style.background='rgba(255,255,255,0.03)'">
               <img src="https://cdn.simpleicons.org/{{ slug }}/{{ color }}" style="width:18px;height:18px;">
               <span style="font-size:0.85rem;color:rgba(255,255,255,0.8);font-weight:600;">{{ label }}</span>
             </div>
             {% endfor %}
-         </div>
-      </div>
-
-    </div>
-    <style>
-      @keyframes ping {
-        75%, 100% { transform: translate(-50%, -50%) scale(2); opacity: 0; }
-      }
-    </style>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════
-     FEATURED PROJECTS
-═══════════════════════════════════════════════ -->
-<section style="padding:0 24px 100px;">
-  <div style="max-width:1100px;margin:0 auto;">
-    <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:48px;" class="reveal">
-      <div>
-        <p style="font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:0.12em;color:var(--cyan-light);margin-bottom:12px;">My Work</p>
-        <h2 style="font-size:clamp(2.2rem,4vw,3.2rem);font-weight:900;color:#fff;letter-spacing:-0.02em;">Featured Projects</h2>
-      </div>
-      <a href="/projects" style="font-size:0.95rem;color:rgba(255,255,255,0.6);font-weight:700;transition:color 0.2s;display:flex;align-items:center;gap:6px;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">View all ↗</a>
-    </div>
-
-    {% if projects %}
-    <div class="projects-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:28px;">
-      {% for project in projects %}
-      <a href="/projects/{{ project.id }}" class="glass-panel reveal" style="
-        display:flex;flex-direction:column;overflow:hidden;padding:0;
-        transition:transform 0.3s,border-color 0.3s,background 0.3s;text-decoration:none;
-      "
-      onmouseover="this.style.borderColor='rgba(6,182,212,0.5)';this.style.transform='translateY(-8px)';this.style.background='var(--glass-hover)';"
-      onmouseout="this.style.borderColor='var(--border)';this.style.transform='none';this.style.background='var(--glass)';">
-
-        <div style="height:260px;overflow:hidden;position:relative;">
-          {% if project.image %}
-          <img src="/static/uploads/{{ project.image }}" alt="{{ project.title }}" style="width:100%;height:100%;object-fit:cover;transition:transform 0.6s;">
-          {% else %}
-          <div style="width:100%;height:100%;background:rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:center;font-size:4rem;">🚀</div>
-          {% endif %}
-          <div style="position:absolute;inset:0;background:linear-gradient(to top,var(--glass),transparent);pointer-events:none;"></div>
-          {% if project.tech_stack %}
-          <div style="position:absolute;bottom:16px;left:20px;display:flex;gap:8px;flex-wrap:wrap;">
-            {% for tech in project.tech_stack.split(',')[:3] %}
-            <span style="background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.1);color:#fff;font-size:0.75rem;font-weight:700;padding:4px 12px;border-radius:100px;">{{ tech.strip() }}</span>
-            {% endfor %}
           </div>
-          {% endif %}
         </div>
 
-        <div style="padding:32px;flex:1;display:flex;flex-direction:column;">
-          <h3 style="font-size:1.3rem;font-weight:800;color:#fff;margin-bottom:12px;">{{ project.title }}</h3>
-          <p style="font-size:1rem;color:rgba(255,255,255,0.6);line-height:1.7;flex:1;margin-bottom:24px;">{{ project.description | striptags | truncate(110) }}</p>
-          <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(255,255,255,0.08);padding-top:20px;">
-            <div style="display:flex;align-items:center;gap:10px;">
-              <div style="width:30px;height:30px;background:var(--cyan);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:900;color:#fff;">B</div>
-              <span style="font-size:0.85rem;font-weight:600;color:rgba(255,255,255,0.6);">Bayo</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════ PROJECTS ═══ -->
+  <section style="padding:0 24px 100px;">
+    <div style="max-width:1100px;margin:0 auto;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:48px;" class="reveal">
+        <div>
+          <p
+            style="font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:0.12em;color:var(--cyan-light);margin-bottom:12px;">
+            My Work</p>
+          <h2 style="font-size:clamp(2.2rem,4vw,3.2rem);font-weight:900;color:#fff;letter-spacing:-0.02em;">Featured
+            Projects</h2>
+        </div>
+        <a href="/projects" style="font-size:0.95rem;color:rgba(255,255,255,0.6);font-weight:700;transition:color 0.2s;"
+          onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">View all ↗</a>
+      </div>
+
+      {% if projects %}
+      <div class="projects-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:28px;">
+        {% for project in projects %}
+        <a href="/projects/{{ project.id }}" class="glass-panel reveal"
+          style="display:flex;flex-direction:column;overflow:hidden;padding:0;transition:transform 0.3s,border-color 0.3s,background 0.3s;text-decoration:none;"
+          onmouseover="this.style.borderColor='rgba(6,182,212,0.5)';this.style.transform='translateY(-8px)';this.style.background='var(--glass-hover)'"
+          onmouseout="this.style.borderColor='var(--border)';this.style.transform='none';this.style.background='var(--glass)'">
+          <div style="height:240px;overflow:hidden;position:relative;">
+            {% if project.image %}
+            <img src="/static/uploads/{{ project.image }}" alt="{{ project.title }}"
+              style="width:100%;height:100%;object-fit:cover;transition:transform 0.6s;">
+            {% else %}
+            <div
+              style="width:100%;height:100%;background:rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:center;font-size:4rem;">
+              🚀</div>
+            {% endif %}
+            <div
+              style="position:absolute;inset:0;background:linear-gradient(to top,var(--glass),transparent);pointer-events:none;">
             </div>
-            <span style="font-size:0.9rem;font-weight:700;color:var(--cyan-light);">View project ↗</span>
+            {% if project.tech_stack %}
+            <div style="position:absolute;bottom:16px;left:20px;display:flex;gap:8px;flex-wrap:wrap;">
+              {% for tech in project.tech_stack.split(',')[:3] %}
+              <span
+                style="background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.1);color:#fff;font-size:0.75rem;font-weight:700;padding:4px 12px;border-radius:100px;">{{
+                tech.strip() }}</span>
+              {% endfor %}
+            </div>
+            {% endif %}
           </div>
-        </div>
-      </a>
-      {% endfor %}
-    </div>
-    {% else %}
-    <div class="glass-panel reveal" style="padding:80px;text-align:center;">
-      <div style="font-size:3.5rem;margin-bottom:16px;">🚧</div>
-      <p style="color:rgba(255,255,255,0.6);font-size:1.05rem;font-weight:500;">Projects coming soon — building as we speak.</p>
-    </div>
-    {% endif %}
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════
-     BLOG
-═══════════════════════════════════════════════ -->
-<section style="padding:0 24px 100px;">
-  <div style="max-width:1100px;margin:0 auto;">
-    <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:48px;" class="reveal">
-      <div>
-        <p style="font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:0.12em;color:var(--cyan-light);margin-bottom:12px;">The Blog</p>
-        <h2 style="font-size:clamp(2.2rem,4vw,3.2rem);font-weight:900;color:#fff;letter-spacing:-0.02em;">Latest Writing</h2>
-      </div>
-      <a href="/blog" style="font-size:0.95rem;color:rgba(255,255,255,0.6);font-weight:700;transition:color 0.2s;display:flex;align-items:center;gap:6px;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">All posts ↗</a>
-    </div>
-
-    {% if posts %}
-    <div class="blog-grid" style="display:grid;grid-template-columns:1.2fr 1fr;gap:40px;">
-      
-      <!-- Featured Post (Glass Box) -->
-      {% set featured = posts[0] %}
-      <a href="/blog/{{ featured.id }}" class="glass-panel reveal" style="
-        display:flex;flex-direction:column;padding:0;overflow:hidden;
-        text-decoration:none;transition:transform 0.3s,border-color 0.3s;
-      "
-      onmouseover="this.style.transform='translateY(-6px)';this.style.borderColor='rgba(6,182,212,0.4)';"
-      onmouseout="this.style.transform='none';this.style.borderColor='var(--border)';">
-        <div style="height:280px;overflow:hidden;position:relative;">
-          <img src="https://images.unsplash.com/photo-1542831371-29b0f74f9713?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=50"
-               style="width:100%;height:100%;object-fit:cover;" alt="Code">
-          <div style="position:absolute;inset:0;background:linear-gradient(to top,var(--glass),transparent);pointer-events:none;"></div>
-          <div style="position:absolute;top:20px;left:20px;">
-            <span style="background:var(--cyan);color:#fff;font-size:0.75rem;font-weight:800;padding:6px 14px;border-radius:100px;box-shadow:0 4px 12px rgba(0,0,0,0.2);">Featured</span>
+          <div style="padding:28px;flex:1;display:flex;flex-direction:column;">
+            <h3 style="font-size:1.3rem;font-weight:800;color:#fff;margin-bottom:10px;">{{ project.title }}</h3>
+            <p style="font-size:1rem;color:rgba(255,255,255,0.6);line-height:1.7;flex:1;margin-bottom:20px;">{{
+              project.description | striptags | truncate(110) }}</p>
+            <div
+              style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(255,255,255,0.08);padding-top:18px;">
+              <div style="display:flex;align-items:center;gap:10px;">
+                <div
+                  style="width:28px;height:28px;background:var(--cyan);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:900;color:#fff;">
+                  B</div>
+                <span style="font-size:0.85rem;font-weight:600;color:rgba(255,255,255,0.6);">Bayo</span>
+              </div>
+              <span style="font-size:0.9rem;font-weight:700;color:var(--cyan-light);">View project ↗</span>
+            </div>
           </div>
-        </div>
-        <div style="padding:36px;display:flex;flex-direction:column;">
-          <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
-            <span style="font-size:0.85rem;font-weight:600;color:rgba(255,255,255,0.5);">{{ featured.created_at.strftime('%B %d, %Y') }}</span>
-            <span style="color:rgba(255,255,255,0.2);">&bull;</span>
-            <span style="font-size:0.85rem;font-weight:600;color:rgba(255,255,255,0.5);">{{ (featured.body | striptags | wordcount / 200) | int + 1 }} min read</span>
-          </div>
-          <h3 style="font-size:1.6rem;font-weight:900;color:#fff;margin-bottom:14px;line-height:1.2;">{{ featured.title }}</h3>
-          <p style="font-size:1.05rem;color:rgba(255,255,255,0.7);line-height:1.7;margin-bottom:24px;">{{ featured.body | striptags | truncate(150) }}</p>
-          <span style="font-size:0.95rem;font-weight:800;color:var(--cyan-light);">Read post ↗</span>
-        </div>
-      </a>
-
-      <!-- Other posts list (Blended: NO boxes) -->
-      <div style="display:flex;flex-direction:column;">
-        {% for post in posts[1:4] %}
-        <a href="/blog/{{ post.id }}" class="reveal" style="
-          display:flex;flex-direction:column;padding:24px 0;
-          border-bottom:1px solid rgba(255,255,255,0.1);text-decoration:none;
-        "
-        onmouseover="this.querySelector('h3').style.color='var(--cyan-light)';this.querySelector('.read-link').style.transform='translateX(4px)';"
-        onmouseout="this.querySelector('h3').style.color='#fff';this.querySelector('.read-link').style.transform='none';">
-          <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
-            <span style="font-size:0.8rem;font-weight:600;color:rgba(255,255,255,0.5);">{{ post.created_at.strftime('%b %d, %Y') }}</span>
-            <span style="color:rgba(255,255,255,0.2);">&bull;</span>
-            <span style="font-size:0.8rem;font-weight:600;color:rgba(255,255,255,0.5);">{{ (post.body | striptags | wordcount / 200) | int + 1 }} min</span>
-          </div>
-          <h3 style="font-size:1.25rem;font-weight:800;color:#fff;line-height:1.3;margin-bottom:12px;transition:color 0.2s;">{{ post.title }}</h3>
-          <p style="font-size:0.95rem;color:rgba(255,255,255,0.6);line-height:1.6;margin-bottom:16px;">{{ post.body | striptags | truncate(100) }}</p>
-          <span class="read-link" style="font-size:0.85rem;font-weight:800;color:var(--cyan-light);display:flex;align-items:center;gap:6px;transition:transform 0.2s;width:max-content;">Read full story <span style="font-size:1.1rem">→</span></span>
         </a>
         {% endfor %}
-        
-        {% if posts|length == 1 %}
-        <div style="flex:1;display:flex;align-items:center;justify-content:center;padding:40px;text-align:center;color:rgba(255,255,255,0.5);">
-          <p style="font-size:1rem;font-weight:500;">More writing dropping soon. Stay tuned.</p>
+      </div>
+      {% else %}
+      <div class="glass-panel reveal" style="padding:80px;text-align:center;">
+        <div style="font-size:3.5rem;margin-bottom:16px;">🚧</div>
+        <p style="color:rgba(255,255,255,0.6);font-size:1.05rem;font-weight:500;">Projects coming soon — building as we
+          speak.</p>
+      </div>
+      {% endif %}
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════ BLOG ═══ -->
+  <section style="padding:0 24px 100px;">
+    <div style="max-width:1100px;margin:0 auto;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:48px;" class="reveal">
+        <div>
+          <p
+            style="font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:0.12em;color:var(--cyan-light);margin-bottom:12px;">
+            The Blog</p>
+          <h2 style="font-size:clamp(2.2rem,4vw,3.2rem);font-weight:900;color:#fff;letter-spacing:-0.02em;">Latest
+            Writing</h2>
         </div>
-        {% endif %}
+        <a href="/blog" style="font-size:0.95rem;color:rgba(255,255,255,0.6);font-weight:700;transition:color 0.2s;"
+          onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">All posts ↗</a>
+      </div>
+
+      {% if posts %}
+      <div class="blog-grid" style="display:grid;grid-template-columns:1.2fr 1fr;gap:40px;">
+        {% set featured = posts[0] %}
+        <a href="/blog/{{ featured.id }}" class="glass-panel reveal"
+          style="display:flex;flex-direction:column;padding:0;overflow:hidden;text-decoration:none;transition:transform 0.3s,border-color 0.3s;"
+          onmouseover="this.style.transform='translateY(-6px)';this.style.borderColor='rgba(6,182,212,0.4)'"
+          onmouseout="this.style.transform='none';this.style.borderColor='var(--border)'">
+          <div style="height:260px;overflow:hidden;position:relative;">
+            <img
+              src="https://images.unsplash.com/photo-1542831371-29b0f74f9713?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=50"
+              style="width:100%;height:100%;object-fit:cover;" alt="Code">
+            <div
+              style="position:absolute;inset:0;background:linear-gradient(to top,var(--glass),transparent);pointer-events:none;">
+            </div>
+            <div style="position:absolute;top:20px;left:20px;">
+              <span
+                style="background:var(--cyan);color:#fff;font-size:0.75rem;font-weight:800;padding:6px 14px;border-radius:100px;">Featured</span>
+            </div>
+          </div>
+          <div style="padding:32px;display:flex;flex-direction:column;">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
+              <span style="font-size:0.85rem;font-weight:600;color:rgba(255,255,255,0.5);">{{
+                featured.created_at.strftime('%B %d, %Y') }}</span>
+              <span style="color:rgba(255,255,255,0.2);">&bull;</span>
+              <span style="font-size:0.85rem;font-weight:600;color:rgba(255,255,255,0.5);">{{ (featured.body | striptags
+                | wordcount / 200) | int + 1 }} min read</span>
+            </div>
+            <h3 style="font-size:1.5rem;font-weight:900;color:#fff;margin-bottom:12px;line-height:1.2;">{{
+              featured.title }}</h3>
+            <p style="font-size:1rem;color:rgba(255,255,255,0.7);line-height:1.7;margin-bottom:20px;">{{ featured.body |
+              striptags | truncate(150) }}</p>
+            <span style="font-size:0.95rem;font-weight:800;color:var(--cyan-light);">Read post ↗</span>
+          </div>
+        </a>
+
+        <div style="display:flex;flex-direction:column;">
+          {% for post in posts[1:4] %}
+          <a href="/blog/{{ post.id }}" class="reveal"
+            style="display:flex;flex-direction:column;padding:24px 0;border-bottom:1px solid rgba(255,255,255,0.1);text-decoration:none;"
+            onmouseover="this.querySelector('h3').style.color='var(--cyan-light)';this.querySelector('.read-link').style.transform='translateX(4px)'"
+            onmouseout="this.querySelector('h3').style.color='#fff';this.querySelector('.read-link').style.transform='none'">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+              <span style="font-size:0.8rem;font-weight:600;color:rgba(255,255,255,0.5);">{{
+                post.created_at.strftime('%b %d, %Y') }}</span>
+              <span style="color:rgba(255,255,255,0.2);">&bull;</span>
+              <span style="font-size:0.8rem;font-weight:600;color:rgba(255,255,255,0.5);">{{ (post.body | striptags |
+                wordcount / 200) | int + 1 }} min</span>
+            </div>
+            <h3
+              style="font-size:1.2rem;font-weight:800;color:#fff;line-height:1.3;margin-bottom:10px;transition:color 0.2s;">
+              {{ post.title }}</h3>
+            <p style="font-size:0.9rem;color:rgba(255,255,255,0.6);line-height:1.6;margin-bottom:14px;">{{ post.body |
+              striptags | truncate(100) }}</p>
+            <span class="read-link"
+              style="font-size:0.85rem;font-weight:800;color:var(--cyan-light);display:flex;align-items:center;gap:6px;transition:transform 0.2s;width:max-content;">Read
+              full story →</span>
+          </a>
+          {% endfor %}
+          {% if posts|length == 1 %}
+          <div
+            style="flex:1;display:flex;align-items:center;justify-content:center;padding:40px;text-align:center;color:rgba(255,255,255,0.5);">
+            <p>More writing dropping soon. Stay tuned.</p>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+      {% else %}
+      <div class="glass-panel reveal" style="padding:80px;text-align:center;">
+        <div style="font-size:3.5rem;margin-bottom:16px;">✍️</div>
+        <p style="color:rgba(255,255,255,0.6);font-size:1.05rem;font-weight:500;">First post dropping soon.</p>
+      </div>
+      {% endif %}
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════ CTA ═══ -->
+  <section style="padding:0 24px 100px;">
+    <div style="max-width:1100px;margin:0 auto;" class="reveal">
+      <div class="glass-panel cta-panel"
+        style="padding:80px 56px;text-align:center;position:relative;overflow:hidden;border:1px solid rgba(6,182,212,0.3);box-shadow:inset 0 0 40px rgba(124,58,237,0.1),0 20px 40px rgba(0,0,0,0.3);">
+        <div style="position:relative;z-index:2;max-width:600px;margin:0 auto;">
+          <p
+            style="font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:0.12em;color:rgba(255,255,255,0.6);margin-bottom:16px;">
+            The Journey</p>
+          <h2
+            style="font-size:clamp(2.4rem,4vw,3.5rem);font-weight:900;color:#fff;margin-bottom:20px;letter-spacing:-0.02em;">
+            Learning in <span style="color:#f59e0b;">public.</span></h2>
+          <p style="color:rgba(255,255,255,0.7);font-size:1.1rem;line-height:1.7;margin-bottom:44px;">
+            I document everything — wins, failures and 2am debugging sessions. Follow along or reach out if you're on a
+            similar path.
+          </p>
+          <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+            <a href="/blog"
+              style="background:#f59e0b;color:#fff;font-weight:700;border-radius:100px;padding:16px 36px;font-size:0.95rem;transition:transform 0.2s,box-shadow 0.2s;box-shadow:0 8px 20px rgba(245,158,11,0.4);"
+              onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 12px 24px rgba(245,158,11,0.5)'"
+              onmouseout="this.style.transform='none';this.style.boxShadow='0 8px 20px rgba(245,158,11,0.4)'">
+              Follow the journey ↗
+            </a>
+            <a href="/contact"
+              style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.3);color:#fff;font-weight:700;border-radius:100px;padding:15px 36px;font-size:0.95rem;transition:background 0.2s,border-color 0.2s;"
+              onmouseover="this.style.background='rgba(255,255,255,0.2)';this.style.borderColor='rgba(255,255,255,0.5)'"
+              onmouseout="this.style.background='rgba(255,255,255,0.1)';this.style.borderColor='rgba(255,255,255,0.3)'">
+              Say hello
+            </a>
+          </div>
+        </div>
       </div>
     </div>
-    {% else %}
-    <div class="glass-panel reveal" style="padding:80px;text-align:center;">
-      <div style="font-size:3.5rem;margin-bottom:16px;">✍️</div>
-      <p style="color:rgba(255,255,255,0.6);font-size:1.05rem;font-weight:500;">First post dropping soon.</p>
-    </div>
-    {% endif %}
-  </div>
-</section>
+  </section>
 
-<!-- ═══════════════════════════════════════════
-     CTA
-═══════════════════════════════════════════════ -->
-<section style="padding:0 24px 100px;">
-  <div style="max-width:1100px;margin:0 auto;" class="reveal">
-    <div class="glass-panel cta-panel" style="
-      padding:80px 56px;text-align:center;position:relative;overflow:hidden;
-      border:1px solid rgba(6,182,212,0.3);
-      box-shadow:inset 0 0 40px rgba(124,58,237,0.1), 0 20px 40px rgba(0,0,0,0.3);
-    ">
-      <div style="position:relative;z-index:2;max-width:600px;margin:0 auto;">
-        <p style="font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:0.12em;color:rgba(255,255,255,0.6);margin-bottom:16px;">The Journey</p>
-        <h2 style="font-size:clamp(2.4rem,4vw,3.5rem);font-weight:900;color:#fff;margin-bottom:20px;letter-spacing:-0.02em;">Learning in <span style="color:#f59e0b;">public.</span></h2>
-        <p style="color:rgba(255,255,255,0.7);font-size:1.1rem;line-height:1.7;margin-bottom:44px;">
-          I document everything — wins, failures and 2am debugging sessions.
-          Follow along or reach out if you're on a similar path.
-        </p>
-        <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
-          <a href="/blog" style="background:#f59e0b;color:#fff;font-weight:700;border-radius:100px;padding:16px 36px;font-size:0.95rem;transition:transform 0.2s,box-shadow 0.2s;box-shadow:0 8px 20px rgba(245,158,11,0.4);"
-             onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 12px 24px rgba(245,158,11,0.5)';"
-             onmouseout="this.style.transform='none';this.style.boxShadow='0 8px 20px rgba(245,158,11,0.4)';">
-            Follow the journey ↗
-          </a>
-          <a href="/contact" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.3);color:#fff;font-weight:700;border-radius:100px;padding:15px 36px;font-size:0.95rem;transition:background 0.2s,border-color 0.2s;"
-             onmouseover="this.style.background='rgba(255,255,255,0.2)';this.style.borderColor='rgba(255,255,255,0.5)';"
-             onmouseout="this.style.background='rgba(255,255,255,0.1)';this.style.borderColor='rgba(255,255,255,0.3)';">
-            Say hello
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<script>
-  // Typed effect
-  const roles = ['Building CI/CD pipelines.','Breaking production (on purpose).','Shipping projects.','Documenting everything.'];
-  let ri=0,ci=0,del=false;
-  const el=document.getElementById('typed-role');
-  function typeStep(){
-    const r=roles[ri];
-    if(!del){ci++;el.textContent=r.slice(0,ci);if(ci===r.length){del=true;setTimeout(typeStep,2000);return;}}
-    else{ci--;el.textContent=r.slice(0,ci);if(ci===0){del=false;ri=(ri+1)%roles.length;setTimeout(typeStep,400);return;}}
-    setTimeout(typeStep,del?40:75);
-  }
-  setTimeout(typeStep,700);
-</script>
-
-<style>
-/* ── Mobile: Home page responsive overrides */
-@media (max-width: 767px) {
-  /* Hero */
-  #hero-card {
-    padding: 32px 24px !important;
-    min-height: auto !important;
-  }
-  #hero-card > div {
-    grid-template-columns: 1fr !important;
-  }
-  #hero-card > div > div:last-child {
-    display: none; /* hide photo column on mobile */
-  }
-
-  /* Stats: 4-col → 2-col */
-  #stats-grid {
-    grid-template-columns: repeat(2,1fr) !important;
-  }
-
-  /* Featured projects: 2-col → 1-col */
-  .projects-grid { grid-template-columns: 1fr !important; }
-
-  /* Blog: 2-col → 1-col */
-  .blog-grid { grid-template-columns: 1fr !important; }
-
-  /* CTA section padding */
-  .cta-panel { padding: 40px 24px !important; }
-
-  /* About bento padding */
-  .about-bento-card { padding: 32px 24px !important; }
-
-  /* General section padding */
-  section { padding-left: 16px !important; padding-right: 16px !important; }
-}
-</style>
+  <script>
+    const roles = ['Building CI/CD pipelines.', 'Breaking production (on purpose).', 'Shipping projects.', 'Documenting everything.'];
+    let ri = 0, ci = 0, del = false;
+    const el = document.getElementById('typed-role');
+    function typeStep() {
+      const r = roles[ri];
+      if (!del) { ci++; el.textContent = r.slice(0, ci); if (ci === r.length) { del = true; setTimeout(typeStep, 2000); return; } }
+      else { ci--; el.textContent = r.slice(0, ci); if (ci === 0) { del = false; ri = (ri + 1) % roles.length; setTimeout(typeStep, 400); return; } }
+      setTimeout(typeStep, del ? 40 : 75);
+    }
+    setTimeout(typeStep, 700);
+  </script>
 
 {% endblock %}
