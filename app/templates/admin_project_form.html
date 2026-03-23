@@ -47,14 +47,14 @@
             .ql-picker-item { color: #9ca3af !important; }
         </style>
 
-        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-8">
+        <div class="glass-panel p-8">
             <form method="POST" enctype="multipart/form-data" id="project-form" class="flex flex-col gap-5">
 
                 <div>
                     <label class="block text-sm font-medium text-gray-400 mb-2">Title</label>
                     <input type="text" name="title" required
                         value="{{ project.title if project else '' }}"
-                        class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-indigo-500 transition">
+                        class="w-full bg-white/5 border border-[rgba(255,255,255,0.08)] rounded-lg px-4 py-3 text-white focus:outline-none focus:border-indigo-500 transition">
                 </div>
 
                 <div>
@@ -70,14 +70,14 @@
                     </label>
                     <input type="text" name="tech_stack"
                         value="{{ project.tech_stack if project else '' }}"
-                        class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-indigo-500 transition">
+                        class="w-full bg-white/5 border border-[rgba(255,255,255,0.08)] rounded-lg px-4 py-3 text-white focus:outline-none focus:border-indigo-500 transition">
                 </div>
 
                 <div>
                     <label class="block text-sm font-medium text-gray-400 mb-2">GitHub URL</label>
                     <input type="url" name="url"
                         value="{{ project.url if project else '' }}"
-                        class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-indigo-500 transition">
+                        class="w-full bg-white/5 border border-[rgba(255,255,255,0.08)] rounded-lg px-4 py-3 text-white focus:outline-none focus:border-indigo-500 transition">
                 </div>
 
                 <div>
@@ -87,7 +87,7 @@
                             class="w-full h-40 object-cover rounded-lg mb-3">
                     {% endif %}
                     <input type="file" name="image" accept="image/*"
-                        class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-gray-400 focus:outline-none focus:border-indigo-500 transition">
+                        class="w-full bg-white/5 border border-[rgba(255,255,255,0.08)] rounded-lg px-4 py-3 text-gray-400 focus:outline-none focus:border-indigo-500 transition">
                 </div>
 
                 <div class="flex gap-3 pt-2">

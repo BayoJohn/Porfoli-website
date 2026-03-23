@@ -10,13 +10,14 @@
     <style>
         body { 
             font-family: 'Inter', sans-serif; 
-            background: linear-gradient(rgba(10,10,15,0.85), rgba(10,10,15,0.9)),
-                        url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=50&w=1200&auto=format&fit=crop') center/cover fixed;
+            background: linear-gradient(rgba(4,10,24,0.85), rgba(4,10,24,0.92)),
+                        url('https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?q=80&w=1400&auto=format&fit=crop') center/cover fixed;
             color: #f1f5f9;
         }
         .gradient-text {
             background: linear-gradient(135deg, #a78bfa, #fb923c);
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
         }
         .gradient-bg { background: linear-gradient(135deg, #8b5cf6, #fb923c); }
@@ -46,7 +47,7 @@
 <body class="min-h-screen flex text-gray-100">
 
     <!-- Sidebar -->
-    <aside id="sidebar" class="sidebar fixed top-0 left-0 h-full w-64 z-50 flex flex-col" style="background:rgba(20,20,30,0.4); backdrop-filter:blur(24px); border-right:1px solid rgba(255,255,255,0.1);">
+    <aside id="sidebar" class="sidebar fixed top-0 left-0 h-full w-64 z-50 flex flex-col -translate-x-full lg:translate-x-0 transition-transform duration-300" style="background:rgba(20,20,30,0.4); backdrop-filter:blur(24px); border-right:1px solid rgba(255,255,255,0.1);">
 
         <!-- Logo -->
         <div class="flex items-center gap-3 px-5 py-5 border-b border-[rgba(255,255,255,0.08)]">
@@ -147,7 +148,7 @@
     </aside>
 
     <!-- Main content -->
-    <div id="main-content" class="flex-1 ml-64 min-h-screen flex flex-col">
+    <div id="main-content" class="flex-1 lg:ml-64 min-h-screen flex flex-col transition-all duration-300">
 
         <!-- Top bar -->
         <header class="sticky top-0 z-40 px-6 py-4 flex items-center justify-between" style="background:rgba(15,15,20,0.5); backdrop-filter:blur(24px); border-bottom:1px solid rgba(255,255,255,0.08);">
@@ -201,8 +202,19 @@
         const toggleBtn = document.getElementById('toggle-sidebar');
 
         toggleBtn.addEventListener('click', () => {
-            sidebar.classList.toggle('collapsed');
-            mainContent.style.marginLeft = sidebar.classList.contains('collapsed') ? '72px' : '256px';
+            if (window.innerWidth >= 1024) {
+                sidebar.classList.toggle('collapsed');
+                mainContent.style.marginLeft = sidebar.classList.contains('collapsed') ? '72px' : '256px';
+            } else {
+                sidebar.classList.toggle('-translate-x-full');
+            }
+        });
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth < 1024 && !sidebar.contains(e.target) && !toggleBtn.contains(e.target) && !sidebar.classList.contains('-translate-x-full')) {
+                sidebar.classList.add('-translate-x-full');
+            }
         });
     </script>
 
