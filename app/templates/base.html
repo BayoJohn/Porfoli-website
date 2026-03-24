@@ -29,8 +29,8 @@
             --violet: #8b5cf6;
             --violet-light: #a78bfa;
             --border: rgba(255,255,255,0.08);
-            --glass: rgba(8,18,28,0.55);
-            --glass-hover: rgba(6,24,38,0.7);
+            --glass: #1C2128;
+            --glass-hover: #21262D;
         }
 
         html {
@@ -55,8 +55,7 @@
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
             z-index: -1;
-            background: linear-gradient(rgba(4,10,24,0.85), rgba(4,10,24,0.92)),
-                        url('https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?q=80&w=1400&auto=format&fit=crop') center/cover no-repeat;
+            background: #161B22;
         }
 
         /* ── Scrollbar & Accessibility Focus ── */
@@ -77,8 +76,6 @@
         /* ── Glass wrapper */
         .glass-panel {
             background: var(--glass);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
             border: 1px solid var(--border);
             border-radius: 28px;
             box-shadow: 0 8px 32px rgba(0,0,0,0.3);
@@ -117,9 +114,7 @@
             transform: translateX(-50%);
             width: calc(100% - 48px);
             max-width: 1200px;
-            background: rgba(255, 255, 255, 0.06);
-            backdrop-filter: blur(28px) saturate(160%);
-            -webkit-backdrop-filter: blur(28px) saturate(160%);
+            background: #1C2128;
             border: 1px solid rgba(6, 182, 212, 0.45);
             border-radius: 100px;
             padding: 12px 24px;
@@ -132,7 +127,7 @@
         }
         #main-nav.scrolled {
             top: 12px;
-            background: rgba(255, 255, 255, 0.1);
+            background: #21262D;
             border-color: rgba(6, 182, 212, 0.6);
             box-shadow: 0 0 0 1px rgba(6,182,212,0.14),
                         0 8px 32px rgba(6, 182, 212, 0.3),
@@ -190,8 +185,7 @@
             top: calc(100% + 16px); 
             left: 0; 
             right: 0; 
-            background: rgba(20,20,30,0.85); 
-            backdrop-filter: blur(24px); 
+            background: #161B22; 
             border: 1px solid rgba(255,255,255,0.1); 
             border-radius: 24px; 
             padding: 16px; 
@@ -220,8 +214,8 @@
                 width: calc(100% - 24px);
                 padding: 10px 16px;
                 border-radius: 20px;
-                backdrop-filter: blur(12px) saturate(160%);
-                -webkit-backdrop-filter: blur(12px) saturate(160%);
+                backdrop-filter: none !important;
+                -webkit-backdrop-filter: none !important;
             }
             #main-nav.scrolled {
                 top: 8px;
@@ -298,7 +292,7 @@
 </main>
 
 <!-- ─────────────── FOOTER ─────────────── -->
-<footer class="border-t border-[rgba(255,255,255,0.08)] mt-auto relative z-10" style="background:rgba(10,10,15,0.6);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);flex-shrink:0;">
+<footer class="border-t border-[rgba(255,255,255,0.08)] mt-auto relative z-10" style="background:#161B22;flex-shrink:0;">
     <div class="max-w-6xl mx-auto px-6 py-16">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
 
