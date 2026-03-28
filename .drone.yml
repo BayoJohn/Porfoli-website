@@ -15,8 +15,8 @@ steps:
   - name: build-and-push
     image: plugins/docker
     settings:
-      registry: 10.0.0.2
-      repo: 10.0.0.2/library/portfolio
+      registry: 
+      repo: /library/portfolio
       tags:
         - latest
         - build-${DRONE_BUILD_NUMBER}
