@@ -6,8 +6,8 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: http://172.17.0.1:3001/Bayo/Portfolio-website.git
-    targetRevision: main
+    repoURL: http://10.0.0.2:3001/Bayo/Porfolio-website.git
+    targetRevision: HEAD
     path: monitoring
   destination:
     server: https://kubernetes.default.svc
