@@ -2,11 +2,11 @@
 {% block title %}Contact — StackedByBayo{% endblock %}
 {% block content %}
 
-<div style="padding:40px 16px 80px;">
+<div style="padding:var(--container-padding) 16px 80px;">
   <div style="max-width:680px;margin:0 auto;">
 
     <!-- Header -->
-    <div style="margin-bottom:40px;" class="reveal">
+    <div style="margin-bottom:var(--container-padding);" class="reveal">
       <p style="font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:0.12em;color:var(--cyan-light);margin-bottom:10px;">Say Hello</p>
       <h1 style="font-size:clamp(2.4rem,5vw,3.8rem);font-weight:900;color:#fff;line-height:1.05;margin-bottom:14px;letter-spacing:-0.02em;">
         Get in <span class="g-text">touch</span>
@@ -27,28 +27,28 @@
     {% endwith %}
 
     <!-- Form card -->
-    <div class="glass-panel reveal" style="padding:48px;" id="contact-form-card">
+    <div class="glass-panel reveal" style="padding:var(--container-padding);" id="contact-form-card">
       <form method="POST" style="display:flex;flex-direction:column;gap:24px;">
 
         <div>
           <label style="display:block;font-size:0.85rem;font-weight:700;color:rgba(255,255,255,0.8);margin-bottom:8px;">Name</label>
           <input type="text" name="name" required placeholder="Your name"
-            style="width:100%;background:rgba(0,0,0,0.4);border:2px solid rgba(255,255,255,0.1);border-radius:14px;padding:14px 18px;color:#fff;font-size:1rem;font-family:'Outfit',sans-serif;outline:none;transition:border-color 0.2s;"
-            onfocus="this.style.borderColor='var(--cyan-light)'" onblur="this.style.borderColor='rgba(255,255,255,0.1)'">
+            style="width:100%;background:rgba(0,0,0,0.6);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:14px 18px;color:#fff;font-size:1rem;font-family:'Outfit',sans-serif;outline:none;transition:border-color 0.2s;"
+            onfocus="this.style.borderColor='var(--cyan-light)'" onblur="this.style.borderColor='rgba(255,255,255,0.08)'">
         </div>
 
         <div>
           <label style="display:block;font-size:0.85rem;font-weight:700;color:rgba(255,255,255,0.8);margin-bottom:8px;">Email</label>
           <input type="email" name="email" required placeholder="you@example.com"
-            style="width:100%;background:rgba(0,0,0,0.4);border:2px solid rgba(255,255,255,0.1);border-radius:14px;padding:14px 18px;color:#fff;font-size:1rem;font-family:'Outfit',sans-serif;outline:none;transition:border-color 0.2s;"
-            onfocus="this.style.borderColor='var(--cyan-light)'" onblur="this.style.borderColor='rgba(255,255,255,0.1)'">
+            style="width:100%;background:rgba(0,0,0,0.6);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:14px 18px;color:#fff;font-size:1rem;font-family:'Outfit',sans-serif;outline:none;transition:border-color 0.2s;"
+            onfocus="this.style.borderColor='var(--cyan-light)'" onblur="this.style.borderColor='rgba(255,255,255,0.08)'">
         </div>
 
         <div>
           <label style="display:block;font-size:0.85rem;font-weight:700;color:rgba(255,255,255,0.8);margin-bottom:8px;">Message</label>
           <textarea name="message" rows="6" required placeholder="What's on your mind?"
-            style="width:100%;background:rgba(0,0,0,0.4);border:2px solid rgba(255,255,255,0.1);border-radius:14px;padding:14px 18px;color:#fff;font-size:1rem;font-family:'Outfit',sans-serif;outline:none;resize:vertical;transition:border-color 0.2s;"
-            onfocus="this.style.borderColor='var(--cyan-light)'" onblur="this.style.borderColor='rgba(255,255,255,0.1)'"></textarea>
+            style="width:100%;background:rgba(0,0,0,0.6);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:14px 18px;color:#fff;font-size:1rem;font-family:'Outfit',sans-serif;outline:none;resize:vertical;transition:border-color 0.2s;"
+            onfocus="this.style.borderColor='var(--cyan-light)'" onblur="this.style.borderColor='rgba(255,255,255,0.08)'"></textarea>
         </div>
 
         <button type="submit" class="g-btn" style="justify-content:center;padding:16px;">

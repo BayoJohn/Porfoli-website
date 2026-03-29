@@ -2,87 +2,160 @@
 {% block title %}Projects — StackedByBayo{% endblock %}
 {% block content %}
 
-<!-- Header -->
-<div style="padding:40px 16px 80px;">
-  <div style="max-width:1100px;margin:0 auto;">
-    <div style="margin-bottom:48px;" class="reveal">
-      <p style="font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:0.12em;color:var(--cyan-light);margin-bottom:12px;">My Work</p>
-      <h1 style="font-size:clamp(2rem,8vw,3.8rem);font-weight:900;color:#fff;margin-bottom:16px;letter-spacing:-0.02em;">
-        Things I've <span class="g-text">Built</span>
+<style>
+  .project-card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: 40px;
+    border: 1px solid rgba(255,255,255,0.05);
+    background: rgba(255,255,255,0.01);
+    backdrop-filter: blur(16px);
+    text-decoration: none;
+    position: relative;
+    transition: transform 0.4s cubic-bezier(0.4,0,0.2,1), border-color 0.4s, background 0.4s;
+  }
+  .project-card:hover {
+    transform: translateY(-10px);
+    border-color: rgba(6,182,212,0.2);
+    background: rgba(255,255,255,0.03);
+  }
+  .project-card:nth-child(even):hover {
+    border-color: rgba(245,158,11,0.2);
+  }
+  .project-num {
+    font-size: 0.7rem;
+    font-weight: 900;
+    color: rgba(255,255,255,0.12);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .project-img-wrap {
+    height: 280px;
+    overflow: hidden;
+    position: relative;
+    flex-shrink: 0;
+  }
+  .project-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.4,0,0.2,1);
+  }
+  .project-card:hover .project-img-wrap img {
+    transform: scale(1.05);
+  }
+  .project-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(6,182,212,0.05), rgba(139,92,246,0.05));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+  }
+
+  @media (max-width: 767px) {
+    .projects-2col { grid-template-columns: 1fr !important; }
+  }
+  @media (max-width: 900px) {
+    .projects-2col { grid-template-columns: 1fr !important; }
+  }
+</style>
+
+<div style="position:relative; overflow:clip;">
+  <!-- Ambient Glows -->
+  <div style="position:fixed; top:10%; right:-20%; width:900px; height:900px; background:radial-gradient(circle, rgba(6,182,212,0.04) 0%, transparent 70%); pointer-events:none; z-index:0;"></div>
+  <div style="position:fixed; bottom:5%; left:-20%; width:800px; height:800px; background:radial-gradient(circle, rgba(139,92,246,0.03) 0%, transparent 70%); pointer-events:none; z-index:0;"></div>
+
+  <div style="padding: var(--container-padding) 24px 120px; max-width:1200px; margin:0 auto; position:relative; z-index:2;">
+
+    <!-- Header -->
+    <div style="margin-bottom: var(--section-gap);" class="reveal">
+      <p style="font-size:0.7rem;font-weight:900;text-transform:uppercase;letter-spacing:0.3em;color:var(--cyan-light);margin-bottom:16px;opacity:0.6;">DEPLOYED_SYSTEMS</p>
+      <h1 style="font-size:clamp(2.8rem,9vw,5.5rem);font-weight:900;color:#fff;line-height:0.9;margin-bottom:32px;letter-spacing:-0.04em;">
+        Things I've<br><span class="g-text">Built</span>
       </h1>
-      <p style="color:rgba(255,255,255,0.7);font-size:1.05rem;max-width:500px;line-height:1.7;">
-        Real projects I've built and deployed — pipelines, infrastructure, apps and everything in between.
+      <p style="color:rgba(255,255,255,0.4);font-size:clamp(1rem,4vw,1.2rem);max-width:560px;line-height:1.7;font-weight:500;">
+        Real projects deployed to production — pipelines, infrastructure, apps, and everything in between.
       </p>
     </div>
 
     {% if projects %}
-    <div class="projects-page-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:24px;">
+    <!-- 2-Column Project Grid -->
+    <div class="projects-2col" style="display:grid; grid-template-columns: repeat(2, 1fr); gap: clamp(20px, 4vw, 40px);">
       {% for project in projects %}
-      <a href="/projects/{{ project.id }}" class="glass-panel reveal" style="
-        display:flex;flex-direction:column;overflow:hidden;padding:0;text-decoration:none;
-        transition:border-color 0.3s,transform 0.3s,background 0.3s;
-      "
-      onmouseover="this.style.borderColor='rgba(34,211,238,0.5)';this.style.transform='translateY(-6px)';this.style.background='var(--glass-hover)';"
-      onmouseout="this.style.borderColor='var(--border)';this.style.transform='none';this.style.background='var(--glass)';">
+      <a href="/projects/{{ project.id }}" class="project-card reveal">
 
-        <div style="height:260px;overflow:hidden;position:relative;">
+        <!-- Accent Glow (alternates cyan / amber) -->
+        {% if loop.index is odd %}
+        <div style="position:absolute; top:-30%; right:-20%; width:300px; height:300px; background:radial-gradient(circle, rgba(6,182,212,0.06) 0%, transparent 70%); pointer-events:none; z-index:0;"></div>
+        {% else %}
+        <div style="position:absolute; top:-30%; left:-20%; width:300px; height:300px; background:radial-gradient(circle, rgba(245,158,11,0.05) 0%, transparent 70%); pointer-events:none; z-index:0;"></div>
+        {% endif %}
+
+        <!-- Image / Placeholder -->
+        <div class="project-img-wrap">
           {% if project.image %}
-          <img src="/static/uploads/{{ project.image }}" alt="{{ project.title }}" style="width:100%;height:100%;object-fit:cover;transition:transform 0.6s;">
+          <img src="/static/uploads/{{ project.image }}" alt="{{ project.title }}">
           {% else %}
-          <div style="width:100%;height:100%;background:rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:center;font-size:4rem;">🚀</div>
+          <div class="project-placeholder">🚀</div>
           {% endif %}
-          <div style="position:absolute;inset:0;background:linear-gradient(to top,var(--glass),transparent 50%);pointer-events:none;"></div>
+          <!-- Gradient overlay -->
+          <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%);pointer-events:none;"></div>
+          <!-- Tech tags overlaid on image -->
           {% if project.tech_stack %}
-          <div style="position:absolute;bottom:16px;left:20px;display:flex;gap:8px;flex-wrap:wrap;">
+          <div style="position:absolute;bottom:20px;left:24px;display:flex;gap:8px;flex-wrap:wrap;z-index:2;">
             {% for tech in project.tech_stack.split(',')[:3] %}
-            <span style="background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.1);color:#fff;font-size:0.75rem;font-weight:700;padding:4px 12px;border-radius:100px;">{{ tech.strip() }}</span>
+            <span style="background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.08);color:rgba(255,255,255,0.8);font-size:0.72rem;font-weight:800;padding:4px 12px;border-radius:100px;text-transform:uppercase;letter-spacing:0.05em;">{{ tech.strip() }}</span>
             {% endfor %}
           </div>
           {% endif %}
         </div>
 
-        <div style="padding:32px;flex:1;display:flex;flex-direction:column;">
-          <h3 style="font-size:1.3rem;font-weight:800;color:#fff;margin-bottom:12px;">{{ project.title }}</h3>
-          <p style="font-size:1rem;color:rgba(255,255,255,0.7);line-height:1.7;flex:1;margin-bottom:24px;">{{ project.description | striptags | truncate(120) }}</p>
-          <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(255,255,255,0.1);padding-top:20px;">
+        <!-- Content -->
+        <div style="padding: clamp(24px, 4vw, 40px); flex:1; display:flex; flex-direction:column; position:relative; z-index:1;">
+          <p class="project-num">PROJECT_{{ '%02d' % loop.index }}</p>
+          <h3 style="font-size:clamp(1.2rem,3vw,1.6rem);font-weight:900;color:#fff;margin-bottom:14px;letter-spacing:-0.02em;line-height:1.2;">{{ project.title }}</h3>
+          <p style="font-size:1rem;color:rgba(255,255,255,0.4);line-height:1.7;flex:1;margin-bottom:28px;font-weight:500;">{{ project.description | striptags | truncate(130) }}</p>
+
+          <div style="display:flex;justify-content:space-between;align-items:center;padding-top:20px;border-top:1px solid rgba(255,255,255,0.04);">
             <div style="display:flex;align-items:center;gap:10px;">
-              <div style="width:28px;height:28px;background:var(--cyan);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:900;color:#fff;">B</div>
-              <span style="font-size:0.85rem;color:rgba(255,255,255,0.7);font-weight:600;">Bayo</span>
+              <div style="width:32px;height:32px;background:linear-gradient(135deg,#0891b2,#06b6d4);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.85rem;font-weight:900;color:#fff;flex-shrink:0;">B</div>
+              <span style="font-size:0.8rem;color:rgba(255,255,255,0.3);font-weight:700;text-transform:uppercase;letter-spacing:0.08em;">Bayo</span>
             </div>
-            <span style="font-size:0.9rem;font-weight:800;color:var(--cyan-light);">View project ↗</span>
+            <span style="font-size:0.8rem;font-weight:900;color:{% if loop.index is odd %}var(--cyan-light){% else %}var(--amber-light){% endif %};text-transform:uppercase;letter-spacing:0.1em;">DECRYPT ↗</span>
           </div>
         </div>
+
       </a>
       {% endfor %}
     </div>
+
     {% else %}
-    <div class="glass-panel reveal" style="padding:80px;text-align:center;">
-      <div style="font-size:3.5rem;margin-bottom:16px;">🚧</div>
-      <h2 style="font-size:1.1rem;font-weight:700;color:#fff;margin-bottom:8px;">No projects yet</h2>
-      <p style="color:rgba(255,255,255,0.6);font-size:0.95rem;">Check back soon — something is coming.</p>
+    <!-- Empty State -->
+    <div style="padding:100px 48px;text-align:center;background:rgba(255,255,255,0.01);border:1px solid rgba(255,255,255,0.04);border-radius:40px;" class="reveal">
+      <div style="font-size:4rem;margin-bottom:24px;filter:grayscale(1) brightness(2);opacity:0.3;">🚧</div>
+      <h2 style="font-size:1.4rem;font-weight:900;color:#fff;margin-bottom:12px;letter-spacing:-0.02em;">PIPELINE_EMPTY</h2>
+      <p style="color:rgba(255,255,255,0.3);font-size:1.05rem;font-weight:500;">The archive is currently being indexed. Check back soon.</p>
     </div>
     {% endif %}
 
     <!-- CTA -->
-    <div style="margin-top:64px;" class="reveal">
-      <div class="glass-panel" style="padding:64px;text-align:center;border:1px solid rgba(6,182,212,0.3);box-shadow:inset 0 0 40px rgba(124,58,237,0.1), 0 20px 40px rgba(0,0,0,0.3);">
-        <h2 style="font-size:1.8rem;font-weight:900;color:#fff;margin-bottom:12px;">Want to collaborate?</h2>
-        <p style="color:rgba(255,255,255,0.7);font-size:1rem;margin-bottom:28px;max-width:380px;margin-left:auto;margin-right:auto;">
-          I'm always open to interesting projects and new challenges.
+    <div style="margin-top:var(--section-gap);" class="reveal">
+      <div style="padding: var(--container-padding); text-align:center; border:1px solid rgba(6,182,212,0.12); background:rgba(255,255,255,0.01); backdrop-filter:blur(8px); border-radius:40px; position:relative; overflow:clip;">
+        <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:500px; height:300px; background:radial-gradient(ellipse, rgba(6,182,212,0.05) 0%, transparent 70%); pointer-events:none;"></div>
+        <p style="font-size:0.7rem;font-weight:900;text-transform:uppercase;letter-spacing:0.3em;color:rgba(255,255,255,0.2);margin-bottom:24px;">//TRANSMISSION_OPEN</p>
+        <h2 style="font-size:clamp(1.8rem,5vw,3rem);font-weight:900;color:#fff;margin-bottom:16px;letter-spacing:-0.04em;line-height:1.0;">Want to collaborate?</h2>
+        <p style="color:rgba(255,255,255,0.4);font-size:1rem;margin-bottom:36px;max-width:400px;margin-left:auto;margin-right:auto;line-height:1.7;font-weight:500;">
+          I'm always open to interesting projects and new infrastructure challenges.
         </p>
-        <a href="/contact" class="g-btn">Get in touch ↗</a>
+        <a href="/contact" class="g-btn" style="padding:18px 48px;font-size:0.9rem;text-transform:uppercase;letter-spacing:0.15em;font-weight:bold;">INITIALIZE_CONTACT ↗</a>
       </div>
     </div>
+
   </div>
 </div>
-
-<style>
-@media (max-width: 767px) {
-  .projects-page-grid {
-    grid-template-columns: 1fr !important;
-    gap: 16px !important;
-  }
-}
-</style>
 
 {% endblock %}

@@ -2,146 +2,166 @@
 {% block title %}About — StackedByBayo{% endblock %}
 {% block content %}
 
+<!-- Technical Grid Layout Architecture -->
+<div style="padding:var(--container-padding) 24px 160px; position:relative; overflow:hidden; z-index:2; min-height:100vh; background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px;">
+  
+  <!-- Multi-Layered Ambient Glows (Obsidian Atmosphere) -->
+  <div style="position:absolute; top:0%; right:-10%; width:1000px; height:1000px; background:radial-gradient(circle, rgba(6,182,212,0.08) 0%, transparent 70%); pointer-events:none; z-index:1;"></div>
+  <div style="position:absolute; top:30%; left:-10%; width:900px; height:900px; background:radial-gradient(circle, rgba(6,182,212,0.04) 0%, transparent 70%); pointer-events:none; z-index:1;"></div>
+  <div style="position:absolute; bottom:0%; right:0%; width:800px; height:800px; background:radial-gradient(circle, rgba(139,92,246,0.04) 0%, transparent 70%); pointer-events:none; z-index:1;"></div>
 
-<div style="padding:60px 24px 100px; position:relative; z-index:2;">
-  <div style="max-width:1100px;margin:0 auto;display:flex;flex-direction:column;gap:120px;">
+  <div style="max-width:1200px;margin:0 auto;display:flex;flex-direction:column;gap:var(--section-gap); position:relative; z-index:2;">
 
-    <!-- 1. Hero Block (Flowing, Open Space) -->
-    <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:36px;margin-top:40px;">
+    <!-- 1. Hero Block: The System Node -->
+    <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:40px;margin-top:20px;">
       
-      <!-- Premium Avatar -->
-      <div style="position:relative;width:200px;height:200px;">
-        <div class="avatar-glow" style="position:absolute;inset:-10px;border-radius:50%;background:linear-gradient(135deg,var(--cyan),var(--amber));opacity:0.3;filter:blur(24px);animation:pulse 4s infinite alternate;"></div>
-        <div style="position:relative;width:100%;height:100%;border-radius:50%;background:rgba(255,255,255,0.05);border:2px solid rgba(255,255,255,0.1);overflow:hidden;z-index:2;box-shadow:0 12px 40px rgba(0,0,0,0.5);">
+      <!-- Premium Avatar Portal (Cinematic Glow) -->
+      <div style="position:relative;width:240px;height:240px;">
+        <div class="avatar-glow" style="position:absolute;inset:-20px;border-radius:50%;background:radial-gradient(circle, var(--cyan), transparent);opacity:0.3;filter:blur(40px);animation:pulse 8s infinite alternate;"></div>
+        <div style="position:relative;width:100%;height:100%;border-radius:50%;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.1);overflow:hidden;z-index:2; backdrop-filter:blur(16px);">
           {% if profile_exists %}
-          <img src="/static/uploads/profile.jpg" style="width:100%;height:100%;object-fit:cover;" alt="Bayo">
+          <img src="/static/uploads/profile.jpg" style="width:100%;height:100%;object-fit:cover; filter: contrast(1.1) brightness(0.95);" alt="Bayo">
           {% else %}
-          <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0891b2,#06b6d4);color:#fff;font-size:4rem;font-weight:900;">B</div>
+          <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0891b2,#06b6d4);color:#fff;font-size:5rem;font-weight:900;letter-spacing:-0.05em;">B</div>
           {% endif %}
         </div>
-        <!-- Status Badge overlay -->
-        <div style="position:absolute;bottom:-10px;right:-10px;z-index:3;display:flex;align-items:center;gap:8px;background:rgba(20,20,30,0.85);backdrop-filter:blur(8px);border:1px solid rgba(16,185,129,0.3);padding:10px 20px;border-radius:100px;box-shadow:0 8px 24px rgba(0,0,0,0.4);">
-          <span style="width:10px;height:10px;background:#10b981;border-radius:50%;animation:pulse 2s infinite;box-shadow:0 0 12px #10b981;"></span>
-          <span style="font-size:0.85rem;font-weight:700;color:#fff;white-space:nowrap;">Available for work</span>
+        <!-- Status Badge: System_Ready -->
+        <div style="position:absolute;bottom:-12px;left:50%;transform:translateX(-50%);z-index:3;display:flex;align-items:center;gap:10px;background:rgba(0,0,0,0.8);backdrop-filter:blur(16px);border:1px solid rgba(16,185,129,0.3);padding:10px 24px;border-radius:100px;box-shadow:0 8px 32px rgba(0,0,0,0.6);">
+          <span style="width:8px;height:8px;background:#10b981;border-radius:50%;animation:pulse 2s infinite;box-shadow:0 0 15px #10b981;"></span>
+          <span style="font-size:0.7rem;font-weight:900;color:#fff;white-space:nowrap;text-transform:uppercase;letter-spacing:0.15em;">SYSTEM_NODE: ACTIVE</span>
         </div>
       </div>
-
+ 
       <!-- Hero Text -->
-      <div style="max-width:800px;display:flex;flex-direction:column;align-items:center;">
-        <p style="font-size:0.95rem;font-weight:800;color:var(--cyan-light);text-transform:uppercase;letter-spacing:0.15em;margin-bottom:16px;">DevOps Engineer</p>
-        <h1 style="font-size:clamp(2.2rem,8vw,5.5rem);font-weight:900;color:#fff;line-height:1.05;margin-bottom:24px;letter-spacing:-0.03em;">
-          Omobayonle <span class="g-text">Ogundele</span>
+      <div style="max-width:900px;display:flex;flex-direction:column;align-items:center;">
+        <p style="font-size:0.75rem;font-weight:900;color:var(--cyan-light);text-transform:uppercase;letter-spacing:0.4em;margin-bottom:24px; opacity:0.6;">ENTITY_PROFILE // ARCHITECT</p>
+        <h1 style="font-size:clamp(2.8rem,10vw,6.5rem);font-weight:900;color:#fff;line-height:0.9;margin-bottom:32px;letter-spacing:-0.05em;">
+          Omobayonle <br><span class="g-text">Ogundele</span>
         </h1>
-        <p style="font-size:1.2rem;color:rgba(255,255,255,0.7);line-height:1.8;margin-bottom:40px;max-width:680px;">
-          I design and build reliable, scalable infrastructure that keeps applications running smoothly. Passionate about automation, CI/CD pipelines, and cloud architecture. Based in <strong style="color:#fff;">Lagos, Nigeria 🇳🇬</strong>.
+        <p style="font-size:clamp(1rem, 4vw, 1.25rem);color:rgba(255,255,255,0.65);line-height:1.7;margin-bottom:56px;max-width:720px;font-weight:500;">
+          Designing high-fidelity cloud infrastructure from the metal up. 
+          Hardening distributed systems, automating zero-downtime pipelines, 
+          and documenting the journey from <strong style="color:#fff;font-weight:800;letter-spacing:-0.01em;">Lagos, Nigeria 🇳🇬</strong>.
         </p>
         
-        <div style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;">
-          <a href="/contact" class="g-btn" style="padding:16px 36px;font-size:1.05rem;">Get in touch ↗</a>
-          <a href="#" class="g-btn" style="background:rgba(255,255,255,0.05);color:#fff;border:1px solid rgba(255,255,255,0.15);box-shadow:none;padding:16px 36px;font-size:1.05rem;">Download CV</a>
+        <div style="display:flex;gap:24px;flex-wrap:wrap;justify-content:center;">
+          <a href="/contact" class="g-btn" style="padding:18px 48px;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.2em;font-weight:bold;">INITIALIZE_CONTACT ↗</a>
+          <a href="#" class="g-btn" style="background:rgba(255,255,255,0.02);color:#fff;border:1px solid rgba(255,255,255,0.08);box-shadow:none;padding:18px 48px;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.2em;font-weight:bold;">ENTITY_DATA (CV)</a>
         </div>
       </div>
     </div>
 
-    <!-- Divider -->
-    <div style="width:1px;height:100px;background:linear-gradient(to bottom, transparent, rgba(6,182,212,0.3), transparent);margin:0 auto;"></div>
-
-    <!-- 2. The Journey (Experience) -->
-    <div>
-      <p style="font-size:0.8rem;font-weight:800;text-transform:uppercase;letter-spacing:0.15em;color:var(--amber-light);text-align:center;margin-bottom:16px;">The Journey</p>
-      <h2 style="font-size:clamp(2rem,6vw,3.2rem);font-weight:900;color:#fff;letter-spacing:-0.03em;text-align:center;margin-bottom:64px;">Experience</h2>
+    <!-- 2. The Journey: Technical Vertical Stream -->
+    <div style="position:relative;">
+      <div style="text-align:center;margin-bottom:80px;">
+        <p style="font-size:0.7rem;font-weight:900;text-transform:uppercase;letter-spacing:0.3em;color:var(--amber-light);margin-bottom:16px; opacity:0.5;">CHRONOLOGICAL_LOGS</p>
+        <h2 style="font-size:clamp(2.4rem,6vw,4.2rem);font-weight:900;color:#fff;letter-spacing:-0.04em;line-height:1.0;">Technical Journey</h2>
+      </div>
       
-      <div class="glass-panel" style="padding:56px;display:flex;flex-direction:column;gap:40px;">
-        
-        <div style="display:flex;gap:32px;align-items:flex-start;">
-          <!-- Timeline Marker -->
-          <div style="flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:16px;margin-top:6px;">
-            <div style="width:20px;height:20px;border-radius:50%;background:var(--cyan);box-shadow:0 0 20px var(--cyan);border:4px solid rgba(255,255,255,0.9);"></div>
-            <div style="width:2px;height:80px;background:linear-gradient(to bottom, var(--cyan-light), transparent);opacity:0.5;"></div>
-          </div>
-          <!-- Content -->
-          <div>
-            <div style="display:flex;align-items:center;gap:16px;margin-bottom:12px;flex-wrap:wrap;">
-              <h3 style="font-size:1.7rem;font-weight:900;color:#fff;letter-spacing:-0.02em;">DevOps Engineer <span style="font-size:1.2rem;color:rgba(255,255,255,0.4);font-weight:600;">(Self-Taught)</span></h3>
-              <span style="font-size:0.85rem;font-weight:800;color:var(--amber-light);background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.2);padding:6px 14px;border-radius:100px;">2024 — Present</span>
+      <!-- Open Architecture (Integrated Stream) -->
+      <div style="position:relative; max-width:900px; margin:0 auto; padding-left:clamp(20px, 8vw, 50px);">
+        <!-- Technical Vertical Line -->
+        <div style="position:absolute; top:0; left:0; bottom:0; width:1px; background:linear-gradient(to bottom, transparent, rgba(6,182,212,0.6) 10%, rgba(6,182,212,0.1) 90%, transparent);"></div>
+
+        <!-- Journey Node: DevOps Engineer -->
+        <div class="reveal" style="position:relative; margin-bottom:80px;">
+          <!-- Node Point -->
+          <div style="position:absolute; left:-55px; top:16px; width:10px; height:10px; border-radius:50%; background:var(--cyan); box-shadow:0 0 20px var(--cyan); border:2px solid #fff;"></div>
+          <!-- Connection Branch -->
+          <div style="position:absolute; left:-45px; top:21px; width:45px; height:1px; background:rgba(6,182,212,0.4);"></div>
+          
+          <div style="padding:48px; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.08); border-radius:40px; backdrop-filter:blur(16px); position:relative; overflow:hidden;">
+            <!-- Internal Glow -->
+            <div style="position:absolute; top:-10%; left:-10%; width:200px; height:200px; background:radial-gradient(circle, rgba(6,182,212,0.05) 0%, transparent 70%); pointer-events:none;"></div>
+
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:24px;flex-wrap:wrap;">
+              <div>
+                <h3 style="font-size:1.8rem;font-weight:900;color:#fff;letter-spacing:-0.02em;line-height:1.1;">DevOps Engineer</h3>
+                <p style="font-size:0.8rem;color:rgba(255,255,255,0.3);font-weight:800;text-transform:uppercase;letter-spacing:0.1em;margin-top:4px;">[ SELF_TAUGHT_LOG ]</p>
+              </div>
+              <div style="font-size:0.75rem;font-weight:900;color:var(--amber-light);background:rgba(245,158,11,0.05);border:1px solid rgba(245,158,11,0.15);padding:8px 18px;border-radius:8px;text-transform:uppercase;letter-spacing:0.1em;">2024 &mdash; Present</div>
             </div>
-            <p style="font-size:1.15rem;color:rgba(255,255,255,0.7);line-height:1.8;margin-bottom:24px;max-width:800px;">
-              Building and deploying real infrastructure from scratch. I bootstrap Kubernetes clusters on bare metal, automate continuous deliveries with ArgoCD and GitHub Actions, and write custom CI/CD pipelines. I learn by breaking staging environments and fixing them before production.
+            
+            <p style="font-size:1.15rem;color:rgba(255,255,255,0.4);line-height:1.8;margin-bottom:32px;font-weight:500;">
+              Bootstraping resilience. I specialize in bare-metal Kubernetes hydration, 
+              automating full-stack deployment lifecycles via GitOps (ArgoCD), 
+              and crafting robust CI/CD pipelines that scale with precision.
             </p>
-            <div style="display:flex;flex-wrap:wrap;gap:10px;">
-              {% for tag in ['Kubernetes', 'Docker', 'Drone CI', 'AWS', 'ArgoCD', 'Terraform'] %}
-              <span style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);padding:6px 16px;border-radius:8px;font-size:0.9rem;color:#f1f5f9;font-weight:600;">{{ tag }}</span>
+            
+            <div style="display:flex;flex-wrap:wrap;gap:12px;">
+              {% for tag in ['Kubernetes', 'Docker', 'Drone CI', 'AWS', 'ArgoCD', 'Terraform', 'Prometheus', 'Ansible'] %}
+              <span style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);padding:8px 18px;border-radius:10px;font-size:0.75rem;color:rgba(255,255,255,0.6);font-weight:800;text-transform:uppercase;letter-spacing:0.05em;">{{ tag }}</span>
               {% endfor %}
             </div>
           </div>
         </div>
-
       </div>
     </div>
 
-    <!-- Divider -->
-    <div class="reveal" style="width:1px;height:100px;background:linear-gradient(to bottom, transparent, rgba(6,182,212,0.3), transparent);margin:0 auto;"></div>
-
-    <!-- 3. Arsenal (Skills) -->
+    <!-- 3. Arsenal: Blended Modules -->
     <div>
-      <div style="text-align:center;margin-bottom:64px;">
-        <p style="font-size:0.8rem;font-weight:800;text-transform:uppercase;letter-spacing:0.15em;color:var(--cyan-light);margin-bottom:16px;">Arsenal</p>
-        <h2 style="font-size:clamp(2rem,6vw,3.2rem);font-weight:900;color:#fff;letter-spacing:-0.03em;">Tools & Technologies</h2>
+      <div style="text-align:center;margin-bottom:80px;">
+        <p style="font-size:0.7rem;font-weight:900;text-transform:uppercase;letter-spacing:0.3em;color:var(--cyan-light);margin-bottom:16px; opacity:0.5;">ARSENAL_MODULES</p>
+        <h2 style="font-size:clamp(2.4rem,6vw,4.2rem);font-weight:900;color:#fff;letter-spacing:-0.04em;line-height:1.0;">System Stack</h2>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
         
-        <!-- DevOps & Cloud Section -->
-        <div class="glass-panel" style="padding:48px;display:flex;flex-direction:column;gap:32px;transition:transform 0.3s;" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform='none'">
-          <div style="display:flex;align-items:center;gap:16px;">
-            <div style="width:48px;height:48px;border-radius:16px;background:rgba(6,182,212,0.1);border:1px solid rgba(6,182,212,0.2);display:flex;align-items:center;justify-content:center;font-size:1.5rem;">☁️</div>
-            <h3 style="font-size:1.5rem;font-weight:800;color:#fff;">DevOps & Cloud</h3>
+        <!-- DevOps Section -->
+        <div style="padding:60px; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.08); border-radius:48px; backdrop-filter:blur(24px); display:flex;flex-direction:column;gap:40px;transition:all 0.4s cubic-bezier(0.4, 0, 0.2, 1); position:relative; overflow:hidden;" onmouseover="this.style.transform='translateY(-8px)'; this.style.borderColor='rgba(6,182,212,0.2)';" onmouseout="this.style.transform='none'; this.style.borderColor='rgba(255,255,255,0.08)';" class="reveal">
+          <div style="position:absolute; bottom:-10%; right:-10%; width:150px; height:150px; background:radial-gradient(circle, rgba(6,182,212,0.05) 0%, transparent 70%); pointer-events:none;"></div>
+          
+          <div style="display:flex;align-items:center;gap:20px;">
+            <div style="width:56px;height:56px;border-radius:14px;background:rgba(6,182,212,0.05);border:1px solid rgba(6,182,212,0.15);display:flex;align-items:center;justify-content:center;font-size:1.5rem;">☁️</div>
+            <h3 style="font-size:1.8rem;font-weight:900;color:#fff;letter-spacing:-0.02em;">Infrastructure</h3>
           </div>
-          <p style="color:rgba(255,255,255,0.6);font-size:1.05rem;line-height:1.7;">The backbone of my deployments. Setting up servers, clusters, and keeping them resilient.</p>
+          <p style="color:rgba(255,255,255,0.3);font-size:1.1rem;line-height:1.7;font-weight:500;">Core frameworks for architecting high-availability systems and cloud-native deployments.</p>
           <div style="display:flex;flex-wrap:wrap;gap:12px;">
             {% for label, color, slug in [
               ('AWS','#FF9900','amazonaws'),('Docker','#2496ED','docker'),('Kubernetes','#326CE5','kubernetes'),
               ('ArgoCD','#EF7B4D','argo'),('Terraform','#7B42BC','terraform'),('Ansible','#EE0000','ansible'),
               ('GitHub Actions','#2088FF','githubactions'),('Linux','#FCC624','linux'),('Prometheus','#E6522C','prometheus')
             ] %}
-            <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);padding:10px 18px;border-radius:100px;display:flex;align-items:center;gap:10px;transition:background 0.2s;" onmouseover="this.style.background='rgba(6,182,212,0.15)';this.style.borderColor='rgba(6,182,212,0.3)';" onmouseout="this.style.background='rgba(255,255,255,0.03)';this.style.borderColor='rgba(255,255,255,0.08)';">
+            <div style="background:rgba(255,255,255,0.01);border:1px solid rgba(255,255,255,0.05);padding:12px 20px;border-radius:100px;display:flex;align-items:center;gap:12px;transition:all 0.3s;" onmouseover="this.style.background='rgba(6,182,212,0.1)';this.style.borderColor='rgba(6,182,212,0.2)';" onmouseout="this.style.background='rgba(255,255,255,0.01)';this.style.borderColor='rgba(255,255,255,0.05)';">
               <img src="https://cdn.simpleicons.org/{{ slug }}/{{ color|replace('#', '')|replace('000000','ffffff') }}" style="width:16px;height:16px;">
-              <span style="font-size:0.95rem;font-weight:600;color:#fff;">{{ label }}</span>
+              <span style="font-size:0.8rem;font-weight:800;color:rgba(255,255,255,0.7);text-transform:uppercase;letter-spacing:0.05em;">{{ label }}</span>
             </div>
             {% endfor %}
           </div>
         </div>
 
         <!-- Programming Section -->
-        <div class="glass-panel" style="padding:48px;display:flex;flex-direction:column;gap:32px;transition:transform 0.3s;" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform='none'">
-          <div style="display:flex;align-items:center;gap:16px;">
-            <div style="width:48px;height:48px;border-radius:16px;background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.2);display:flex;align-items:center;justify-content:center;font-size:1.5rem;">💻</div>
-            <h3 style="font-size:1.5rem;font-weight:800;color:#fff;">Development</h3>
+        <div style="padding:60px; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.08); border-radius:48px; backdrop-filter:blur(24px); display:flex;flex-direction:column;gap:40px;transition:all 0.4s cubic-bezier(0.4, 0, 0.2, 1); position:relative; overflow:hidden;" onmouseover="this.style.transform='translateY(-8px)'; this.style.borderColor='rgba(245,158,11,0.2)';" onmouseout="this.style.transform='none'; this.style.borderColor='rgba(255,255,255,0.08)';" class="reveal">
+          <div style="position:absolute; bottom:-10%; right:-10%; width:150px; height:150px; background:radial-gradient(circle, rgba(245,158,11,0.05) 0%, transparent 70%); pointer-events:none;"></div>
+
+          <div style="display:flex;align-items:center;gap:20px;">
+            <div style="width:56px;height:56px;border-radius:14px;background:rgba(245,158,11,0.05);border:1px solid rgba(245,158,11,0.15);display:flex;align-items:center;justify-content:center;font-size:1.5rem;">💻</div>
+            <h3 style="font-size:1.8rem;font-weight:900;color:#fff;letter-spacing:-0.02em;">Development</h3>
           </div>
-          <p style="color:rgba(255,255,255,0.6);font-size:1.05rem;line-height:1.7;">Writing the scripts, APIs, and automations that link the entire infrastructure together.</p>
+          <p style="color:rgba(255,255,255,0.65);font-size:1.1rem;line-height:1.7;font-weight:500;">Logic layers and automation scripts orchestrating the full infrastructure lifecycle.</p>
           <div style="display:flex;flex-wrap:wrap;gap:12px;">
             {% for label, color, slug in [
               ('Python','#3776AB','python'),('Bash','#4EAA25','gnubash'),('Flask','#ffffff','flask'),('PostgreSQL','#4169E1','postgresql'),
               ('Git','#F05032','git'),('HTML/CSS','#E34F26','html5'),('REST APIs','#FF6C37','postman')
             ] %}
-            <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);padding:10px 18px;border-radius:100px;display:flex;align-items:center;gap:10px;transition:background 0.2s;" onmouseover="this.style.background='rgba(245,158,11,0.15)';this.style.borderColor='rgba(245,158,11,0.3)';" onmouseout="this.style.background='rgba(255,255,255,0.03)';this.style.borderColor='rgba(255,255,255,0.08)';">
+            <div style="background:rgba(255,255,255,0.01);border:1px solid rgba(255,255,255,0.05);padding:12px 20px;border-radius:100px;display:flex;align-items:center;gap:12px;transition:all 0.3s;" onmouseover="this.style.background='rgba(245,158,11,0.1)';this.style.borderColor='rgba(245,158,11,0.2)';" onmouseout="this.style.background='rgba(255,255,255,0.01)';this.style.borderColor='rgba(255,255,255,0.05)';">
               <img src="https://cdn.simpleicons.org/{{ slug }}/{{ color|replace('#', '')|replace('000000','ffffff') }}" style="width:16px;height:16px;">
-              <span style="font-size:0.95rem;font-weight:600;color:#fff;">{{ label }}</span>
+              <span style="font-size:0.8rem;font-weight:800;color:rgba(255,255,255,0.7);text-transform:uppercase;letter-spacing:0.05em;">{{ label }}</span>
             </div>
             {% endfor %}
           </div>
         </div>
-
       </div>
     </div>
 
-    <!-- Final CTA -->
-    <div style="display:flex;flex-direction:column;align-items:center;text-align:center;padding:80px 0 40px;">
-      <h2 style="font-size:clamp(2rem,4vw,3.5rem);font-weight:900;color:#fff;margin-bottom:24px;letter-spacing:-0.03em;">Let's build something.</h2>
-      <p style="color:rgba(255,255,255,0.6);font-size:1.15rem;margin-bottom:40px;max-width:580px;line-height:1.7;">
-        Always eager to tackle new challenges, optimize pipelines, or discuss system architecture. Reach out and let's get building.
+    <!-- Final CTA: Transmission_Active -->
+    <div style="display:flex;flex-direction:column;align-items:center;text-align:center;padding:120px 0 100px;" class="reveal">
+      <p style="font-size:0.7rem;font-weight:900;text-transform:uppercase;letter-spacing:0.4em;color:rgba(255,255,255,0.15);margin-bottom:32px;">// TRANSMISSION_STANDBY</p>
+      <h2 style="font-size:clamp(2.4rem,6vw,4.5rem);font-weight:900;color:#fff;margin-bottom:32px;letter-spacing:-0.05em;line-height:1.0;">Build the <br><span class="g-text">invisible infrastructure.</span></h2>
+      <p style="color:rgba(255,255,255,0.25);font-size:1.2rem;margin-bottom:56px;max-width:620px;line-height:1.7;font-weight:500;">
+        Eager to tackle complex infrastructure challenges at scale. Reach out and initialize connection.
       </p>
-      <a href="/contact" class="g-btn" style="padding:16px 40px;font-size:1.1rem;">Start a Conversation ↗</a>
+      <a href="/contact" class="g-btn" style="padding:20px 60px;font-size:1rem;text-transform:uppercase;letter-spacing:0.2em;font-weight:black;">ESTABLISH_UPLINK ↗</a>
     </div>
 
   </div>
@@ -151,7 +171,7 @@
   @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.6;} }
   @media (max-width: 767px) {
     .avatar-glow { animation: none !important; filter: blur(12px) !important; opacity: 0.2 !important; }
-    .glass-panel { padding: 24px !important; }
+    .reveal { padding: 32px 24px !important; border-radius:32px !important; }
   }
 </style>
 
