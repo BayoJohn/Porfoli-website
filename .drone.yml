@@ -1,22 +1,19 @@
 kind: pipeline
 type: docker
 name: deploy
-
 clone:
   disable: true
-
 steps:
   - name: clone-code
     image: alpine/git
     commands:
       - git clone http://172.17.0.1:3001/Bayo/Porfolio-website.git .
       - git checkout ${DRONE_COMMIT}
-
   - name: build-and-push
     image: plugins/docker
     settings:
-      registry: 
-      repo: /library/portfolio
+      registry: 10.0.0.2
+      repo: 10.0.0.2/library/portfolio
       tags:
         - latest
         - build-${DRONE_BUILD_NUMBER}
@@ -25,7 +22,6 @@ steps:
         from_secret: harbor_password
       dockerfile: Dockerfile
       insecure: true
-
   - name: update-k8s-manifest
     image: alpine/git
     environment:
