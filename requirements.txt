@@ -4,3 +4,5 @@ gunicorn
 pillow
 werkzeug
 markdown
+pytest
+pytest-flask

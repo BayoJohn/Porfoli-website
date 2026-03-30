@@ -9,6 +9,14 @@ steps:
     commands:
       - git clone http://172.17.0.1:3001/Bayo/Porfolio-website.git .
       - git checkout ${DRONE_COMMIT}
+
+  - name: run-tests
+    image: python:3.13-slim
+    commands:
+      - pip install -r requirements.txt --quiet
+      - pip install pytest pytest-flask --quiet
+      - pytest tests/ -v
+
   - name: build-and-push
     image: plugins/docker
     settings:
@@ -22,6 +30,7 @@ steps:
         from_secret: harbor_password
       dockerfile: Dockerfile
       insecure: true
+
   - name: update-k8s-manifest
     image: alpine/git
     environment:
