@@ -18,6 +18,7 @@ spec:
       containers:
         - name: portfolio
           image: 10.0.0.2/library/portfolio:build-87
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 5000
           env:
@@ -37,3 +38,4 @@ spec:
           hostPath:
             path: /var/lib/docker/volumes/portfolio_uploads/_data
             type: Directory
+
