@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rollback-webhook
+  namespace: monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rollback-webhook
+  template:
+    metadata:
+      labels:
+        app: rollback-webhook
+    spec:
+      containers:
+        - name: rollback-webhook
+          image: 10.0.0.2/library/rollback-webhook:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5001
+          env:
+            - name: ARGOCD_SERVER
+              value: "argocd-server.argocd.svc.cluster.local"
+            - name: ARGOCD_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: argocd-webhook-token
+                  key: token
+            - name: ARGOCD_APP
+              value: "portfolio"
+      imagePullSecrets:
+        - name: harbor-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rollback-webhook
+  namespace: monitoring
+spec:
+  selector:
+    app: rollback-webhook
+  ports:
+    - port: 5001
+      targetPort: 5001
