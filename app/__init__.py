@@ -67,7 +67,9 @@ def create_app():
             db.session.commit()
             flash("Comment posted!")
             return redirect(url_for("project_detail", project_id=project_id))
-        return render_template("project_detail.html", project=project, comments=comments)
+        
+        project_desc_html = md.markdown(project.description, extensions=['fenced_code', 'codehilite', 'tables', 'nl2br'])
+        return render_template("project_detail.html", project=project, comments=comments, project_desc_html=project_desc_html)
 
     @app.route("/blog")
     def blog():
