@@ -3,3 +3,7 @@ node_modules/
 *.log
 dist/
 build/node_modules/
+__pycache__/
+*.pyc
+instance/
+*.db
