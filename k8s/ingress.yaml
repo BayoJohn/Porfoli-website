@@ -4,16 +4,10 @@ metadata:
   name: portfolio
   namespace: portfolio
   annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    traefik.ingress.kubernetes.io/router.entrypoints: web
 spec:
-  ingressClassName: nginx
-  tls:
-  - hosts:
-    - stackedbybayo.site      #  match your real domain
-    secretName: portfolio-tls
   rules:
-  - host: stackedbybayo.site    #  match your real domain
-    http:
+  - http:
       paths:
       - path: /
         pathType: Prefix
