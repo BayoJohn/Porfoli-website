@@ -6,8 +6,10 @@ metadata:
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: web
 spec:
+  ingressClassName: traefik
   rules:
-  - http:
+  - host: stackedbybayo.site
+    http:
       paths:
       - path: /
         pathType: Prefix
