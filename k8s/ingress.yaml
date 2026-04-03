@@ -8,17 +8,17 @@ metadata:
 spec:
   ingressClassName: nginx
   tls:
-  - hosts:
-    - yourdomain.com
-    secretName: portfolio-tls
+    - hosts:
+        - stackedbybayo.site
+      secretName: portfolio-tls
   rules:
-  - host: stackedbybayo.site
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: portfolio
-            port:
-              number: 80
+    - host: stackedbybayo.site
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: portfolio
+                port:
+                  number: 80
