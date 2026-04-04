@@ -48,24 +48,13 @@
   html, body { max-width: 100vw; overflow-x: hidden !important; }
   main.main-content { max-width: 100vw; overflow-x: hidden !important; }
 
-  #hero-card {
-  padding: 32px 20px !important;
-  min-height: auto !important;
-  width: 100% !important;
-  }
-  #hero-grid {
-  grid-template-columns: minmax(0, 100%) !important;
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 36px !important;
-  width: 100% !important;
-  }
-  #hero-photo-col {
-  max-width: 300px;
-  width: 100% !important;
-  margin: 0 auto !important;
-  }
-  #hero-photo-col img { height: 280px !important; }
+  #hero-section { padding: 0 20px !important; min-height: 92svh !important; }
+  #hero-portrait-wrap { width: 100% !important; opacity: 0.2 !important; }
+  #hero-vert-label { display: none !important; }
+  #hero-year { display: none !important; }
+  #hero-name { font-size: clamp(4.2rem,18vw,6rem) !important; }
+  #hero-stats { gap: 16px 28px !important; }
+  #hero-content { padding: 70px 0 60px !important; }
 
   #stats-section { padding: 36px 16px !important; width: 100% !important; }
   #stats-grid { 
@@ -127,107 +116,264 @@
   }
   </style>
 
-  <!-- ═══════════════════════════════════════ HERO ═══ -->
-  <section style="padding:32px 16px 0;">
-    <div class="glass-panel" id="hero-card" style="
-    max-width:1100px;margin:0 auto;padding:64px 56px;
-    position:relative;overflow:hidden;min-height:520px;
-    display:flex;align-items:center;
-    background: transparent;
-    border: 1px solid rgba(255,255,255,0.05);
-    box-shadow: none;
-  ">
-      <!-- Subtle Ambient Glow -->
-      <div style="position:absolute;top:-10%;left:-10%;width:40%;height:40%;background:radial-gradient(circle, rgba(139,92,246,0.15) 0%, transparent 70%);pointer-events:none;z-index:1;"></div>
-      
-      <div id="hero-grid"
-        style="display:grid;grid-template-columns:1fr 420px;gap:40px;align-items:center;position:relative;z-index:2;width:100%;">
+  <style>
+    /* Remove padding from main-content to allow full bleed hero */
+    .main-content { padding-top: 0 !important; }
 
-        <!-- LEFT -->
-        <div>
-          <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
-            <span style="font-size:0.7rem;font-weight:800;text-transform:uppercase;letter-spacing:0.15em;color:var(--cyan);background:rgba(6,182,212,0.1);padding:4px 10px;border-radius:6px;border:1px solid rgba(6,182,212,0.2);">System: ACTIVE</span>
-            <p style="font-size:1rem;font-weight:600;color:rgba(255,255,255,0.6);">// StackedByBayo_Initialize</p>
-          </div>
-  <h1
-    style="font-size:clamp(2.5rem,10vw,5.5rem);font-weight:900;line-height:0.9;margin-bottom:28px;letter-spacing:-0.02em;background:linear-gradient(90deg,#fff,#22d3ee,#f59e0b,#fff);background-size:200% auto;color:transparent;-webkit-background-clip:text;background-clip:text;animation:shine 5s linear infinite;">
-            DevOps<br>Engineer
-          </h1>
-          <div
-            style="font-size:1.15rem;font-weight:500;color:rgba(255,255,255,0.85);margin-bottom:44px;min-height:1.8rem;display:flex;align-items:center;gap:4px;">
-            <span id="typed-role"></span>
-            <span
-              style="display:inline-block;width:2px;height:1.1em;background:#f59e0b;border-radius:2px;vertical-align:text-bottom;animation:blink 0.75s step-end infinite;"></span>
-          </div>
-          <div
-            style="display:flex;flex-wrap:wrap;gap:24px;border-top:1px solid rgba(255,255,255,0.1);padding-top:28px;">
-            {% for num,label in [('#01','CI/CD Pipelines'),('#02','Kubernetes'),('#03','Cloud Infra'),('#04','GitOps')]
-            %}
-            <div>
-              <p
-                style="font-size:0.75rem;font-weight:800;color:var(--amber-light);letter-spacing:0.05em;margin-bottom:4px;">
-                {{ num }}</p>
-              <p style="font-size:0.875rem;font-weight:600;color:#fff;">{{ label }}</p>
-            </div>
-            {% endfor %}
-          </div>
-        </div>
+    /* Hero Styling */
+    .modern-hero {
+        position: relative;
+        width: 100vw;
+        height: 90vh;
+        min-height: 700px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        margin-left: calc(-50vw + 50%); /* Full bleed trick */
+        margin-bottom: 48px;
+    }
 
-        <!-- RIGHT: Photo -->
-        <div id="hero-photo-col" style="position:relative;">
-          <div
-            style="position:absolute;top:-16px;right:-12px;z-index:5;background:var(--amber);color:#fff;font-weight:800;font-size:0.85rem;padding:8px 18px;border-radius:100px;box-shadow:0 8px 20px rgba(234,88,12,0.4);">
-            Lagos ⚡</div>
-          <div
-            style="position:relative;border-radius:28px;overflow:hidden;box-shadow:0 0 60px rgba(6,182,212,0.3);padding:4px;background:linear-gradient(135deg,rgba(6,182,212,0.6),rgba(245,158,11,0.6));">
-            <div style="width:100%;height:100%;border-radius:24px;overflow:hidden;background:#050505;">
-              <img
-                src="https://images.unsplash.com/photo-1547082299-de196ea013d6?auto=format&fit=crop&w=1200&q=80"
-                alt="Bayo" style="width:100%;height:380px;object-fit:cover;display:block;">
+    .hero-bg-wrapper {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+    }
+    .hero-bg-wrapper img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        filter: brightness(0.9) contrast(1.1);
+    }
+    
+    .hero-gradient-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to right, rgba(5,8,15,0.98) 0%, rgba(5,8,15,0.6) 40%, rgba(5,8,15,0.1) 100%);
+        z-index: 1;
+    }
+
+    .hero-content-grid {
+        position: relative;
+        z-index: 5;
+        width: 100%;
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 0 5%;
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 60px;
+        align-items: center;
+    }
+
+    .hero-text-block {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .hero-supertitle {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: var(--cyan-light);
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        margin-bottom: 20px;
+        background: rgba(6, 182, 212, 0.1);
+        padding: 8px 18px;
+        border-radius: 100px;
+        border: 1px solid rgba(6, 182, 212, 0.25);
+        box-shadow: 0 0 20px rgba(6, 182, 212, 0.15);
+    }
+
+    .hero-title {
+        font-family: 'Outfit', sans-serif;
+        font-size: clamp(3.8rem, 6.5vw, 6rem);
+        font-weight: 900;
+        line-height: 1.05;
+        color: #fff;
+        margin-bottom: 24px;
+        letter-spacing: -0.03em;
+        text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    .hero-subtitle {
+        font-size: 1.25rem;
+        font-weight: 400;
+        line-height: 1.7;
+        color: rgba(255,255,255,0.8);
+        margin-bottom: 48px;
+        max-width: 580px;
+    }
+
+    .hero-cta-group {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+
+    .btn-primary {
+        background: #fff;
+        color: #000;
+        font-weight: 800;
+        padding: 16px 36px;
+        border-radius: 8px;
+        font-size: 0.95rem;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        text-decoration: none;
+    }
+    .btn-primary:hover {
+        background: rgba(255,255,255,0.9);
+        transform: translateY(-3px);
+        box-shadow: 0 15px 30px rgba(255,255,255,0.2), 0 0 20px rgba(6,182,212,0.4);
+    }
+
+    .btn-secondary {
+        background: rgba(255,255,255,0.02);
+        color: #fff;
+        font-weight: 600;
+        padding: 16px 36px;
+        border-radius: 8px;
+        font-size: 0.95rem;
+        border: 1px solid rgba(255,255,255,0.2);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        text-decoration: none;
+    }
+    .btn-secondary:hover {
+        background: rgba(255,255,255,0.08);
+        border-color: rgba(255,255,255,0.4);
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    }
+
+    .tech-stack-highlight {
+        margin-top: 40px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.85rem;
+        color: rgba(255,255,255,0.5);
+        letter-spacing: 0.1em;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        font-weight: 600;
+    }
+    .tech-stack-highlight span {
+        color: var(--cyan-light);
+        opacity: 0.6;
+    }
+
+    /* Terminal Window Animation */
+    .terminal-window {
+        background: rgba(10, 15, 25, 0.75);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 30px 60px -12px rgba(0,0,0,0.8), 0 0 40px rgba(6,182,212,0.12);
+        transform: translateY(20px);
+        opacity: 0;
+        animation: floatUpFade 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards, float 6s ease-in-out infinite alternate 1.5s;
+    }
+    
+    .terminal-header {
+        background: rgba(255,255,255,0.05);
+        padding: 12px 16px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    
+    .terminal-dots {
+        display: flex;
+        gap: 6px;
+    }
+    .terminal-dots span { width: 10px; height: 10px; border-radius: 50%; }
+    .dot-r { background: #ff5f56; }
+    .dot-y { background: #ffbd2e; }
+    .dot-g { background: #27c93f; }
+    
+    .terminal-title {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.75rem;
+        color: rgba(255,255,255,0.4);
+        margin-left: 10px;
+    }
+
+    .terminal-body {
+        padding: 24px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.85rem;
+        line-height: 1.6;
+        color: rgba(255,255,255,0.8);
+    }
+
+    .code-line { overflow: hidden; white-space: nowrap; border-right: 2px solid transparent; }
+    .code-1 { color: #a78bfa; animation: typing 2s steps(40, end) 0.5s both; }
+    .code-2 { color: #22d3ee; animation: typing 2s steps(40, end) 2.5s both; }
+    .code-3 { color: #fbbf24; animation: typing 1.5s steps(30, end) 4s both; }
+    .code-4 { color: #a3e635; animation: typing 1s steps(20, end) 5.5s both; border-right-color: rgba(255,255,255,0.7); animation-name: typing, blink-caret; animation-duration: 0.5s, 0.75s; animation-delay: 5.5s, 5.5s; animation-iteration-count: 1, infinite; }
+
+    @keyframes typing { from { max-width: 0 } to { max-width: 100% } }
+    @keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: rgba(255,255,255,0.7); } }
+    @keyframes floatUpFade { to { transform: translateY(0); opacity: 1; } }
+    @keyframes float { 0% { transform: translateY(0px); } 100% { transform: translateY(-15px); } }
+
+    @media (max-width: 900px) {
+        .modern-hero { height: auto; padding: 120px 0 80px; }
+        .hero-content-grid { grid-template-columns: 1fr; gap: 40px; text-align: center; }
+        .hero-text-block { align-items: center; }
+        .hero-subtitle { margin-left: auto; margin-right: auto; }
+        .hero-title { font-size: clamp(3rem, 10vw, 4rem); }
+        .terminal-window { display: none; }
+        .hero-cta-group { justify-content: center; }
+    }
+  </style>
+
+  <section class="modern-hero">
+    <div class="hero-bg-wrapper">
+        <img src="/static/hero-bayo.jpeg" style="object-position: center;" alt="Developer Portrait">
+    </div>
+    <div class="hero-gradient-overlay"></div>
+    
+    <div class="hero-content-grid">
+        <div class="hero-text-block reveal" style="animation-duration: 1.2s; animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);">
+            <div class="hero-supertitle">Cloud &amp; DevOps Engineer</div>
+            <h1 class="hero-title">Bayo John</h1>
+            <p class="hero-subtitle">Building scalable, resilient, and automated cloud infrastructure with enterprise-grade reliability.</p>
+            <div class="hero-cta-group">
+                <a href="/projects" class="btn-primary">View Projects</a>
             </div>
-          </div>
-          <div
-            style="position:absolute;bottom:-20px;left:-20px;z-index:5;width:76px;height:76px;border-radius:20px;overflow:hidden;border:3px solid rgba(255,255,255,0.2);box-shadow:0 12px 30px rgba(0,0,0,0.3);">
-            <img
-              src="https://images.unsplash.com/photo-1521119989659-a83eee488004?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=50"
-              alt="Avatar" style="width:100%;height:100%;object-fit:cover;">
-          </div>
-          <div
-            style="position:absolute;bottom:-12px;right:16px;z-index:5;background:rgba(20,20,30,0.8);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.1);border-radius:100px;padding:8px 16px;display:flex;align-items:center;gap:8px;">
-            <span
-              style="width:8px;height:8px;background:#10b981;border-radius:50%;display:inline-block;animation:pulse 2s infinite;"></span>
-            <span style="font-size:0.75rem;font-weight:700;color:#fff;">Available for work</span>
-          </div>
+            <div class="tech-stack-highlight">
+                AWS <span>•</span> Kubernetes <span>•</span> Terraform <span>•</span> Docker
+            </div>
         </div>
-      </div>
+        
+        <div class="terminal-wrapper hidden md:block" style="perspective: 1000px;">
+            <div class="terminal-window" style="transform: rotateY(-5deg) rotateX(5deg);">
+               <div class="terminal-header">
+                  <div class="terminal-dots">
+                     <span class="dot-r"></span><span class="dot-y"></span><span class="dot-g"></span>
+                  </div>
+                  <div class="terminal-title">bash — bayo@devops:~</div>
+               </div>
+               <div class="terminal-body" style="display:flex; flex-direction:column; gap:8px;">
+                  <div class="code-line code-1">terraform apply -auto-approve</div>
+                  <div class="code-line code-2">Initializing provider plugins...</div>
+                  <div class="code-line code-3">aws_eks_cluster.main: Creating...</div>
+                  <div class="code-line code-4">Apply complete! Resources: 14 added.</div>
+               </div>
+            </div>
+        </div>
     </div>
   </section>
 
-  <!-- ═══════════════════════════════════════ TICKER ═══ -->
-  <section style="padding:48px 24px;">
-    <div style="max-width:1100px;margin:0 auto;">
-      <p
-        style="text-align:center;font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:0.12em;color:rgba(255,255,255,0.5);margin-bottom:24px;">
-        My Current Tool Belt</p>
-      <div
-        style="overflow:hidden;-webkit-mask-image:linear-gradient(to right,transparent,black 10%,black 90%,transparent);mask-image:linear-gradient(to right,transparent,black 10%,black 90%,transparent); padding-bottom:10px;">
-        <div style="display:flex;gap:12px;width:max-content;animation:ticker 35s linear infinite;" class="mobile-hide-scroll">
-          {% set tools =
-          [('kubernetes','326CE5','Kubernetes'),('argo','EF7B4D','ArgoCD'),('terraform','7B42BC','Terraform'),('docker','2496ED','Docker'),('amazonaws','FF9900','AWS'),('ansible','EE0000','Ansible'),('githubactions','2088FF','GitHub
-          Actions'),('grafana','F46800','Grafana'),('prometheus','E6522C','Prometheus'),('linux','FCC624','Linux'),('python','3776AB','Python'),('nginx','009639','Nginx'),('gitea','609926','Gitea')]
-          %}
-          {% for slug,color,name in tools %}
-          <div class="ticker-item"><img src="https://cdn.simpleicons.org/{{ slug }}/{{ color }}"
-              style="width:16px;height:16px;">{{ name }}</div>
-          {% endfor %}
-          {% for slug,color,name in tools %}
-          <div class="ticker-item"><img src="https://cdn.simpleicons.org/{{ slug }}/{{ color }}"
-              style="width:16px;height:16px;">{{ name }}</div>
-          {% endfor %}
-        </div>
-      </div>
-    </div>
-  </section>
+  
+
 
   <!-- ═══════════════════════════════════════ STATS: HIGH-PRESTIGE PULSE ═══ -->
   <section id="stats-section" style="padding:100px 24px; position:relative; overflow:hidden;">
@@ -293,7 +439,7 @@
     })();
   </script>
 
-  <!-- ═══════════════════════════════════════ ABOUT ═══ -->
+  
   <section style="padding:100px 24px;">
     <div style="max-width:1100px;margin:0 auto;">
       <p style="font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:0.12em;color:var(--cyan-light);margin-bottom:12px;"
@@ -369,7 +515,7 @@
     </div>
   </section>
 
-  <!-- ═══════════════════════════════════════ PROJECTS ═══ -->
+  
   <section style="padding:0 24px 100px;">
     <div style="max-width:1100px;margin:0 auto;">
       <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:48px;" class="reveal">
@@ -441,7 +587,7 @@
     </div>
   </section>
 
-  <!-- ═══════════════════════════════════════ BLOG ═══ -->
+  
   <section style="padding:0 24px 100px;">
     <div style="max-width:1100px;margin:0 auto;">
       <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:48px;" class="reveal">
@@ -519,7 +665,7 @@
     </div>
   </section>
 
-  <!-- ═══════════════════════════════════════ CTA ═══ -->
+  
   <section style="padding:0 24px 100px;">
     <div style="max-width:1100px;margin:0 auto;" class="reveal">
       <div class="cta-panel"
