@@ -8,50 +8,55 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --cyan: #06b6d4;
+            --cyan-dark: #0891b2;
+            --bg-dark: #050505;
+            --card-dark: #0c0d10;
+            --border: rgba(255,255,255,0.08);
+        }
+
         body { 
             font-family: 'Inter', sans-serif; 
-            background: #161B22;
+            background: var(--bg-dark);
             color: #f1f5f9;
         }
         .gradient-text {
-            background: linear-gradient(135deg, #a78bfa, #fb923c);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--cyan);
         }
-        .gradient-bg { background: linear-gradient(135deg, #8b5cf6, #fb923c); }
+        .gradient-bg { background: var(--cyan); }
         .sidebar { transition: width 0.3s ease; }
         .sidebar.collapsed { width: 72px; }
         .sidebar.collapsed .label { display: none; }
         .sidebar.collapsed .logo-text { display: none; }
         
         .nav-item { transition: background 0.2s ease, color 0.2s ease; }
-        .nav-item:hover { background: rgba(255,255,255,0.1); color: white; }
-        .nav-item.active { background: rgba(139,92,246,0.2); color: #a78bfa; border-right: 3px solid #8b5cf6; }
-        .nav-item.active .nav-icon { color: #a78bfa; }
+        .nav-item:hover { background: rgba(255,255,255,0.05); color: white; }
+        .nav-item.active { background: rgba(6,182,212,0.1); color: var(--cyan); border-right: 3px solid var(--cyan); }
+        .nav-item.active .nav-icon { color: var(--cyan); }
         
         #main-content { transition: margin-left 0.3s ease; }
         
-        /* Glass Panel */
+        /* Obsidian Card */
         .glass-panel {
-            background: #1C2128;
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 20px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+            background: var(--card-dark);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
         }
     </style>
 </head>
 <body class="min-h-screen flex text-gray-100">
 
     <!-- Sidebar -->
-    <aside id="sidebar" class="sidebar fixed top-0 left-0 h-full w-64 z-50 flex flex-col -translate-x-full lg:translate-x-0 transition-transform duration-300" style="background:rgba(20,20,30,0.4); backdrop-filter:blur(24px); border-right:1px solid rgba(255,255,255,0.1);">
+    <aside id="sidebar" class="sidebar fixed top-0 left-0 h-full w-64 z-50 flex flex-col -translate-x-full lg:translate-x-0 transition-transform duration-300" style="background:#0a0a0a; border-right:1px solid var(--border);">
 
         <!-- Logo -->
         <div class="flex items-center gap-3 px-5 py-5 border-b border-[rgba(255,255,255,0.08)]">
-            <div class="w-8 h-8 rounded-lg gradient-bg flex items-center justify-center text-white font-bold text-sm shrink-0 shadow-[0_0_15px_rgba(139,92,246,0.5)]">SB</div>
+            <div class="w-8 h-8 rounded-lg gradient-bg flex items-center justify-center text-white font-bold text-sm shrink-0 shadow-[0_0_15px_rgba(6,182,212,0.3)]">SB</div>
             <div class="logo-text">
-                <p class="font-bold text-sm">Stacked<span style="color:#fb923c;font-weight:400;">ByBayo</span>.</p>
-                <p class="text-[rgba(255,255,255,0.5)] text-xs">Admin Console</p>
+                <p class="font-bold text-sm">Stacked<span style="color:var(--cyan);font-weight:400;">ByBayo</span>.</p>
+                <p class="text-[rgba(255,255,255,0.4)] text-xs uppercase tracking-widest font-bold">Admin Console</p>
             </div>
         </div>
 
@@ -148,7 +153,7 @@
     <div id="main-content" class="flex-1 lg:ml-64 min-h-screen flex flex-col transition-all duration-300">
 
         <!-- Top bar -->
-        <header class="sticky top-0 z-40 px-6 py-4 flex items-center justify-between" style="background:rgba(15,15,20,0.5); backdrop-filter:blur(24px); border-bottom:1px solid rgba(255,255,255,0.08);">
+        <header class="sticky top-0 z-40 px-6 py-4 flex items-center justify-between" style="background:#050505; border-bottom:1px solid var(--border);">
             <div class="flex items-center gap-4">
                 <button id="toggle-sidebar" class="text-[rgba(255,255,255,0.6)] hover:text-white transition">
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

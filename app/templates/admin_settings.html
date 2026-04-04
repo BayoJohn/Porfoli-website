@@ -14,7 +14,7 @@
 
         <!-- Current photo preview -->
         <div class="flex items-center gap-6 mb-6">
-            <div class="w-24 h-24 rounded-full overflow-hidden border-2 border-indigo-500/30 shrink-0">
+            <div class="w-24 h-24 rounded-full overflow-hidden border-2 border-cyan-500/30 shrink-0">
                 {% if profile_exists %}
                 <img src="/static/uploads/profile.jpg?{{ range(1000,9999) | random }}"
                      class="w-full h-full object-cover object-top"
@@ -37,7 +37,7 @@
 
         <!-- Upload form -->
         <form method="POST" enctype="multipart/form-data">
-            <div class="border-2 border-dashed border-gray-700 hover:border-indigo-500/50 rounded-xl p-6 text-center transition mb-4"
+            <div class="border-2 border-dashed border-gray-700 hover:border-cyan-500/50 rounded-xl p-6 text-center transition mb-4"
                  id="drop-zone">
                 <div class="text-3xl mb-2">📷</div>
                 <p class="text-gray-400 text-sm mb-1">Click to upload or drag and drop</p>
@@ -49,18 +49,18 @@
             <!-- Preview before upload -->
             <div id="preview-container" class="hidden mb-4">
                 <p class="text-gray-400 text-xs mb-2">Preview:</p>
-                <div class="w-20 h-20 rounded-full overflow-hidden border-2 border-indigo-500/50">
+                <div class="w-20 h-20 rounded-full overflow-hidden border-2 border-cyan-500/50">
                     <img id="preview-img" class="w-full h-full object-cover">
                 </div>
             </div>
 
             <div class="flex gap-3">
                 <button type="button" onclick="document.getElementById('photo-input').click()"
-                    class="border border-gray-700 hover:border-indigo-500 text-gray-300 font-semibold px-5 py-2.5 rounded-xl transition text-sm">
+                    class="border border-gray-700 hover:border-cyan-500 text-gray-300 font-semibold px-5 py-2.5 rounded-xl transition text-sm">
                     Choose Photo
                 </button>
                 <button type="submit"
-                    class="gradient-bg text-white font-semibold px-5 py-2.5 rounded-xl hover:opacity-90 transition text-sm">
+                    class="bg-cyan-600 text-white font-semibold px-5 py-2.5 rounded-xl hover:bg-cyan-500 transition text-sm">
                     Upload Photo
                 </button>
             </div>

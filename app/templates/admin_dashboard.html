@@ -10,82 +10,82 @@
         <div class="glass-panel p-5">
             <div class="flex items-center justify-between mb-3">
                 <p class="text-gray-400 text-sm font-medium">Posts</p>
-                <div class="w-8 h-8 bg-indigo-500/20 rounded-lg flex items-center justify-center">
-                    <svg class="w-4 h-4 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div class="w-8 h-8 bg-cyan-500/10 rounded-lg flex items-center justify-center">
+                    <svg class="w-4 h-4 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                     </svg>
                 </div>
             </div>
             <p class="text-3xl font-extrabold">{{ stats.posts }}</p>
-            <a href="/admin/posts" class="text-indigo-400 text-xs mt-1 inline-block hover:underline">Manage →</a>
+            <a href="/admin/posts" class="text-cyan-400/60 text-xs mt-1 inline-block hover:text-cyan-400 transition hover:underline">Manage &rarr;</a>
         </div>
 
         <div class="glass-panel p-5">
             <div class="flex items-center justify-between mb-3">
                 <p class="text-gray-400 text-sm font-medium">Projects</p>
-                <div class="w-8 h-8 bg-cyan-500/20 rounded-lg flex items-center justify-center">
+                <div class="w-8 h-8 bg-cyan-500/10 rounded-lg flex items-center justify-center">
                     <svg class="w-4 h-4 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
                     </svg>
                 </div>
             </div>
             <p class="text-3xl font-extrabold">{{ stats.projects }}</p>
-            <a href="/admin/projects" class="text-cyan-400 text-xs mt-1 inline-block hover:underline">Manage →</a>
+            <a href="/admin/projects" class="text-cyan-400/60 text-xs mt-1 inline-block hover:text-cyan-400 transition hover:underline">Manage &rarr;</a>
         </div>
 
         <div class="glass-panel p-5">
             <div class="flex items-center justify-between mb-3">
                 <p class="text-gray-400 text-sm font-medium">Comments</p>
-                <div class="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center">
-                    <svg class="w-4 h-4 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div class="w-8 h-8 bg-cyan-500/10 rounded-lg flex items-center justify-center">
+                    <svg class="w-4 h-4 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
                     </svg>
                 </div>
             </div>
             <p class="text-3xl font-extrabold">{{ stats.comments }}</p>
-            <a href="/admin/comments" class="text-green-400 text-xs mt-1 inline-block hover:underline">Manage →</a>
+            <a href="/admin/comments" class="text-cyan-400/60 text-xs mt-1 inline-block hover:text-cyan-400 transition hover:underline">Manage &rarr;</a>
         </div>
 
         <div class="glass-panel p-5">
             <div class="flex items-center justify-between mb-3">
                 <p class="text-gray-400 text-sm font-medium">Messages</p>
-                <div class="w-8 h-8 bg-yellow-500/20 rounded-lg flex items-center justify-center">
-                    <svg class="w-4 h-4 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div class="w-8 h-8 bg-cyan-500/10 rounded-lg flex items-center justify-center">
+                    <svg class="w-4 h-4 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                     </svg>
                 </div>
             </div>
             <p class="text-3xl font-extrabold">{{ stats.messages }}</p>
-            <a href="/admin/messages" class="text-yellow-400 text-xs mt-1 inline-block hover:underline">View →</a>
+            <a href="/admin/messages" class="text-cyan-400/60 text-xs mt-1 inline-block hover:text-cyan-400 transition hover:underline">View &rarr;</a>
         </div>
     </div>
 
     <!-- Analytics cards -->
     <div class="grid grid-cols-2 gap-4 mb-8">
-        <div class="glass-panel p-5" style="border-top:2px solid #8b5cf6;">
+        <div class="glass-panel p-5" style="border-top:2px solid var(--cyan-dark);">
             <div class="flex items-center justify-between mb-3">
                 <p class="text-gray-400 text-sm font-medium">Total Visits</p>
-                <div class="w-8 h-8 bg-indigo-500/20 rounded-lg flex items-center justify-center">
-                    <svg class="w-4 h-4 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div class="w-8 h-8 bg-cyan-500/10 rounded-lg flex items-center justify-center">
+                    <svg class="w-4 h-4 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
                     </svg>
                 </div>
             </div>
-            <p class="text-3xl font-extrabold gradient-text">{{ total_visits }}</p>
+            <p class="text-3xl font-extrabold text-white">{{ total_visits }}</p>
             <p class="text-gray-600 text-xs mt-1">All time page views</p>
         </div>
 
-        <div class="glass-panel p-5" style="border-top:2px solid #06b6d4;">
+        <div class="glass-panel p-5" style="border-top:2px solid var(--cyan-dark);">
             <div class="flex items-center justify-between mb-3">
                 <p class="text-gray-400 text-sm font-medium">Unique Visitors</p>
-                <div class="w-8 h-8 bg-cyan-500/20 rounded-lg flex items-center justify-center">
+                <div class="w-8 h-8 bg-cyan-500/10 rounded-lg flex items-center justify-center">
                     <svg class="w-4 h-4 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
                     </svg>
                 </div>
             </div>
-            <p class="text-3xl font-extrabold gradient-text">{{ unique_visitors }}</p>
+            <p class="text-3xl font-extrabold text-white">{{ unique_visitors }}</p>
             <p class="text-gray-600 text-xs mt-1">Unique IP addresses</p>
         </div>
     </div>
@@ -234,12 +234,12 @@
                 datasets: [{
                     label: 'Visits',
                     data: {{ daily_visits | tojson }},
-                    borderColor: '#8b5cf6',
-                    backgroundColor: 'rgba(139, 92, 246, 0.2)',
+                    borderColor: '#06b6d4',
+                    backgroundColor: 'rgba(6, 182, 212, 0.1)',
                     borderWidth: 2,
                     fill: true,
                     tension: 0.4,
-                    pointBackgroundColor: '#8b5cf6',
+                    pointBackgroundColor: '#06b6d4',
                     pointRadius: 4,
                 }]
             },

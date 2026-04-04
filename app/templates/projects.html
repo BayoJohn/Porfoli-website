@@ -98,7 +98,7 @@
         <!-- Image / Placeholder -->
         <div class="project-img-wrap">
           {% if project.image %}
-          <img src="/static/uploads/{{ project.image }}" alt="{{ project.title }}">
+          <img src="/static/uploads/{{ project.image }}" alt="{{ project.title }}" loading="lazy" decoding="async">
           {% else %}
           <div class="project-placeholder">🚀</div>
           {% endif %}
@@ -118,7 +118,7 @@
         <div style="padding: clamp(24px, 4vw, 40px); flex:1; display:flex; flex-direction:column; position:relative; z-index:1;">
           <p class="project-num">PROJECT_{{ '%02d' % loop.index }}</p>
           <h3 style="font-size:clamp(1.2rem,3vw,1.6rem);font-weight:900;color:#fff;margin-bottom:14px;letter-spacing:-0.02em;line-height:1.2;">{{ project.title }}</h3>
-          <p style="font-size:1rem;color:rgba(255,255,255,0.4);line-height:1.7;flex:1;margin-bottom:28px;font-weight:500;">{{ project.description | striptags | truncate(130) }}</p>
+          <p style="font-size:1rem;color:rgba(255,255,255,0.4);line-height:1.7;flex:1;margin-bottom:28px;font-weight:500;">{{ project.description | replace('</p>', ' </p>') | replace('<br>', ' ') | striptags | truncate(130) }}</p>
 
           <div style="display:flex;justify-content:space-between;align-items:center;padding-top:20px;border-top:1px solid rgba(255,255,255,0.04);">
             <div style="display:flex;align-items:center;gap:10px;">
