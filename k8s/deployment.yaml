@@ -17,7 +17,7 @@ spec:
         - name: harbor-secret
       containers:
         - name: portfolio
-          image: 10.0.0.2/library/portfolio:build-105
+          image: 10.0.0.2/library/portfolio:build-106
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 5000
