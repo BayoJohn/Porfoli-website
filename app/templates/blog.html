@@ -7,7 +7,7 @@
   <div style="position:absolute; top:15%; left:-15%; width:800px; height:800px; background:radial-gradient(circle, rgba(6,182,212,0.04) 0%, transparent 70%); pointer-events:none; z-index:1;"></div>
   <div style="position:absolute; bottom:10%; right:-15%; width:600px; height:600px; background:radial-gradient(circle, rgba(245,158,11,0.03) 0%, transparent 70%); pointer-events:none; z-index:1;"></div>
 
-  <div style="max-width:1200px;margin:0 auto; position:relative; z-index:2;">
+  <div class="section-container" style="max-width:1200px;margin:0 auto; position:relative; z-index:2;">
 
     <!-- Header -->
     <div style="margin-bottom:var(--container-padding);" class="reveal">
@@ -102,7 +102,7 @@
       </div>
 
       <!-- RIGHT: sidebar: Blended -->
-      <div style="display:flex;flex-direction:column;gap:32px;position:sticky;top:100px;">
+      <div id="blog-sidebar" style="display:flex;flex-direction:column;gap:32px;position:sticky;top:100px;">
 
         <!-- Writer -->
         <div style="padding:40px; background:rgba(255,255,255,0.01); border:1px solid rgba(255,255,255,0.04); border-radius:32px; backdrop-filter:blur(12px);" class="reveal">
@@ -127,7 +127,7 @@
             (posts | sum(attribute='views') if posts[0].views is defined else '—', 'TOTAL_LOG_VIEWS'),
             (((posts | map(attribute='body') | map('striptags') | join(' ') | wordcount) / 200) | int ~ 'm', 'TOTAL_READ_TIME')
           ] %}
-          <div style="padding:20px 0;{{ 'border-bottom:1px solid rgba(255,255,255,0.03);' if not loop.last else '' }}">
+          <div style="padding:20px 0; {% if not loop.last %}border-bottom:1px solid rgba(255,255,255,0.03);{% endif %}">
             <p style="font-size:2.4rem;font-weight:900;color:#fff;line-height:1;letter-spacing:-0.02em;">{{ stat }}</p>
             <p style="font-size:0.7rem;font-weight:800;color:rgba(255,255,255,0.2);margin-top:10px;text-transform:uppercase;letter-spacing:0.1em;">{{ label }}</p>
           </div>
@@ -152,19 +152,27 @@
 @media (max-width: 767px) {
   #blog-main-grid {
     grid-template-columns: 1fr !important;
-    gap: 60px !important;
+    gap: 40px !important;
+  }
+  #blog-sidebar {
+      position: relative !important;
+      top: 0 !important;
   }
   #featured-post-card {
-    padding: 40px 24px !important;
-    border-radius: 32px !important;
+    padding: 32px 20px !important;
+    border-radius: 28px !important;
   }
   #post-archive-row {
     grid-template-columns: 1fr auto !important;
     gap: 16px !important;
-    padding: 40px 0 !important;
+    padding: 32px 0 !important;
   }
   #post-archive-row > div:first-child {
       display: none !important;
+  }
+  .section-container {
+      padding-left: 20px !important;
+      padding-right: 20px !important;
   }
 }
 </style>

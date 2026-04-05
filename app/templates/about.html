@@ -3,17 +3,10 @@
 {% block content %}
 
 <!-- Technical Grid Layout Architecture -->
-<div style="padding:var(--container-padding) 24px 160px; position:relative; overflow:hidden; z-index:2; min-height:100vh; background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px;">
-  
-  <!-- Multi-Layered Ambient Glows (Obsidian Atmosphere) -->
-  <div style="position:absolute; top:0%; right:-10%; width:1000px; height:1000px; background:radial-gradient(circle, rgba(6,182,212,0.08) 0%, transparent 70%); pointer-events:none; z-index:1;"></div>
-  <div style="position:absolute; top:30%; left:-10%; width:900px; height:900px; background:radial-gradient(circle, rgba(6,182,212,0.04) 0%, transparent 70%); pointer-events:none; z-index:1;"></div>
-  <div style="position:absolute; bottom:0%; right:0%; width:800px; height:800px; background:radial-gradient(circle, rgba(139,92,246,0.04) 0%, transparent 70%); pointer-events:none; z-index:1;"></div>
-
-  <div style="max-width:1200px;margin:0 auto;display:flex;flex-direction:column;gap:var(--section-gap); position:relative; z-index:2;">
+  <div id="about-main-container" style="max-width:1200px;margin:0 auto;display:flex;flex-direction:column;gap:var(--section-gap); position:relative; z-index:2;">
 
     <!-- 1. Hero Block: The System Node -->
-    <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:40px;margin-top:20px;">
+    <div id="about-hero-text" style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:40px;margin-top:20px;">
       
       <!-- Premium Avatar Portal (Cinematic Glow) -->
       <div style="position:relative;width:240px;height:240px;">
@@ -59,18 +52,18 @@
       </div>
       
       <!-- Open Architecture (Integrated Stream) -->
-      <div style="position:relative; max-width:900px; margin:0 auto; padding-left:clamp(20px, 8vw, 50px);">
+      <div id="journey-stream" style="position:relative; max-width:900px; margin:0 auto; padding-left:clamp(20px, 8vw, 50px);">
         <!-- Technical Vertical Line -->
-        <div style="position:absolute; top:0; left:0; bottom:0; width:1px; background:linear-gradient(to bottom, transparent, rgba(6,182,212,0.6) 10%, rgba(6,182,212,0.1) 90%, transparent);"></div>
+        <div id="journey-line" style="position:absolute; top:0; left:0; bottom:0; width:1px; background:linear-gradient(to bottom, transparent, rgba(6,182,212,0.6) 10%, rgba(6,182,212,0.1) 90%, transparent);"></div>
 
         <!-- Journey Node: DevOps Engineer -->
         <div class="reveal" style="position:relative; margin-bottom:80px;">
           <!-- Node Point -->
-          <div style="position:absolute; left:-55px; top:16px; width:10px; height:10px; border-radius:50%; background:var(--cyan); box-shadow:0 0 20px var(--cyan); border:2px solid #fff;"></div>
+          <div class="journey-node-point" style="position:absolute; left:-55px; top:16px; width:10px; height:10px; border-radius:50%; background:var(--cyan); box-shadow:0 0 20px var(--cyan); border:2px solid #fff;"></div>
           <!-- Connection Branch -->
-          <div style="position:absolute; left:-45px; top:21px; width:45px; height:1px; background:rgba(6,182,212,0.4);"></div>
+          <div class="journey-branch" style="position:absolute; left:-45px; top:21px; width:45px; height:1px; background:rgba(6,182,212,0.4);"></div>
           
-          <div style="padding:48px; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.08); border-radius:40px; backdrop-filter:blur(16px); position:relative; overflow:hidden;">
+          <div class="journey-card" style="padding:48px; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.08); border-radius:40px; backdrop-filter:blur(16px); position:relative; overflow:hidden;">
             <!-- Internal Glow -->
             <div style="position:absolute; top:-10%; left:-10%; width:200px; height:200px; background:radial-gradient(circle, rgba(6,182,212,0.05) 0%, transparent 70%); pointer-events:none;"></div>
 
@@ -108,7 +101,7 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
         
         <!-- DevOps Section -->
-        <div style="padding:60px; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.08); border-radius:48px; backdrop-filter:blur(24px); display:flex;flex-direction:column;gap:40px;transition:all 0.4s cubic-bezier(0.4, 0, 0.2, 1); position:relative; overflow:hidden;" onmouseover="this.style.transform='translateY(-8px)'; this.style.borderColor='rgba(6,182,212,0.2)';" onmouseout="this.style.transform='none'; this.style.borderColor='rgba(255,255,255,0.08)';" class="reveal">
+        <div class="skill-card reveal" style="padding:60px; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.08); border-radius:48px; backdrop-filter:blur(24px); display:flex;flex-direction:column;gap:40px;transition:all 0.4s cubic-bezier(0.4, 0, 0.2, 1); position:relative; overflow:hidden;" onmouseover="this.style.transform='translateY(-8px)'; this.style.borderColor='rgba(6,182,212,0.2)';" onmouseout="this.style.transform='none'; this.style.borderColor='rgba(255,255,255,0.08)';" >
           <div style="position:absolute; bottom:-10%; right:-10%; width:150px; height:150px; background:radial-gradient(circle, rgba(6,182,212,0.05) 0%, transparent 70%); pointer-events:none;"></div>
           
           <div style="display:flex;align-items:center;gap:20px;">
@@ -131,7 +124,7 @@
         </div>
 
         <!-- Programming Section -->
-        <div style="padding:60px; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.08); border-radius:48px; backdrop-filter:blur(24px); display:flex;flex-direction:column;gap:40px;transition:all 0.4s cubic-bezier(0.4, 0, 0.2, 1); position:relative; overflow:hidden;" onmouseover="this.style.transform='translateY(-8px)'; this.style.borderColor='rgba(245,158,11,0.2)';" onmouseout="this.style.transform='none'; this.style.borderColor='rgba(255,255,255,0.08)';" class="reveal">
+        <div class="skill-card reveal" style="padding:60px; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.08); border-radius:48px; backdrop-filter:blur(24px); display:flex;flex-direction:column;gap:40px;transition:all 0.4s cubic-bezier(0.4, 0, 0.2, 1); position:relative; overflow:hidden;" onmouseover="this.style.transform='translateY(-8px)'; this.style.borderColor='rgba(245,158,11,0.2)';" onmouseout="this.style.transform='none'; this.style.borderColor='rgba(255,255,255,0.08)';" >
           <div style="position:absolute; bottom:-10%; right:-10%; width:150px; height:150px; background:radial-gradient(circle, rgba(245,158,11,0.05) 0%, transparent 70%); pointer-events:none;"></div>
 
           <div style="display:flex;align-items:center;gap:20px;">
@@ -171,7 +164,16 @@
   @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.6;} }
   @media (max-width: 767px) {
     .avatar-glow { animation: none !important; filter: blur(12px) !important; opacity: 0.2 !important; }
-    .reveal { padding: 32px 24px !important; border-radius:32px !important; }
+    .reveal { padding: 32px 20px !important; border-radius:32px !important; }
+    .g-btn { width: 100% !important; justify-content: center !important; }
+    #about-hero-text { text-align: center !important; }
+    #about-main-container { padding-left: 20px !important; padding-right: 20px !important; }
+    #journey-stream { padding-left: 0 !important; margin-top: 40px !important; }
+    #journey-line { display: none !important; }
+    .journey-node-point { display: none !important; }
+    .journey-branch { display: none !important; }
+    .journey-card { padding: 32px 20px !important; border-radius: 28px !important; }
+    .skill-card { padding: 32px 20px !important; border-radius: 28px !important; }
   }
 </style>
 
