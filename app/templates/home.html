@@ -2,14 +2,7 @@
 {% block title %}StackedByBayo — DevOps Engineer{% endblock %}
 {% block content %}
 <style>
-  :root {
-  --cyan: #06b6d4;
-  --cyan-light: #22d3ee;
-  --amber: #f59e0b;
-  --amber-light: #fcd34d;
-  --purple: #8b5cf6;
-  --purple-light: #a78bfa;
-  }
+  /* Root variables moved to static/style.css */
 
   @keyframes blink { 50% { opacity:0; } }
   @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.6;transform:scale(1.1)} }
@@ -671,16 +664,7 @@
   </section>
 
   <script>
-    const roles = ['Building CI/CD pipelines.', 'Breaking production (on purpose).', 'Shipping projects.', 'Documenting everything.'];
-    let ri = 0, ci = 0, del = false;
-    const el = document.getElementById('typed-role');
-    function typeStep() {
-      const r = roles[ri];
-      if (!del) { ci++; el.textContent = r.slice(0, ci); if (ci === r.length) { del = true; setTimeout(typeStep, 2000); return; } }
-      else { ci--; el.textContent = r.slice(0, ci); if (ci === 0) { del = false; ri = (ri + 1) % roles.length; setTimeout(typeStep, 400); return; } }
-      setTimeout(typeStep, del ? 40 : 75);
-    }
-    setTimeout(typeStep, 700);
+    // Intersection observer for section reveals (redundant with base but kept for safety if needed)
+    // Actually, base already handles .reveal.
   </script>
-
 {% endblock %}
