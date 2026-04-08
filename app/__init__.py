@@ -12,26 +12,47 @@ def allowed_file(filename):
 
 def create_app():
     app = Flask(__name__)
-    app.secret_key = "change-this-later"
-    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///portfolio.db"
-    app.config["ADMIN_PASSWORD"] = "changeme123"
+    app.secret_key = os.environ.get("FLASK_SECRET_KEY", "dev-key-placeholder-123")
+    app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL", "sqlite:///portfolio.db")
+    app.config["ADMIN_PASSWORD"] = os.environ.get("ADMIN_PASSWORD", "changeme123")
 
     db.init_app(app)
 
     def uploads_path(*args):
         return os.path.join(app.root_path, "static/uploads", *args)
 
+    @app.after_request
+    def add_security_headers(response):
+        response.headers['X-Frame-Options'] = 'SAMEORIGIN'
+        response.headers['X-Content-Type-Options'] = 'nosniff'
+        response.headers['X-XSS-Protection'] = '1; mode=block'
+        # Basic CSP that allows Tailwind CDN and Google Fonts
+        csp = (
+            "default-src 'self'; "
+            "script-src 'self' 'unsafe-inline' cdn.tailwindcss.com cdn.jsdelivr.net; "
+            "style-src 'self' 'unsafe-inline' fonts.googleapis.com; "
+            "font-src 'self' fonts.gstatic.com; "
+            "img-src 'self' data: images.unsplash.com cdn.simpleicons.org;"
+        )
+        # Uncomment below to enable CSP (keeping it commented for safety while user verifies)
+        # response.headers['Content-Security-Policy'] = csp
+        return response
+
     @app.before_request
     def track_visit():
         if request.path.startswith('/admin') or request.path.startswith('/static'):
             return
-        view = PageView(
-            path=request.path,
-            ip=request.headers.get('X-Forwarded-For', request.remote_addr).split(',')[0].strip(),
-            user_agent=request.headers.get('User-Agent', '')[:300]
-        )
-        db.session.add(view)
-        db.session.commit()
+        try:
+            view = PageView(
+                path=request.path,
+                ip=request.headers.get('X-Forwarded-For', request.remote_addr).split(',')[0].strip(),
+                user_agent=request.headers.get('User-Agent', '')[:300]
+            )
+            db.session.add(view)
+            db.session.commit()
+        except Exception as e:
+            app.logger.error(f"Failed to track visit: {e}")
+            db.session.rollback()
 
     # ── Public routes ─────────────────────────────────────────────────────────
 
