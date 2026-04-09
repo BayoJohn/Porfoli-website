@@ -166,13 +166,15 @@ main { animation: pagein 0.35s ease both; }
     height: 100%;
     object-fit: cover;
     object-position: center;
-    filter: brightness(0.9) contrast(1.1);
+    filter: brightness(1.05) contrast(1.05);
 }
 
 .hero-gradient-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to right, rgba(5,8,15,0.98) 0%, rgba(5,8,15,0.6) 40%, rgba(5,8,15,0.1) 100%);
+    background:
+        linear-gradient(to right, rgba(5,8,15,0.38) 0%, rgba(5,8,15,0.08) 50%, transparent 100%),
+        linear-gradient(to top, rgba(5,8,15,0.92) 0%, rgba(5,8,15,0.3) 20%, transparent 50%);
     z-index: 1;
 }
 
@@ -191,17 +193,24 @@ main { animation: pagein 0.35s ease both; }
 
 .hero-supertitle {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     font-weight: 700;
     color: var(--cyan-light);
     text-transform: uppercase;
-    letter-spacing: 0.15em;
+    letter-spacing: 0.2em;
     margin-bottom: 20px;
-    background: rgba(6, 182, 212, 0.1);
-    padding: 8px 18px;
-    border-radius: 100px;
-    border: 1px solid rgba(6, 182, 212, 0.25);
-    box-shadow: 0 0 20px rgba(6, 182, 212, 0.15);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 0.9;
+}
+.hero-supertitle::before {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 2px;
+    background: var(--cyan-light);
+    border-radius: 2px;
 }
 
 .hero-title {
@@ -210,18 +219,33 @@ main { animation: pagein 0.35s ease both; }
     font-weight: 900;
     line-height: 1.05;
     color: #fff;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
     letter-spacing: -0.03em;
-    text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    text-shadow: 0 4px 24px rgba(0,0,0,0.7), 0 2px 8px rgba(0,0,0,0.5);
+}
+
+.tech-stack-highlight {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: rgba(255,255,255,0.65);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-top: 16px;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+}
+.tech-stack-highlight span {
+    color: var(--cyan-light);
+    margin: 0 6px;
 }
 
 .hero-subtitle {
-    font-size: 1.25rem;
+    font-size: 1.15rem;
     font-weight: 400;
     line-height: 1.7;
-    color: rgba(255,255,255,0.8);
-    margin-bottom: 48px;
-    max-width: 580px;
+    color: rgba(255,255,255,0.9);
+    margin-bottom: 32px;
+    max-width: 520px;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.6);
 }
 
 /* ── Buttons ── */

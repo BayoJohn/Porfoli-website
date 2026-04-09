@@ -33,11 +33,7 @@
                   </div>
                   <div class="terminal-title">bash — bayo@devops:~</div>
                </div>
-               <div class="terminal-body" style="display:flex; flex-direction:column; gap:8px;">
-                  <div class="code-line code-1">terraform apply -auto-approve</div>
-                  <div class="code-line code-2">Initializing provider plugins...</div>
-                  <div class="code-line code-3">aws_eks_cluster.main: Creating...</div>
-                  <div class="code-line code-4">Apply complete! Resources: 14 added.</div>
+               <div class="terminal-body" id="terminal-body" style="display:flex; flex-direction:column; gap:6px; min-height:130px; font-family:'JetBrains Mono', monospace; font-size:0.85rem; overflow:hidden;">
                </div>
             </div>
         </div>
@@ -71,8 +67,8 @@
       </div>
 
       <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:var(--container-padding); position:relative;" class="reveal tablet-grid-2">
-        {% for label,num,suffix,desc in [
-          ('DEPLOYMENTS', '5', '+', 'Production k3s clusters'),
+        {% for label, num, suffix, desc in [
+          ('DEPLOYED', project_count, '+', 'Projects shipped to production'),
           ('TENURE', '6', 'mo', 'Of focused infra scaling'),
           ('ECOSYSTEM', '17', '+', 'Enterprise-grade automation')
         ] %}
@@ -380,5 +376,60 @@
   <script>
     // Intersection observer for section reveals (redundant with base but kept for safety if needed)
     // Actually, base already handles .reveal.
+  </script>
+
+  <script>
+  /* ── Terminal Typing Animation ── */
+  (function() {
+    const lines = [
+      { text: '$ terraform apply -auto-approve', color: 'var(--cyan-light)', delay: 400 },
+      { text: 'Initializing provider plugins...', color: 'rgba(255,255,255,0.5)', delay: 1000 },
+      { text: 'aws_eks_cluster.main: Creating...', color: 'rgba(255,255,255,0.5)', delay: 1800 },
+      { text: 'Apply complete! 14 added. ✔', color: '#10b981', delay: 2800 },
+      { text: '', color: '', delay: 3600 },
+      { text: '$ kubectl get pods -n production', color: 'var(--cyan-light)', delay: 3800 },
+      { text: 'api-server-7d9f  1/1  Running  ✔', color: '#10b981', delay: 4800 },
+    ];
+
+    const body = document.getElementById('terminal-body');
+    if (!body) return;
+
+    function typeLine(lineEl, text, speed, onDone) {
+      let i = 0;
+      lineEl.textContent = '';
+      const cursor = document.createElement('span');
+      cursor.style.cssText = 'display:inline-block;width:2px;height:1em;background:var(--cyan-light);margin-left:2px;animation:pulse 0.8s infinite;vertical-align:text-bottom;';
+      lineEl.appendChild(cursor);
+      const t = setInterval(() => {
+        if (i < text.length) {
+          lineEl.insertBefore(document.createTextNode(text[i++]), cursor);
+        } else {
+          clearInterval(t);
+          cursor.remove();
+          if (onDone) onDone();
+        }
+      }, speed);
+    }
+
+    function runSequence(index) {
+      if (index >= lines.length) {
+        setTimeout(() => { body.innerHTML = ''; runSequence(0); }, 2000);
+        return;
+      }
+      const { text, color, delay } = lines[index];
+      const waitMs = index === 0 ? 0 : delay - lines[index - 1].delay;
+      setTimeout(() => {
+        if (!text) { runSequence(index + 1); return; }
+        const el = document.createElement('div');
+        el.style.cssText = `color:${color}; white-space:nowrap; overflow:hidden;`;
+        body.appendChild(el);
+        typeLine(el, text, 28, () => runSequence(index + 1));
+        body.scrollTop = body.scrollHeight;
+      }, waitMs);
+    }
+
+    // Start after a short delay
+    setTimeout(() => runSequence(0), 600);
+  })();
   </script>
 {% endblock %}

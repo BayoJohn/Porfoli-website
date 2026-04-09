@@ -10,6 +10,7 @@ class Project(db.Model):
     url = db.Column(db.String(300))
     tech_stack = db.Column(db.String(300))
     image = db.Column(db.String(300))
+    is_featured = db.Column(db.Boolean, default=False)
     comments = db.relationship('Comment', backref='project', lazy=True)
 
 class Post(db.Model):
@@ -18,12 +19,14 @@ class Post(db.Model):
     body = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     views = db.Column(db.Integer, default=0)
+    tags = db.Column(db.String(300), default='')  # comma-separated, e.g. "kubernetes,devops"
     comments = db.relationship('Comment', backref='post', lazy=True)
 
 class Message(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(100), nullable=False)
+    subject = db.Column(db.String(200), default='')
     message = db.Column(db.Text, nullable=False)
     read = db.Column(db.Boolean, default=False)
 

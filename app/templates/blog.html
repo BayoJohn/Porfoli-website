@@ -19,6 +19,18 @@
         Infrastructure logs, deep-dives, and production post-mortems. 
         High-fidelity insights from the DevOps frontline.
       </p>
+
+      <!-- Search -->
+      <div style="margin-top:32px; position:relative; max-width:480px;">
+        <input id="blog-search" type="text" placeholder="Search logs..."
+          style="width:100%; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:14px 20px 14px 48px; color:#fff; font-size:0.95rem; font-family:'Outfit',sans-serif; outline:none; transition:all 0.3s;"
+          onfocus="this.style.borderColor='rgba(6,182,212,0.3)'; this.style.background='rgba(6,182,212,0.03)';"
+          onblur="this.style.borderColor='rgba(255,255,255,0.08)'; this.style.background='rgba(255,255,255,0.03)';">
+        <svg style="position:absolute; left:16px; top:50%; transform:translateY(-50%); width:18px; height:18px; color:rgba(255,255,255,0.3);" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+        </svg>
+        <p id="search-no-results" style="display:none; margin-top:12px; color:rgba(255,255,255,0.3); font-size:0.9rem; font-weight:600;">No logs matched your search.</p>
+      </div>
     </div>
 
     {% if posts %}
@@ -176,4 +188,37 @@
   }
 }
 </style>
+
+<script>
+/* ── Blog Live Search ── */
+(function() {
+  const input = document.getElementById('blog-search');
+  if (!input) return;
+  const noResults = document.getElementById('search-no-results');
+
+  // All searchable post elements — featured card + archive rows
+  function getSearchableItems() {
+    const featured = document.getElementById('featured-post-card');
+    const rows = Array.from(document.querySelectorAll('#post-archive-row'));
+    return featured ? [featured, ...rows] : rows;
+  }
+
+  input.addEventListener('input', function() {
+    const q = this.value.trim().toLowerCase();
+    if (!q) {
+      getSearchableItems().forEach(el => el.style.display = '');
+      noResults.style.display = 'none';
+      return;
+    }
+    let visible = 0;
+    getSearchableItems().forEach(el => {
+      const title = (el.querySelector('h2,h3,.p-title') || {}).textContent || '';
+      const match = title.toLowerCase().includes(q);
+      el.style.display = match ? '' : 'none';
+      if (match) visible++;
+    });
+    noResults.style.display = visible === 0 ? 'block' : 'none';
+  });
+})();
+</script>
 {% endblock %}

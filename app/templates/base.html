@@ -15,7 +15,7 @@
     <meta property="og:description" content="DevOps engineer in training — building real pipelines, breaking things, and shipping projects from Lagos, Nigeria.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ request.url }}">
-    <meta property="og:image" content="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1200&auto=format&fit=crop">
+    <meta property="og:image" content="{{ request.url_root }}static/hero-bayo.jpeg">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="StackedByBayo — DevOps & Cloud Engineering">
     <meta name="twitter:description" content="DevOps Architect shaping resilient, cloud-native futures from Lagos.">
@@ -137,7 +137,7 @@
 
         <!-- Desktop links -->
         <div class="hidden md:flex items-center gap-2">
-            {% set nav_links = [('Home', '/'), ('About', '/about'), ('Projects', '/projects'), ('Blog', '/blog')] %}
+            {% set nav_links = [('Home', '/'), ('About', '/about'), ('Projects', '/projects'), ('Blog', '/blog'), ('Contact', '/contact')] %}
             {% for label, path in nav_links %}
                 {% set active = request.path == path or (request.path.startswith(path) and path != '/') %}
                 {% if active %}

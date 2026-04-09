@@ -58,9 +58,14 @@ def create_app():
 
     @app.route("/")
     def home():
-        projects = Project.query.limit(2).all()
+        featured = Project.query.filter_by(is_featured=True).all()
+        if not featured:
+            featured = Project.query.limit(4).all()
         posts = Post.query.order_by(Post.created_at.desc()).limit(3).all()
-        return render_template("home.html", projects=projects, posts=posts)
+        project_count = Project.query.count()
+        post_count = Post.query.count()
+        return render_template("home.html", projects=featured, posts=posts,
+                               project_count=project_count, post_count=post_count)
 
     @app.route("/about")
     def about():
@@ -124,6 +129,7 @@ def create_app():
             msg = Message(
                 name=request.form["name"],
                 email=request.form["email"],
+                subject=request.form.get("subject", ""),
                 message=request.form["message"]
             )
             db.session.add(msg)
@@ -319,6 +325,17 @@ def create_app():
         flash("Project deleted.")
         return redirect(url_for("admin_projects"))
 
+    @app.route("/admin/project/<int:project_id>/feature", methods=["POST"])
+    def admin_project_feature(project_id):
+        if not session.get("admin"):
+            return redirect(url_for("admin_login"))
+        project = Project.query.get_or_404(project_id)
+        project.is_featured = not project.is_featured
+        db.session.commit()
+        state = "featured" if project.is_featured else "unfeatured"
+        flash(f"'{project.title}' is now {state}.")
+        return redirect(url_for("admin_projects"))
+
     # ── Admin comments ────────────────────────────────────────────────────────
 
     @app.route("/admin/comments")
@@ -385,5 +402,44 @@ def create_app():
                     flash("Profile photo updated!")
             return redirect(url_for("admin_settings"))
         return render_template("admin_settings.html", **admin_context())
+
+    # ── SEO ────────────────────────────────────────────────────────────────────
+
+    @app.route("/sitemap.xml")
+    def sitemap():
+        from flask import make_response
+        base = request.url_root.rstrip("/")
+        static_urls = ["/", "/about", "/projects", "/blog", "/contact"]
+        project_urls = ["/projects/{}".format(p.id) for p in Project.query.all()]
+        post_urls = ["/blog/{}".format(p.id) for p in Post.query.order_by(Post.created_at.desc()).all()]
+        all_urls = static_urls + project_urls + post_urls
+        lines = ['<?xml version="1.0" encoding="UTF-8"?>',
+                 '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
+        for url in all_urls:
+            lines.append(f'  <url><loc>{base}{url}</loc></url>')
+        lines.append('</urlset>')
+        resp = make_response('\n'.join(lines), 200)
+        resp.headers['Content-Type'] = 'application/xml'
+        return resp
+
+    @app.route("/robots.txt")
+    def robots():
+        from flask import make_response
+        base = request.url_root.rstrip("/")
+        txt = f"User-agent: *\nAllow: /\nDisallow: /admin\nSitemap: {base}/sitemap.xml\n"
+        resp = make_response(txt, 200)
+        resp.headers['Content-Type'] = 'text/plain'
+        return resp
+
+    # ── Error handlers ─────────────────────────────────────────────────────────
+
+    @app.errorhandler(404)
+    def not_found(e):
+        return render_template("404.html"), 404
+
+    @app.errorhandler(500)
+    def server_error(e):
+        return render_template("404.html", error_code=500,
+                               error_msg="Something went wrong on our end."), 500
 
     return app

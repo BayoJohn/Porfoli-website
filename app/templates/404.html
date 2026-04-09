@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block title %}{{ error_code or 404 }} — StackedByBayo{% endblock %}
+{% block content %}
+<style>
+  .error-wrap {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .error-wrap::before {
+    content: '';
+    position: absolute;
+    top: -100px; left: 50%;
+    transform: translateX(-50%);
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(6,182,212,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .error-code {
+    font-size: clamp(7rem, 20vw, 14rem);
+    font-weight: 900;
+    color: rgba(255,255,255,0.04);
+    letter-spacing: -0.05em;
+    line-height: 1;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -55%);
+    user-select: none;
+    font-family: 'JetBrains Mono', monospace;
+    white-space: nowrap;
+  }
+  .error-inner {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    max-width: 560px;
+  }
+</style>
+
+<div class="error-wrap">
+  <div class="error-code">{{ error_code or '404' }}</div>
+  <div class="error-inner reveal">
+    <p style="font-size:0.75rem; font-weight:800; text-transform:uppercase; letter-spacing:0.3em; color:var(--cyan-light); margin-bottom:24px; opacity:0.7;">
+      SYS_ERROR // NODE_UNREACHABLE
+    </p>
+    <h1 style="font-size:clamp(2.4rem,6vw,3.8rem); font-weight:900; color:#fff; letter-spacing:-0.04em; line-height:1.0; margin-bottom:24px;">
+      {% if error_code == 500 %}
+        Internal<br><span class="g-text">Server Error</span>
+      {% else %}
+        Page Not<br><span class="g-text">Found</span>
+      {% endif %}
+    </h1>
+    <p style="color:rgba(255,255,255,0.4); font-size:1.1rem; line-height:1.7; margin-bottom:48px; font-weight:500;">
+      {% if error_msg %}
+        {{ error_msg }}
+      {% else %}
+        The route you requested doesn't exist or has been moved. Double-check the URL or navigate back.
+      {% endif %}
+    </p>
+    <div style="display:flex; gap:16px; justify-content:center; flex-wrap:wrap;">
+      <a href="/" class="g-btn" style="padding:16px 40px; font-size:0.9rem; text-transform:uppercase; letter-spacing:0.1em;">
+        ← Back Home
+      </a>
+      <a href="/projects" style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); color:#fff; font-weight:700; border-radius:100px; padding:16px 40px; font-size:0.9rem; text-decoration:none; transition:all 0.3s; text-transform:uppercase; letter-spacing:0.1em;"
+         onmouseover="this.style.background='rgba(255,255,255,0.08)'" onmouseout="this.style.background='rgba(255,255,255,0.03)'">
+        View Projects
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

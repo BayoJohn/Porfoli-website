@@ -22,6 +22,7 @@
                 <tr class="border-b border-[rgba(255,255,255,0.08)]">
                     <th class="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider px-6 py-4">Project</th>
                     <th class="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider px-6 py-4 hidden md:table-cell">Tech Stack</th>
+                    <th class="text-center text-xs font-semibold text-gray-500 uppercase tracking-wider px-6 py-4">Featured</th>
                     <th class="text-right text-xs font-semibold text-gray-500 uppercase tracking-wider px-6 py-4">Actions</th>
                 </tr>
             </thead>
@@ -35,7 +36,12 @@
                             {% else %}
                             <div class="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center text-lg">🚀</div>
                             {% endif %}
-                            <p class="font-medium text-sm">{{ project.title }}</p>
+                            <div>
+                                <p class="font-medium text-sm">{{ project.title }}</p>
+                                {% if project.is_featured %}
+                                <span class="text-xs text-amber-400 font-semibold">★ On homepage</span>
+                                {% endif %}
+                            </div>
                         </div>
                     </td>
                     <td class="px-6 py-4 hidden md:table-cell">
@@ -46,6 +52,14 @@
                             {% endfor %}
                             {% endif %}
                         </div>
+                    </td>
+                    <td class="px-6 py-4 text-center">
+                        <form method="POST" action="/admin/project/{{ project.id }}/feature" class="inline">
+                            <button type="submit" title="Toggle featured"
+                                class="text-2xl transition hover:scale-110 {% if project.is_featured %}text-amber-400{% else %}text-gray-700 hover:text-amber-400{% endif %}">
+                                ★
+                            </button>
+                        </form>
                     </td>
                     <td class="px-6 py-4">
                         <div class="flex justify-end gap-3">
