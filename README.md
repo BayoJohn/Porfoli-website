@@ -162,6 +162,18 @@ App runs at `http://localhost:5000`
 
 ---
 
+## Testing
+
+The application includes a `pytest` suite for automated testing.
+
+**Important Note on Database Tests**: 
+The test database is set up using SQLAlchemy's `db.create_all()` which creates a fresh, perfectly matching in-memory database schema based on the current state of `models.py`. 
+Because of this, the test suite **cannot detect schema mismatch errors** against your stateful production database. For example, if you add a new column to a model but forget to run a database migration on the live server, your tests will still pass because they run against a freshly built schema, not the outdated production schema. 
+
+To prevent these live mismatch errors, the application is configured to automatically run `migrate()` from `migrate_db.py` whenever the entrypoint (`run.py`) spins up.
+
+---
+
 ## Monitoring
 
 The cluster is monitored with the kube-prometheus-stack:
