@@ -43,9 +43,10 @@ def create_app():
         if request.path.startswith('/admin') or request.path.startswith('/static'):
             return
         try:
+            raw_ip = request.headers.get('X-Forwarded-For', request.remote_addr) or ''
             view = PageView(
                 path=request.path,
-                ip=request.headers.get('X-Forwarded-For', request.remote_addr).split(',')[0].strip(),
+                ip=raw_ip.split(',')[0].strip(),
                 user_agent=request.headers.get('User-Agent', '')[:300]
             )
             db.session.add(view)
@@ -87,11 +88,11 @@ def create_app():
                 email=request.form["email"],
                 body=request.form["body"],
                 project_id=project_id,
-                approved=True
+                approved=False
             )
             db.session.add(comment)
             db.session.commit()
-            flash("Comment posted!")
+            flash("Comment submitted for approval!")
             return redirect(url_for("project_detail", project_id=project_id))
         
         project_desc_html = md.markdown(project.description, extensions=['fenced_code', 'codehilite', 'tables', 'nl2br'])
@@ -112,11 +113,11 @@ def create_app():
                 email=request.form["email"],
                 body=request.form["body"],
                 post_id=post_id,
-                approved=True
+                approved=False
             )
             db.session.add(comment)
             db.session.commit()
-            flash("Comment posted!")
+            flash("Comment submitted for approval!")
             return redirect(url_for("post", post_id=post_id))
         post.views = (post.views or 0) + 1
         db.session.commit()
