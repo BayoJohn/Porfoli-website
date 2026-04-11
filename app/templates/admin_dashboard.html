@@ -129,7 +129,9 @@
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <div class="md:col-span-2 glass-panel p-6">
             <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">Visits — Last 7 Days</h2>
-            <canvas id="visitsChart" height="120"></canvas>
+            <div style="height: 300px; position: relative;">
+                <canvas id="visitsChart"></canvas>
+            </div>
         </div>
 
         <div class="flex flex-col gap-6">
@@ -175,7 +177,9 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div class="glass-panel p-6">
             <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">Content Overview</h2>
-            <canvas id="contentChart" height="200"></canvas>
+            <div style="height: 300px; position: relative;">
+                <canvas id="contentChart"></canvas>
+            </div>
         </div>
 
         <div class="glass-panel p-6">
@@ -245,6 +249,7 @@
             },
             options: {
                 responsive: true,
+                maintainAspectRatio: false,
                 plugins: { legend: { display: false } },
                 scales: {
                     y: {
@@ -285,6 +290,7 @@
             },
             options: {
                 responsive: true,
+                maintainAspectRatio: false,
                 plugins: { legend: { display: false } },
                 scales: {
                     y: {
