@@ -1,335 +1,224 @@
 {% extends "base.html" %}
-{% block title %}Archive — StackedByBayo{% endblock %}
+{% block title %}Blog — StackedByBayo{% endblock %}
 {% block content %}
 
-<!-- Import Premium Font -->
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap');
+<div style="padding:var(--container-padding) 24px 120px; position:relative; overflow:hidden;">
+  <!-- Intense Ethereal Glows -->
+  <div style="position:absolute; top:15%; left:-15%; width:800px; height:800px; background:radial-gradient(circle, rgba(6,182,212,0.04) 0%, transparent 70%); pointer-events:none; z-index:1;"></div>
+  <div style="position:absolute; bottom:10%; right:-15%; width:600px; height:600px; background:radial-gradient(circle, rgba(245,158,11,0.03) 0%, transparent 70%); pointer-events:none; z-index:1;"></div>
 
-  :root {
-    --glass-bg: rgba(255, 255, 255, 0.03);
-    --glass-border: rgba(255, 255, 255, 0.08);
-  }
+  <div class="section-container" style="max-width:1200px;margin:0 auto; position:relative; z-index:2;">
 
-  .blog-page-wrapper {
-    position: relative;
-    overflow: hidden;
-    min-height: 100vh;
-    padding: 100px 24px;
-    background: #05070a; /* Deepest Obsidian */
-  }
+    <!-- Header -->
+    <div style="margin-bottom:var(--container-padding);" class="reveal">
+      <p style="font-size:0.75rem;font-weight:900;text-transform:uppercase;letter-spacing:0.2em;color:var(--cyan-light);margin-bottom:16px;">THE_ARCHIVE</p>
+      <h1 style="font-size:clamp(2.4rem,8vw,4.8rem);font-weight:900;color:#fff;line-height:0.95;margin-bottom:24px;letter-spacing:-0.05em;">
+        Logs from <br><span class="g-text">the edge</span>
+      </h1>
+      <p style="color:rgba(255,255,255,0.4);font-size:1.1rem;max-width:550px;line-height:1.7;font-weight:500;">
+        Infrastructure logs, deep-dives, and production post-mortems. 
+        High-fidelity insights from the DevOps frontline.
+      </p>
 
-  /* Atmospheric Blobs */
-  .blob {
-    position: fixed;
-    width: 600px;
-    height: 600px;
-    border-radius: 50%;
-    filter: blur(120px);
-    z-index: 0;
-    opacity: 0.15;
-    pointer-events: none;
-    animation: blob-float 20s infinite alternate cubic-bezier(0.45, 0, 0.55, 1);
-  }
-  .blob-1 { background: var(--cyan); top: -10%; right: -10%; animation-delay: 0s; }
-  .blob-2 { background: #8b5cf6; bottom: -10%; left: -10%; animation-delay: -5s; }
-
-  @keyframes blob-float {
-    from { transform: translate(0, 0) scale(1); }
-    to { transform: translate(100px, 50px) scale(1.1); }
-  }
-
-  .blog-inner {
-    max-width: 1200px;
-    margin: 0 auto;
-    position: relative;
-    z-index: 1;
-  }
-
-  /* Editorial Header */
-  .editorial-header {
-    margin-bottom: 100px;
-    text-align: center;
-  }
-  .editorial-header h1 {
-    font-family: 'Inter', sans-serif;
-    font-size: clamp(3rem, 10vw, 6rem);
-    font-weight: 900;
-    color: #fff;
-    letter-spacing: -0.05em;
-    line-height: 0.85;
-    margin-bottom: 32px;
-  }
-  .editorial-header p {
-    font-size: 1.1rem;
-    color: rgba(255,255,255,0.4);
-    max-width: 500px;
-    margin: 0 auto;
-    font-weight: 500;
-  }
-
-  /* Glass Search */
-  .glass-search-wrap {
-    max-width: 500px;
-    margin: 60px auto 0;
-    position: relative;
-  }
-  .glass-search-wrap input {
-    width: 100%;
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    padding: 18px 24px 18px 56px;
-    border-radius: 16px;
-    color: #fff;
-    font-family: 'Inter', sans-serif;
-    font-size: 1rem;
-    outline: none;
-    backdrop-filter: blur(20px);
-    transition: all 0.4s;
-  }
-  .glass-search-wrap input:focus {
-    border-color: rgba(255,255,255,0.2);
-    background: rgba(255,255,255,0.05);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-  }
-  .search-ico {
-    position: absolute;
-    left: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: rgba(255,255,255,0.2);
-  }
-
-  /* Glass Grid */
-  .glass-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-    gap: 32px;
-  }
-
-  .glass-card {
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    border-radius: 32px;
-    padding: 40px;
-    backdrop-filter: blur(32px);
-    text-decoration: none;
-    display: flex;
-    flex-direction: column;
-    min-height: 420px;
-    position: relative;
-    overflow: hidden;
-    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-  }
-
-  .glass-card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at top right, rgba(255,255,255,0.03), transparent 70%);
-    opacity: 0;
-    transition: opacity 0.5s;
-  }
-
-  /* Blueprint Dot Grid (Hover only) */
-  .glass-card::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image: radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px);
-    background-size: 24px 24px;
-    opacity: 0;
-    transition: opacity 0.5s;
-    pointer-events: none;
-  }
-
-  .glass-card:hover {
-    transform: translateY(-12px);
-    border-color: rgba(255,255,255,0.15);
-    background: rgba(255,255,255,0.04);
-    box-shadow: 0 40px 80px rgba(0,0,0,0.5);
-  }
-  .glass-card:hover::before, .glass-card:hover::after {
-    opacity: 1;
-  }
-
-  .post-tag {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.65rem;
-    color: var(--cyan-light);
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
-    margin-bottom: 24px;
-    display: block;
-    opacity: 0.6;
-  }
-
-  .post-title {
-    font-family: 'Inter', sans-serif;
-    font-size: 1.75rem;
-    font-weight: 800;
-    color: #fff;
-    line-height: 1.15;
-    margin-bottom: 20px;
-    letter-spacing: -0.03em;
-  }
-
-  .post-preview {
-    font-family: 'Inter', sans-serif;
-    font-size: 1rem;
-    color: rgba(255,255,255,0.35);
-    line-height: 1.6;
-    margin-bottom: auto;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  .post-footer {
-    margin-top: 40px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-top: 24px;
-    border-top: 1px solid rgba(255,255,255,0.05);
-  }
-
-  .read-time {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.7rem;
-    color: rgba(255,255,255,0.2);
-    font-weight: 700;
-  }
-
-  .post-arrow {
-    width: 24px;
-    height: 24px;
-    color: #fff;
-    opacity: 0.2;
-    transition: all 0.3s;
-  }
-  .glass-card:hover .post-arrow {
-    opacity: 1;
-    transform: translateX(4px);
-    color: var(--cyan-light);
-  }
-
-  /* Empty State */
-  .empty-state {
-    text-align: center;
-    padding: 120px 40px;
-    border: 1px dashed var(--glass-border);
-    border-radius: 40px;
-    background: var(--glass-bg);
-  }
-
-  @media (max-width: 767px) {
-    .glass-grid { grid-template-columns: 1fr; }
-    .blog-page-wrapper { padding: 60px 20px; }
-    .editorial-header h1 { font-size: 3.5rem; }
-  }
-</style>
-
-<div class="blog-page-wrapper">
-  
-  <!-- Blobs -->
-  <div class="blob blob-1"></div>
-  <div class="blob blob-2"></div>
-
-  <div class="blog-inner">
-    
-    <!-- Editorial Header -->
-    <header class="editorial-header reveal">
-      <p style="font-family:'JetBrains Mono'; font-size:0.7rem; letter-spacing:0.4em; color:var(--cyan-light); margin-bottom:16px;">// ARCHIVE_COLLECTION</p>
-      <h1>Selected<br>Readings.</h1>
-      <p>Technical insights, architectural deep-dives, and shared experiences from the edge of DevOps.</p>
-      
-      <div class="glass-search-wrap">
-        <svg class="search-ico" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-        <input type="text" id="blog-search" placeholder="Search the archive..." autocomplete="off">
+      <!-- Search -->
+      <div style="margin-top:32px; position:relative; max-width:480px;">
+        <input id="blog-search" type="text" placeholder="Search logs..."
+          style="width:100%; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:14px 20px 14px 48px; color:#fff; font-size:0.95rem; font-family:'Outfit',sans-serif; outline:none; transition:all 0.3s;"
+          onfocus="this.style.borderColor='rgba(6,182,212,0.3)'; this.style.background='rgba(6,182,212,0.03)';"
+          onblur="this.style.borderColor='rgba(255,255,255,0.08)'; this.style.background='rgba(255,255,255,0.03)';">
+        <svg style="position:absolute; left:16px; top:50%; transform:translateY(-50%); width:18px; height:18px; color:rgba(255,255,255,0.3);" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+        </svg>
+        <p id="search-no-results" style="display:none; margin-top:12px; color:rgba(255,255,255,0.3); font-size:0.9rem; font-weight:600;">No logs matched your search.</p>
       </div>
-    </header>
-
-    {% if posts %}
-    <div class="glass-grid" id="post-grid">
-      {% for post in posts %}
-      {% set rt = (post.body | striptags | wordcount / 200) | int + 1 %}
-      <a href="/blog/{{ post.id }}" class="glass-card reveal">
-        
-        <span class="post-tag">{{ post.created_at.strftime('%B %d, %Y') }}</span>
-        
-        <h2 class="post-title">{{ post.title }}</h2>
-        
-        <p class="post-preview">
-          {{ post.description | default(post.body | striptags | truncate(140)) }}
-        </p>
-
-        <div class="post-footer">
-          <span class="read-time">{{ rt }} MIN READ</span>
-          <svg class="post-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
-        </div>
-      </a>
-      {% endfor %}
     </div>
 
-    <!-- No Results Search State -->
-    <div id="search-no-results" style="display:none; text-align:center; padding:100px 0;">
-      <h2 style="font-family:'Inter'; color:#fff; font-size:1.5rem; font-weight:900;">NO_RESULTS_FOUND</h2>
-      <p style="color:rgba(255,255,255,0.3); margin-top:8px;">Try different keywords or filters.</p>
+    {% if posts %}
+
+    <!-- Main grid: content + sidebar -->
+    <div id="blog-main-grid" style="display:grid;grid-template-columns:1fr 340px;gap:var(--section-gap);align-items:start;">
+
+      <!-- LEFT: posts -->
+      <div>
+        <!-- Featured entry: Blended & Text-Only -->
+        {% set featured = posts[0] %}
+        {% set featured_rt = (featured.body | striptags | wordcount / 200) | int + 1 %}
+        <a href="/blog/{{ featured.id }}" class="reveal" style="
+          display:block; padding:var(--container-padding); border-radius:48px; border:1px solid rgba(255,255,255,0.04);
+          background: rgba(255,255,255,0.01); backdrop-filter: blur(12px);
+          margin-bottom:60px; text-decoration:none; position:relative; overflow:hidden;
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        "
+        onmouseover="this.style.borderColor='rgba(6,182,212,0.2)'; this.style.transform='translateY(-8px)'; this.style.background='rgba(255,255,255,0.02)';"
+        onmouseout="this.style.borderColor='rgba(255,255,255,0.04)'; this.style.transform='none'; this.style.background='rgba(255,255,255,0.01)';"
+        id="featured-post-card">
+          <!-- Ambient Accent Glow -->
+          <div style="position:absolute; top:-20%; right:-20%; width:300px; height:300px; background:radial-gradient(circle, rgba(6,182,212,0.08) 0%, transparent 70%); pointer-events:none;"></div>
+
+          <div style="position:relative; z-index:2;">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:32px;flex-wrap:wrap;">
+              <span style="font-size:0.75rem;font-weight:900;color:var(--cyan-light);background:rgba(6,182,212,0.1);padding:6px 14px;border-radius:8px;text-transform:uppercase;letter-spacing:0.1em;border:1px solid rgba(6,182,212,0.2);">FEATURED_ENTRY</span>
+              <span style="color:rgba(255,255,255,0.1);">&bull;</span>
+              <span style="font-size:0.8rem;color:rgba(255,255,255,0.3);font-weight:800;text-transform:uppercase;letter-spacing:0.05em;">{{ featured.created_at.strftime('%Y.%m.%d') }}</span>
+              <span style="color:rgba(255,255,255,0.1);">&bull;</span>
+              <span style="font-size:0.8rem;color:rgba(255,255,255,0.3);font-weight:800;text-transform:uppercase;letter-spacing:0.05em;">{{ featured_rt }} MIN_READ</span>
+            </div>
+            
+            <h2 style="font-size:clamp(1.8rem,5vw,3.2rem);font-weight:900;color:#fff;line-height:1.1;margin-bottom:24px;letter-spacing:-0.04em;word-wrap:break-word;overflow-wrap:anywhere;word-break:normal;hyphens:auto;">{{ featured.title }}</h2>
+            <p style="font-size:1.15rem;color:rgba(255,255,255,0.4);line-height:1.7;margin-bottom:48px;font-weight:500;">{{ featured.body | striptags | truncate(220) }}</p>
+            
+            <div style="display:flex;align-items:center;justify-content:space-between;padding-top:32px;border-top:1px solid rgba(255,255,255,0.04);">
+              <div style="display:flex;align-items:center;gap:12px;">
+                <div style="width:40px;height:40px;background:linear-gradient(135deg,#0891b2,#06b6d4);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.9rem;font-weight:900;color:#fff;">B</div>
+                <span style="font-size:0.85rem;font-weight:800;color:rgba(255,255,255,0.3);text-transform:uppercase;letter-spacing:0.1em;">MAIN_NODE: BAYO</span>
+              </div>
+              <span style="font-size:0.85rem;font-weight:900;color:var(--cyan-light);text-transform:uppercase;letter-spacing:0.1em;">DECRYPT_LOG ↗</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Post list: Blended -->
+        {% if posts|length > 1 %}
+        <div class="reveal">
+          <div style="padding:0 0 24px;border-bottom:1px solid rgba(255,255,255,0.05);margin-bottom:32px;">
+            <p style="font-size:0.75rem;font-weight:900;text-transform:uppercase;letter-spacing:0.2em;color:rgba(255,255,255,0.2);">ALL_SYSTEM_LOGS</p>
+          </div>
+          {% for post in posts[1:] %}
+          {% set rt = (post.body | striptags | wordcount / 200) | int + 1 %}
+          <a href="/blog/{{ post.id }}" style="
+            display:grid;grid-template-columns:60px 1fr auto;gap:32px;align-items:start;
+            padding:48px 0;border-bottom:1px solid rgba(255,255,255,0.03);
+            text-decoration:none;transition:all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          "
+          onmouseover="this.querySelector('.p-title').style.color='var(--cyan-light)';this.querySelector('.p-arrow').style.transform='translateX(8px)';this.querySelector('.p-arrow').style.color='var(--cyan-light)';"
+          onmouseout="this.querySelector('.p-title').style.color='#fff';this.querySelector('.p-arrow').style.transform='none';this.querySelector('.p-arrow').style.color='rgba(255,255,255,0.1)';"
+          id="post-archive-row">
+            <div style="font-size:0.9rem;font-weight:900;color:rgba(255,255,255,0.1);text-align:right;padding-top:6px; letter-spacing:0.1em;">{{ '%02d' % (loop.index + 1) }}</div>
+            <div>
+              <div class="p-title" style="font-size:1.5rem;font-weight:900;color:#fff;margin-bottom:12px;line-height:1.2;transition:color 0.3s;letter-spacing:-0.02em;">{{ post.title }}</div>
+              <div style="font-size:1.05rem;color:rgba(255,255,255,0.3);line-height:1.7;margin-bottom:20px;display:-webkit-box;-webkit-line-clamp:2;line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-weight:500;">{{ post.body | striptags | truncate(160) }}</div>
+              <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+                <span style="font-size:0.7rem;font-weight:900;text-transform:uppercase;letter-spacing:0.1em;background:rgba(255,255,255,0.03);color:rgba(255,255,255,0.5);padding:4px 12px;border-radius:6px;border:1px solid rgba(255,255,255,0.05);">DEVOPS</span>
+                <span style="font-size:0.75rem;font-weight:800;color:rgba(255,255,255,0.2);text-transform:uppercase;letter-spacing:0.05em;">{{ post.created_at.strftime('%Y.%m.%d') }}</span>
+                <span style="color:rgba(255,255,255,0.05);">&bull;</span>
+                <span style="font-size:0.75rem;font-weight:800;color:rgba(255,255,255,0.2);text-transform:uppercase;letter-spacing:0.05em;">{{ rt }} MIN_READ</span>
+              </div>
+            </div>
+            <div class="p-arrow" style="color:rgba(255,255,255,0.1);transition:all 0.3s;padding-top:8px;">
+              <svg style="width:24px;height:24px;" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+            </div>
+          </a>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+
+      <!-- RIGHT: sidebar: Blended -->
+      <div id="blog-sidebar" style="display:flex;flex-direction:column;gap:32px;position:sticky;top:100px;">
+
+        <!-- Writer -->
+        <div style="padding:40px; background:rgba(255,255,255,0.01); border:1px solid rgba(255,255,255,0.04); border-radius:32px; backdrop-filter:blur(12px);" class="reveal">
+          <p style="font-size:0.7rem;font-weight:900;text-transform:uppercase;letter-spacing:0.15em;color:rgba(255,255,255,0.2);margin-bottom:24px;">THE_WRITER</p>
+          <div style="display:flex;align-items:center;gap:16px;margin-bottom:24px;">
+            <div style="width:56px;height:56px;background:linear-gradient(135deg,#0891b2,#06b6d4);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1.1rem;color:#fff;flex-shrink:0;">B</div>
+            <div>
+              <p style="font-weight:900;font-size:1.1rem;color:#fff;letter-spacing:-0.01em;">Bayo Ogundele</p>
+              <p style="font-size:0.8rem;font-weight:700;color:var(--cyan-light);text-transform:uppercase;letter-spacing:0.1em;">DEVOPS_ENGINEER</p>
+            </div>
+          </div>
+          <p style="font-size:1rem;color:rgba(255,255,255,0.4);line-height:1.7;font-weight:500;">
+            Building distributed systems, breaking production, and writing the logs to tell the tale.
+          </p>
+        </div>
+
+        <!-- Numbers -->
+        <div style="padding:40px; background:rgba(255,255,255,0.01); border:1px solid rgba(255,255,255,0.04); border-radius:32px; backdrop-filter:blur(12px);" class="reveal">
+          <p style="font-size:0.7rem;font-weight:900;text-transform:uppercase;letter-spacing:0.15em;color:rgba(255,255,255,0.2);margin-bottom:24px;">TELEMETRY_DATA</p>
+          {% for stat, label in [
+            (posts|length, 'POSTS_PUBLISHED'),
+            (posts | sum(attribute='views') if posts[0].views is defined else '—', 'TOTAL_LOG_VIEWS'),
+            (((posts | map(attribute='body') | map('striptags') | join(' ') | wordcount) / 200) | int ~ 'm', 'TOTAL_READ_TIME')
+          ] %}
+          <div style="padding:20px 0; {% if not loop.last %}border-bottom:1px solid rgba(255,255,255,0.03);{% endif %}">
+            <p style="font-size:2.4rem;font-weight:900;color:#fff;line-height:1;letter-spacing:-0.02em;">{{ stat }}</p>
+            <p style="font-size:0.7rem;font-weight:800;color:rgba(255,255,255,0.2);margin-top:10px;text-transform:uppercase;letter-spacing:0.1em;">{{ label }}</p>
+          </div>
+          {% endfor %}
+        </div>
+
+      </div>
     </div>
 
     {% else %}
-    <div class="empty-state reveal">
-      <h2 style="font-family:'Inter'; color:#fff; font-size:1.5rem; font-weight:900;">ARCHIVE_NOT_INITIALIZED</h2>
-      <p style="color:rgba(255,255,255,0.3); margin-top:8px;">Decryption of records is still in progress.</p>
+    <div style="padding:100px 48px;text-align:center; background:rgba(255,255,255,0.01); border:1px solid rgba(255,255,255,0.04); border-radius:40px; backdrop-filter:blur(12px);" class="reveal">
+      <div style="font-size:4rem;margin-bottom:24px; filter:grayscale(1) brightness(2); opacity:0.3;">✍️</div>
+      <h2 style="font-size:1.4rem;font-weight:900;color:#fff;margin-bottom:12px;letter-spacing:-0.02em;">LOG_STREAM_EMPTY</h2>
+      <p style="color:rgba(255,255,255,0.3);font-size:1.05rem;font-weight:500;">The archive is currently being indexed. Check back soon for new logs.</p>
     </div>
     {% endif %}
 
   </div>
 </div>
 
+<style>
+@media (max-width: 767px) {
+  #blog-main-grid {
+    grid-template-columns: 1fr !important;
+    gap: 40px !important;
+  }
+  #blog-sidebar {
+      position: relative !important;
+      top: 0 !important;
+  }
+  #featured-post-card {
+    padding: 32px 20px !important;
+    border-radius: 28px !important;
+  }
+  #post-archive-row {
+    grid-template-columns: 1fr auto !important;
+    gap: 16px !important;
+    padding: 32px 0 !important;
+  }
+  #post-archive-row > div:first-child {
+      display: none !important;
+  }
+  .section-container {
+      padding-left: 20px !important;
+      padding-right: 20px !important;
+  }
+}
+</style>
+
 <script>
-  /* ── Smooth Search ── */
-  const searchInput = document.getElementById('blog-search');
-  const cards = document.querySelectorAll('.glass-card');
+/* ── Blog Live Search ── */
+(function() {
+  const input = document.getElementById('blog-search');
+  if (!input) return;
   const noResults = document.getElementById('search-no-results');
 
-  if(searchInput) {
-    searchInput.addEventListener('input', (e) => {
-      const q = e.target.value.toLowerCase();
-      let count = 0;
-
-      cards.forEach(card => {
-        const title = card.querySelector('.post-title').textContent.toLowerCase();
-        const preview = card.querySelector('.post-preview').textContent.toLowerCase();
-        
-        if(title.includes(q) || preview.includes(q)) {
-          card.style.display = 'flex';
-          count++;
-        } else {
-          card.style.display = 'none';
-        }
-      });
-
-      noResults.style.display = count === 0 ? 'block' : 'none';
-    });
+  // All searchable post elements — featured card + archive rows
+  function getSearchableItems() {
+    const featured = document.getElementById('featured-post-card');
+    const rows = Array.from(document.querySelectorAll('#post-archive-row'));
+    return featured ? [featured, ...rows] : rows;
   }
 
-  /* ── Subtle 3D Tilt ── */
-  cards.forEach(card => {
-    card.addEventListener('mousemove', (e) => {
-      const rect = card.getBoundingClientRect();
-      const x = (e.clientX - rect.left) / rect.width - 0.5;
-      const y = (e.clientY - rect.top) / rect.height - 0.5;
-      
-      card.style.transform = `perspective(1000px) rotateX(${y * -5}deg) rotateY(${x * 5}deg) translateY(-8px)`;
+  input.addEventListener('input', function() {
+    const q = this.value.trim().toLowerCase();
+    if (!q) {
+      getSearchableItems().forEach(el => el.style.display = '');
+      noResults.style.display = 'none';
+      return;
+    }
+    let visible = 0;
+    getSearchableItems().forEach(el => {
+      const title = (el.querySelector('h2,h3,.p-title') || {}).textContent || '';
+      const match = title.toLowerCase().includes(q);
+      el.style.display = match ? '' : 'none';
+      if (match) visible++;
     });
-
-    card.addEventListener('mouseleave', () => {
-      card.style.transform = '';
-    });
+    noResults.style.display = visible === 0 ? 'block' : 'none';
   });
+})();
 </script>
-
 {% endblock %}
