@@ -64,7 +64,7 @@
               <span style="font-size:0.8rem;color:rgba(255,255,255,0.3);font-weight:800;text-transform:uppercase;letter-spacing:0.05em;">{{ featured_rt }} MIN_READ</span>
             </div>
             
-            <h2 style="font-size:clamp(1.8rem,5vw,3.2rem);font-weight:900;color:#fff;line-height:1.1;margin-bottom:24px;letter-spacing:-0.04em;word-wrap:break-word;overflow-wrap:anywhere;word-break:normal;hyphens:auto;">{{ featured.title }}</h2>
+            <h2 style="font-size:clamp(1.5rem,4vw,2.4rem);font-weight:900;color:#fff;line-height:1.1;margin-bottom:24px;letter-spacing:-0.04em;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;word-wrap:break-word;overflow-wrap:anywhere;">{{ featured.title }}</h2>
             <p style="font-size:1.15rem;color:rgba(255,255,255,0.4);line-height:1.7;margin-bottom:48px;font-weight:500;">{{ featured.body | striptags | truncate(220) }}</p>
             
             <div style="display:flex;align-items:center;justify-content:space-between;padding-top:32px;border-top:1px solid rgba(255,255,255,0.04);">
@@ -95,7 +95,7 @@
           id="post-archive-row">
             <div style="font-size:0.9rem;font-weight:900;color:rgba(255,255,255,0.1);text-align:right;padding-top:6px; letter-spacing:0.1em;">{{ '%02d' % (loop.index + 1) }}</div>
             <div>
-              <div class="p-title" style="font-size:1.5rem;font-weight:900;color:#fff;margin-bottom:12px;line-height:1.2;transition:color 0.3s;letter-spacing:-0.02em;">{{ post.title }}</div>
+              <div class="p-title" style="font-size:1.25rem;font-weight:900;color:#fff;margin-bottom:12px;line-height:1.2;transition:color 0.3s;letter-spacing:-0.02em;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">{{ post.title }}</div>
               <div style="font-size:1.05rem;color:rgba(255,255,255,0.3);line-height:1.7;margin-bottom:20px;display:-webkit-box;-webkit-line-clamp:2;line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-weight:500;">{{ post.body | striptags | truncate(160) }}</div>
               <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
                 <span style="font-size:0.7rem;font-weight:900;text-transform:uppercase;letter-spacing:0.1em;background:rgba(255,255,255,0.03);color:rgba(255,255,255,0.5);padding:4px 12px;border-radius:6px;border:1px solid rgba(255,255,255,0.05);">DEVOPS</span>
