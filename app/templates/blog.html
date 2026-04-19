@@ -2,270 +2,328 @@
 {% block title %}Archive — StackedByBayo{% endblock %}
 {% block content %}
 
+<!-- Import Premium Font -->
 <style>
-  .blog-container {
-    padding: var(--container-padding) 24px 120px;
-    max-width: 1400px;
-    margin: 0 auto;
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap');
+
+  :root {
+    --glass-bg: rgba(255, 255, 255, 0.03);
+    --glass-border: rgba(255, 255, 255, 0.08);
   }
 
-  /* Command Center Search */
-  .search-console {
-    max-width: 600px;
-    margin: 0 auto 80px;
-    position: relative;
-  }
-  .search-console input {
-    width: 100%;
-    background: rgba(255,255,255,0.02);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 100px;
-    padding: 20px 32px 20px 60px;
-    color: #fff;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 1rem;
-    outline: none;
-    transition: all 0.3s;
-    backdrop-filter: blur(12px);
-  }
-  .search-console input:focus {
-    border-color: var(--cyan-light);
-    box-shadow: 0 0 30px rgba(6,182,212,0.15);
-    background: rgba(255,255,255,0.04);
-  }
-  .search-icon {
-    position: absolute;
-    left: 24px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--cyan-light);
-    opacity: 0.5;
-  }
-
-  /* Monolith Grid */
-  .monolith-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-    gap: 40px;
-  }
-
-  .blog-card {
-    background: rgba(255,255,255,0.01);
-    border: 1px solid rgba(255,255,255,0.05);
-    border-radius: 32px;
-    padding: 48px;
+  .blog-page-wrapper {
     position: relative;
     overflow: hidden;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    cursor: pointer;
-    text-decoration: none;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    min-height: 480px;
-    transform-style: preserve-3d;
+    min-height: 100vh;
+    padding: 100px 24px;
+    background: #05070a; /* Deepest Obsidian */
   }
 
-  /* Dark Overlay */
-  .blog-card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to top, rgba(5,8,15,1) 0%, rgba(5,8,15,0.8) 40%, transparent 100%);
+  /* Atmospheric Blobs */
+  .blob {
+    position: fixed;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    filter: blur(120px);
+    z-index: 0;
+    opacity: 0.15;
+    pointer-events: none;
+    animation: blob-float 20s infinite alternate cubic-bezier(0.45, 0, 0.55, 1);
+  }
+  .blob-1 { background: var(--cyan); top: -10%; right: -10%; animation-delay: 0s; }
+  .blob-2 { background: #8b5cf6; bottom: -10%; left: -10%; animation-delay: -5s; }
+
+  @keyframes blob-float {
+    from { transform: translate(0, 0) scale(1); }
+    to { transform: translate(100px, 50px) scale(1.1); }
+  }
+
+  .blog-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
     z-index: 1;
   }
 
-  /* Scanline / CRT Effect */
-  .blog-card::after {
+  /* Editorial Header */
+  .editorial-header {
+    margin-bottom: 100px;
+    text-align: center;
+  }
+  .editorial-header h1 {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(3rem, 10vw, 6rem);
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: -0.05em;
+    line-height: 0.85;
+    margin-bottom: 32px;
+  }
+  .editorial-header p {
+    font-size: 1.1rem;
+    color: rgba(255,255,255,0.4);
+    max-width: 500px;
+    margin: 0 auto;
+    font-weight: 500;
+  }
+
+  /* Glass Search */
+  .glass-search-wrap {
+    max-width: 500px;
+    margin: 60px auto 0;
+    position: relative;
+  }
+  .glass-search-wrap input {
+    width: 100%;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    padding: 18px 24px 18px 56px;
+    border-radius: 16px;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    outline: none;
+    backdrop-filter: blur(20px);
+    transition: all 0.4s;
+  }
+  .glass-search-wrap input:focus {
+    border-color: rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.05);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  }
+  .search-ico {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(255,255,255,0.2);
+  }
+
+  /* Glass Grid */
+  .glass-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 32px;
+  }
+
+  .glass-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 32px;
+    padding: 40px;
+    backdrop-filter: blur(32px);
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    min-height: 420px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .glass-card::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
-                linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
-    background-size: 100% 4px, 3px 100%;
-    pointer-events: none;
-    opacity: 0.2;
-    z-index: 2;
+    background: radial-gradient(circle at top right, rgba(255,255,255,0.03), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.5s;
   }
 
-  .blog-card:hover {
-    transform: translateY(-12px) scale(1.02);
-    border-color: rgba(6,182,212,0.3);
-    box-shadow: 0 40px 80px rgba(0,0,0,0.8), 0 0 40px rgba(6,182,212,0.1);
-  }
-
-  /* Card Image (if exists) */
-  .card-bg-img {
+  /* Blueprint Dot Grid (Hover only) */
+  .glass-card::after {
+    content: '';
     position: absolute;
     inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0.3;
-    transition: opacity 0.4s, transform 0.6s;
-    filter: grayscale(1) contrast(1.2);
-  }
-  .blog-card:hover .card-bg-img {
-    opacity: 0.5;
-    transform: scale(1.1);
-    filter: grayscale(0.5) contrast(1);
+    background-image: radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px);
+    background-size: 24px 24px;
+    opacity: 0;
+    transition: opacity 0.5s;
+    pointer-events: none;
   }
 
-  .card-metadata {
+  .glass-card:hover {
+    transform: translateY(-12px);
+    border-color: rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.04);
+    box-shadow: 0 40px 80px rgba(0,0,0,0.5);
+  }
+  .glass-card:hover::before, .glass-card:hover::after {
+    opacity: 1;
+  }
+
+  .post-tag {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     color: var(--cyan-light);
-    margin-bottom: 20px;
+    text-transform: uppercase;
     letter-spacing: 0.2em;
+    margin-bottom: 24px;
+    display: block;
+    opacity: 0.6;
+  }
+
+  .post-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.75rem;
     font-weight: 800;
-    z-index: 3;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  .card-metadata span {
-    background: rgba(6,182,212,0.1);
-    padding: 4px 10px;
-    border-radius: 4px;
-  }
-
-  .card-title {
-    font-size: 1.8rem;
-    font-weight: 900;
     color: #fff;
-    line-height: 1.1;
+    line-height: 1.15;
     margin-bottom: 20px;
-    z-index: 3;
-    letter-spacing: -0.02em;
-    transition: all 0.3s;
+    letter-spacing: -0.03em;
   }
 
-  .card-excerpt {
+  .post-preview {
+    font-family: 'Inter', sans-serif;
     font-size: 1rem;
-    color: rgba(255,255,255,0.4);
-    line-height: 1.7;
-    z-index: 3;
+    color: rgba(255,255,255,0.35);
+    line-height: 1.6;
+    margin-bottom: auto;
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    font-weight: 500;
   }
 
-  /* Hover Title Glitch */
-  .blog-card:hover .card-title {
+  .post-footer {
+    margin-top: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .read-time {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.2);
+    font-weight: 700;
+  }
+
+  .post-arrow {
+    width: 24px;
+    height: 24px;
     color: #fff;
-    text-shadow: 2px 0 rgba(255,0,255,0.5), -2px 0 rgba(0,255,255,0.5);
+    opacity: 0.2;
+    transition: all 0.3s;
+  }
+  .glass-card:hover .post-arrow {
+    opacity: 1;
+    transform: translateX(4px);
+    color: var(--cyan-light);
+  }
+
+  /* Empty State */
+  .empty-state {
+    text-align: center;
+    padding: 120px 40px;
+    border: 1px dashed var(--glass-border);
+    border-radius: 40px;
+    background: var(--glass-bg);
   }
 
   @media (max-width: 767px) {
-    .monolith-grid { grid-template-columns: 1fr !important; }
-    .blog-card { min-height: 400px; padding: 32px; }
-  }
-
-  #search-no-results {
-    text-align: center;
-    padding: 100px 0;
-    display: none;
+    .glass-grid { grid-template-columns: 1fr; }
+    .blog-page-wrapper { padding: 60px 20px; }
+    .editorial-header h1 { font-size: 3.5rem; }
   }
 </style>
 
-<div class="blog-container">
+<div class="blog-page-wrapper">
   
-  <!-- Header -->
-  <div style="text-align:center; margin-bottom:80px;" class="reveal">
-    <p style="font-size:0.7rem;font-weight:900;text-transform:uppercase;letter-spacing:0.4em;color:rgba(255,255,255,0.2);margin-bottom:24px;">// ACCESSING_DATA_VAULT</p>
-    <h1 style="font-size:clamp(2.5rem,8vw,5.5rem);font-weight:900;color:#fff;line-height:0.9;margin-bottom:40px;letter-spacing:-0.05em;">Digital<br><span class="g-text">Manifesto.</span></h1>
+  <!-- Blobs -->
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+
+  <div class="blog-inner">
     
-    <div class="search-console">
-      <svg class="search-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-      <input type="text" id="blog-search" placeholder="Query archive..." autocomplete="off">
+    <!-- Editorial Header -->
+    <header class="editorial-header reveal">
+      <p style="font-family:'JetBrains Mono'; font-size:0.7rem; letter-spacing:0.4em; color:var(--cyan-light); margin-bottom:16px;">// ARCHIVE_COLLECTION</p>
+      <h1>Selected<br>Readings.</h1>
+      <p>Technical insights, architectural deep-dives, and shared experiences from the edge of DevOps.</p>
+      
+      <div class="glass-search-wrap">
+        <svg class="search-ico" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input type="text" id="blog-search" placeholder="Search the archive..." autocomplete="off">
+      </div>
+    </header>
+
+    {% if posts %}
+    <div class="glass-grid" id="post-grid">
+      {% for post in posts %}
+      {% set rt = (post.body | striptags | wordcount / 200) | int + 1 %}
+      <a href="/blog/{{ post.id }}" class="glass-card reveal">
+        
+        <span class="post-tag">{{ post.created_at.strftime('%B %d, %Y') }}</span>
+        
+        <h2 class="post-title">{{ post.title }}</h2>
+        
+        <p class="post-preview">
+          {{ post.description | default(post.body | striptags | truncate(140)) }}
+        </p>
+
+        <div class="post-footer">
+          <span class="read-time">{{ rt }} MIN READ</span>
+          <svg class="post-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+        </div>
+      </a>
+      {% endfor %}
     </div>
+
+    <!-- No Results Search State -->
+    <div id="search-no-results" style="display:none; text-align:center; padding:100px 0;">
+      <h2 style="font-family:'Inter'; color:#fff; font-size:1.5rem; font-weight:900;">NO_RESULTS_FOUND</h2>
+      <p style="color:rgba(255,255,255,0.3); margin-top:8px;">Try different keywords or filters.</p>
+    </div>
+
+    {% else %}
+    <div class="empty-state reveal">
+      <h2 style="font-family:'Inter'; color:#fff; font-size:1.5rem; font-weight:900;">ARCHIVE_NOT_INITIALIZED</h2>
+      <p style="color:rgba(255,255,255,0.3); margin-top:8px;">Decryption of records is still in progress.</p>
+    </div>
+    {% endif %}
+
   </div>
-
-  {% if posts %}
-  <div class="monolith-grid" id="post-grid">
-    {% for post in posts %}
-    {% set rt = (post.body | striptags | wordcount / 200) | int + 1 %}
-    <a href="/blog/{{ post.id }}" class="blog-card reveal">
-      
-      <!-- Subtle Background Image -->
-      {% if post.image %}
-      <img src="/static/uploads/{{ post.image }}" class="card-bg-img" alt="">
-      {% endif %}
-
-      <div class="card-metadata">
-        <span>{{ post.created_at.strftime('%m.%d.%y') }}</span>
-        <span style="color:rgba(255,255,255,0.3);">|</span>
-        <span>{{ rt }}M_READ</span>
-      </div>
-
-      <h2 class="card-title">{{ post.title }}</h2>
-      
-      <div class="card-excerpt">
-        {{ post.description | default(post.body | striptags | truncate(160)) }}
-      </div>
-
-      <!-- Static noise / grain overlay on hover -->
-      <div class="hover-noise" style="position:absolute; inset:0; background:url('https://grainy-gradients.vercel.app/noise.svg'); opacity:0; pointer-events:none; z-index:4; transition:opacity 0.3s; mix-blend-mode:overlay;"></div>
-    </a>
-    {% endfor %}
-  </div>
-
-  <div id="search-no-results">
-    <p style="font-size:4rem; margin-bottom:24px; opacity:0.2;">🔍</p>
-    <h2 style="font-size:1.5rem; font-weight:900; color:#fff;">NO_MATCHING_RECORDS</h2>
-    <p style="color:rgba(255,255,255,0.3); margin-top:8px;">Refine your query and try again.</p>
-  </div>
-
-  {% else %}
-  <div style="padding:120px 48px; text-align:center; background:rgba(255,255,255,0.01); border:1px solid rgba(255,255,255,0.05); border-radius:40px;" class="reveal">
-    <p style="font-size:4rem; margin-bottom:24px; opacity:0.1;">📔</p>
-    <h2 style="font-size:1.5rem; font-weight:900; color:#fff;">VAULT_IS_EMPTY</h2>
-    <p style="color:rgba(255,255,255,0.3); margin-top:8px;">No records have been decrypted yet.</p>
-  </div>
-  {% endif %}
-
 </div>
 
 <script>
-  /* ── Live Search Logic ── */
+  /* ── Smooth Search ── */
   const searchInput = document.getElementById('blog-search');
-  const postCards = document.querySelectorAll('.blog-card');
+  const cards = document.querySelectorAll('.glass-card');
   const noResults = document.getElementById('search-no-results');
 
   if(searchInput) {
     searchInput.addEventListener('input', (e) => {
-      const query = e.target.value.toLowerCase();
-      let visibleCount = 0;
+      const q = e.target.value.toLowerCase();
+      let count = 0;
 
-      postCards.forEach(card => {
-        const title = card.querySelector('.card-title').textContent.toLowerCase();
-        const excerpt = card.querySelector('.card-excerpt').textContent.toLowerCase();
+      cards.forEach(card => {
+        const title = card.querySelector('.post-title').textContent.toLowerCase();
+        const preview = card.querySelector('.post-preview').textContent.toLowerCase();
         
-        if(title.includes(query) || excerpt.includes(query)) {
+        if(title.includes(q) || preview.includes(q)) {
           card.style.display = 'flex';
-          visibleCount++;
+          count++;
         } else {
           card.style.display = 'none';
         }
       });
 
-      noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+      noResults.style.display = count === 0 ? 'block' : 'none';
     });
   }
 
-  /* ── Interactive Card Tilt ── */
-  postCards.forEach(card => {
+  /* ── Subtle 3D Tilt ── */
+  cards.forEach(card => {
     card.addEventListener('mousemove', (e) => {
       const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
+      const x = (e.clientX - rect.left) / rect.width - 0.5;
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
       
-      const xPercent = (x / rect.width - 0.5) * 10;
-      const yPercent = (y / rect.height - 0.5) * -10;
-      
-      card.style.transform = `perspective(1000px) rotateX(${yPercent}deg) rotateY(${xPercent}deg) translateY(-12px) scale(1.02)`;
+      card.style.transform = `perspective(1000px) rotateX(${y * -5}deg) rotateY(${x * 5}deg) translateY(-8px)`;
     });
 
     card.addEventListener('mouseleave', () => {
