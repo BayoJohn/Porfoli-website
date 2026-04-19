@@ -178,69 +178,103 @@
     {% block content %}{% endblock %}
 </main>
 
-<!-- ─────────────── FOOTER ─────────────── -->
-<footer class="mt-auto relative z-10" style="background:#000; border-top:1px solid var(--border);">
-    <div class="max-w-6xl mx-auto px-6 py-20">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 mb-20">
+<!-- ─────────────── LIVE TELEMETRY FOOTER ─────────────── -->
+<footer class="mt-auto relative z-10" style="background:transparent; border-top:1px solid rgba(255,255,255,0.05); padding-bottom: 24px;">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12 pt-16">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
 
+            <!-- System Info -->
             <div class="md:col-span-1">
-                <div class="flex items-center gap-2 mb-8">
-                    <div style="width:28px; height:28px; background:#fff; border-radius:6px; display:flex; align-items:center; justify-content:center;">
-                       <div style="width:12px; height:12px; border:2px solid #000; border-radius:2px;"></div>
+                <div class="flex items-center gap-3 mb-6">
+                    <div style="width:24px; height:24px; background:var(--cyan-light); border-radius:4px; display:flex; align-items:center; justify-content:center;">
+                       <div style="width:10px; height:10px; border:2px solid #000; border-radius:2px;"></div>
                     </div>
-                    <span class="logo-text" style="font-size:1rem;">StackedByBayo<span class="logo-dot">.</span></span>
+                    <span style="font-family:'JetBrains Mono', monospace; font-size:0.9rem; font-weight:800; color:#fff; letter-spacing:0.1em;">SYS.CORE</span>
                 </div>
-                <p style="color:rgba(255,255,255,0.3); font-size:0.8rem; line-height:1.8; margin-bottom:24px;">
-                    DevOps Architect shaping resilient, cloud-native futures from the edge. High-prestige infrastructure, built to scale.
+                <p style="font-family:'JetBrains Mono', monospace; font-size:0.75rem; color:rgba(255,255,255,0.4); line-height:1.8; margin-bottom:24px;">
+                    DevOps Architect. Building resilient, cloud-native pipelines from the edge node.
                 </p>
-                <!-- System Status Monitor -->
-                <div style="display:inline-flex; align-items:center; gap:8px; padding:6px 14px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.05); border-radius:100px;">
-                   <span style="width:6px; height:6px; background:#fff; border-radius:50%; box-shadow:0 0 10px #fff; animation:pulse 2s infinite;"></span>
-                   <span style="font-size:0.65rem; font-weight:800; color:#fff; letter-spacing:0.1em; text-transform:uppercase;">EDGE_NODE: ACTIVE // LAG_NGA</span>
-                </div>
             </div>
 
+            <!-- Directory -->
             <div>
-                <p style="font-size:0.7rem; font-weight:800; text-transform:uppercase; letter-spacing:0.25em; color:rgba(255,255,255,0.2); margin-bottom:24px;">Architecture</p>
-                <ul style="display:flex; flex-direction:column; gap:16px;">
+                <p style="font-family:'JetBrains Mono', monospace; font-size:0.65rem; font-weight:800; text-transform:uppercase; letter-spacing:0.2em; color:var(--cyan-light); margin-bottom:20px;">> DIRECTORY</p>
+                <ul style="display:flex; flex-direction:column; gap:12px; font-family:'JetBrains Mono', monospace; font-size:0.8rem;">
                     {% for label, path in [('Home','/'),('About','/about'),('Projects','/projects'),('Blog','/blog'),('Contact','/contact')] %}
-                    <li><a href="{{ path }}" style="color:rgba(255,255,255,0.4); font-size:0.85rem; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; transition:color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.4)'">
-                        {{ label }}
+                    <li><a href="{{ path }}" style="color:rgba(255,255,255,0.5); transition:color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.5)'">
+                        [ {{ label }} ]
                     </a></li>
                     {% endfor %}
                 </ul>
             </div>
 
+            <!-- Network Connections -->
             <div>
-                <p style="font-size:0.7rem; font-weight:800; text-transform:uppercase; letter-spacing:0.25em; color:rgba(255,255,255,0.2); margin-bottom:24px;">The Stack</p>
-                <div style="display:flex; flex-wrap:wrap; gap:12px;">
-                    {% for slug, color in [('kubernetes','ffffff'),('terraform','ffffff'),('aws','ffffff'),('docker','ffffff'),('githubactions','ffffff')] %}
-                    <img src="https://cdn.simpleicons.org/{{ slug }}/ffffff" style="width:20px; height:20px; opacity:0.3; filter:grayscale(100%); transition:opacity 0.3s, filter 0.3s;" onmouseover="this.style.opacity='1'; this.style.filter='none';" onmouseout="this.style.opacity='0.3'; this.style.filter='grayscale(100%)';" alt="{{ slug }}">
+                <p style="font-family:'JetBrains Mono', monospace; font-size:0.65rem; font-weight:800; text-transform:uppercase; letter-spacing:0.2em; color:var(--cyan-light); margin-bottom:20px;">> NETWORK</p>
+                <ul style="display:flex; flex-direction:column; gap:12px; font-family:'JetBrains Mono', monospace; font-size:0.8rem;">
+                    <li><a href="mailto:ogundelebayo8@gmail.com" style="color:rgba(255,255,255,0.5); transition:color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.5)'">EMAIL_NODE ↗</a></li>
+                    {% for label, href in [('GitHub_Repo', 'https://github.com/BayoJohn'), ('LinkedIn_Profile', 'https://www.linkedin.com/in/bayo123'), ('X_Feed', 'https://twitter.com/BayoJohnMoses')] %}
+                    <li><a href="{{ href }}" target="_blank" style="color:rgba(255,255,255,0.5); transition:color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.5)'">{{ label }} ↗</a></li>
                     {% endfor %}
-                </div>
+                </ul>
             </div>
 
+            <!-- Live Status -->
             <div>
-                <p style="font-size:0.7rem; font-weight:800; text-transform:uppercase; letter-spacing:0.25em; color:rgba(255,255,255,0.2); margin-bottom:24px;">Connect</p>
-                <div style="display:flex; flex-direction:column; gap:16px;">
-                    <a href="mailto:ogundelebayo8@gmail.com" style="color:#fff; font-size:0.85rem; font-weight:800; letter-spacing:0.02em;">EMAIL_NODE ↗</a>
-                    <div style="display:flex; gap:16px;">
-                        {% for label, href in [('GH', 'https://github.com/BayoJohn'), ('LI', 'https://www.linkedin.com/in/bayo123'), ('X', 'https://twitter.com/BayoJohnMoses')] %}
-                        <a href="{{ href }}" target="_blank" style="font-size:0.7rem; font-weight:800; color:rgba(255,255,255,0.3); transition:color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.3)'">{{ label }}</a>
-                        {% endfor %}
+                <p style="font-family:'JetBrains Mono', monospace; font-size:0.65rem; font-weight:800; text-transform:uppercase; letter-spacing:0.2em; color:var(--cyan-light); margin-bottom:20px;">> LIVE_TELEMETRY</p>
+                <div style="display:flex; flex-direction:column; gap:12px; font-family:'JetBrains Mono', monospace; font-size:0.75rem; color:rgba(255,255,255,0.6);">
+                    <div style="display:flex; justify-content:space-between; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:8px;">
+                        <span>CLUSTER_STATE</span> <span style="color:#10b981;">HEALTHY</span>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:8px;">
+                        <span>UPTIME</span> <span>99.99%</span>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:8px;">
+                        <span>REGION</span> <span>LAG_NGA</span>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; padding-bottom:8px;">
+                        <span>SYNC_STATUS</span> <span style="color:#8b5cf6;">SYNCED</span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div style="border-top:1px solid rgba(255,255,255,0.03); padding-top:32px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
-            <p style="color:rgba(255,255,255,0.15); font-size:0.65rem; font-weight:800; text-transform:uppercase; letter-spacing:0.1em;">© 2026 OMOBAYONLE OGUNDELE // PERSISTENCE: LAG_NGA</p>
-            <p style="color:rgba(255,255,255,0.15); font-size:0.65rem; font-weight:800; text-transform:uppercase; letter-spacing:0.1em;">OPS_CORE_V4 // 6.5N 3.3E</p>
+        <!-- Terminal Output Bar -->
+        <div style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); border-radius:12px; padding:16px 24px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; font-family:'JetBrains Mono', monospace;">
+            <div style="display:flex; align-items:center; gap:12px;">
+                <div style="width:8px; height:8px; background:#10b981; border-radius:50%; box-shadow:0 0 10px #10b981; animation:pulse 2s infinite;"></div>
+                <span style="font-size:0.75rem; color:#fff; font-weight:700;">SYSTEM ONLINE</span>
+            </div>
+            
+            <div style="font-size:0.75rem; color:var(--cyan-light); font-weight:700;" id="live-server-time">
+                SYS_TIME_UTC: 00:00:00.000
+            </div>
+            
+            <div style="font-size:0.7rem; color:rgba(255,255,255,0.4);">
+                © 2026 OMOBAYONLE OGUNDELE
+            </div>
         </div>
     </div>
 </footer>
 
-
+<script>
+    // Live Server Time Update
+    (function() {
+        const timeEl = document.getElementById('live-server-time');
+        if(!timeEl) return;
+        
+        function updateTime() {
+            const now = new Date();
+            const h = String(now.getUTCHours()).padStart(2, '0');
+            const m = String(now.getUTCMinutes()).padStart(2, '0');
+            const s = String(now.getUTCSeconds()).padStart(2, '0');
+            const ms = String(now.getUTCMilliseconds()).padStart(3, '0');
+            timeEl.innerText = \`SYS_TIME_UTC: \${h}:\${m}:\${s}.\${ms}\`;
+            requestAnimationFrame(updateTime);
+        }
+        updateTime();
+    })();
+</script>
 
 <script>
     // Hamburger

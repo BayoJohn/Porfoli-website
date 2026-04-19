@@ -36,81 +36,56 @@
     {% if posts %}
 
     <!-- Main grid: content + sidebar -->
-    <div id="blog-main-grid" style="display:grid;grid-template-columns:1fr 340px;gap:var(--section-gap);align-items:start;">
+    <div id="blog-main-grid" style="display:grid;grid-template-columns:1fr 340px;gap:var(--section-gap);align-items:start; position:relative;">
+      
+      <!-- Holographic Preview Element -->
+      <div id="holo-preview" style="position:fixed; width:280px; height:180px; background:rgba(5,8,15,0.95); border:1px solid rgba(6,182,212,0.4); border-radius:16px; pointer-events:none; opacity:0; transition:opacity 0.2s; z-index:100; overflow:hidden; box-shadow:0 10px 40px rgba(0,0,0,0.8), 0 0 20px rgba(6,182,212,0.15); display:flex; align-items:center; justify-content:center; transform:translate(-50%, -100%); margin-top:-20px;">
+         <div style="position:absolute; inset:0; background:url('data:image/svg+xml;utf8,<svg width=\"20\" height=\"20\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"2\" cy=\"2\" r=\"1\" fill=\"rgba(6,182,212,0.3)\"/></svg>') repeat; opacity:0.6; z-index:1;"></div>
+         <div style="position:absolute; width:100%; height:2px; background:var(--cyan-light); top:0; left:0; box-shadow:0 0 10px var(--cyan-light); animation:scanline 3s linear infinite; z-index:2; opacity:0.3;"></div>
+         <style>@keyframes scanline { 0% { top:-10%; } 100% { top:110%; } }</style>
+         <span style="font-family:'JetBrains Mono', monospace; font-size:0.75rem; color:var(--cyan-light); font-weight:800; z-index:3; text-shadow:0 0 10px var(--cyan-light); display:flex; flex-direction:column; align-items:center; gap:8px;">
+            <svg style="width:24px;height:24px;animation:pulse 2s infinite;" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+            [ DECRYPTING_FILE ]
+         </span>
+      </div>
 
       <!-- LEFT: posts -->
       <div>
-        <!-- Featured entry: Blended & Text-Only -->
-        {% set featured = posts[0] %}
-        {% set featured_rt = (featured.body | striptags | wordcount / 200) | int + 1 %}
-        <a href="/blog/{{ featured.id }}" class="reveal" style="
-          display:block; padding:var(--container-padding); border-radius:48px; border:1px solid rgba(255,255,255,0.04);
-          background: rgba(255,255,255,0.01); backdrop-filter: blur(12px);
-          margin-bottom:60px; text-decoration:none; position:relative; overflow:hidden;
-          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        "
-        onmouseover="this.style.borderColor='rgba(6,182,212,0.2)'; this.style.transform='translateY(-8px)'; this.style.background='rgba(255,255,255,0.02)';"
-        onmouseout="this.style.borderColor='rgba(255,255,255,0.04)'; this.style.transform='none'; this.style.background='rgba(255,255,255,0.01)';"
-        id="featured-post-card">
-          <!-- Ambient Accent Glow -->
-          <div style="position:absolute; top:-20%; right:-20%; width:300px; height:300px; background:radial-gradient(circle, rgba(6,182,212,0.08) 0%, transparent 70%); pointer-events:none;"></div>
-
-          <div style="position:relative; z-index:2;">
-            <div style="display:flex;align-items:center;gap:12px;margin-bottom:32px;flex-wrap:wrap;">
-              <span style="font-size:0.75rem;font-weight:900;color:var(--cyan-light);background:rgba(6,182,212,0.1);padding:6px 14px;border-radius:8px;text-transform:uppercase;letter-spacing:0.1em;border:1px solid rgba(6,182,212,0.2);">FEATURED_ENTRY</span>
-              <span style="color:rgba(255,255,255,0.1);">&bull;</span>
-              <span style="font-size:0.8rem;color:rgba(255,255,255,0.3);font-weight:800;text-transform:uppercase;letter-spacing:0.05em;">{{ featured.created_at.strftime('%Y.%m.%d') }}</span>
-              <span style="color:rgba(255,255,255,0.1);">&bull;</span>
-              <span style="font-size:0.8rem;color:rgba(255,255,255,0.3);font-weight:800;text-transform:uppercase;letter-spacing:0.05em;">{{ featured_rt }} MIN_READ</span>
-            </div>
+         <div style="border:1px solid rgba(255,255,255,0.05); background:rgba(255,255,255,0.01); border-radius:16px; overflow:hidden; font-family:'JetBrains Mono', monospace; backdrop-filter:blur(12px);">
             
-            <h2 style="font-size:clamp(1.8rem,5vw,3.2rem);font-weight:900;color:#fff;line-height:1.1;margin-bottom:24px;letter-spacing:-0.04em;word-wrap:break-word;overflow-wrap:anywhere;word-break:normal;hyphens:auto;">{{ featured.title }}</h2>
-            <p style="font-size:1.15rem;color:rgba(255,255,255,0.4);line-height:1.7;margin-bottom:48px;font-weight:500;">{{ featured.body | striptags | truncate(220) }}</p>
-            
-            <div style="display:flex;align-items:center;justify-content:space-between;padding-top:32px;border-top:1px solid rgba(255,255,255,0.04);">
-              <div style="display:flex;align-items:center;gap:12px;">
-                <div style="width:40px;height:40px;background:linear-gradient(135deg,#0891b2,#06b6d4);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.9rem;font-weight:900;color:#fff;">B</div>
-                <span style="font-size:0.85rem;font-weight:800;color:rgba(255,255,255,0.3);text-transform:uppercase;letter-spacing:0.1em;">MAIN_NODE: BAYO</span>
-              </div>
-              <span style="font-size:0.85rem;font-weight:900;color:var(--cyan-light);text-transform:uppercase;letter-spacing:0.1em;">DECRYPT_LOG ↗</span>
+            <!-- Table Header -->
+            <div class="log-header" style="display:grid; grid-template-columns:100px 100px 1fr 100px; gap:16px; padding:16px 24px; border-bottom:1px solid rgba(255,255,255,0.08); font-size:0.7rem; font-weight:800; color:var(--cyan-light); text-transform:uppercase; letter-spacing:0.1em; background:rgba(6,182,212,0.02);">
+               <div>TIMESTAMP</div>
+               <div>CATEGORY</div>
+               <div>LOG_TITLE</div>
+               <div style="text-align:right;">ACTION</div>
             </div>
-          </div>
-        </a>
 
-        <!-- Post list: Blended -->
-        {% if posts|length > 1 %}
-        <div class="reveal">
-          <div style="padding:0 0 24px;border-bottom:1px solid rgba(255,255,255,0.05);margin-bottom:32px;">
-            <p style="font-size:0.75rem;font-weight:900;text-transform:uppercase;letter-spacing:0.2em;color:rgba(255,255,255,0.2);">ALL_SYSTEM_LOGS</p>
-          </div>
-          {% for post in posts[1:] %}
-          {% set rt = (post.body | striptags | wordcount / 200) | int + 1 %}
-          <a href="/blog/{{ post.id }}" style="
-            display:grid;grid-template-columns:60px 1fr auto;gap:32px;align-items:start;
-            padding:48px 0;border-bottom:1px solid rgba(255,255,255,0.03);
-            text-decoration:none;transition:all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-          "
-          onmouseover="this.querySelector('.p-title').style.color='var(--cyan-light)';this.querySelector('.p-arrow').style.transform='translateX(8px)';this.querySelector('.p-arrow').style.color='var(--cyan-light)';"
-          onmouseout="this.querySelector('.p-title').style.color='#fff';this.querySelector('.p-arrow').style.transform='none';this.querySelector('.p-arrow').style.color='rgba(255,255,255,0.1)';"
-          id="post-archive-row">
-            <div style="font-size:0.9rem;font-weight:900;color:rgba(255,255,255,0.1);text-align:right;padding-top:6px; letter-spacing:0.1em;">{{ '%02d' % (loop.index + 1) }}</div>
-            <div>
-              <div class="p-title" style="font-size:1.5rem;font-weight:900;color:#fff;margin-bottom:12px;line-height:1.2;transition:color 0.3s;letter-spacing:-0.02em;">{{ post.title }}</div>
-              <div style="font-size:1.05rem;color:rgba(255,255,255,0.3);line-height:1.7;margin-bottom:20px;display:-webkit-box;-webkit-line-clamp:2;line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-weight:500;">{{ post.body | striptags | truncate(160) }}</div>
-              <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
-                <span style="font-size:0.7rem;font-weight:900;text-transform:uppercase;letter-spacing:0.1em;background:rgba(255,255,255,0.03);color:rgba(255,255,255,0.5);padding:4px 12px;border-radius:6px;border:1px solid rgba(255,255,255,0.05);">DEVOPS</span>
-                <span style="font-size:0.75rem;font-weight:800;color:rgba(255,255,255,0.2);text-transform:uppercase;letter-spacing:0.05em;">{{ post.created_at.strftime('%Y.%m.%d') }}</span>
-                <span style="color:rgba(255,255,255,0.05);">&bull;</span>
-                <span style="font-size:0.75rem;font-weight:800;color:rgba(255,255,255,0.2);text-transform:uppercase;letter-spacing:0.05em;">{{ rt }} MIN_READ</span>
-              </div>
-            </div>
-            <div class="p-arrow" style="color:rgba(255,255,255,0.1);transition:all 0.3s;padding-top:8px;">
-              <svg style="width:24px;height:24px;" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
-            </div>
-          </a>
-          {% endfor %}
-        </div>
-        {% endif %}
+            <!-- Posts List -->
+            {% for post in posts %}
+            {% set rt = (post.body | striptags | wordcount / 200) | int + 1 %}
+            <a href="/blog/{{ post.id }}" class="log-row hover-target" style="display:grid; grid-template-columns:100px 100px 1fr 100px; gap:16px; padding:24px; border-bottom:1px solid rgba(255,255,255,0.03); text-decoration:none; align-items:center; transition:all 0.2s; position:relative;" onmouseover="this.style.background='rgba(6,182,212,0.03)'; this.querySelector('.p-arrow').style.transform='translateX(5px)';" onmouseout="this.style.background='transparent'; this.querySelector('.p-arrow').style.transform='none';">
+               
+               <div style="font-size:0.8rem; color:rgba(255,255,255,0.4);">
+                  {{ post.created_at.strftime('%Y.%m.%d') }}
+               </div>
+               
+               <div>
+                  <span style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); padding:4px 8px; border-radius:4px; font-size:0.65rem; color:rgba(255,255,255,0.6);">SYS_OPS</span>
+               </div>
+               
+               <div class="p-title" style="font-size:0.95rem; font-weight:700; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; display:flex; align-items:center; gap:12px;">
+                  {% if loop.index == 1 %}<span style="color:var(--cyan-light); font-size:0.7rem;">[★]</span>{% endif %}
+                  {{ post.title }}
+               </div>
+               
+               <div style="text-align:right; font-size:0.75rem; color:var(--cyan-light); font-weight:800; display:flex; justify-content:flex-end; align-items:center; gap:8px;">
+                  <span>{{ rt }}M</span>
+                  <svg class="p-arrow" style="width:14px;height:14px;transition:transform 0.2s;" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+               </div>
+            </a>
+            {% endfor %}
+         </div>
       </div>
 
       <!-- RIGHT: sidebar: Blended -->
@@ -170,17 +145,16 @@
       position: relative !important;
       top: 0 !important;
   }
-  #featured-post-card {
-    padding: 32px 20px !important;
-    border-radius: 28px !important;
-  }
-  #post-archive-row {
+  .log-row {
     grid-template-columns: 1fr auto !important;
-    gap: 16px !important;
-    padding: 32px 0 !important;
+    gap: 12px !important;
+    padding: 24px 16px !important;
   }
-  #post-archive-row > div:first-child {
-      display: none !important;
+  .log-row > div:nth-child(1), .log-row > div:nth-child(2) {
+    display: none !important;
+  }
+  .log-header {
+    display: none !important;
   }
   .section-container {
       padding-left: 20px !important;
@@ -196,11 +170,9 @@
   if (!input) return;
   const noResults = document.getElementById('search-no-results');
 
-  // All searchable post elements — featured card + archive rows
+  // All searchable post elements
   function getSearchableItems() {
-    const featured = document.getElementById('featured-post-card');
-    const rows = Array.from(document.querySelectorAll('#post-archive-row'));
-    return featured ? [featured, ...rows] : rows;
+    return Array.from(document.querySelectorAll('.log-row'));
   }
 
   input.addEventListener('input', function() {
@@ -218,6 +190,24 @@
       if (match) visible++;
     });
     noResults.style.display = visible === 0 ? 'block' : 'none';
+  });
+})();
+
+/* ── Holographic Hover Effect ── */
+(function() {
+  const preview = document.getElementById('holo-preview');
+  const rows = document.querySelectorAll('.log-row');
+  if(!preview || rows.length === 0) return;
+
+  rows.forEach(row => {
+     row.addEventListener('mousemove', (e) => {
+        preview.style.opacity = '1';
+        preview.style.left = e.clientX + 'px';
+        preview.style.top = e.clientY + 'px';
+     });
+     row.addEventListener('mouseleave', () => {
+        preview.style.opacity = '0';
+     });
   });
 })();
 </script>

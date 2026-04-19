@@ -44,106 +44,127 @@
       </div>
     </div>
 
-    <!-- 2. The Journey: Technical Vertical Stream -->
-    <div style="position:relative;">
-      <div style="text-align:center;margin-bottom:80px;">
-        <p style="font-size:0.7rem;font-weight:900;text-transform:uppercase;letter-spacing:0.3em;color:var(--amber-light);margin-bottom:16px; opacity:0.5;">CHRONOLOGICAL_LOGS</p>
-        <h2 style="font-size:clamp(2.4rem,6vw,4.2rem);font-weight:900;color:#fff;letter-spacing:-0.04em;line-height:1.0;">Technical Journey</h2>
+    <!-- 2. The Journey: Git-Branching Timeline -->
+    <div style="position:relative; margin-bottom:120px;">
+      <div style="text-align:center;margin-bottom:60px;">
+        <p style="font-size:0.7rem;font-weight:900;text-transform:uppercase;letter-spacing:0.3em;color:var(--amber-light);margin-bottom:16px; opacity:0.5;">GIT_LOG --GRAPH --ONELINE</p>
+        <h2 style="font-size:clamp(2rem,6vw,3.5rem);font-weight:900;color:#fff;letter-spacing:-0.04em;line-height:1.0;font-family:'JetBrains Mono', monospace;">* commit history</h2>
       </div>
       
-      <!-- Open Architecture (Integrated Stream) -->
-      <div id="journey-stream" style="position:relative; max-width:900px; margin:0 auto; padding-left:clamp(20px, 8vw, 50px);">
-        <!-- Technical Vertical Line -->
-        <div id="journey-line" style="position:absolute; top:0; left:0; bottom:0; width:1px; background:linear-gradient(to bottom, transparent, rgba(6,182,212,0.6) 10%, rgba(6,182,212,0.1) 90%, transparent);"></div>
-
-        <!-- Journey Node: DevOps Engineer -->
-        <div class="reveal" style="position:relative; margin-bottom:80px;">
-          <!-- Node Point -->
-          <div class="journey-node-point" style="position:absolute; left:-55px; top:16px; width:10px; height:10px; border-radius:50%; background:var(--cyan); box-shadow:0 0 20px var(--cyan); border:2px solid #fff;"></div>
-          <!-- Connection Branch -->
-          <div class="journey-branch" style="position:absolute; left:-45px; top:21px; width:45px; height:1px; background:rgba(6,182,212,0.4);"></div>
+      <!-- Terminal Window -->
+      <div class="reveal" style="max-width:900px; margin:0 auto; background:rgba(5,8,15,0.95); border:1px solid rgba(255,255,255,0.1); border-radius:16px; overflow:hidden; font-family:'JetBrains Mono', monospace; box-shadow:0 20px 40px rgba(0,0,0,0.5);">
+        <!-- Window Chrome -->
+        <div style="display:flex; align-items:center; gap:8px; padding:12px 16px; background:rgba(255,255,255,0.03); border-bottom:1px solid rgba(255,255,255,0.05);">
+           <div style="width:12px;height:12px;border-radius:50%;background:#ef4444;"></div>
+           <div style="width:12px;height:12px;border-radius:50%;background:#eab308;"></div>
+           <div style="width:12px;height:12px;border-radius:50%;background:#10b981;"></div>
+           <span style="margin-left:16px;font-size:0.7rem;color:rgba(255,255,255,0.3);">bayo@edge-node:~/career</span>
+        </div>
+        
+        <!-- Terminal Output -->
+        <div style="padding:32px; color:rgba(255,255,255,0.7); font-size:0.9rem; line-height:1.8; overflow-x:auto;">
           
-          <div class="journey-card" style="padding:48px; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.08); border-radius:40px; backdrop-filter:blur(16px); position:relative; overflow:hidden;">
-            <!-- Internal Glow -->
-            <div style="position:absolute; top:-10%; left:-10%; width:200px; height:200px; background:radial-gradient(circle, rgba(6,182,212,0.05) 0%, transparent 70%); pointer-events:none;"></div>
-
-            <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:24px;flex-wrap:wrap;">
-              <div>
-                <h3 style="font-size:1.8rem;font-weight:900;color:#fff;letter-spacing:-0.02em;line-height:1.1;">DevOps Engineer</h3>
-                <p style="font-size:0.8rem;color:rgba(255,255,255,0.3);font-weight:800;text-transform:uppercase;letter-spacing:0.1em;margin-top:4px;">[ SELF_TAUGHT_LOG ]</p>
-              </div>
-              <div style="font-size:0.75rem;font-weight:900;color:var(--amber-light);background:rgba(245,158,11,0.05);border:1px solid rgba(245,158,11,0.15);padding:8px 18px;border-radius:8px;text-transform:uppercase;letter-spacing:0.1em;">2024 &mdash; Present</div>
-            </div>
-            
-            <p style="font-size:1.15rem;color:rgba(255,255,255,0.4);line-height:1.8;margin-bottom:32px;font-weight:500;">
-              Bootstraping resilience. I specialize in bare-metal Kubernetes hydration, 
-              automating full-stack deployment lifecycles via GitOps (ArgoCD), 
-              and crafting robust CI/CD pipelines that scale with precision.
-            </p>
-            
-            <div style="display:flex;flex-wrap:wrap;gap:12px;">
-              {% for tag in ['Kubernetes', 'Docker', 'Drone CI', 'AWS', 'ArgoCD', 'Terraform', 'Prometheus', 'Ansible'] %}
-              <span style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);padding:8px 18px;border-radius:10px;font-size:0.75rem;color:rgba(255,255,255,0.6);font-weight:800;text-transform:uppercase;letter-spacing:0.05em;">{{ tag }}</span>
-              {% endfor %}
+          <div style="display:flex; margin-bottom:24px;">
+            <div style="color:#ef4444; width:30px; font-weight:bold; font-size:1.2rem;">*</div>
+            <div>
+               <span style="color:#eab308; font-weight:bold;">commit 8f3a9b2 (HEAD -> main)</span><br>
+               <span style="color:var(--cyan-light);">Author: Bayo &lt;ogundelebayo8@gmail.com&gt;</span><br>
+               <span style="color:rgba(255,255,255,0.4);">Date:   2024 - Present</span><br>
+               <br>
+               <span style="color:#fff; font-weight:bold; font-size:1.1rem;">feat: DevOps Engineer Integration</span><br>
+               <br>
+               Bootstraping resilience. I specialize in bare-metal Kubernetes hydration,<br>
+               automating full-stack deployment lifecycles via GitOps (ArgoCD),<br>
+               and crafting robust CI/CD pipelines that scale with precision.
             </div>
           </div>
+
+          <div style="display:flex; margin-bottom:24px;">
+            <div style="color:#ef4444; width:30px; font-weight:bold; font-size:1.2rem; line-height:1.2;">|<br>|<br>*</div>
+            <div>
+               <br><br><span style="color:#eab308; font-weight:bold;">commit 3a1b2c4 (tag: v1.0)</span><br>
+               <span style="color:var(--cyan-light);">Author: Bayo &lt;ogundelebayo8@gmail.com&gt;</span><br>
+               <span style="color:rgba(255,255,255,0.4);">Date:   2021 - 2023</span><br>
+               <br>
+               <span style="color:#fff; font-weight:bold; font-size:1.1rem;">feat: Cloud Systems Architecture</span><br>
+               <br>
+               Transitioned into cloud computing, architecting highly available<br>
+               AWS infrastructures and containerizing legacy applications with Docker.
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
 
-    <!-- 3. Arsenal: Blended Modules -->
-    <div>
-      <div style="text-align:center;margin-bottom:80px;">
-        <p style="font-size:0.7rem;font-weight:900;text-transform:uppercase;letter-spacing:0.3em;color:var(--cyan-light);margin-bottom:16px; opacity:0.5;">ARSENAL_MODULES</p>
-        <h2 style="font-size:clamp(2.4rem,6vw,4.2rem);font-weight:900;color:#fff;letter-spacing:-0.04em;line-height:1.0;">System Stack</h2>
+    <!-- 3. System Specs (Bento Grid) -->
+    <div style="margin-bottom:80px;">
+      <div style="text-align:center;margin-bottom:60px;">
+        <p style="font-size:0.7rem;font-weight:900;text-transform:uppercase;letter-spacing:0.3em;color:var(--cyan-light);margin-bottom:16px; opacity:0.5;">SYSTEM_RESOURCES</p>
+        <h2 style="font-size:clamp(2.4rem,6vw,4.2rem);font-weight:900;color:#fff;letter-spacing:-0.04em;line-height:1.0;">Arsenal & Telemetry</h2>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+      <div style="display:grid; grid-template-columns:repeat(12, 1fr); gap:24px;">
         
-        <!-- DevOps Section -->
-        <div class="skill-card reveal" style="padding:60px; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.08); border-radius:48px; backdrop-filter:blur(24px); display:flex;flex-direction:column;gap:40px;transition:all 0.4s cubic-bezier(0.4, 0, 0.2, 1); position:relative; overflow:hidden;" onmouseover="this.style.transform='translateY(-8px)'; this.style.borderColor='rgba(6,182,212,0.2)';" onmouseout="this.style.transform='none'; this.style.borderColor='rgba(255,255,255,0.08)';" >
-          <div style="position:absolute; bottom:-10%; right:-10%; width:150px; height:150px; background:radial-gradient(circle, rgba(6,182,212,0.05) 0%, transparent 70%); pointer-events:none;"></div>
-          
-          <div style="display:flex;align-items:center;gap:20px;">
-            <div style="width:56px;height:56px;border-radius:14px;background:rgba(6,182,212,0.05);border:1px solid rgba(6,182,212,0.15);display:flex;align-items:center;justify-content:center;font-size:1.5rem;">☁️</div>
-            <h3 style="font-size:1.8rem;font-weight:900;color:#fff;letter-spacing:-0.02em;">Infrastructure</h3>
-          </div>
-          <p style="color:rgba(255,255,255,0.3);font-size:1.1rem;line-height:1.7;font-weight:500;">Core frameworks for architecting high-availability systems and cloud-native deployments.</p>
-          <div style="display:flex;flex-wrap:wrap;gap:12px;">
-            {% for label, color, slug in [
-              ('AWS','#FF9900','amazonaws'),('Docker','#2496ED','docker'),('Kubernetes','#326CE5','kubernetes'),
-              ('ArgoCD','#EF7B4D','argo'),('Terraform','#7B42BC','terraform'),('Ansible','#EE0000','ansible'),
-              ('GitHub Actions','#2088FF','githubactions'),('Linux','#FCC624','linux'),('Prometheus','#E6522C','prometheus')
-            ] %}
-            <div style="background:rgba(255,255,255,0.01);border:1px solid rgba(255,255,255,0.05);padding:12px 20px;border-radius:100px;display:flex;align-items:center;gap:12px;transition:all 0.3s;" onmouseover="this.style.background='rgba(6,182,212,0.1)';this.style.borderColor='rgba(6,182,212,0.2)';" onmouseout="this.style.background='rgba(255,255,255,0.01)';this.style.borderColor='rgba(255,255,255,0.05)';">
-              <img src="https://cdn.simpleicons.org/{{ slug }}/{{ color|replace('#', '')|replace('000000','ffffff') }}" style="width:16px;height:16px;">
-              <span style="font-size:0.8rem;font-weight:800;color:rgba(255,255,255,0.7);text-transform:uppercase;letter-spacing:0.05em;">{{ label }}</span>
-            </div>
-            {% endfor %}
-          </div>
+        <!-- Bento Box: Core Infrastructure (Large) -->
+        <div class="reveal" style="grid-column:span 12; @media(min-width:768px){grid-column:span 8;} padding:40px; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.08); border-radius:32px; backdrop-filter:blur(24px); position:relative; overflow:hidden;">
+           <div style="position:absolute; bottom:-20%; right:-10%; width:200px; height:200px; background:radial-gradient(circle, rgba(6,182,212,0.1) 0%, transparent 70%); pointer-events:none;"></div>
+           <h3 style="font-family:'JetBrains Mono', monospace; font-size:1.2rem; font-weight:800; color:#fff; margin-bottom:32px;">> INFRASTRUCTURE_CAPACITY</h3>
+           
+           <div style="display:flex; flex-direction:column; gap:24px;">
+              {% for label, level, color in [('Kubernetes', '95%', '#326CE5'), ('Docker', '90%', '#2496ED'), ('Terraform', '85%', '#7B42BC'), ('AWS', '80%', '#FF9900')] %}
+              <div>
+                 <div style="display:flex; justify-content:space-between; margin-bottom:8px; font-family:'JetBrains Mono', monospace; font-size:0.8rem; font-weight:700;">
+                    <span style="color:rgba(255,255,255,0.8);">{{ label }}</span>
+                    <span style="color:{{ color }}; text-shadow:0 0 10px {{ color }};">{{ level }}</span>
+                 </div>
+                 <div style="width:100%; height:6px; background:rgba(255,255,255,0.05); border-radius:4px; overflow:hidden;">
+                    <div style="width:{{ level }}; height:100%; background:{{ color }}; box-shadow:0 0 10px {{ color }}; border-radius:4px;"></div>
+                 </div>
+              </div>
+              {% endfor %}
+           </div>
         </div>
 
-        <!-- Programming Section -->
-        <div class="skill-card reveal" style="padding:60px; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.08); border-radius:48px; backdrop-filter:blur(24px); display:flex;flex-direction:column;gap:40px;transition:all 0.4s cubic-bezier(0.4, 0, 0.2, 1); position:relative; overflow:hidden;" onmouseover="this.style.transform='translateY(-8px)'; this.style.borderColor='rgba(245,158,11,0.2)';" onmouseout="this.style.transform='none'; this.style.borderColor='rgba(255,255,255,0.08)';" >
-          <div style="position:absolute; bottom:-10%; right:-10%; width:150px; height:150px; background:radial-gradient(circle, rgba(245,158,11,0.05) 0%, transparent 70%); pointer-events:none;"></div>
-
-          <div style="display:flex;align-items:center;gap:20px;">
-            <div style="width:56px;height:56px;border-radius:14px;background:rgba(245,158,11,0.05);border:1px solid rgba(245,158,11,0.15);display:flex;align-items:center;justify-content:center;font-size:1.5rem;">💻</div>
-            <h3 style="font-size:1.8rem;font-weight:900;color:#fff;letter-spacing:-0.02em;">Development</h3>
-          </div>
-          <p style="color:rgba(255,255,255,0.65);font-size:1.1rem;line-height:1.7;font-weight:500;">Logic layers and automation scripts orchestrating the full infrastructure lifecycle.</p>
-          <div style="display:flex;flex-wrap:wrap;gap:12px;">
-            {% for label, color, slug in [
-              ('Python','#3776AB','python'),('Bash','#4EAA25','gnubash'),('Flask','#ffffff','flask'),('PostgreSQL','#4169E1','postgresql'),
-              ('Git','#F05032','git'),('HTML/CSS','#E34F26','html5'),('REST APIs','#FF6C37','postman')
-            ] %}
-            <div style="background:rgba(255,255,255,0.01);border:1px solid rgba(255,255,255,0.05);padding:12px 20px;border-radius:100px;display:flex;align-items:center;gap:12px;transition:all 0.3s;" onmouseover="this.style.background='rgba(245,158,11,0.1)';this.style.borderColor='rgba(245,158,11,0.2)';" onmouseout="this.style.background='rgba(255,255,255,0.01)';this.style.borderColor='rgba(255,255,255,0.05)';">
-              <img src="https://cdn.simpleicons.org/{{ slug }}/{{ color|replace('#', '')|replace('000000','ffffff') }}" style="width:16px;height:16px;">
-              <span style="font-size:0.8rem;font-weight:800;color:rgba(255,255,255,0.7);text-transform:uppercase;letter-spacing:0.05em;">{{ label }}</span>
-            </div>
-            {% endfor %}
-          </div>
+        <!-- Bento Box: Security Clearances (Small) -->
+        <div class="reveal" style="grid-column:span 12; @media(min-width:768px){grid-column:span 4;} padding:40px; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.08); border-radius:32px; backdrop-filter:blur(24px); display:flex; flex-direction:column; justify-content:space-between;">
+           <h3 style="font-family:'JetBrains Mono', monospace; font-size:1.1rem; font-weight:800; color:#fff; margin-bottom:24px;">> ACCESS_KEYS</h3>
+           
+           <div style="display:flex; flex-direction:column; gap:16px;">
+              <div style="background:rgba(255,255,255,0.03); border:1px dashed rgba(16,185,129,0.3); padding:16px; border-radius:16px; display:flex; align-items:center; gap:16px;">
+                 <div style="width:40px;height:40px;border-radius:8px;background:rgba(16,185,129,0.1);display:flex;align-items:center;justify-content:center;font-size:1.2rem;">🛡️</div>
+                 <div>
+                    <div style="font-size:0.8rem; font-weight:800; color:#fff; letter-spacing:0.05em;">AWS Certified</div>
+                    <div style="font-size:0.65rem; color:rgba(255,255,255,0.4); font-family:'JetBrains Mono', monospace;">Solutions Architect</div>
+                 </div>
+              </div>
+              <div style="background:rgba(255,255,255,0.03); border:1px dashed rgba(6,182,212,0.3); padding:16px; border-radius:16px; display:flex; align-items:center; gap:16px;">
+                 <div style="width:40px;height:40px;border-radius:8px;background:rgba(6,182,212,0.1);display:flex;align-items:center;justify-content:center;font-size:1.2rem;">☸️</div>
+                 <div>
+                    <div style="font-size:0.8rem; font-weight:800; color:#fff; letter-spacing:0.05em;">CKA</div>
+                    <div style="font-size:0.65rem; color:rgba(255,255,255,0.4); font-family:'JetBrains Mono', monospace;">Certified K8s Administrator</div>
+                 </div>
+              </div>
+           </div>
         </div>
+
+        <!-- Bento Box: Dev Modules (Medium) -->
+        <div class="reveal" style="grid-column:span 12; padding:40px; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.08); border-radius:32px; backdrop-filter:blur(24px);">
+           <h3 style="font-family:'JetBrains Mono', monospace; font-size:1.1rem; font-weight:800; color:#fff; margin-bottom:24px;">> AUTOMATION_SCRIPTS</h3>
+           
+           <div style="display:flex; flex-wrap:wrap; gap:12px;">
+              {% for label, color, slug in [
+                ('Python','#3776AB','python'),('Bash','#4EAA25','gnubash'),('Go','#00ADD8','go'),('Flask','#ffffff','flask'),
+                ('GitOps','#EF7B4D','argo'),('GitHub Actions','#2088FF','githubactions'),('Prometheus','#E6522C','prometheus')
+              ] %}
+              <div style="background:rgba(255,255,255,0.01);border:1px solid rgba(255,255,255,0.05);padding:12px 20px;border-radius:12px;display:flex;align-items:center;gap:12px;transition:all 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.05)';" onmouseout="this.style.background='rgba(255,255,255,0.01)';">
+                <img src="https://cdn.simpleicons.org/{{ slug }}/{{ color|replace('#', '')|replace('000000','ffffff') }}" style="width:16px;height:16px;">
+                <span style="font-size:0.8rem;font-weight:800;color:rgba(255,255,255,0.7);text-transform:uppercase;letter-spacing:0.05em;font-family:'JetBrains Mono', monospace;">{{ label }}</span>
+              </div>
+              {% endfor %}
+           </div>
+        </div>
+
       </div>
     </div>
 

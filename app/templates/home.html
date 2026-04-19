@@ -184,77 +184,237 @@
   </section>
 
   
-  <section style="padding:0 24px 100px;">
-    <div style="max-width:1100px;margin:0 auto;">
-      <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:48px;" class="reveal">
-        <div>
-          <p
-            style="font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:0.12em;color:var(--cyan-light);margin-bottom:12px;">
-            My Work</p>
-          <h2 style="font-size:clamp(2.2rem,4vw,3.2rem);font-weight:900;color:#fff;letter-spacing:-0.02em;">Featured
-            Projects</h2>
-        </div>
-        <a href="/projects" style="font-size:0.95rem;color:rgba(255,255,255,0.6);font-weight:700;transition:color 0.2s;"
-          onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">View all ↗</a>
+  <!-- ═══════════════════════════════════════ LIVE DEPLOYMENT PIPELINE ═══ -->
+  <section style="padding:100px 24px; background:transparent;">
+    <div style="max-width:1100px; margin:0 auto;" class="reveal">
+      
+      <div style="margin-bottom:64px;">
+        <p style="font-family:'JetBrains Mono', monospace; font-size:0.75rem; font-weight:700; color:var(--cyan-light); letter-spacing:0.2em; text-transform:uppercase; margin-bottom:12px;">
+          > deployment_pipeline.watch()
+        </p>
+        <h2 style="font-size:clamp(2.5rem,5vw,3.8rem); font-weight:900; color:#fff; letter-spacing:-0.03em; line-height:1;">
+          Homelab Deployment Flow.
+        </h2>
+        <p style="font-size:1.1rem; color:rgba(255,255,255,0.4); max-width:600px; margin-top:24px; line-height:1.6;">
+          Fully automated GitOps pipeline. From code commit to production cluster with zero manual intervention.
+        </p>
       </div>
 
-      {% if projects %}
-      <div class="projects-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:28px;">
-        {% for project in projects %}
-        <a href="/projects/{{ project.id }}" class="glass-panel reveal"
-          style="display:flex;flex-direction:column;overflow:hidden;padding:0;transition:transform 0.3s,border-color 0.3s,background 0.3s;text-decoration:none;"
-          onmouseover="this.style.borderColor='rgba(6,182,212,0.5)';this.style.transform='translateY(-8px)';this.style.background='var(--glass-hover)'"
-          onmouseout="this.style.borderColor='var(--border)';this.style.transform='none';this.style.background='var(--glass)'">
-          <div style="height:240px;overflow:hidden;position:relative;">
-            {% if project.image %}
-            <img src="/static/uploads/{{ project.image }}" alt="{{ project.title }}"
-              loading="lazy" decoding="async"
-              style="width:100%;height:100%;object-fit:cover;transition:transform 0.6s;">
-            {% else %}
-            <div
-              style="width:100%;height:100%;background:rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:center;font-size:4rem;">
-              🚀</div>
-            {% endif %}
-            <div
-              style="position:absolute;inset:0;background:linear-gradient(to top,var(--glass),transparent);pointer-events:none;">
+      <!-- Pipeline Container -->
+      <div style="position:relative; width:100%; padding: 40px 0;">
+         
+         <!-- Connecting Line Background -->
+         <div class="pipeline-track" style="position:absolute; top:50%; left:0; width:100%; height:2px; background:rgba(255,255,255,0.05); transform:translateY(-50%); z-index:0;">
+            <!-- The glowing traveling packet -->
+            <div class="pipeline-packet" style="height:100%; width:100px; background:linear-gradient(90deg, transparent, var(--cyan-light), transparent); position:absolute; top:0; left:0; filter:blur(2px);"></div>
+         </div>
+
+         <style>
+            .pipeline-packet {
+               animation: travel 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+            }
+            @keyframes travel {
+               0% { left: -10%; opacity: 0; }
+               10% { opacity: 1; }
+               90% { opacity: 1; }
+               100% { left: 100%; opacity: 0; }
+            }
+            .pipeline-grid {
+               display: grid;
+               grid-template-columns: repeat(6, 1fr);
+               gap: 16px;
+               position: relative;
+               z-index: 1;
+            }
+            .pipeline-node {
+               background: transparent;
+               padding: 24px 16px;
+               text-align: center;
+               transition: all 0.3s;
+               display: flex;
+               flex-direction: column;
+               align-items: center;
+               gap: 16px;
+            }
+            .node-icon {
+               width: 48px;
+               height: 48px;
+               border-radius: 50%;
+               background: var(--bg-dark); /* Masks the line behind it */
+               border: 1px solid rgba(255,255,255,0.1);
+               display: flex;
+               align-items: center;
+               justify-content: center;
+               font-family: 'JetBrains Mono', monospace;
+               font-size: 0.8rem;
+               color: var(--cyan-light);
+               font-weight: 800;
+               transition: all 0.3s;
+               position: relative;
+               z-index: 2;
+            }
+            .pipeline-node:hover .node-icon {
+               background: rgba(6,182,212,0.1);
+               border-color: var(--cyan-light);
+               box-shadow: 0 0 20px rgba(6,182,212,0.3);
+               transform: scale(1.1);
+            }
+            
+            /* Responsive */
+            @media (max-width: 900px) {
+               .pipeline-grid {
+                  grid-template-columns: 1fr;
+                  gap: 32px;
+               }
+               .pipeline-track {
+                  width: 2px;
+                  height: 100%;
+                  top: 0;
+                  left: 50%;
+                  transform: translateX(-50%);
+               }
+               .pipeline-packet {
+                  width: 100%;
+                  height: 100px;
+                  background: linear-gradient(180deg, transparent, var(--cyan-light), transparent);
+                  animation: travel-vertical 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+               }
+               @keyframes travel-vertical {
+                  0% { top: -10%; opacity: 0; }
+                  10% { opacity: 1; }
+                  90% { opacity: 1; }
+                  100% { top: 100%; opacity: 0; }
+               }
+            }
+         </style>
+
+         <div class="pipeline-grid">
+            
+            <!-- Step 1: Code/Gitea -->
+            <div class="pipeline-node">
+               <div class="node-icon">GIT</div>
+               <div>
+                  <h4 style="font-family:'JetBrains Mono', monospace; font-size:0.9rem; color:#fff; margin-bottom:8px;">Gitea</h4>
+                  <p style="font-size:0.8rem; color:rgba(255,255,255,0.4); line-height:1.4;">Self-hosted VCS. Triggers webhook on push.</p>
+               </div>
             </div>
-            {% if project.tech_stack %}
-            <div style="position:absolute;bottom:16px;left:20px;display:flex;gap:8px;flex-wrap:wrap;">
-              {% for tech in project.tech_stack.split(',')[:3] %}
-              <span
-                style="background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.1);color:#fff;font-size:0.75rem;font-weight:700;padding:4px 12px;border-radius:100px;">{{
-                tech.strip() }}</span>
-              {% endfor %}
+
+            <!-- Step 2: CI/Drone -->
+            <div class="pipeline-node">
+               <div class="node-icon" style="color:#8b5cf6;">CI</div>
+               <div>
+                  <h4 style="font-family:'JetBrains Mono', monospace; font-size:0.9rem; color:#fff; margin-bottom:8px;">Drone</h4>
+                  <p style="font-size:0.8rem; color:rgba(255,255,255,0.4); line-height:1.4;">Executes pipeline, runs tests & linters.</p>
+               </div>
             </div>
-            {% endif %}
-          </div>
-          <div style="padding:28px;flex:1;display:flex;flex-direction:column;">
-            <h3 style="font-size:1.3rem;font-weight:800;color:#fff;margin-bottom:10px;">{{ project.title }}</h3>
-            <p style="font-size:1rem;color:rgba(255,255,255,0.6);line-height:1.7;flex:1;margin-bottom:20px;">{{
-              project.description | replace('</p>', ' </p>') | replace('<br>', ' ') | striptags | truncate(110) }}</p>
-            <div
-              style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(255,255,255,0.08);padding-top:18px;">
-              <div style="display:flex;align-items:center;gap:10px;">
-                <div
-                  style="width:28px;height:28px;background:var(--cyan);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:900;color:#fff;">
-                  B</div>
-                <span style="font-size:0.85rem;font-weight:600;color:rgba(255,255,255,0.6);">Bayo</span>
-              </div>
-              <span style="font-size:0.9rem;font-weight:700;color:var(--cyan-light);">View project ↗</span>
+
+            <!-- Step 3: Secrets/Vault -->
+            <div class="pipeline-node">
+               <div class="node-icon" style="color:#f59e0b;">SEC</div>
+               <div>
+                  <h4 style="font-family:'JetBrains Mono', monospace; font-size:0.9rem; color:#fff; margin-bottom:8px;">Vault</h4>
+                  <p style="font-size:0.8rem; color:rgba(255,255,255,0.4); line-height:1.4;">Injects secrets securely into the build.</p>
+               </div>
             </div>
-          </div>
-        </a>
-        {% endfor %}
+
+            <!-- Step 4: Registry/Harbor -->
+            <div class="pipeline-node">
+               <div class="node-icon" style="color:#3b82f6;">REG</div>
+               <div>
+                  <h4 style="font-family:'JetBrains Mono', monospace; font-size:0.9rem; color:#fff; margin-bottom:8px;">Harbor</h4>
+                  <p style="font-size:0.8rem; color:rgba(255,255,255,0.4); line-height:1.4;">Stores built images. Vulnerability scanning.</p>
+               </div>
+            </div>
+
+            <!-- Step 5: CD/ArgoCD -->
+            <div class="pipeline-node">
+               <div class="node-icon" style="color:#ef4444;">CD</div>
+               <div>
+                  <h4 style="font-family:'JetBrains Mono', monospace; font-size:0.9rem; color:#fff; margin-bottom:8px;">ArgoCD</h4>
+                  <p style="font-size:0.8rem; color:rgba(255,255,255,0.4); line-height:1.4;">Detects state drift and syncs manifests.</p>
+               </div>
+            </div>
+
+            <!-- Step 6: Prod/K3s -->
+            <div class="pipeline-node">
+               <div class="node-icon" style="color:#10b981;">K3S</div>
+               <div>
+                  <h4 style="font-family:'JetBrains Mono', monospace; font-size:0.9rem; color:#fff; margin-bottom:8px;">Production</h4>
+                  <p style="font-size:0.8rem; color:rgba(255,255,255,0.4); line-height:1.4;">Live traffic routed via Traefik ingress.</p>
+               </div>
+            </div>
+
+         </div>
       </div>
-      {% else %}
-      <div class="glass-panel reveal" style="padding:80px;text-align:center;">
-        <div style="font-size:3.5rem;margin-bottom:16px;">🚧</div>
-        <p style="color:rgba(255,255,255,0.6);font-size:1.05rem;font-weight:500;">Projects coming soon — building as we
-          speak.</p>
+
+      <!-- Live Terminal Simulation below it -->
+      <div style="margin-top:20px; border:1px solid rgba(255,255,255,0.05); border-radius:12px; background:rgba(0,0,0,0.4); padding:24px; font-family:'JetBrains Mono', monospace; font-size:0.8rem; color:rgba(255,255,255,0.5); height:180px; overflow-y:hidden; position:relative;">
+         <div id="deploy-logs" style="display:flex; flex-direction:column; gap:10px;"></div>
+         <div style="position:absolute; bottom:0; left:0; width:100%; height:40px; background:linear-gradient(transparent, var(--bg-dark)); pointer-events:none;"></div>
       </div>
-      {% endif %}
+      
     </div>
   </section>
+
+  <script>
+    (function() {
+      const logs = [
+        { time: 0, msg: "<span style='color:var(--cyan-light)'>[Gitea]</span> Webhook triggered by push to main branch." },
+        { time: 800, msg: "<span style='color:#8b5cf6'>[Drone]</span> Pipeline started. Cloning repository..." },
+        { time: 1600, msg: "<span style='color:#8b5cf6'>[Drone]</span> Running tests and syntax linters. Status: PASS." },
+        { time: 2400, msg: "<span style='color:#f59e0b'>[Vault]</span> Fetching dynamic secrets for build context..." },
+        { time: 3200, msg: "<span style='color:#8b5cf6'>[Drone]</span> Building Docker image: portfolio:latest" },
+        { time: 4800, msg: "<span style='color:#3b82f6'>[Harbor]</span> Image pushed successfully. Running Trivy scan..." },
+        { time: 5600, msg: "<span style='color:#3b82f6'>[Harbor]</span> Scan complete. 0 critical vulnerabilities found." },
+        { time: 6400, msg: "<span style='color:#ef4444'>[ArgoCD]</span> OutOfSync detected. Initiating sync for application." },
+        { time: 7200, msg: "<span style='color:#ef4444'>[ArgoCD]</span> Applying manifests: Deployment, Service, Ingress." },
+        { time: 8000, msg: "<span style='color:#10b981'>[K3S]</span> Pod portfolio-deployment-x8q2z is Running." },
+        { time: 8800, msg: "<span style='color:#10b981'>[K3S]</span> Deployment successful. State is now SYNCED." }
+      ];
+
+      const logContainer = document.getElementById('deploy-logs');
+      if(!logContainer) return;
+
+      let logTimeoutIds = [];
+
+      function runLogs() {
+         logContainer.innerHTML = '';
+         logTimeoutIds.forEach(clearTimeout);
+         logTimeoutIds = [];
+         
+         logs.forEach((log, index) => {
+            const id = setTimeout(() => {
+               const el = document.createElement('div');
+               const timestamp = new Date().toISOString().split('T')[1].substring(0, 8);
+               el.innerHTML = `<span style='color:rgba(255,255,255,0.2)'>[${timestamp}]</span> ${log.msg}`;
+               logContainer.appendChild(el);
+               
+               // Keep only last 6 logs for clean look
+               if(logContainer.children.length > 6) {
+                  logContainer.removeChild(logContainer.firstChild);
+               }
+               
+               if(index === logs.length - 1) {
+                  logTimeoutIds.push(setTimeout(runLogs, 5000)); // restart after 5 seconds
+               }
+            }, log.time);
+            logTimeoutIds.push(id);
+         });
+      }
+      
+      // Start logs when section is visible
+      const observer = new IntersectionObserver((entries) => {
+         entries.forEach(entry => {
+            if(entry.isIntersecting) {
+               runLogs();
+               observer.disconnect();
+            }
+         });
+      });
+      observer.observe(logContainer);
+
+    })();
+  </script>
 
   
   <section style="padding:0 24px 100px;">
