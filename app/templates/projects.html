@@ -11,23 +11,50 @@
   }
 
   .node-card {
-    background: rgba(255, 255, 255, 0.01);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 20px;
-    padding: 32px;
+    background: #05070a; /* Deep Obsidian */
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: 48px;
+    padding: 48px;
     text-decoration: none;
     position: relative;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    min-height: 440px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  }
+
+  .node-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at top right, rgba(6,182,212,0.05), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.5s;
+  }
+
+  /* Blueprint Underlay */
+  .node-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 24px 24px;
+    opacity: 0;
+    transition: opacity 0.5s;
+    pointer-events: none;
   }
 
   .node-card:hover {
-    background: rgba(255, 255, 255, 0.03);
-    border-color: var(--cyan-light);
-    transform: translateY(-5px);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    background: #000;
+    border-color: rgba(6,182,212,0.2);
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: 0 40px 80px rgba(0,0,0,0.8), 0 0 20px rgba(6,182,212,0.05);
+  }
+
+  .node-card:hover::before, .node-card:hover::after {
+    opacity: 1;
   }
 
   .node-header {
@@ -109,7 +136,7 @@
   }
 
   .node-footer {
-    margin-top: 32px;
+    margin-top: 40px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -117,6 +144,8 @@
     font-size: 0.75rem;
     font-weight: 800;
     color: var(--cyan-light);
+    padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.03);
   }
 
   @media (max-width: 767px) {
