@@ -448,7 +448,7 @@
               <span style="font-size:0.85rem;font-weight:700;color:rgba(255,255,255,0.25);font-family:'JetBrains Mono', monospace;">[ {{ featured.created_at.strftime('%Y.%m.%d') }} ]</span>
             </div>
             
-            <h3 style="font-size:clamp(2.2rem,5vw,3.4rem);font-weight:900;color:#fff;margin-bottom:28px;line-height:1.05;letter-spacing:-0.04em;">{{ featured.title }}</h3>
+            <h3 style="font-size:clamp(1.8rem,4vw,2.6rem);font-weight:900;color:#fff;margin-bottom:28px;line-height:1.05;letter-spacing:-0.04em;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;word-wrap:break-word;overflow-wrap:anywhere;">{{ featured.title }}</h3>
             
             <p style="font-size:1.2rem;color:rgba(255,255,255,0.45);line-height:1.7;margin-bottom:48px;max-width:560px;font-weight:500;">{{ featured.body | striptags | truncate(180) }}</p>
             
@@ -470,9 +470,7 @@
               <span style="color:rgba(255,255,255,0.1);">&bull;</span>
               <span style="font-size:0.75rem;font-weight:800;color:rgba(255,255,255,0.2);text-transform:uppercase;letter-spacing:0.05em;">{{ (post.body | striptags | wordcount / 200) | int + 1 }} MIN_READ</span>
             </div>
-            <h3
-              style="font-size:1.35rem;font-weight:800;color:#fff;line-height:1.3;margin-bottom:8px;transition:color 0.2s;letter-spacing:-0.02em;">
-              {{ post.title }}</h3>
+              <h3 style="font-size:1.2rem;font-weight:800;color:#fff;line-height:1.3;margin-bottom:8px;transition:color 0.2s;letter-spacing:-0.02em;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">{{ post.title }}</h3>
             <p style="font-size:0.95rem;color:rgba(255,255,255,0.4);line-height:1.6;font-weight:500;">{{ post.body |
               striptags | truncate(100) }}</p>
           </a>
