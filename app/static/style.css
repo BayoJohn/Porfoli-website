@@ -115,19 +115,18 @@ img, iframe { max-width: 100%; height: auto; }
 }
 .logo-dot { color: var(--cyan-light); }
 
-/* ── Reveal Animation Styles ── */
+/* ── Reveal Animation Styles (Disabled for performance) ── */
 .reveal {
-    opacity: 0;
-    transform: translateY(28px);
-    transition: opacity 0.65s ease, transform 0.65s ease;
+    opacity: 1;
+    transform: none;
 }
 .reveal.visible { opacity: 1; transform: none; }
 
-/* ── Page transition and layout ── */
-main { animation: pagein 0.35s ease both; }
+/* ── Page transition and layout (Optimized) ── */
+main { opacity: 1; }
 @keyframes pagein { 
-    from { opacity:0; transform:translateY(12px); } 
-    to { opacity:1; transform:none; } 
+    from { opacity:1; } 
+    to { opacity:1; } 
 }
 
 .main-content {
