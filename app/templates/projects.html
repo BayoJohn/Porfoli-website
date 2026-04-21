@@ -51,25 +51,32 @@
                 </div>
             </div>
 
-            <!-- X-Ray Blueprint Effect (Static Reveal on Hover) -->
-            <div class="xray-overlay" style="background: rgba(5, 7, 10, 0.98);">
-                <div class="blueprint-grid"></div>
+            <!-- X-Ray Overlay (Audit View) -->
+            <div class="xray-overlay">
+                <div class="scanline"></div>
                 <div style="position: relative; z-index: 2;">
-                    <p style="font-family: var(--font-mono); color: var(--cyan-light); font-size: 0.7rem; margin-bottom: 24px; letter-spacing: 0.2em;">// SYSTEM_MANIFEST</p>
-                    <div style="display: grid; gap: 12px;">
+                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 24px;">
+                        <span class="led-dot"></span>
+                        <p style="font-family: var(--font-mono); color: var(--cyan-light); font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;">// System_Audit_Manifest</p>
+                    </div>
+                    
+                    <div style="display: grid; gap: 14px;">
                         {% if project.tech_stack %}
                         {% for tech in project.tech_stack.split(',') %}
-                        <div style="display: flex; align-items: center; gap: 12px; border-bottom: 1px solid rgba(255,255,255,0.03); padding-bottom: 8px;">
-                            <span style="font-family: var(--font-mono); font-size: 0.8rem; color: #fff;">{{ tech.strip() }}</span>
+                        <div style="display: flex; align-items: center; justify-content: space-between; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.03);">
+                            <span style="font-family: var(--font-mono); font-size: 0.8rem; color: rgba(255,255,255,0.8);">{{ tech.strip() }}</span>
+                            <span style="font-family: var(--font-mono); font-size: 0.6rem; color: var(--cyan-light); opacity: 0.4;">LOADED</span>
                         </div>
                         {% endfor %}
                         {% endif %}
                     </div>
-                    <div style="margin-top: 40px; display: flex; align-items: center; gap: 12px;">
-                        <span style="font-family: var(--font-mono); font-size: 0.8rem; font-weight: 800; color: var(--cyan-light);">INITIALIZE_VIEW_SPEC ↗</span>
+
+                    <div style="margin-top: 40px; display: flex; align-items: center; gap: 12px; opacity: 0.8;">
+                        <span style="font-family: var(--font-mono); font-size: 0.8rem; font-weight: 800; color: var(--cyan-light);">INITIALIZE_CONNECTION ↗</span>
                     </div>
                 </div>
             </div>
+
         </div>
         {% endfor %}
     </div>
