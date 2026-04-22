@@ -1,7 +1,8 @@
 import os
+import random
 import markdown as md
 from datetime import datetime, timedelta
-from flask import Flask, render_template, request, flash, redirect, url_for, session
+from flask import Flask, render_template, request, flash, redirect, url_for, session, jsonify
 from werkzeug.utils import secure_filename
 from app.models import db, Project, Post, Message, Comment, PageView
 
@@ -40,7 +41,7 @@ def create_app():
 
     @app.before_request
     def track_visit():
-        if request.path.startswith('/admin') or request.path.startswith('/static'):
+        if request.path.startswith('/admin') or request.path.startswith('/static') or request.path.startswith('/api'):
             return
         try:
             raw_ip = request.headers.get('X-Forwarded-For', request.remote_addr) or ''
@@ -54,6 +55,38 @@ def create_app():
         except Exception as e:
             app.logger.error(f"Failed to track visit: {e}")
             db.session.rollback()
+
+    # ── API routes ────────────────────────────────────────────────────────────
+
+    @app.route("/api/telemetry")
+    def telemetry():
+        """Returns simulated live infrastructure metrics and deployment status."""
+        status_options = ["HEALTHY", "HEALTHY", "HEALTHY", "HEALTHY", "DEGRADED"]
+        status = random.choice(status_options)
+        
+        # Simulate some metrics
+        cpu = round(random.uniform(1.2, 5.8), 1)
+        ram = round(random.uniform(22.4, 48.2), 1)
+        
+        # Simulated deployments
+        deploys = [
+            {"id": "d-9a2b", "msg": "Merged PR #42: Revamp Hero Section", "time": "2h ago", "status": "SUCCESS"},
+            {"id": "d-1f3c", "msg": "Hotfix: Corrected Ingress CORS policy", "time": "5h ago", "status": "SUCCESS"},
+            {"id": "d-8e7d", "msg": "Deployed v2.1.0-stable to production", "time": "1d ago", "status": "SUCCESS"}
+        ]
+        
+        return jsonify({
+            "status": status,
+            "uptime": "99.99%",
+            "region": "LAG_NGA",
+            "metrics": {
+                "cpu": f"{cpu}%",
+                "ram": f"{ram}%",
+                "pods": 14
+            },
+            "recent_deploys": deploys,
+            "sync_status": "SYNCED"
+        })
 
     # ── Public routes ─────────────────────────────────────────────────────────
 

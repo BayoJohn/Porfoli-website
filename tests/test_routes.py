@@ -159,3 +159,15 @@ def test_admin_create_project(admin_client, app):
         from app.models import Project
         project = Project.query.filter_by(title="Test Project").first()
         assert project is not None
+
+
+# ── API routes ────────────────────────────────────────────────────────────
+
+def test_telemetry_api(client):
+    response = client.get("/api/telemetry")
+    assert response.status_code == 200
+    data = response.get_json()
+    assert "status" in data
+    assert "metrics" in data
+    assert "recent_deploys" in data
+    assert data["sync_status"] == "SYNCED"

@@ -224,25 +224,35 @@
                 <p style="font-family:'JetBrains Mono', monospace; font-size:0.65rem; font-weight:800; text-transform:uppercase; letter-spacing:0.2em; color:var(--cyan-light); margin-bottom:20px;">> LIVE_TELEMETRY</p>
                 <div style="display:flex; flex-direction:column; gap:12px; font-family:'JetBrains Mono', monospace; font-size:0.75rem; color:rgba(255,255,255,0.6);">
                     <div style="display:flex; justify-content:space-between; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:8px;">
-                        <span>CLUSTER_STATE</span> <span style="color:#10b981;">HEALTHY</span>
+                        <span>CLUSTER_STATE</span> <span id="telemetry-status" style="color:#10b981; transition: color 0.3s;">HEALTHY</span>
                     </div>
                     <div style="display:flex; justify-content:space-between; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:8px;">
-                        <span>UPTIME</span> <span>99.99%</span>
+                        <span>CPU_USAGE</span> <span id="telemetry-cpu" style="color:#fff;">0.0%</span>
                     </div>
                     <div style="display:flex; justify-content:space-between; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:8px;">
-                        <span>REGION</span> <span>LAG_NGA</span>
+                        <span>RAM_USAGE</span> <span id="telemetry-ram" style="color:#fff;">0.0%</span>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:8px;">
+                        <span>ACTIVE_PODS</span> <span id="telemetry-pods" style="color:#fff;">0</span>
                     </div>
                     <div style="display:flex; justify-content:space-between; padding-bottom:8px;">
-                        <span>SYNC_STATUS</span> <span style="color:#8b5cf6;">SYNCED</span>
+                        <span>SYNC_STATUS</span> <span id="telemetry-sync" style="color:#8b5cf6;">SYNCED</span>
                     </div>
                 </div>
             </div>
         </div>
 
+        <!-- Latest Deployment Ticker (NEW) -->
+        <div style="margin-bottom: 24px; padding: 12px 24px; background: rgba(255,255,255,0.01); border: 1px solid rgba(255,255,255,0.04); border-radius: 8px; display: flex; align-items: center; gap: 16px; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; overflow: hidden;">
+            <span style="color: var(--cyan-light); font-weight: 800; white-space: nowrap;">[ LATEST_DEPLOY ]</span>
+            <div id="latest-deploy-msg" style="color: rgba(255,255,255,0.4); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Initializing telemetry stream...</div>
+            <span id="latest-deploy-time" style="margin-left: auto; color: rgba(255,255,255,0.2); white-space: nowrap;">--:--</span>
+        </div>
+
         <!-- Terminal Output Bar -->
         <div style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); border-radius:12px; padding:16px 24px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; font-family:'JetBrains Mono', monospace;">
             <div style="display:flex; align-items:center; gap:12px;">
-                <div style="width:8px; height:8px; background:#10b981; border-radius:50%; box-shadow:0 0 10px #10b981; animation:pulse 2s infinite;"></div>
+                <div id="system-pulse-dot" style="width:8px; height:8px; background:#10b981; border-radius:50%; box-shadow:0 0 10px #10b981; animation:pulse 2s infinite;"></div>
                 <span style="font-size:0.75rem; color:#fff; font-weight:700;">SYSTEM ONLINE</span>
             </div>
             
@@ -258,6 +268,59 @@
 </footer>
 
 <script>
+    // Live Telemetry Fetching
+    (function() {
+        const elements = {
+            status: document.getElementById('telemetry-status'),
+            cpu: document.getElementById('telemetry-cpu'),
+            ram: document.getElementById('telemetry-ram'),
+            pods: document.getElementById('telemetry-pods'),
+            sync: document.getElementById('telemetry-sync'),
+            deployMsg: document.getElementById('latest-deploy-msg'),
+            deployTime: document.getElementById('latest-deploy-time'),
+            pulseDot: document.getElementById('system-pulse-dot')
+        };
+
+        async function updateTelemetry() {
+            try {
+                const response = await fetch('/api/telemetry');
+                const data = await response.json();
+
+                // Update Status
+                elements.status.innerText = data.status;
+                if (data.status === 'DEGRADED') {
+                    elements.status.style.color = '#f59e0b'; // Amber
+                    elements.pulseDot.style.background = '#f59e0b';
+                    elements.pulseDot.style.boxShadow = '0 0 10px #f59e0b';
+                } else {
+                    elements.status.style.color = '#10b981'; // Green
+                    elements.pulseDot.style.background = '#10b981';
+                    elements.pulseDot.style.boxShadow = '0 0 10px #10b981';
+                }
+
+                // Update Metrics
+                elements.cpu.innerText = data.metrics.cpu;
+                elements.ram.innerText = data.metrics.ram;
+                elements.pods.innerText = data.metrics.pods;
+                elements.sync.innerText = data.sync_status;
+
+                // Update Latest Deploy (Randomly show one of the recent ones)
+                const latest = data.recent_deploys[0];
+                elements.deployMsg.innerText = latest.msg;
+                elements.deployTime.innerText = latest.time;
+
+            } catch (error) {
+                console.error('Telemetry Fetch Failed:', error);
+                elements.status.innerText = 'OFFLINE';
+                elements.status.style.color = '#ef4444'; // Red
+            }
+        }
+
+        // Initial fetch and then every 10 seconds
+        updateTelemetry();
+        setInterval(updateTelemetry, 10000);
+    })();
+
     // Live Server Time Update
     (function() {
         const timeEl = document.getElementById('live-server-time');
@@ -269,7 +332,7 @@
             const m = String(now.getUTCMinutes()).padStart(2, '0');
             const s = String(now.getUTCSeconds()).padStart(2, '0');
             const ms = String(now.getUTCMilliseconds()).padStart(3, '0');
-            timeEl.innerText = \`SYS_TIME_UTC: \${h}:\${m}:\${s}.\${ms}\`;
+            timeEl.innerText = `SYS_TIME_UTC: ${h}:${m}:${s}.${ms}`;
             requestAnimationFrame(updateTime);
         }
         updateTime();
