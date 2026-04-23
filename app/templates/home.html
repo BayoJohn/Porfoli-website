@@ -55,20 +55,21 @@
     </div>
 
     <div class="section-container" style="max-width:1100px; margin:0 auto; position:relative; z-index:2;">
-      <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:80px; flex-wrap:wrap; gap:24px;" class="reveal">
+      <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:64px; flex-wrap:wrap; gap:24px;" class="reveal">
         <div>
           <p style="font-size:0.75rem; font-weight:800; text-transform:uppercase; letter-spacing:0.3em; color:rgba(255,255,255,0.3); margin-bottom:12px;">SYSTEM_METRICS</p>
           <h2 style="font-size:clamp(2rem,4vw,3.1rem); font-weight:900; color:#fff; letter-spacing:-0.03em;">Continuous Operations</h2>
         </div>
         <div style="display:flex; align-items:center; gap:12px; padding:12px 24px; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); border-radius:100px;">
-          <span style="width:8px; height:8px; background:#fff; border-radius:50%; box-shadow:0 0 15px #fff; animation:pulse 2s infinite;"></span>
+          <span style="width:8px; height:8px; background:#10b981; border-radius:50%; box-shadow:0 0 15px #10b981; animation:pulse 2s infinite;"></span>
           <span style="font-size:0.75rem; font-weight:800; color:#fff; letter-spacing:0.1em;">SYSTEM: OPTIMAL</span>
         </div>
       </div>
 
-      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:var(--container-padding); position:relative;" class="reveal tablet-grid-2">
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:48px; position:relative;" class="reveal tablet-grid-2">
+        {% set display_count = [project_count, 4] | max %}
         {% for label, num, suffix, desc in [
-          ('DEPLOYED', project_count, '+', 'Projects shipped to production'),
+          ('DEPLOYED', display_count, '+', 'Projects shipped to production'),
           ('TENURE', '6', 'mo', 'Of focused infra scaling'),
           ('ECOSYSTEM', '17', '+', 'Enterprise-grade automation')
         ] %}
@@ -121,25 +122,25 @@
         <!-- Subtle Background Ambient Glow -->
         <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:100%; height:600px; background:radial-gradient(circle, rgba(6,182,212,0.03) 0%, transparent 70%); pointer-events:none; z-index:1;"></div>
         
-        <div id="who-i-am-grid" style="display:grid; grid-template-columns:1.5fr 1fr; gap:32px; position:relative; z-index:2;">
+        <div id="who-i-am-grid" style="display:grid; grid-template-columns:1.5fr 1fr; gap:24px; position:relative; z-index:2;">
           
           <!-- Main Story Card -->
-          <div style="background:rgba(255,255,255,0.01); border:1px solid rgba(255,255,255,0.04); border-radius:40px; padding:var(--container-padding); display:flex; flex-direction:column; justify-content:center; backdrop-filter:blur(8px);">
-            <p style="font-size:0.75rem; font-weight:800; text-transform:uppercase; letter-spacing:0.3em; color:rgba(255,255,255,0.3); margin-bottom:32px;">THE COMMITMENT</p>
-            <h3 style="font-size:clamp(3.2rem,8vw,5.2rem); font-weight:900; color:#fff; line-height:0.9; letter-spacing:-0.05em; margin-bottom:48px;">
-              6 MONTHS.<br><span style="color:rgba(255,255,255,0.25);">SCALE ONLY.</span>
+          <div style="background:rgba(255,255,255,0.01); border:1px solid rgba(255,255,255,0.04); border-radius:32px; padding:40px; display:flex; flex-direction:column; justify-content:center; backdrop-filter:blur(8px);">
+            <p style="font-size:0.7rem; font-weight:800; text-transform:uppercase; letter-spacing:0.3em; color:rgba(255,255,255,0.3); margin-bottom:24px;">THE COMMITMENT</p>
+            <h3 style="font-size:clamp(2rem,5vw,3.5rem); font-weight:900; color:#fff; line-height:0.95; letter-spacing:-0.04em; margin-bottom:28px;">
+              6 Months.<br><span style="color:rgba(255,255,255,0.2);">Scale Only.</span>
             </h3>
-            <p style="font-size:1.25rem; line-height:1.7; color:rgba(255,255,255,0.5); margin-bottom:64px; max-width:640px; font-weight:500;">
+            <p style="font-size:1.1rem; line-height:1.7; color:rgba(255,255,255,0.45); margin-bottom:40px; max-width:560px; font-weight:500;">
               From tutorial-looping to managing high-availability clusters. I don't just write code; I architect the resilient worlds where it lives. Six months of intense focus on <span style="color:#fff;">Kubernetes</span>, <span style="color:#fff;">GitOps</span>, and production-grade automation.
             </p>
-            <div style="display:flex; gap:40px; flex-wrap:wrap;">
-              <div style="display:flex; flex-direction:column; gap:8px;">
-                <p style="font-size:0.7rem; font-weight:800; color:var(--cyan-light); letter-spacing:0.1em;">ORCHESTRATION</p>
-                <p style="font-size:1.15rem; color:#fff; font-weight:800;">Production k3s</p>
+            <div style="display:flex; gap:32px; flex-wrap:wrap;">
+              <div style="display:flex; flex-direction:column; gap:6px;">
+                <p style="font-size:0.65rem; font-weight:800; color:var(--cyan-light); letter-spacing:0.1em;">ORCHESTRATION</p>
+                <p style="font-size:1.05rem; color:#fff; font-weight:800;">Production k3s</p>
               </div>
-              <div style="display:flex; flex-direction:column; gap:8px;">
-                <p style="font-size:0.7rem; font-weight:800; color:var(--amber); letter-spacing:0.1em;">AUTOMATION</p>
-                <p style="font-size:1.15rem; color:#fff; font-weight:800;">Terraform Pro</p>
+              <div style="display:flex; flex-direction:column; gap:6px;">
+                <p style="font-size:0.65rem; font-weight:800; color:var(--cyan-light); letter-spacing:0.1em;">AUTOMATION</p>
+                <p style="font-size:1.05rem; color:#fff; font-weight:800;">Terraform Pro</p>
               </div>
             </div>
           </div>
@@ -427,33 +428,33 @@
           <h2 style="font-size:clamp(2.2rem,4vw,3.2rem);font-weight:900;color:#fff;letter-spacing:-0.02em;">Latest
             Writing</h2>
         </div>
-        <a href="/blog" style="font-size:0.95rem;color:rgba(255,255,255,0.6);font-weight:700;transition:color 0.2s;"
+        <a href="/blog" style="font-size:0.95rem;color:rgba(255,255,255,0.6);font-weight:700;transition:color 0.2s;text-decoration:none;"
           onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">All posts ↗</a>
       </div>
 
       {% if posts %}
-      <div class="blog-grid" style="display:grid;grid-template-columns:1fr 0.8fr;gap:48px;align-items:start;">
+      <div class="blog-grid" style="display:grid;grid-template-columns:1fr 0.8fr;gap:40px;align-items:start;">
         {% set featured = posts[0] %}
         <a href="/blog/{{ featured.id }}" class="reveal"
-          style="display:flex;flex-direction:column;padding:64px;overflow:hidden;text-decoration:none;transition:all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);background:rgba(255,255,255,0.01);border:1px solid rgba(255,255,255,0.04);border-radius:48px;position:relative;height:100%;min-height:480px;justify-content:center;"
-          onmouseover="this.style.transform='translateY(-12px)';this.style.borderColor='rgba(6,182,212,0.3)';this.style.background='rgba(255,255,255,0.03)'"
-          onmouseout="this.style.transform='none';this.style.borderColor='rgba(255,255,255,0.04)';this.style.background='rgba(255,255,255,0.01)'">
+          style="display:flex;flex-direction:column;padding:40px;overflow:hidden;text-decoration:none;transition:all 0.4s cubic-bezier(0.16, 1, 0.3, 1);background:rgba(255,255,255,0.015);border:1px solid rgba(255,255,255,0.05);border-radius:32px;position:relative;justify-content:center;"
+          onmouseover="this.style.transform='translateY(-8px)';this.style.borderColor='rgba(6,182,212,0.25)';this.style.background='rgba(255,255,255,0.025)';this.style.boxShadow='0 24px 60px rgba(0,0,0,0.3)'"
+          onmouseout="this.style.transform='none';this.style.borderColor='rgba(255,255,255,0.05)';this.style.background='rgba(255,255,255,0.015)';this.style.boxShadow='none'">
           
           <!-- Obsidian Pulse Glow -->
-          <div style="position:absolute;top:-10%;right:-10%;width:70%;height:70%;background:radial-gradient(circle, rgba(6,182,212,0.06) 0%, transparent 70%);pointer-events:none;z-index:1;"></div>
+          <div style="position:absolute;top:-10%;right:-10%;width:60%;height:60%;background:radial-gradient(circle, rgba(6,182,212,0.05) 0%, transparent 70%);pointer-events:none;z-index:1;"></div>
           
           <div style="position:relative;z-index:2;">
-            <div style="display:flex;align-items:center;gap:16px;margin-bottom:40px;">
-              <span style="background:rgba(6,182,212,0.1);border:1px solid rgba(6,182,212,0.2);color:var(--cyan-light);font-size:0.75rem;font-weight:900;padding:6px 14px;border-radius:8px;text-transform:uppercase;letter-spacing:0.1em;">FEATURED_ENTRY</span>
-              <span style="font-size:0.85rem;font-weight:700;color:rgba(255,255,255,0.25);font-family:'JetBrains Mono', monospace;">[ {{ featured.created_at.strftime('%Y.%m.%d') }} ]</span>
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px;">
+              <span style="background:rgba(6,182,212,0.1);border:1px solid rgba(6,182,212,0.2);color:var(--cyan-light);font-size:0.68rem;font-weight:900;padding:5px 12px;border-radius:6px;text-transform:uppercase;letter-spacing:0.08em;">FEATURED</span>
+              <span style="font-size:0.75rem;font-weight:700;color:rgba(255,255,255,0.2);font-family:'JetBrains Mono', monospace;">{{ featured.created_at.strftime('%Y.%m.%d') }}</span>
             </div>
             
-            <h3 style="font-size:clamp(1.8rem,4vw,2.6rem);font-weight:900;color:#fff;margin-bottom:28px;line-height:1.05;letter-spacing:-0.04em;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;word-wrap:break-word;overflow-wrap:anywhere;">{{ featured.title }}</h3>
+            <h3 style="font-size:clamp(1.4rem,3vw,2rem);font-weight:900;color:#fff;margin-bottom:16px;line-height:1.15;letter-spacing:-0.03em;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;word-wrap:break-word;overflow-wrap:anywhere;">{{ featured.title }}</h3>
             
-            <p style="font-size:1.2rem;color:rgba(255,255,255,0.45);line-height:1.7;margin-bottom:48px;max-width:560px;font-weight:500;">{{ featured.body | striptags | truncate(180) }}</p>
+            <p style="font-size:1rem;color:rgba(255,255,255,0.4);line-height:1.7;margin-bottom:32px;max-width:520px;font-weight:500;">{{ featured.body | striptags | truncate(150) }}</p>
             
-            <div style="display:flex;align-items:center;gap:12px;">
-               <span style="font-size:1rem;font-weight:800;color:#fff;display:flex;align-items:center;gap:10px;text-transform:uppercase;letter-spacing:0.1em;">Open Documentation <span style="font-size:1.4rem; color:var(--cyan-light);">↗</span></span>
+            <div style="display:flex;align-items:center;gap:10px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.04);">
+               <span style="font-size:0.85rem;font-weight:800;color:var(--cyan-light);display:flex;align-items:center;gap:8px;text-transform:uppercase;letter-spacing:0.08em;">Read Log ↗</span>
             </div>
           </div>
         </a>
@@ -496,32 +497,31 @@
   <section style="padding:0 24px 100px;">
     <div style="max-width:1100px;margin:0 auto;" class="reveal">
       <div class="cta-panel"
-        style="padding:100px 56px;text-align:center;position:relative;overflow:hidden;border:1px solid rgba(255,255,255,0.03);border-radius:56px;background:rgba(255,255,255,0.01);backdrop-filter:blur(8px);">
-        <!-- Ambient Ethereal Glow -->
-        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:100%;height:100%;background:radial-gradient(circle at center, rgba(245,158,11,0.08) 0%, transparent 60%);pointer-events:none;z-index:1;"></div>
-        <div style="position:absolute;top:-20%;left:-10%;width:50%;height:50%;background:radial-gradient(circle, rgba(6,182,212,0.05) 0%, transparent 70%);pointer-events:none;z-index:1;"></div>
+        style="padding:80px 48px;text-align:center;position:relative;overflow:hidden;border:1px solid rgba(255,255,255,0.04);border-radius:40px;background:rgba(255,255,255,0.01);">
+        <!-- Ambient Glow -->
+        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:100%;height:100%;background:radial-gradient(circle at center, rgba(6,182,212,0.05) 0%, transparent 60%);pointer-events:none;z-index:1;"></div>
         
-        <div style="position:relative;z-index:2;max-width:640px;margin:0 auto;">
+        <div style="position:relative;z-index:2;max-width:580px;margin:0 auto;">
           <p
-            style="font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:0.3em;color:rgba(255,255,255,0.3);margin-bottom:24px;">
+            style="font-family:var(--font-mono);font-size:0.7rem;font-weight:900;text-transform:uppercase;letter-spacing:0.3em;color:var(--cyan-light);margin-bottom:20px;">
             THE JOURNEY</p>
           <h2
-            style="font-size:clamp(2.8rem,5vw,4.2rem);font-weight:900;color:#fff;margin-bottom:24px;letter-spacing:-0.03em;line-height:0.95;">
-            Learning in <span style="color:#f59e0b;">public.</span></h2>
-          <p style="color:rgba(255,255,255,0.5);font-size:1.15rem;line-height:1.7;margin-bottom:48px;font-weight:500;">
+            style="font-size:clamp(2.2rem,5vw,3.4rem);font-weight:900;color:#fff;margin-bottom:20px;letter-spacing:-0.04em;line-height:1;">
+            Learning in <span class="g-text">public.</span></h2>
+          <p style="color:rgba(255,255,255,0.45);font-size:1.05rem;line-height:1.7;margin-bottom:40px;font-weight:500;">
             I document everything — wins, failures and 2am debugging sessions. Follow along or reach out if you're on a
             similar path.
           </p>
-          <div style="display:flex;gap:20px;justify-content:center;flex-wrap:wrap;align-items:center;">
+          <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;align-items:center;">
             <a href="/blog"
-              style="background:#f59e0b;color:#000;font-weight:800;border-radius:100px;padding:18px 42px;font-size:0.95rem;transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);box-shadow:0 12px 30px rgba(245,158,11,0.25);text-transform:uppercase;letter-spacing:0.05em;"
-              onmouseover="this.style.transform='translateY(-4px) scale(1.02)';this.style.boxShadow='0 18px 40px rgba(245,158,11,0.4)';this.style.background='#fff';"
-              onmouseout="this.style.transform='none';this.style.boxShadow='0 12px 30px rgba(245,158,11,0.25)';this.style.background='#f59e0b';">
+              style="background:#fff;color:#000;font-weight:900;border-radius:100px;padding:16px 40px;font-size:0.85rem;transition:all 0.3s cubic-bezier(0.16, 1, 0.3, 1);box-shadow:0 8px 24px rgba(255,255,255,0.08);text-transform:uppercase;letter-spacing:0.08em;text-decoration:none;"
+              onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 16px 40px rgba(255,255,255,0.15), 0 0 20px rgba(6,182,212,0.3)';"
+              onmouseout="this.style.transform='none';this.style.boxShadow='0 8px 24px rgba(255,255,255,0.08)';">
               Follow the journey ↗
             </a>
             <a href="/contact"
-              style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);color:#fff;font-weight:800;border-radius:100px;padding:17px 42px;font-size:0.95rem;transition:all 0.3s;text-transform:uppercase;letter-spacing:0.05em;"
-              onmouseover="this.style.background='rgba(255,255,255,0.1)';this.style.borderColor='rgba(255,255,255,0.2)';this.style.transform='translateY(-4px)';"
+              style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);color:#fff;font-weight:800;border-radius:100px;padding:15px 40px;font-size:0.85rem;transition:all 0.3s;text-transform:uppercase;letter-spacing:0.08em;text-decoration:none;"
+              onmouseover="this.style.background='rgba(255,255,255,0.08)';this.style.borderColor='rgba(255,255,255,0.2)';this.style.transform='translateY(-4px)';"
               onmouseout="this.style.background='rgba(255,255,255,0.03)';this.style.borderColor='rgba(255,255,255,0.1)';this.style.transform='none';">
               Say hello
             </a>
