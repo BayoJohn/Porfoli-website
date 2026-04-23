@@ -66,14 +66,14 @@
         </div>
       </div>
 
-      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:48px; position:relative;" class="reveal tablet-grid-2">
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:48px; position:relative;" class="tablet-grid-2">
         {% set display_count = [project_count, 4] | max %}
         {% for label, num, suffix, desc in [
           ('DEPLOYED', display_count, '+', 'Projects shipped to production'),
           ('TENURE', '6', 'mo', 'Of focused infra scaling'),
           ('ECOSYSTEM', '17', '+', 'Enterprise-grade automation')
         ] %}
-        <div style="text-align:left;">
+        <div class="reveal delay-{{ loop.index }}" style="text-align:left;">
           <p style="font-size:clamp(3rem,6vw,4.5rem); font-weight:900; color:#fff; line-height:1; letter-spacing:-0.05em; margin-bottom:20px;">
             <span class="stat-num" data-target="{{num}}" data-suffix="{{suffix}}">0</span>
           </p>
@@ -125,7 +125,7 @@
         <div id="who-i-am-grid" style="display:grid; grid-template-columns:1.5fr 1fr; gap:24px; position:relative; z-index:2;">
           
           <!-- Main Story Card -->
-          <div style="background:rgba(255,255,255,0.01); border:1px solid rgba(255,255,255,0.04); border-radius:32px; padding:40px; display:flex; flex-direction:column; justify-content:center; backdrop-filter:blur(8px);">
+          <div class="reveal delay-1" style="background:rgba(255,255,255,0.01); border:1px solid rgba(255,255,255,0.04); border-radius:32px; padding:40px; display:flex; flex-direction:column; justify-content:center; backdrop-filter:blur(8px);">
             <p style="font-size:0.7rem; font-weight:800; text-transform:uppercase; letter-spacing:0.3em; color:rgba(255,255,255,0.3); margin-bottom:24px;">THE COMMITMENT</p>
             <h3 style="font-size:clamp(2rem,5vw,3.5rem); font-weight:900; color:#fff; line-height:0.95; letter-spacing:-0.04em; margin-bottom:28px;">
               6 Months.<br><span style="color:rgba(255,255,255,0.2);">Scale Only.</span>
@@ -148,7 +148,7 @@
           <!-- Right Column: Stats & Location -->
           <div style="display:flex; flex-direction:column; gap:32px;">
             <!-- Operational Archetype Card (Option 1: Prestige) -->
-            <div style="background:rgba(255,255,255,0.01); border:1px solid rgba(255,255,255,0.04); border-radius:40px; padding:48px; display:flex; flex-direction:column; gap:40px; position:relative;">
+            <div class="reveal delay-2" style="background:rgba(255,255,255,0.01); border:1px solid rgba(255,255,255,0.04); border-radius:40px; padding:48px; display:flex; flex-direction:column; gap:40px; position:relative;">
               <div style="display:flex; justify-content:space-between; align-items:center;">
                 <p style="font-size:0.75rem; font-weight:800; color:rgba(255,255,255,0.3); letter-spacing:0.2em;">SYSTEM_OPERATOR</p>
                 <span style="width:10px; height:10px; background:#fff; border-radius:50%; box-shadow:0 0 20px #fff; animation:pulse 3s infinite;"></span>
@@ -165,7 +165,7 @@
             </div>
 
             <!-- Strategic Location Card -->
-            <div style="background:rgba(255,255,255,0.01); border:1px solid rgba(255,255,255,0.04); border-radius:40px; height:100%; min-height:220px; overflow:hidden; position:relative; display:flex; align-items:flex-end;">
+            <div class="reveal delay-3" style="background:rgba(255,255,255,0.01); border:1px solid rgba(255,255,255,0.04); border-radius:40px; height:100%; min-height:220px; overflow:hidden; position:relative; display:flex; align-items:flex-end;">
               <iframe src="https://www.openstreetmap.org/export/embed.html?bbox=3.30,6.40,3.45,6.55&layer=mapnik"
                 style="position:absolute;inset:0;width:100%;height:100%;border:none;opacity:0.15;filter:invert(100%) hue-rotate(180deg) brightness(0.3) contrast(1.5);pointer-events:none;"></iframe>
               <div style="position:absolute; inset:0; background:linear-gradient(to top, #000 5%, transparent 60%);"></div>
@@ -292,7 +292,7 @@
          <div class="pipeline-grid">
             
             <!-- Step 1: Code/Gitea -->
-            <div class="pipeline-node">
+            <div class="pipeline-node reveal delay-1">
                <div class="node-icon">GIT</div>
                <div>
                   <h4 style="font-family:'JetBrains Mono', monospace; font-size:0.9rem; color:#fff; margin-bottom:8px;">Gitea</h4>
@@ -301,7 +301,7 @@
             </div>
 
             <!-- Step 2: CI/Drone -->
-            <div class="pipeline-node">
+            <div class="pipeline-node reveal delay-2">
                <div class="node-icon" style="color:#8b5cf6;">CI</div>
                <div>
                   <h4 style="font-family:'JetBrains Mono', monospace; font-size:0.9rem; color:#fff; margin-bottom:8px;">Drone</h4>
@@ -310,7 +310,7 @@
             </div>
 
             <!-- Step 3: Secrets/Vault -->
-            <div class="pipeline-node">
+            <div class="pipeline-node reveal delay-3">
                <div class="node-icon" style="color:#f59e0b;">SEC</div>
                <div>
                   <h4 style="font-family:'JetBrains Mono', monospace; font-size:0.9rem; color:#fff; margin-bottom:8px;">Vault</h4>
@@ -319,7 +319,7 @@
             </div>
 
             <!-- Step 4: Registry/Harbor -->
-            <div class="pipeline-node">
+            <div class="pipeline-node reveal delay-4">
                <div class="node-icon" style="color:#3b82f6;">REG</div>
                <div>
                   <h4 style="font-family:'JetBrains Mono', monospace; font-size:0.9rem; color:#fff; margin-bottom:8px;">Harbor</h4>
@@ -328,7 +328,7 @@
             </div>
 
             <!-- Step 5: CD/ArgoCD -->
-            <div class="pipeline-node">
+            <div class="pipeline-node reveal delay-5">
                <div class="node-icon" style="color:#ef4444;">CD</div>
                <div>
                   <h4 style="font-family:'JetBrains Mono', monospace; font-size:0.9rem; color:#fff; margin-bottom:8px;">ArgoCD</h4>
@@ -337,7 +337,7 @@
             </div>
 
             <!-- Step 6: Prod/K3s -->
-            <div class="pipeline-node">
+            <div class="pipeline-node reveal delay-6">
                <div class="node-icon" style="color:#10b981;">K3S</div>
                <div>
                   <h4 style="font-family:'JetBrains Mono', monospace; font-size:0.9rem; color:#fff; margin-bottom:8px;">Production</h4>
@@ -349,7 +349,7 @@
       </div>
 
       <!-- Live Terminal Simulation below it -->
-      <div style="margin-top:20px; border:1px solid rgba(255,255,255,0.05); border-radius:12px; background:rgba(0,0,0,0.4); padding:24px; font-family:'JetBrains Mono', monospace; font-size:0.8rem; color:rgba(255,255,255,0.5); height:180px; overflow-y:hidden; position:relative;">
+      <div class="reveal delay-3" style="margin-top:20px; border:1px solid rgba(255,255,255,0.05); border-radius:12px; background:rgba(0,0,0,0.4); padding:24px; font-family:'JetBrains Mono', monospace; font-size:0.8rem; color:rgba(255,255,255,0.5); height:180px; overflow-y:hidden; position:relative;">
          <div id="deploy-logs" style="display:flex; flex-direction:column; gap:10px;"></div>
          <div style="position:absolute; bottom:0; left:0; width:100%; height:40px; background:linear-gradient(transparent, var(--bg-dark)); pointer-events:none;"></div>
       </div>
@@ -462,7 +462,7 @@
         <div style="display:flex;flex-direction:column;gap:8px;">
           <p style="font-size:0.7rem;font-weight:800;text-transform:uppercase;letter-spacing:0.3em;color:rgba(255,255,255,0.2);margin-bottom:16px;margin-left:8px;">ARCHIVED_ENTRIES</p>
           {% for post in posts[1:4] %}
-          <a href="/blog/{{ post.id }}" class="reveal"
+          <a href="/blog/{{ post.id }}" class="reveal delay-{{ loop.index }}"
             style="display:flex;flex-direction:column;padding:32px;text-decoration:none;border-radius:24px;transition:all 0.3s cubic-bezier(0.4, 0, 0.2, 1);border:1px solid transparent;"
             onmouseover="this.style.background='rgba(255,255,255,0.02)';this.style.borderColor='rgba(255,255,255,0.05)';this.querySelector('h3').style.color='var(--cyan-light)';"
             onmouseout="this.style.background='transparent';this.style.borderColor='transparent';this.querySelector('h3').style.color='#fff';">
