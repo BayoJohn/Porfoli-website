@@ -5,6 +5,9 @@
     --nebula-2: hsla(260, 80%, 60%, 0.1);
     --nebula-3: hsla(210, 100%, 50%, 0.05);
     --cyan: #00f2ff;
+    --cyan-light: #06b6d4;
+    --container-padding: 60px;
+    --section-gap: 64px;
     --glass-bg: rgba(255, 255, 255, 0.03);
     --glass-border: rgba(255, 255, 255, 0.08);
     --font-mono: 'JetBrains Mono', monospace;

@@ -242,26 +242,33 @@
             </div>
         </div>
 
-        <!-- Latest Deployment Ticker (NEW) -->
-        <div style="margin-bottom: 24px; padding: 12px 24px; background: rgba(255,255,255,0.01); border: 1px solid rgba(255,255,255,0.04); border-radius: 8px; display: flex; align-items: center; gap: 16px; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; overflow: hidden;">
-            <span style="color: var(--cyan-light); font-weight: 800; white-space: nowrap;">[ LATEST_DEPLOY ]</span>
-            <div id="latest-deploy-msg" style="color: rgba(255,255,255,0.4); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Initializing telemetry stream...</div>
-            <span id="latest-deploy-time" style="margin-left: auto; color: rgba(255,255,255,0.2); white-space: nowrap;">--:--</span>
-        </div>
-
-        <!-- Terminal Output Bar -->
-        <div style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); border-radius:12px; padding:16px 24px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; font-family:'JetBrains Mono', monospace;">
-            <div style="display:flex; align-items:center; gap:12px;">
+        <!-- Consolidated Status & Deployment Bar -->
+        <div style="background:rgba(255,255,255,0.015); border:1px solid rgba(255,255,255,0.05); border-radius:12px; padding:14px 24px; display:flex; align-items:center; gap:32px; font-family:'JetBrains Mono', monospace; position:relative; overflow:hidden;">
+            <!-- System Pulse -->
+            <div style="display:flex; align-items:center; gap:12px; flex-shrink:0;">
                 <div id="system-pulse-dot" style="width:8px; height:8px; background:#10b981; border-radius:50%; box-shadow:0 0 10px #10b981; animation:pulse 2s infinite;"></div>
-                <span style="font-size:0.75rem; color:#fff; font-weight:700;">SYSTEM ONLINE</span>
+                <span style="font-size:0.7rem; color:#fff; font-weight:900; letter-spacing:0.05em; text-transform:uppercase;">SYSTEM_ONLINE</span>
             </div>
-            
-            <div style="font-size:0.75rem; color:var(--cyan-light); font-weight:700;" id="live-server-time">
-                SYS_TIME_UTC: 00:00:00.000
+
+            <div style="width:1px; height:14px; background:rgba(255,255,255,0.1); flex-shrink:0;"></div>
+
+            <!-- Deployment Stream -->
+            <div style="display:flex; align-items:center; gap:16px; flex:1; min-width:0;">
+                <span style="color:var(--cyan-light); font-weight:900; font-size:0.65rem; white-space:nowrap; letter-spacing:0.05em;">[ LATEST_DEPLOY ]</span>
+                <div id="latest-deploy-msg" style="color:rgba(255,255,255,0.45); font-size:0.7rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-weight:500;">Initializing telemetry stream...</div>
+                <span id="latest-deploy-time" style="color:rgba(255,255,255,0.2); font-size:0.65rem; white-space:nowrap;">--:--</span>
             </div>
-            
-            <div style="font-size:0.7rem; color:rgba(255,255,255,0.4);">
-                © 2026 OMOBAYONLE OGUNDELE
+
+            <div style="width:1px; height:14px; background:rgba(255,255,255,0.1); flex-shrink:0;"></div>
+
+            <!-- Metrics & Copyright -->
+            <div style="display:flex; align-items:center; gap:24px; flex-shrink:0;">
+                <div style="font-size:0.7rem; color:var(--cyan-light); font-weight:800; letter-spacing:0.02em;" id="live-server-time">
+                    SYS_TIME_UTC: 00:00:00.000
+                </div>
+                <div style="font-size:0.65rem; color:rgba(255,255,255,0.3); font-weight:600;">
+                    © 2026 BAYO
+                </div>
             </div>
         </div>
     </div>
