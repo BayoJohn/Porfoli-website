@@ -11,14 +11,18 @@ ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "gif", "webp"}
 def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
-def create_app():
+def create_app(config=None):
     app = Flask(__name__)
-    app.secret_key = os.environ.get("FLASK_SECRET_KEY", "dev-key-placeholder-123")
-    app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
+    if config:
+        app.config.update(config)
+    
+    app.config.setdefault("SECRET_KEY", os.environ.get("FLASK_SECRET_KEY", "dev-key-placeholder-123"))
+    app.secret_key = app.config["SECRET_KEY"]
+    app.config.setdefault("SQLALCHEMY_DATABASE_URI", os.environ.get(
         "DATABASE_URL", 
         "sqlite:///" + os.path.join(app.instance_path, "portfolio.db")
-    )
-    app.config["ADMIN_PASSWORD"] = os.environ.get("ADMIN_PASSWORD", "changeme123")
+    ))
+    app.config.setdefault("ADMIN_PASSWORD", os.environ.get("ADMIN_PASSWORD", "changeme123"))
 
     db.init_app(app)
 
