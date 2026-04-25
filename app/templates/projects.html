@@ -336,7 +336,7 @@
   <div class="proj-grid">
     {% for project in projects %}
     <a href="/projects/{{ project.id }}"
-       class="proj-card {% if loop.first %}hero{% endif %} reveal"
+       class="proj-card {% if project.is_featured %}hero{% endif %} reveal"
        onmousemove="updateMouse(event, this)"
        id="proj-card-{{ project.id }}">
 

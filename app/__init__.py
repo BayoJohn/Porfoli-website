@@ -14,7 +14,10 @@ def allowed_file(filename):
 def create_app():
     app = Flask(__name__)
     app.secret_key = os.environ.get("FLASK_SECRET_KEY", "dev-key-placeholder-123")
-    app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL", "sqlite:///portfolio.db")
+    app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
+        "DATABASE_URL", 
+        "sqlite:///" + os.path.join(app.instance_path, "portfolio.db")
+    )
     app.config["ADMIN_PASSWORD"] = os.environ.get("ADMIN_PASSWORD", "changeme123")
 
     db.init_app(app)
@@ -108,7 +111,7 @@ def create_app():
 
     @app.route("/projects")
     def projects():
-        all_projects = Project.query.all()
+        all_projects = Project.query.order_by(Project.is_featured.desc(), Project.id.desc()).all()
         return render_template("projects.html", projects=all_projects)
 
     @app.route("/projects/<int:project_id>", methods=["GET", "POST"])
@@ -264,7 +267,11 @@ def create_app():
         if not session.get("admin"):
             return redirect(url_for("admin_login"))
         if request.method == "POST":
-            post = Post(title=request.form["title"], body=request.form["body"])
+            post = Post(
+                title=request.form["title"], 
+                body=request.form["body"],
+                tags=request.form.get("tags", "")
+            )
             db.session.add(post)
             db.session.commit()
             flash("Post created!")
@@ -279,6 +286,7 @@ def create_app():
         if request.method == "POST":
             post.title = request.form["title"]
             post.body = request.form["body"]
+            post.tags = request.form.get("tags", "")
             db.session.commit()
             flash("Post updated!")
             return redirect(url_for("admin_posts"))
@@ -320,7 +328,8 @@ def create_app():
                 description=request.form["description"],
                 url=request.form["url"],
                 tech_stack=request.form["tech_stack"],
-                image=image_filename
+                image=image_filename,
+                is_featured='is_featured' in request.form
             )
             db.session.add(project)
             db.session.commit()
@@ -338,6 +347,7 @@ def create_app():
             project.description = request.form["description"]
             project.url = request.form["url"]
             project.tech_stack = request.form["tech_stack"]
+            project.is_featured = 'is_featured' in request.form
             if "image" in request.files:
                 file = request.files["image"]
                 if file and allowed_file(file.filename):
