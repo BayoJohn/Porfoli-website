@@ -271,10 +271,21 @@ def create_app(config=None):
         if not session.get("admin"):
             return redirect(url_for("admin_login"))
         if request.method == "POST":
+            image_filename = None
+            if "image" in request.files:
+                file = request.files["image"]
+                if file and allowed_file(file.filename):
+                    filename = secure_filename(file.filename)
+                    # Add timestamp to avoid collisions
+                    filename = f"{int(datetime.utcnow().timestamp())}_{filename}"
+                    file.save(uploads_path(filename))
+                    image_filename = filename
+
             post = Post(
                 title=request.form["title"], 
                 body=request.form["body"],
-                tags=request.form.get("tags", "")
+                tags=request.form.get("tags", ""),
+                image=image_filename
             )
             db.session.add(post)
             db.session.commit()
@@ -291,6 +302,15 @@ def create_app(config=None):
             post.title = request.form["title"]
             post.body = request.form["body"]
             post.tags = request.form.get("tags", "")
+            
+            if "image" in request.files:
+                file = request.files["image"]
+                if file and allowed_file(file.filename):
+                    filename = secure_filename(file.filename)
+                    filename = f"{int(datetime.utcnow().timestamp())}_{filename}"
+                    file.save(uploads_path(filename))
+                    post.image = filename
+                    
             db.session.commit()
             flash("Post updated!")
             return redirect(url_for("admin_posts"))

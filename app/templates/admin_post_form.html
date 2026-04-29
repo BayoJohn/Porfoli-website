@@ -62,7 +62,7 @@
     </div>
 
     <div class="glass-panel p-6">
-        <form method="POST" id="post-form">
+        <form method="POST" id="post-form" enctype="multipart/form-data">
 
             <div class="mb-6">
                 <label class="block text-sm font-medium text-gray-400 mb-2">Post Title</label>
@@ -84,6 +84,24 @@
                     value="{{ post.tags if post else '' }}"
                     placeholder="e.g. kubernetes, devops, infrastructure"
                     class="w-full bg-white/5 border border-[rgba(255,255,255,0.08)] focus:border-indigo-500 text-white placeholder-gray-600 rounded-xl px-4 py-3 text-sm outline-none transition"
+                >
+            </div>
+
+            <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-400 mb-2">Post Image <span class="text-gray-600 font-normal ml-2">— Thumbnail/Hero Image</span></label>
+                {% if post and post.image %}
+                <div class="mb-3 relative group w-48 h-28">
+                    <img src="{{ url_for('static', filename='uploads/' + post.image) }}" class="w-full h-full object-cover rounded-lg border border-white/10" alt="Current image">
+                    <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition flex items-center justify-center rounded-lg">
+                        <span class="text-[10px] text-white font-bold uppercase tracking-widest">CURRENT_IMG</span>
+                    </div>
+                </div>
+                {% endif %}
+                <input
+                    type="file"
+                    name="image"
+                    accept="image/*"
+                    class="w-full bg-white/5 border border-[rgba(255,255,255,0.08)] focus:border-indigo-500 text-white placeholder-gray-600 rounded-xl px-4 py-3 text-sm outline-none transition file:mr-4 file:py-1 file:px-3 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-indigo-500/20 file:text-indigo-300 hover:file:bg-indigo-500/30"
                 >
             </div>
 

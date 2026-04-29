@@ -1,490 +1,391 @@
 {% extends "base.html" %}
-{% block title %}Blog — StackedByBayo{% endblock %}
+{% block title %}The Archive — StackedByBayo{% endblock %}
 {% block content %}
 
 <style>
-  /* ── Blog Page Styles ── */
-  .blog-wrap {
-    padding: 120px 24px 100px;
-    max-width: 1200px;
-    margin: 0 auto;
-    position: relative;
-  }
-  .blog-wrap::before {
-    content: '';
-    position: fixed;
-    top: 10%;
-    left: -15%;
-    width: 700px;
-    height: 700px;
-    background: radial-gradient(circle, rgba(6,182,212,0.04) 0%, transparent 70%);
-    pointer-events: none;
-    z-index: -1;
+  :root {
+    --blog-accent: #06b6d4;
+    --blog-accent-dim: rgba(6, 182, 212, 0.1);
+    --card-bg: rgba(255, 255, 255, 0.02);
+    --card-border: rgba(255, 255, 255, 0.05);
   }
 
-  /* ── Header ── */
-  .blog-header { margin-bottom: 56px; }
-  .blog-eyebrow {
+  .blog-container {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 60px 24px 100px;
+  }
+
+  /* ── Hero ── */
+  .blog-hero {
+    text-align: center;
+    margin-bottom: 80px;
+    position: relative;
+  }
+  .blog-hero-eyebrow {
     font-family: var(--font-mono);
     font-size: 0.7rem;
-    font-weight: 900;
-    color: var(--cyan-light);
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  .blog-eyebrow::before {
-    content: '';
-    width: 32px;
-    height: 2px;
-    background: linear-gradient(90deg, var(--cyan-light), transparent);
-    border-radius: 2px;
-  }
-
-  /* Search */
-  .blog-search-wrap {
-    margin-top: 28px;
-    position: relative;
-    max-width: 440px;
-  }
-  .blog-search {
-    width: 100%;
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 12px;
-    padding: 12px 18px 12px 44px;
-    color: #fff;
-    font-size: 0.9rem;
-    font-family: 'Outfit', sans-serif;
-    outline: none;
-    transition: all 0.3s;
-  }
-  .blog-search:focus {
-    border-color: rgba(6,182,212,0.3);
-    background: rgba(6,182,212,0.03);
-    box-shadow: 0 0 0 3px rgba(6,182,212,0.08);
-  }
-  .blog-search::placeholder { color: rgba(255,255,255,0.2); }
-
-  /* ── Main Grid ── */
-  .blog-grid {
-    display: grid;
-    grid-template-columns: 1fr 320px;
-    gap: 56px;
-    align-items: start;
-  }
-
-  /* ── Featured Card ── */
-  .blog-featured {
-    display: block;
-    padding: 40px;
-    border-radius: 32px;
-    border: 1px solid rgba(255,255,255,0.05);
-    background: rgba(255,255,255,0.015);
-    margin-bottom: 48px;
-    text-decoration: none;
-    position: relative;
-    overflow: hidden;
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .blog-featured:hover {
-    border-color: rgba(6,182,212,0.2);
-    transform: translateY(-6px);
-    background: rgba(255,255,255,0.025);
-    box-shadow: 0 24px 60px rgba(0,0,0,0.3);
-  }
-  .blog-featured::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(6,182,212,0.4), transparent);
-    opacity: 0;
-    transition: opacity 0.4s;
-  }
-  .blog-featured:hover::before { opacity: 1; }
-
-  /* Ambient glow on featured */
-  .blog-featured-glow {
-    position: absolute;
-    top: -20%;
-    right: -15%;
-    width: 250px;
-    height: 250px;
-    background: radial-gradient(circle, rgba(6,182,212,0.06) 0%, transparent 70%);
-    pointer-events: none;
-  }
-
-  /* ── Badge ── */
-  .blog-badge {
-    font-size: 0.68rem;
-    font-weight: 900;
-    padding: 5px 12px;
-    border-radius: 6px;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-  }
-  .blog-badge.featured {
-    color: var(--cyan-light);
-    background: rgba(6,182,212,0.1);
-    border: 1px solid rgba(6,182,212,0.2);
-  }
-  .blog-badge.tag {
-    color: rgba(255,255,255,0.5);
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.06);
-  }
-
-  /* ── Meta row ── */
-  .blog-meta {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-    font-size: 0.75rem;
     font-weight: 800;
-    color: rgba(255,255,255,0.25);
+    color: var(--blog-accent);
+    letter-spacing: 0.4em;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    margin-bottom: 24px;
+    display: inline-block;
   }
-  .blog-meta-dot { color: rgba(255,255,255,0.1); }
-
-  /* ── Archive row ── */
-  .blog-archive-row {
-    display: grid;
-    grid-template-columns: 48px 1fr auto;
-    gap: 24px;
-    align-items: start;
-    padding: 28px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.04);
-    text-decoration: none;
-    transition: all 0.25s ease;
-  }
-  .blog-archive-row:last-child { border-bottom: none; }
-  .blog-archive-row:hover {
-    background: rgba(255,255,255,0.01);
-    margin: 0 -16px;
-    padding-left: 16px;
-    padding-right: 16px;
-    border-radius: 16px;
-  }
-
-  .blog-row-index {
-    font-family: var(--font-mono);
-    font-size: 0.8rem;
+  .blog-hero-title {
+    font-size: clamp(2.5rem, 8vw, 5rem);
     font-weight: 900;
-    color: rgba(255,255,255,0.08);
-    text-align: right;
-    padding-top: 4px;
-    letter-spacing: 0.1em;
-  }
-
-  .blog-row-title {
-    font-size: 1.15rem;
-    font-weight: 800;
     color: #fff;
-    margin-bottom: 8px;
-    line-height: 1.25;
-    transition: color 0.25s;
-    letter-spacing: -0.02em;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+    line-height: 0.9;
+    letter-spacing: -0.05em;
+    margin-bottom: 32px;
   }
-  .blog-archive-row:hover .blog-row-title { color: var(--cyan-light); }
-
-  .blog-row-excerpt {
-    font-size: 0.9rem;
-    color: rgba(255,255,255,0.3);
+  .blog-hero-desc {
+    color: rgba(255,255,255,0.4);
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto 40px;
     line-height: 1.6;
-    margin-bottom: 12px;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
     font-weight: 500;
   }
 
-  .blog-row-arrow {
-    color: rgba(255,255,255,0.08);
-    transition: all 0.25s;
-    padding-top: 4px;
-    flex-shrink: 0;
+  /* ── Search ── */
+  .search-container {
+    max-width: 500px;
+    margin: 0 auto;
+    position: relative;
   }
-  .blog-archive-row:hover .blog-row-arrow {
-    color: var(--cyan-light);
-    transform: translateX(4px);
+  .search-input {
+    width: 100%;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 100px;
+    padding: 16px 24px 16px 56px;
+    color: #fff;
+    font-size: 0.95rem;
+    outline: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(8px);
+  }
+  .search-input:focus {
+    border-color: var(--blog-accent);
+    background: rgba(255,255,255,0.05);
+    box-shadow: 0 0 0 4px rgba(6, 182, 212, 0.1);
+  }
+  .search-icon {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    color: rgba(255,255,255,0.2);
   }
 
-  /* ── Sidebar ── */
-  .blog-sidebar {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    position: sticky;
-    top: 100px;
+  /* ── Featured Post ── */
+  .featured-card {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 40px;
+    overflow: hidden;
+    margin-bottom: 80px;
+    text-decoration: none;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
   }
-
-  .sidebar-card {
-    padding: 32px;
-    background: rgba(255,255,255,0.02);
-    border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 24px;
+  .featured-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(6, 182, 212, 0.3);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+    background: rgba(255, 255, 255, 0.03);
+  }
+  .featured-img-wrap {
     position: relative;
     overflow: hidden;
+    aspect-ratio: 16/10;
   }
-  /* Gradient top edge */
-  .sidebar-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent 10%, rgba(6,182,212,0.3) 50%, transparent 90%);
+  .featured-img {
+    width: 100%;
+    height: 100%;
+    object-cover: cover;
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   }
-
-  .sidebar-label {
-    font-family: var(--font-mono);
-    font-size: 0.65rem;
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    color: rgba(255,255,255,0.2);
-    margin-bottom: 20px;
+  .featured-card:hover .featured-img { transform: scale(1.05); }
+  
+  .featured-content {
+    padding: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
-
-  /* Stat rows */
-  .stat-row {
-    padding: 16px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.04);
+  .featured-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(6, 182, 212, 0.1);
+    color: var(--blog-accent);
+    padding: 6px 14px;
+    border-radius: 100px;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    margin-bottom: 24px;
+    width: fit-content;
   }
-  .stat-row:last-child { border-bottom: none; }
-  .stat-value {
-    font-size: 2rem;
+  .featured-title {
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
     font-weight: 900;
     color: #fff;
-    line-height: 1;
-    letter-spacing: -0.02em;
+    line-height: 1.1;
+    letter-spacing: -0.04em;
+    margin-bottom: 24px;
   }
-  .stat-label {
-    font-family: var(--font-mono);
-    font-size: 0.65rem;
-    font-weight: 800;
+  .featured-excerpt {
+    font-size: 1.1rem;
+    color: rgba(255,255,255,0.4);
+    line-height: 1.7;
+    margin-bottom: 40px;
+    font-weight: 500;
+  }
+  .featured-meta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: auto;
+    font-size: 0.8rem;
+    font-weight: 700;
     color: rgba(255,255,255,0.2);
-    margin-top: 8px;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.05em;
   }
 
-  /* ── Empty state ── */
-  .blog-empty {
-    padding: 100px 48px;
-    text-align: center;
-    background: rgba(255,255,255,0.01);
-    border: 1px dashed rgba(255,255,255,0.06);
-    border-radius: 32px;
+  /* ── Post Grid ── */
+  .blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 40px;
+  }
+  .post-card {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    group: hover;
+  }
+  .post-img-wrap {
+    width: 100%;
+    aspect-ratio: 16/10;
+    border-radius: 24px;
+    overflow: hidden;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--card-border);
+    margin-bottom: 24px;
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .post-card:hover .post-img-wrap {
+    transform: translateY(-4px);
+    border-color: rgba(6, 182, 212, 0.2);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+  }
+  .post-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    filter: saturate(0.8);
+  }
+  .post-card:hover .post-img { transform: scale(1.05); filter: saturate(1.1); }
+
+  .post-tags {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .post-tag {
+    font-size: 0.6rem;
+    font-weight: 800;
+    color: rgba(255,255,255,0.3);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 4px 10px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 100px;
+  }
+
+  .post-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.3;
+    margin-bottom: 12px;
+    transition: color 0.3s;
+    letter-spacing: -0.02em;
+  }
+  .post-card:hover .post-title { color: var(--blog-accent); }
+
+  .post-excerpt {
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.4);
+    line-height: 1.6;
+    margin-bottom: 24px;
+    font-weight: 500;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .post-footer {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: rgba(255,255,255,0.2);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
   }
 
   /* ── Responsive ── */
+  @media (max-width: 1024px) {
+    .featured-card { grid-template-columns: 1fr; }
+    .featured-content { padding: 40px; }
+  }
   @media (max-width: 768px) {
-    .blog-grid {
-      grid-template-columns: 1fr !important;
-      gap: 40px !important;
-    }
-    .blog-sidebar {
-      position: relative !important;
-      top: 0 !important;
-    }
-    .blog-featured { padding: 28px !important; border-radius: 24px !important; }
-    .blog-archive-row {
-      grid-template-columns: 1fr auto !important;
-      gap: 16px !important;
-    }
-    .blog-archive-row > .blog-row-index { display: none !important; }
+    .blog-grid { grid-template-columns: 1fr; }
+    .blog-hero-title { font-size: 3rem; }
+    .featured-content { padding: 32px; }
   }
 </style>
 
-<div class="blog-wrap">
+<div class="blog-container">
 
-  <!-- Header -->
-  <header class="blog-header reveal">
-    <p class="blog-eyebrow">THE_ARCHIVE</p>
-    <h1 style="font-size:clamp(2.4rem, 7vw, 4.2rem); font-weight:900; color:#fff; line-height:0.95; margin-bottom:20px; letter-spacing:-0.04em;">
-      Logs from <br><span class="g-text">the edge</span>
-    </h1>
-    <p style="color:rgba(255,255,255,0.4); font-size:1.05rem; max-width:500px; line-height:1.7; font-weight:500;">
-      Infrastructure logs, deep-dives, and production post-mortems.
+  <!-- Hero Section -->
+  <header class="blog-hero reveal">
+    <span class="blog-hero-eyebrow">THE_KNOWLEDGE_BASE</span>
+    <h1 class="blog-hero-title">Logs from <br><span class="g-text">the edge</span>.</h1>
+    <p class="blog-hero-desc">
+      Exploring the intersection of infrastructure, development, and high-performance engineering.
     </p>
 
     <!-- Search -->
-    <div class="blog-search-wrap">
-      <input id="blog-search" type="text" placeholder="Search logs..." class="blog-search" value="">
-      <svg style="position:absolute; left:14px; top:50%; transform:translateY(-50%); width:16px; height:16px; color:rgba(255,255,255,0.25);" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <div class="search-container">
+      <svg class="search-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
       </svg>
-      <p id="search-no-results" style="display:none; margin-top:10px; color:rgba(255,255,255,0.3); font-size:0.85rem; font-weight:600;">No logs matched your search.</p>
+      <input type="text" id="blog-search" class="search-input" placeholder="Search the archive...">
     </div>
   </header>
 
   {% if posts %}
-
-  <div class="blog-grid">
-
-    <!-- LEFT: Posts -->
-    <div>
-      <!-- Featured -->
-      {% set featured = posts[0] %}
-      {% set featured_rt = (featured.body | striptags | wordcount / 200) | int + 1 %}
-      <a href="/blog/{{ featured.id }}" class="blog-featured reveal" id="featured-post-card">
-        <div class="blog-featured-glow"></div>
-        <div style="position:relative; z-index:2;">
-          <div class="blog-meta" style="margin-bottom:24px;">
-            <span class="blog-badge featured">FEATURED</span>
-            <span class="blog-meta-dot">&bull;</span>
-            <span>{{ featured.created_at.strftime('%Y.%m.%d') }}</span>
-            <span class="blog-meta-dot">&bull;</span>
-            <span>{{ featured_rt }} MIN READ</span>
+    <!-- Featured Post -->
+    {% set featured = posts[0] %}
+    {% set featured_rt = (featured.body | striptags | wordcount / 200) | int + 1 %}
+    <a href="/blog/{{ featured.id }}" class="featured-card reveal">
+      <div class="featured-img-wrap">
+        {% if featured.image %}
+          <img src="{{ url_for('static', filename='uploads/' + featured.image) }}" class="featured-img" alt="{{ featured.title }}">
+        {% else %}
+          <div class="featured-img" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); display:flex; align-items:center; justify-content:center;">
+             <svg class="w-12 h-12 text-white/10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
           </div>
-
-          <h2 style="font-size:clamp(1.4rem, 3vw, 2rem); font-weight:900; color:#fff; line-height:1.15; margin-bottom:16px; letter-spacing:-0.03em;">{{ featured.title }}</h2>
-          <p style="font-size:1rem; color:rgba(255,255,255,0.4); line-height:1.7; margin-bottom:32px; font-weight:500;">{{ featured.body | striptags | truncate(200) }}</p>
-
-          <!-- Tags -->
-          {% if featured.tags %}
-          <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:24px;">
-            {% for tag in featured.tags.split(',')[:3] %}
-            <span class="blog-badge tag">{{ tag.strip() }}</span>
-            {% endfor %}
-          </div>
-          {% endif %}
-
-          <div style="display:flex; align-items:center; justify-content:space-between; padding-top:20px; border-top:1px solid rgba(255,255,255,0.04);">
-            <div style="display:flex; align-items:center; gap:10px;">
-              <div style="width:32px; height:32px; background:linear-gradient(135deg,#0891b2,#06b6d4); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:900; color:#fff;">B</div>
-              <span style="font-size:0.8rem; font-weight:800; color:rgba(255,255,255,0.3); text-transform:uppercase; letter-spacing:0.08em;">BAYO</span>
-            </div>
-            <span style="font-size:0.8rem; font-weight:900; color:var(--cyan-light); letter-spacing:0.08em;">READ LOG ↗</span>
-          </div>
+        {% endif %}
+      </div>
+      <div class="featured-content">
+        <span class="featured-badge">
+          <span class="w-2 h-2 rounded-full bg-cyan-500 animate-pulse"></span>
+          FEATURED_ENTRY
+        </span>
+        <h2 class="featured-title">{{ featured.title }}</h2>
+        <p class="featured-excerpt">{{ featured.body | striptags | truncate(200) }}</p>
+        <div class="featured-meta">
+          <span>{{ featured.created_at.strftime('%b %d, %Y') }}</span>
+          <span>&bull;</span>
+          <span>{{ featured_rt }} MIN READ</span>
+          <span>&bull;</span>
+          <span class="text-cyan-500">READ LOG ↗</span>
         </div>
-      </a>
+      </div>
+    </a>
 
-      <!-- Archive List -->
-      {% if posts|length > 1 %}
-      <div class="reveal">
-        <div style="padding:0 0 20px; border-bottom:1px solid rgba(255,255,255,0.05); margin-bottom:8px;">
-          <p style="font-family:var(--font-mono); font-size:0.7rem; font-weight:900; text-transform:uppercase; letter-spacing:0.2em; color:rgba(255,255,255,0.15);">ALL_LOGS</p>
-        </div>
-        {% for post in posts[1:] %}
+    <!-- Archive Grid -->
+    <div class="blog-grid" id="posts-grid">
+      {% for post in posts[1:] %}
         {% set rt = (post.body | striptags | wordcount / 200) | int + 1 %}
-        <a href="/blog/{{ post.id }}" class="blog-archive-row" id="post-archive-row">
-          <div class="blog-row-index">{{ '%02d' % (loop.index + 1) }}</div>
-          <div>
-            <div class="blog-row-title">{{ post.title }}</div>
-            <p class="blog-row-excerpt">{{ post.body | striptags | truncate(120) }}</p>
-            <div class="blog-meta">
-              {% if post.tags %}
-                {% for tag in post.tags.split(',')[:2] %}
-                <span class="blog-badge tag" style="font-size:0.6rem; padding:3px 8px;">{{ tag.strip() }}</span>
-                {% endfor %}
-                <span class="blog-meta-dot">&bull;</span>
-              {% endif %}
-              <span>{{ post.created_at.strftime('%Y.%m.%d') }}</span>
-              <span class="blog-meta-dot">&bull;</span>
-              <span>{{ rt }} MIN</span>
-            </div>
+        <a href="/blog/{{ post.id }}" class="post-card reveal">
+          <div class="post-img-wrap">
+            {% if post.image %}
+              <img src="{{ url_for('static', filename='uploads/' + post.image) }}" class="post-img" alt="{{ post.title }}">
+            {% else %}
+              <div class="post-img" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); display:flex; align-items:center; justify-content:center;">
+                 <svg class="w-8 h-8 text-white/5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+              </div>
+            {% endif %}
           </div>
-          <div class="blog-row-arrow">
-            <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+          <div class="post-tags">
+            {% if post.tags %}
+              {% for tag in post.tags.split(',')[:2] %}
+                <span class="post-tag">{{ tag.strip() }}</span>
+              {% endfor %}
+            {% endif %}
+          </div>
+          <h3 class="post-title">{{ post.title }}</h3>
+          <p class="post-excerpt">{{ post.body | striptags | truncate(110) }}</p>
+          <div class="post-footer">
+            <span>{{ post.created_at.strftime('%b %d, %Y') }}</span>
+            <span>&bull;</span>
+            <span>{{ rt }} MIN READ</span>
           </div>
         </a>
-        {% endfor %}
-      </div>
-      {% endif %}
+      {% endfor %}
     </div>
 
-    <!-- RIGHT: Sidebar -->
-    <div class="blog-sidebar">
-
-      <!-- Writer -->
-      <div class="sidebar-card reveal">
-        <p class="sidebar-label">THE_WRITER</p>
-        <div style="display:flex; align-items:center; gap:14px; margin-bottom:20px;">
-          <div style="width:48px; height:48px; background:linear-gradient(135deg,#0891b2,#06b6d4); border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:1rem; color:#fff; flex-shrink:0;">B</div>
-          <div>
-            <p style="font-weight:900; font-size:1rem; color:#fff; letter-spacing:-0.01em;">Bayo Ogundele</p>
-            <p style="font-size:0.7rem; font-weight:700; color:var(--cyan-light); text-transform:uppercase; letter-spacing:0.1em;">DEVOPS_ENGINEER</p>
-          </div>
-        </div>
-        <p style="font-size:0.9rem; color:rgba(255,255,255,0.4); line-height:1.65; font-weight:500;">
-          Building distributed systems, breaking production, and writing the logs to tell the tale.
-        </p>
-      </div>
-
-      <!-- Stats -->
-      <div class="sidebar-card reveal">
-        <p class="sidebar-label">TELEMETRY_DATA</p>
-        {% set total_views = posts | sum(attribute='views') if posts[0].views is defined else 0 %}
-        {% set total_words = posts | map(attribute='body') | map('striptags') | join(' ') | wordcount %}
-        {% set total_read = (total_words / 200) | int %}
-        {% for val, label in [
-          (posts|length, 'POSTS_PUBLISHED'),
-          (total_views if total_views else '—', 'TOTAL_VIEWS'),
-          (total_read ~ 'm' if total_read > 0 else '—', 'TOTAL_READ_TIME')
-        ] %}
-        <div class="stat-row">
-          <p class="stat-value">{{ val }}</p>
-          <p class="stat-label">{{ label }}</p>
-        </div>
-        {% endfor %}
-      </div>
-
+    <div id="search-empty" class="hidden text-center py-20 reveal">
+      <p class="text-gray-500 font-mono text-sm tracking-widest">NO_MATCHING_LOGS_FOUND</p>
     </div>
-  </div>
 
   {% else %}
-  <div class="blog-empty reveal">
-    <p style="font-family:var(--font-mono); font-size:0.85rem; color:rgba(255,255,255,0.2); font-weight:700; letter-spacing:0.1em;">LOG_STREAM_EMPTY — Archive is being indexed.</p>
-  </div>
+    <div class="text-center py-32 reveal">
+      <p class="text-gray-500 font-mono text-sm tracking-widest">ARCHIVE_IS_EMPTY — CHECK_BACK_LATER</p>
+    </div>
   {% endif %}
 
 </div>
 
 <script>
-/* ── Blog Live Search ── */
-(function() {
-  const input = document.getElementById('blog-search');
-  if (!input) return;
-  const noResults = document.getElementById('search-no-results');
+  // Simple search logic
+  (function() {
+    const input = document.getElementById('blog-search');
+    if (!input) return;
+    const grid = document.getElementById('posts-grid');
+    const cards = document.querySelectorAll('.post-card');
+    const featured = document.querySelector('.featured-card');
+    const empty = document.getElementById('search-empty');
 
-  function getSearchableItems() {
-    const featured = document.getElementById('featured-post-card');
-    const rows = Array.from(document.querySelectorAll('.blog-archive-row'));
-    return featured ? [featured, ...rows] : rows;
-  }
+    input.addEventListener('input', (e) => {
+      const q = e.target.value.toLowerCase();
+      let visibleCount = 0;
 
-  input.addEventListener('input', function() {
-    const q = this.value.trim().toLowerCase();
-    if (!q) {
-      getSearchableItems().forEach(el => el.style.display = '');
-      noResults.style.display = 'none';
-      return;
-    }
-    let visible = 0;
-    getSearchableItems().forEach(el => {
-      const text = el.textContent || '';
-      const match = text.toLowerCase().includes(q);
-      el.style.display = match ? '' : 'none';
-      if (match) visible++;
+      cards.forEach(card => {
+        const text = card.innerText.toLowerCase();
+        const match = text.includes(q);
+        card.classList.toggle('hidden', !match);
+        if (match) visibleCount++;
+      });
+
+      if (featured) {
+        const fText = featured.innerText.toLowerCase();
+        const fMatch = fText.includes(q);
+        featured.classList.toggle('hidden', !fMatch);
+        if (fMatch) visibleCount++;
+      }
+
+      empty.classList.toggle('hidden', visibleCount > 0);
     });
-    noResults.style.display = visible === 0 ? 'block' : 'none';
-  });
-})();
+  })();
 </script>
+
 {% endblock %}
